@@ -303,7 +303,7 @@ int32_t Simulation::run()
 
     printCells(0);
     printMolecules(0);
-    auto sumTime = 0;
+    int64_t sumTime = 0;
 
     std::cout << "initialized." << std::endl;
 

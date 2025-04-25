@@ -10,6 +10,7 @@
  */
 
 #include "Cell.hpp"
+#include <numbers>
 
 // static変数の初期化
 int32_t Cell::upperOfCellCount  = 0;
@@ -113,7 +114,7 @@ Vec3 Cell::calcAB4(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[4] = { -9.0, 37.0, -59.0, 55.0 };
     Vec3 adjustedVelocity    = Vec3::zero();
 
-    uint32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = (uint32_t)velocities.size();
     Vec3 velocity;
     for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
@@ -142,7 +143,7 @@ Vec3 Cell::calcAB3(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[3] = { 5, -16, 23 };
     Vec3 adjustedVelocity    = Vec3(0, 0, 0);
 
-    uint32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = (uint32_t)velocities.size();
     Vec3 velocity;
     for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
@@ -171,7 +172,7 @@ Vec3 Cell::calcAB2(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[2] = { -1, 3 };
     Vec3 adjustedVelocity    = Vec3(0, 0, 0);
 
-    uint32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = (uint32_t)velocities.size();
     Vec3 velocity;
     for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
@@ -236,7 +237,7 @@ Vec3 Cell::calcOriginal(std::queue<Vec3>& velocities) noexcept
  */
 double Cell::calcRadiusFromVolume(double volume) noexcept
 {
-    return std::pow(volume * 3.0 / (4.0 * M_PI), 1.0 / 3.0);
+    return std::pow(volume * 3.0 / (4.0 * std::numbers::pi), 1.0 / 3.0);
 }
 
 /**
@@ -247,7 +248,7 @@ double Cell::calcRadiusFromVolume(double volume) noexcept
  */
 double Cell::calcVolumeFromRadius(double radius) noexcept
 {
-    return 4.0 / 3.0 * M_PI * std::pow(radius, 3.0);
+    return 4.0 / 3.0 * std::numbers::pi * std::pow(radius, 3.0);
 }
 
 /**

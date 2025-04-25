@@ -1,4 +1,5 @@
 #include "Vec3.hpp"
+#include <numbers>
 
 /**
  * @brief 逆符号のベクトルを返す。
@@ -162,7 +163,7 @@ Vec3 Vec3::randomDirection2() noexcept
 {
     static std::mt19937 rand_gen(0);                          //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
     std::uniform_real_distribution<double> angle_ratio(0, 1); //!< 方向の割合
-    double angle = 2.0 * M_PI * angle_ratio(rand_gen);
+    double angle = 2.0 * std::numbers::pi * angle_ratio(rand_gen);
 
     return Vec3(std::cos(angle), std::sin(angle), 0);
 }
@@ -177,8 +178,8 @@ Vec3 Vec3::randomDirection3() noexcept
 {
     static std::mt19937 rand_gen(0);                          //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
     std::uniform_real_distribution<double> angle_ratio(0, 1); //!< 方向の割合
-    double theta = 2.0 * M_PI * angle_ratio(rand_gen);
-    double phi   = 2.0 * M_PI * angle_ratio(rand_gen);
+    double theta = 2.0 * std::numbers::pi * angle_ratio(rand_gen);
+    double phi   = 2.0 * std::numbers::pi * angle_ratio(rand_gen);
 
     return Vec3(std::cos(theta) * std::sin(phi), std::sin(theta) * std::sin(phi), std::cos(phi));
 }

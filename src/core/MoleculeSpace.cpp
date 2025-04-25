@@ -206,7 +206,7 @@ MoleculeSpace::MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistribut
             break;
         }
         case MoleculeDistributionType::POINT: {
-            moleculeSpace[width / 2 + 1][height / 2 + 1][depth / 2 + 1] = moleculeNum;
+            moleculeSpace[width / 2 + 1][height / 2 + 1][depth / 2 + 1] = (double)moleculeNum;
             break;
         }
         default:

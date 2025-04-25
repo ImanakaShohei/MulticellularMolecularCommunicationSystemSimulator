@@ -43,21 +43,21 @@ void UserSimulation::initCells() noexcept
  */
 void UserSimulation::stepPreprocess() noexcept
 {
-    int32_t preCellCount = cells.size();
+    int32_t preCellCount = (int32_t)cells.size();
 
     // すべての細胞の力を初期化する(速度を0に設定)
-    for (int i = 0; i < preCellCount; i++) {
+    for (int32_t i = 0; i < preCellCount; i++) {
         cells[i]->initForce();
     }
 
-    for (int i = 0; i < preCellCount; i++) {
+    for (int32_t i = 0; i < preCellCount; i++) {
         if (cells[i]->getCellType() == CellType::DEAD || cells[i]->getCellType() == CellType::NONE) {
             continue;
         }
         cells[i]->metabolize();
     }
 
-    for (int i = 0; i < preCellCount; i++) {
+    for (int32_t i = 0; i < preCellCount; i++) {
         if (cells[i]->getCellType() == CellType::DEAD || cells[i]->getCellType() == CellType::NONE) {
             continue;
         }

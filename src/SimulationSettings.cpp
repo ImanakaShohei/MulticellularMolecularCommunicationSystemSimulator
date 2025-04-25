@@ -67,7 +67,7 @@ bool SimulationSettings::init_settings()
 
         DEFAULT_MOLECULE_NUMS = moleculeNode["default_molecule_nums"].as<std::vector<int64_t>>();
         assert(DEFAULT_MOLECULE_NUMS.size() > 0);
-        MOLECULE_TYPE_NUM    = DEFAULT_MOLECULE_NUMS.size();
+        MOLECULE_TYPE_NUM    = (int32_t)DEFAULT_MOLECULE_NUMS.size();
         MOLECULE_FIELD_X_LEN = moleculeNode["field_x_len"].as<int32_t>();
         assert(MOLECULE_FIELD_X_LEN >= 1);
         MOLECULE_FIELD_Y_LEN = moleculeNode["field_y_len"].as<int32_t>();

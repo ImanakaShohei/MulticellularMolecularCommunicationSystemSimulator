@@ -52,8 +52,8 @@ std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const std::sha
 {
     Vec3 pos = c->getPosition();
 
-    const int32_t gridX = (pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION;
-    const int32_t gridY = (pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION;
+    const int32_t gridX = (int32_t)((pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
+    const int32_t gridY = (int32_t)((pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
 
     return std::forward_as_tuple(gridX, gridY);
 }
@@ -149,8 +149,8 @@ void CellList::addCell(const std::shared_ptr<UserCell>& cell)
 {
     Vec3 pos = cell->getPosition();
 
-    const int32_t scaledY = (pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION;
-    const int32_t scaledX = (pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION;
+    const int32_t scaledY = (int32_t)((pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
+    const int32_t scaledX = (int32_t)((pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
 
     cellField[scaledY][scaledX].emplace_back(cell);
 }
