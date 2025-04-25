@@ -40,7 +40,7 @@ class CellList : public CellAlgorithm
     bool checkInSearchRadius(const Vec3 v, const Vec3 u) const;
     void resetGrid() noexcept;
     void addCell(const std::shared_ptr<UserCell>& cell);
-    Vec3 calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) const noexcept override;
+    Vec3 calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) override;
     //  周辺のCellのIDを格納する。ただし、vectorは一列分のみしか確保しない。
     void beforeNextStep(const ::std::vector<::std::shared_ptr<UserCell>>& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) override;
 };

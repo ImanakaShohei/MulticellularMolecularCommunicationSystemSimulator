@@ -155,7 +155,7 @@ void CellList::addCell(const std::shared_ptr<UserCell>& cell)
     cellField[scaledY][scaledX].emplace_back(cell);
 }
 
-Vec3 CellList::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) const noexcept
+Vec3 CellList::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&)
 {
     auto aroundCells = this->aroundCellList(c);
     Vec3 force       = Vec3::zero();

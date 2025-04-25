@@ -225,7 +225,7 @@ Vec3 Simulation::calcVolumeExclusion(const std::shared_ptr<UserCell>& c1, const 
 
 void Simulation::stepPreprocess() noexcept
 {
-    for (auto cell : cells) {
+    for (auto&& cell : cells) {
         cell->initForce();
     }
 }

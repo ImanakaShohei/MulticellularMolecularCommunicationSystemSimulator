@@ -11,6 +11,6 @@ class Cluster : public CellAlgorithm {
 
     public:
 
-    Vec3 calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) const noexcept override;
+    Vec3 calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) noexcept override;
     void beforeNextStep(const ::std::vector<::std::shared_ptr<UserCell>>& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) override;
 };
