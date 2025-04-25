@@ -1,0 +1,346 @@
+#include "Simulation.hpp"
+#include <filesystem>
+
+// TODO: cellsをスマートポインタの配列にする。
+
+/**
+ * @brief 基本となるコンストラクタ。
+ * @details
+ * 各乱数生成器と遠隔力フィールドを初期化する。また、標準出力のストリームバッファを保存しておく。
+ * @note
+ * 例えば、(-8/2, 8/2)でランダムな値を生成すると長さ8の配列に収まるようになる。
+ * {[-4, -3), [-3, -2), [-2, -1), [-1, 0), [0, 1), [1, 2), [2, 3), [3, 4)}
+ */
+Simulation::Simulation()
+  : cellAlgorithm(nullptr)
+  , consoleStream(::std::cout.rdbuf())
+  , moleculeSpaces(SimulationSettings::MOLECULE_TYPE_NUM)
+  , randomCellPosX(-SimulationSettings::FIELD_X_LEN / 2, SimulationSettings::FIELD_X_LEN / 2)
+  , randomCellPosY(-SimulationSettings::FIELD_Y_LEN / 2, SimulationSettings::FIELD_Y_LEN / 2)
+  , stepNumDigit((int32_t)std::log10(SimulationSettings::SIM_STEP) + 1) // ファイル名の0埋めに使う
+  , moleculeTypeNumDigit((int32_t)std::log10(SimulationSettings::MOLECULE_TYPE_NUM) + 1) /// ファイル名の0埋めに使う
+// , aroundCellSetList(SimulationSettings::FIELD_Y_LEN, std::unordered_set<int32_t>())
+{
+    switch (SimulationSettings::ALGORITHM_TYPE) {
+        case AlgorithmType::Naive: cellAlgorithm = new NaiveAlgorithm(); break;
+        case AlgorithmType::CellList: cellAlgorithm = new CellList(); break;
+        case AlgorithmType::BarnesHut: break; // TODO: Barnes-Hutアルゴリズムを追加
+        case AlgorithmType::Cluster: cellAlgorithm = new Cluster(); break;
+    }
+
+    for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+        // cells はvector<UserCell*>& を渡すはずなのに、vector<shared_ptr<UserCEll>>& になっている。スマートポインタをやめるかスマートポインタを渡すようにするか考える
+        moleculeSpaces[i] = std::make_unique<UserMoleculeSpace>(SimulationSettings::DEFAULT_MOLECULE_NUMS[i], MoleculeDistributionType::UNIFORM, MoleculeSpaceBorderType::NEUMANN, cells, i);
+        // moleculeSpaces[i]->
+    }
+}
+
+/**
+ * @brief いまのところ何もしない。わけではない。
+ *
+ */
+Simulation::~Simulation()
+{
+    if (cellAlgorithm != nullptr) {
+        switch (SimulationSettings::ALGORITHM_TYPE) {
+            case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
+            case AlgorithmType::CellList: deleteAlgorithm<CellList>(cellAlgorithm); break;
+            case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
+            case AlgorithmType::Cluster: deleteAlgorithm<Cluster>(cellAlgorithm); break;
+        }
+    }
+}
+
+/**
+ * @brief 設定ファイルに出力画像のサイズなどを書き込む。
+ *
+ */
+void Simulation::exportConfig() const
+{
+    std::ofstream outputfile("config.txt");
+    outputfile << SimulationSettings::FIELD_X_LEN << std::endl;
+    outputfile << SimulationSettings::FIELD_Y_LEN << std::endl;
+    outputfile << SimulationSettings::SIM_STEP << std::endl;
+
+    const double TIME_PER_FILE = SimulationSettings::DELTA_TIME * (double)SimulationSettings::OUTPUT_INTERVAL_STEP;
+
+    outputfile << TIME_PER_FILE << std::endl;
+
+    outputfile.close();
+}
+
+/**
+ * @brief 各セルをランダムな座標で初期化する。
+ *
+ */
+void Simulation::initCells() noexcept
+{
+    for (int32_t i = 0; i < SimulationSettings::CELL_NUM; i++) {
+        double xPos = randomCellPosX(rand_gen);
+        double yPos = randomCellPosY(rand_gen);
+        
+        cells.push_back(std::make_shared<UserCell>(CellType::WORKER, xPos, yPos, 10.0));
+    }
+}
+
+void Simulation::initDirectories()
+{
+    if (!std::filesystem::exists("result")) std::filesystem::create_directory("result");
+
+    if (!std::filesystem::exists("molecule_result")) std::filesystem::create_directory("molecule_result");
+
+    std::filesystem::path dirPath;
+
+    for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+        dirPath = "molecule_result/" + std::string(moleculeTypeNumDigit, '0');
+        
+        if (!std::filesystem::exists(dirPath)) std::filesystem::create_directory(dirPath);
+    }
+}
+
+template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, CellAlgorithm>
+void Simulation::deleteAlgorithm(CellAlgorithm* cellAlgorithm) noexcept
+{
+    delete static_cast<TCellAlgorithm*>(cellAlgorithm);
+}
+
+/**
+ * @brief ファイルにヘッダ情報を出力する。
+ *
+ */
+void Simulation::printHeader() const noexcept
+{
+    // std::cout << "ID\ttypeID\tX\tY\tZ\tVx\tVy\tVz\tR\tN_contact\tContact_IDs" << std::endl;
+    std::cout << "ID\tX\tY" << std::endl;
+}
+
+/**
+ * @brief ファイルに現在のすべてのCell情報を出力する。
+ *
+ * @param time
+ */
+void Simulation::printCells(int32_t time) const
+{
+    std::ostringstream sout;
+    sout << std::setfill('0') << std::setw(stepNumDigit) << time;
+
+    std::string outputPath = "./result/cells_" + sout.str();
+    std::ofstream ofs(outputPath);
+    std::cout.rdbuf(ofs.rdbuf()); // 標準出力の出力先を指定ファイルに変更
+                                  // ./result/cells_<stepNum>
+
+    printHeader();
+    for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
+        if (cells[i]->getCellType() == CellType::NONE)
+            continue;
+        cells[i]->printCell();
+    }
+
+    std::cout.rdbuf(consoleStream);
+}
+
+void Simulation::printMolecules(int32_t time) const
+{
+    std::ostringstream sout;
+    sout << std::setfill('0') << std::setw(stepNumDigit) << time;
+    std::string outputPath = "./molecule_result/" + std::string(moleculeTypeNumDigit, '0') + "/molecule_" + sout.str();
+
+    for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+        std::ostringstream typeSout;
+        typeSout << std::setfill('0') << std::setw(moleculeTypeNumDigit) << i;
+        outputPath.replace(18, moleculeTypeNumDigit, typeSout.str());
+        std::ofstream ofs(outputPath);
+        std::cout.rdbuf(ofs.rdbuf()); // 標準出力の出力先を指定ファイルに変更
+                                      // ./molecule_result/<moleculeTypeNum>/molecule_<stepNum>
+
+        // ファイルに書き込まれる
+        moleculeSpaces[i]->print();
+    }
+
+    std::cout.rdbuf(consoleStream);
+}
+
+/**
+ * @brief 細胞間作用の計算。細胞の種類に応じて計算を行う。
+ *
+ * @param c
+ * @return Vec3
+ */
+Vec3 Simulation::calcCellForce(const std::shared_ptr<UserCell>& c) const noexcept
+{
+    return cellAlgorithm->calcCellForce(c, cells, moleculeSpaces);
+}
+
+/**
+ * @brief 与えられたCellに対して働く遠隔力を計算する。O(n^2)
+ *
+ * @param c
+ * @return Vec3
+ * @details @f{eqnarray*}{
+ * F = \sum_i \frac{c(C - C_i)}{|C-C_i|}  *
+ * e^{(-|C-C_i|/\lambda)}
+ * @f}
+ */
+Vec3 Simulation::calcRemoteForce(const std::shared_ptr<UserCell>& c1, const std::shared_ptr<UserCell>& c2) noexcept
+{
+    constexpr double COEFFICIENT = 1.0;
+    const Vec3 diff              = c1->getPosition() - c2->getPosition();
+    const double dist            = diff.length();
+    constexpr double LAMBDA      = 30.0;
+    const double weight          = c2->getWeight() * c1->getWeight();
+
+    // d = |C1 - C2|
+    // F = c (C1 - C2) / d * e^(-d/λ)
+    return -diff.normalize().timesScalar(COEFFICIENT * weight * std::exp(-dist / LAMBDA));
+}
+
+/**
+ * @brief 与えられたCellに働く体積排除効果による力を計算する。O(n^2)
+ *
+ * @param c
+ * @return Vec3
+ * @details @f{eqnarray*}{
+ * F = \sum_i
+ * @f}
+ */
+Vec3 Simulation::calcVolumeExclusion(const std::shared_ptr<UserCell>& c1, const std::shared_ptr<UserCell>& c2) noexcept
+{
+    Vec3 force        = Vec3::zero();
+    const Vec3 diff   = c1->getPosition() - c2->getPosition();
+    const double dist = diff.length();
+    // const double weight               = c2->getWeight() * c1->getWeight();
+    const double sumRadius = c1->getRadius() + c2->getRadius();
+    // const double overlapDist          = c1->getRadius() + c2->getRadius() - dist;
+    constexpr double ELIMINATION_BIAS = 10.0;
+    constexpr double ADHESION_BIAS    = 0.4;
+
+    if (dist < sumRadius) {
+        // force += diff.normalize().timesScalar(std::pow(1.8, overlapDist)).timesScalar(BIAS);
+        force += diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ELIMINATION_BIAS);
+        force -= diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ADHESION_BIAS);
+    }
+
+    return force;
+}
+
+void Simulation::stepPreprocess() noexcept
+{
+    for (auto cell : cells) {
+        cell->initForce();
+    }
+}
+
+void Simulation::stepEndProcess() noexcept
+{
+}
+
+/**
+ * @brief 指定したCellにかかるすべての力を計算する。O(n^2)
+ *
+ * @param c
+ * @return Vec3
+ */
+Vec3 Simulation::calcForce(const std::shared_ptr<UserCell>& c) const noexcept
+{
+    // Vec3 force = Vec3::zero();
+
+    // force += cellAlgorithm->calcCellForce(c, cells, moleculeSpaces);
+    // force += calcRemoteForce(c);
+    // force += calcVolumeExclusion(c);
+
+    return calcCellForce(c);
+}
+
+/**
+ * @brief すべてのCellに力を加えた後、それぞれのCellの位置を更新する。
+ *
+ * @return int32_t
+ * @details Cellの数が多いので、スレッドを用いて並列処理を行う。
+ */
+int32_t Simulation::nextStep() noexcept
+{
+    cellAlgorithm->beforeNextStep(cells, moleculeSpaces);
+    Vec3 force = Vec3::zero();
+
+// XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。
+#pragma omp parallel for num_threads(8) schedule(dynamic) private(force)
+    for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
+        auto& pCell = cells[i];
+        UserCell& cell = *pCell;
+        if (cell.getCellType() == CellType::DEAD || cell.getCellType() == CellType::NONE)
+            continue;
+
+        force = calcCellForce(pCell);
+        cell.addForce(force);
+    }
+
+    for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+        moleculeSpaces[i]->calcConcentrationDiff();
+    }
+
+    for (auto&& cell : cells) {
+        cell->nextStep();
+    }
+
+    for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+        moleculeSpaces[i]->nextStep();
+    }
+
+    cellAlgorithm->onNextStep(cells, moleculeSpaces);
+
+    return 0;
+}
+
+/**
+ * @brief シミュレーションを実行する。
+ *
+ * @return int32_t
+ * @details Cellの位置更新と情報出力を繰り返すだけ。
+ */
+int32_t Simulation::run()
+{
+    std::cout << "Open MP max threads: " << omp_get_max_threads() << std::endl;
+
+    printCells(0);
+    printMolecules(0);
+    auto sumTime = 0;
+
+    std::cout << "initialized." << std::endl;
+
+    for (int32_t step = 1; step < SimulationSettings::SIM_STEP; step++) {
+        auto start = std::chrono::system_clock::now();
+
+        stepPreprocess();
+        nextStep();
+        stepEndProcess();
+
+        const bool willOut = (step % SimulationSettings::OUTPUT_INTERVAL_STEP) == 0;
+        if (willOut) {
+            printCells(step / SimulationSettings::OUTPUT_INTERVAL_STEP);
+            printMolecules(step / SimulationSettings::OUTPUT_INTERVAL_STEP);
+        }
+        const bool wasOut = willOut;
+
+        auto end  = std::chrono::system_clock::now();
+        auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+        std::cout << "step: " << step << "  " << msec << "msec" << (wasOut ? " Outputed" : "") << std::endl;
+        sumTime += msec;
+    }
+
+    const double averageTime = (double)sumTime / (double)SimulationSettings::SIM_STEP;
+    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << std::endl;
+
+    return 0;
+}
+
+/**
+ * @brief
+ * なくてもいい。Pythonに情報を渡す都合上必要かもしれなかった。(使っていない)
+ *
+ * @return int32_t
+ */
+int32_t Simulation::getFieldLen()
+{
+    return SimulationSettings::FIELD_X_LEN;
+}
