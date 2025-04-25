@@ -52,11 +52,11 @@ enum class MoleculeSpaceBorderType
 class MoleculeSpace
 {
   protected:
-    u_int32_t width;                    // x方向の格子数(横幅)
-    u_int32_t height;                   // y方向の格子数(高さ)
-    u_int32_t depth;                    // z方向の格子数(縦幅)
+    uint32_t width;                    // x方向の格子数(横幅)
+    uint32_t height;                   // y方向の格子数(高さ)
+    uint32_t depth;                    // z方向の格子数(縦幅)
     const double dr;                    // 空間の各格子の大きさ
-    u_int64_t moleculeNum;              // 現在の分子の総数
+    uint64_t moleculeNum;              // 現在の分子の総数
     MoleculeSpaceBorderType borderType; // 境界条件の種類
 
     Field3D<double> deltaMoleculeSpace;            // 次のステップでの分子の増減を格納する空間
@@ -64,7 +64,7 @@ class MoleculeSpace
     std::vector<std::shared_ptr<UserCell>>& cells; // 格子の情報を格納する配列
 
     const double D; // 拡散係数
-    const u_int32_t ID;
+    const uint32_t ID;
 
     double diffuse(int32_t x, int32_t y, int32_t z);
     double production(int32_t x, int32_t y, int32_t z);
@@ -74,8 +74,8 @@ class MoleculeSpace
     void setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType borderType);
 
   public:
-    MoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
-                  const u_int32_t ID, const double _D);
+    MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
+                  const uint32_t ID, const double _D);
     ~MoleculeSpace();
 
     virtual void calcConcentrationDiff() noexcept;

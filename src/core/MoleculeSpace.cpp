@@ -58,22 +58,22 @@ void MoleculeSpace::setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType b
     switch (borderType) {
         case MoleculeSpaceBorderType::NEUMANN:
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t y = 1; y <= height; y++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t y = 1; y <= height; y++) {
                     ms[x][y][0]         = ms[x][y][1];
                     ms[x][y][depth + 1] = ms[x][y][depth];
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[x][0][z]          = ms[x][1][z];
                     ms[x][height + 1][z] = ms[x][height][z];
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t y = 1; y <= height; y++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t y = 1; y <= height; y++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[0][y][z]         = ms[1][y][z];
                     ms[width + 1][y][z] = ms[width][y][z];
                 }
@@ -82,22 +82,22 @@ void MoleculeSpace::setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType b
 
         case MoleculeSpaceBorderType::DIRICHLET:
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t y = 1; y <= height; y++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t y = 1; y <= height; y++) {
                     ms[x][y][0]         = 0;
                     ms[x][y][depth + 1] = 0;
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[x][0][z]          = 0;
                     ms[x][height + 1][z] = 0;
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t y = 1; y <= height; y++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t y = 1; y <= height; y++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[0][y][z]         = 0;
                     ms[width + 1][y][z] = 0;
                 }
@@ -106,22 +106,22 @@ void MoleculeSpace::setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType b
 
         case MoleculeSpaceBorderType::PBC:
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t y = 1; y <= height; y++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t y = 1; y <= height; y++) {
                     ms[x][y][0]         = ms[x][y][depth];
                     ms[x][y][depth + 1] = ms[x][y][1];
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[x][0][z]          = ms[x][height][z];
                     ms[x][height + 1][z] = ms[x][1][z];
                 }
             }
             // #pragma omp parallel for
-            for (u_int32_t y = 1; y <= height; y++) {
-                for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t y = 1; y <= height; y++) {
+                for (uint32_t z = 1; z <= depth; z++) {
                     ms[0][y][z]         = ms[width][y][z];
                     ms[width + 1][y][z] = ms[1][y][z];
                 }
@@ -136,8 +136,8 @@ void MoleculeSpace::setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType b
     }
 }
 
-MoleculeSpace::MoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
-                             const u_int32_t ID, const double _D)
+MoleculeSpace::MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
+                             const uint32_t ID, const double _D)
   : width(SimulationSettings::MOLECULE_FIELD_X_LEN)
   , height(SimulationSettings::MOLECULE_FIELD_Y_LEN)
   , depth(SimulationSettings::MOLECULE_FIELD_Z_LEN)
@@ -170,9 +170,9 @@ MoleculeSpace::MoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistribu
             //     moleculeSpace[x + 1][y + 1][z + 1] += 40.0; // 境界部分からずらす
             // }
 
-            for (u_int32_t x = 1; x <= width; x++) {
-                for (u_int32_t y = 1; y <= height; y++) {
-                    for (u_int32_t z = 1; z <= depth; z++) {
+            for (uint32_t x = 1; x <= width; x++) {
+                for (uint32_t y = 1; y <= height; y++) {
+                    for (uint32_t z = 1; z <= depth; z++) {
                         moleculeSpace[x][y][z] = randMolecule(randGen);
                     }
                 }
@@ -186,20 +186,20 @@ MoleculeSpace::MoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistribu
             std::normal_distribution<double> randY(height / 2.0, 5.0);
             std::normal_distribution<double> randZ(depth / 2.0, 5.0);
 
-            for (u_int64_t i = 0; i < moleculeNum; i++) {
+            for (uint64_t i = 0; i < moleculeNum; i++) {
                 int32_t x, y, z;
 
                 do {
                     x = (int32_t)randX(randGen);
-                } while (!(0 <= x && (u_int32_t)x < width));
+                } while (!(0 <= x && (uint32_t)x < width));
 
                 do {
                     y = (int32_t)randY(randGen);
-                } while (!(0 <= y && (u_int32_t)y < height));
+                } while (!(0 <= y && (uint32_t)y < height));
 
                 do {
                     z = (int32_t)randZ(randGen);
-                } while (!(0 <= z && (u_int32_t)z < depth));
+                } while (!(0 <= z && (uint32_t)z < depth));
 
                 moleculeSpace[x + 1][y + 1][z + 1] += 1.0; // 境界部分からずらす
             }
@@ -229,7 +229,7 @@ MoleculeSpace::~MoleculeSpace()
 //         }
 //     }
 
-//     // for (u_int32_t i = 0; i < cells.size(); i++) {
+//     // for (uint32_t i = 0; i < cells.size(); i++) {
 //     //     Cell* cell = cells[i];
 //     //     int32_t x  = (int32_t)(cell->getPosition().x / dr) + 1;
 //     //     int32_t y  = (int32_t)(cell->getPosition().y / dr) + 1;
@@ -255,9 +255,9 @@ MoleculeSpace::~MoleculeSpace()
 
 void MoleculeSpace::calcConcentrationDiff() noexcept
 {
-    for (u_int32_t x = 1; x <= width; x++) {
-        for (u_int32_t y = 1; y <= height; y++) {
-            for (u_int32_t z = 1; z <= depth; z++) {
+    for (uint32_t x = 1; x <= width; x++) {
+        for (uint32_t y = 1; y <= height; y++) {
+            for (uint32_t z = 1; z <= depth; z++) {
                 deltaMoleculeSpace[x][y][z] = diffuse(x, y, z) + production(x, y, z) - decay(x, y, z) - advection(x, y, z);
             }
         }
@@ -266,7 +266,7 @@ void MoleculeSpace::calcConcentrationDiff() noexcept
     const int32_t width  = SimulationSettings::FIELD_X_LEN;
     const int32_t height = SimulationSettings::FIELD_Y_LEN;
     const int32_t depth  = SimulationSettings::FIELD_Z_LEN;
-    for (u_int32_t i = 0; i < cells.size(); i++) {
+    for (uint32_t i = 0; i < cells.size(); i++) {
         std::shared_ptr<UserCell> cell = cells[i];
 
         int32_t x = (int32_t)((cell->getPosition().x + width / 2) / dr) + 1;
@@ -280,9 +280,9 @@ void MoleculeSpace::calcConcentrationDiff() noexcept
 void MoleculeSpace::nextStep() noexcept
 {
     // #pragma omp parallel for
-    for (u_int32_t x = 1; x <= width; x++) {
-        for (u_int32_t y = 1; y <= height; y++) {
-            for (u_int32_t z = 1; z <= depth; z++) {
+    for (uint32_t x = 1; x <= width; x++) {
+        for (uint32_t y = 1; y <= height; y++) {
+            for (uint32_t z = 1; z <= depth; z++) {
                 moleculeSpace[x][y][z] += deltaMoleculeSpace[x][y][z];
                 // deltaMoleculeSpace[x][y][z] = 0.0;
             }
@@ -307,8 +307,8 @@ double MoleculeSpace::getMoleculeNum(Vec3 pos) const noexcept
 void MoleculeSpace::print() const noexcept
 {
     if (depth == 1) {
-        for (u_int32_t x = 0; x <= width + 1; x++) {
-            for (u_int32_t y = 0; y <= height + 1; y++) {
+        for (uint32_t x = 0; x <= width + 1; x++) {
+            for (uint32_t y = 0; y <= height + 1; y++) {
                 std::cout << moleculeSpace[x][y][1] << " ";
             }
             std::cout << std::endl;
@@ -317,9 +317,9 @@ void MoleculeSpace::print() const noexcept
         return;
     }
 
-    for (u_int32_t x = 1; x <= width; x++) {
-        for (u_int32_t y = 1; y <= height; y++) {
-            for (u_int32_t z = 1; z <= depth; z++) {
+    for (uint32_t x = 1; x <= width; x++) {
+        for (uint32_t y = 1; y <= height; y++) {
+            for (uint32_t z = 1; z <= depth; z++) {
                 std::cout << moleculeSpace[x][y][z] << " ";
             }
             std::cout << "|";

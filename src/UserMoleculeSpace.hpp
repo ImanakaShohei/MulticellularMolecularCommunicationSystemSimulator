@@ -19,8 +19,8 @@ class UserMoleculeSpace : public MoleculeSpace
     const double _D = 0.024 * 1000000.0;
 
   public:
-    UserMoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
-                      const u_int32_t ID);
+    UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
+                      const uint32_t ID);
     ~UserMoleculeSpace();
 
     void calcConcentrationDiff() noexcept override;

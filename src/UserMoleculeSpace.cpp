@@ -1,7 +1,7 @@
 #include "UserMoleculeSpace.hpp"
 
-UserMoleculeSpace::UserMoleculeSpace(const u_int64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType,
-                                     std::vector<std::shared_ptr<UserCell>>& cells, const u_int32_t ID)
+UserMoleculeSpace::UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType,
+                                     std::vector<std::shared_ptr<UserCell>>& cells, const uint32_t ID)
   : MoleculeSpace(moleculeNum, distributionType, borderType, cells, ID, 0.024 * 1000000.0)
 {
 }
@@ -17,9 +17,9 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
 
     // すべての格子について拡散、生成、分解、移流を行う
     // #pragma omp parallel for
-    for (u_int32_t x = 1; x <= width; x++) {
-        for (u_int32_t y = 1; y <= height; y++) {
-            for (u_int32_t z = 1; z <= depth; z++) {
+    for (uint32_t x = 1; x <= width; x++) {
+        for (uint32_t y = 1; y <= height; y++) {
+            for (uint32_t z = 1; z <= depth; z++) {
                 deltaMoleculeSpace[x][y][z] = diffuse(x, y, z);
                 deltaMoleculeSpace[x][y][z] += -hydrolysisCoefficient * moleculeSpace[x][y][z];
             }
@@ -33,7 +33,7 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
     const int32_t depth  = SimulationSettings::FIELD_Z_LEN;
 
     // #pragma omp parallel for
-    for (u_int32_t i = 0; i < cells.size(); i++) {
+    for (uint32_t i = 0; i < cells.size(); i++) {
         std::shared_ptr<UserCell>& cell = cells[i];
         auto position = cell->getPosition();
 
@@ -49,9 +49,9 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
 void UserMoleculeSpace::nextStep() noexcept
 {
     // #pragma omp parallel for
-    for (u_int32_t x = 1; x <= width; x++) {
-        for (u_int32_t y = 1; y <= height; y++) {
-            for (u_int32_t z = 1; z <= depth; z++) {
+    for (uint32_t x = 1; x <= width; x++) {
+        for (uint32_t y = 1; y <= height; y++) {
+            for (uint32_t z = 1; z <= depth; z++) {
                 moleculeSpace[x][y][z] += deltaMoleculeSpace[x][y][z] * SimulationSettings::DELTA_TIME;
                 // deltaMoleculeSpace[x][y][z] = 0.0;
             }

@@ -113,9 +113,9 @@ Vec3 Cell::calcAB4(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[4] = { -9.0, 37.0, -59.0, 55.0 };
     Vec3 adjustedVelocity    = Vec3::zero();
 
-    u_int32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = velocities.size();
     Vec3 velocity;
-    for (u_int32_t i = 0; i < velocitiesSize; i++) {
+    for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
         velocities.pop();
         velocities.push(velocity);
@@ -142,9 +142,9 @@ Vec3 Cell::calcAB3(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[3] = { 5, -16, 23 };
     Vec3 adjustedVelocity    = Vec3(0, 0, 0);
 
-    u_int32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = velocities.size();
     Vec3 velocity;
-    for (u_int32_t i = 0; i < velocitiesSize; i++) {
+    for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
         velocities.pop();
         velocities.push(velocity);
@@ -171,9 +171,9 @@ Vec3 Cell::calcAB2(std::queue<Vec3>& velocities) noexcept
     double velocityWeight[2] = { -1, 3 };
     Vec3 adjustedVelocity    = Vec3(0, 0, 0);
 
-    u_int32_t velocitiesSize = velocities.size();
+    uint32_t velocitiesSize = velocities.size();
     Vec3 velocity;
-    for (u_int32_t i = 0; i < velocitiesSize; i++) {
+    for (uint32_t i = 0; i < velocitiesSize; i++) {
         velocity = velocities.front();
         velocities.pop();
         velocities.push(velocity);

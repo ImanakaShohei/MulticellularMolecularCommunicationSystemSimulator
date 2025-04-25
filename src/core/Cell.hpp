@@ -208,7 +208,7 @@ inline void Cell::nextStep() noexcept
 {
     Vec3 adjustedVelocity = Vec3::zero();
 
-    u_int32_t queueSize;
+    uint32_t queueSize;
     switch (SimulationSettings::POSITION_UPDATE_METHOD) {
         case PositionUpdateMethod::AB4:
             queueSize = 4;
@@ -226,7 +226,7 @@ inline void Cell::nextStep() noexcept
 
     // 初回は過去の速度がないので、現在の速度をキューに追加する
     if (preVelocitiesQueue.empty()) {
-        for (u_int32_t i = 0; i < queueSize - 1; i++) {
+        for (uint32_t i = 0; i < queueSize - 1; i++) {
             preVelocitiesQueue.push(velocity);
         }
     }
