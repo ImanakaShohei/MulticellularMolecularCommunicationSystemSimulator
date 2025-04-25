@@ -10,7 +10,7 @@
  */
 bool SimulationSettings::init_settings()
 {
-    std::string path = "src/config.yaml";
+    std::string path = "config.yaml";
 
     try {
         YAML::Node config = YAML::LoadFile(path);

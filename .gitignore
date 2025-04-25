@@ -36,3 +36,4 @@ sample
 figs/*
 molecule_result_full/*
 libyaml-cpp.a
+build

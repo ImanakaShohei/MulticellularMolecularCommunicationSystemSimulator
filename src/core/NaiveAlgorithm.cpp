@@ -1,7 +1,7 @@
 #include "NaiveAlgorithm.hpp"
 #include "Simulation.hpp"
 
-Vec3 NaiveAlgorithm::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) const noexcept
+Vec3 NaiveAlgorithm::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) noexcept
 {
     Vec3 vec;
     UserCell& target = *c;
