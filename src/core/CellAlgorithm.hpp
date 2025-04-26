@@ -25,7 +25,7 @@ class CellAlgorithm {
 
     /**
      * @brief  与えられたCellに対して他のCellから働く力を計算する。
-     *
+     * @attention 複数スレッドがこの関数を呼ぶことに注意
      * @param c
      * @return Vec3
      * @details Cellから働く力は遠隔力と近隣力の2つで構成される。さらに、近接力は体積排除効果と接着力の2つに分類される。

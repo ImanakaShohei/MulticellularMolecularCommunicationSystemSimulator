@@ -272,17 +272,20 @@ Vec3 Simulation::calcForce(UserCell& c) const noexcept
 int32_t Simulation::nextStep() noexcept
 {
     cellAlgorithm->beforeNextStep(cells, moleculeSpaces);
-    Vec3 force = Vec3::zero();
 
 // XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。
-#pragma omp parallel for num_threads(8) schedule(dynamic) private(force)
+#pragma omp parallel for schedule(dynamic)
     for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
-        UserCell& cell = *cells[i];;
-        if (cell.getCellType() == CellType::DEAD || cell.getCellType() == CellType::NONE)
-            continue;
+        UserCell& cell = *cells[i];
+        switch (cell.getCellType()) {
+            case CellType::DEAD:
+            case CellType::NONE:
+                break;
 
-        force = calcCellForce(cell);
-        cell.addForce(force);
+            default:
+                cell.addForce(calcCellForce(cell));
+                break;
+        }
     }
 
     for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
@@ -341,7 +344,16 @@ int32_t Simulation::run()
     }
 
     const double averageTime = (double)sumTime / (double)SimulationSettings::SIM_STEP;
-    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << std::endl;
+    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << "    Model : ";
+
+    switch (SimulationSettings::ALGORITHM_TYPE) {
+        case AlgorithmType::Naive:     std::cout << "Naive";     break;
+        case AlgorithmType::CellList:  std::cout << "CellList";  break;
+        case AlgorithmType::BarnesHut: std::cout << "BarnesHut"; break;
+    }
+
+    if (SimulationSettings::USE_CLUSTER_MODEL) std::cout << "+Cluster";
+    std::cout << std::endl;
 
     return 0;
 }
