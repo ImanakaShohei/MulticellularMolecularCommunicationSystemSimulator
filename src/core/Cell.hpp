@@ -61,7 +61,7 @@ class Cell
     Cell();
     Cell(CellType _typeID, double x, double y, double radius = 5.0, double vx = 0, double vy = 0);
     Cell(CellType _typeID, Vec3 pos, double radius = 5.0, Vec3 v = Vec3::zero());
-    ~Cell();
+    virtual ~Cell();
 
     static double calcRadiusFromVolume(double volume) noexcept;
     static double calcVolumeFromRadius(double radius) noexcept;

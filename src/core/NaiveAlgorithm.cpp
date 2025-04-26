@@ -1,46 +1,46 @@
 #include "NaiveAlgorithm.hpp"
 #include "Simulation.hpp"
 
-Vec3 NaiveAlgorithm::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) noexcept
+Vec3 NaiveAlgorithm::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&) noexcept
 {
     Vec3 vec;
-    UserCell& target = *c;
+    UserCell const& target = c;
 
     switch (target.getCellType()) {
         case CellType::WORKER:
         {
             for (auto&& p : cells) {
-                if (p == c) continue;
+                if (p == &target) continue;
         
                 UserCell& cell = *p;
         
                 if (cell.getCellType() != CellType::WORKER) continue;
         
-                vec += Simulation::calcRemoteForce(c, p);
+                vec += Simulation::calcRemoteForce(c, cell);
             }
             vec = vec.normalize();
 
             for (auto&& p : cells) {
-                if (p == c) continue;
+                if (p == &target) continue;
         
                 UserCell& cell = *p;
         
                 if (cell.getCellType() == CellType::NONE) continue;
         
-                vec += Simulation::calcVolumeExclusion(c, p);
+                vec += Simulation::calcVolumeExclusion(c, cell);
             }
             break;
         }
         case CellType::DEAD:
         {
             for (auto&& p : cells) {
-                if (p == c) continue;
+                if (p == &target) continue;
         
                 UserCell& cell = *p;
         
                 if (cell.getCellType() == CellType::NONE) continue;
         
-                vec += Simulation::calcVolumeExclusion(c, p);
+                vec += Simulation::calcVolumeExclusion(c, cell);
             }
             break;
         }

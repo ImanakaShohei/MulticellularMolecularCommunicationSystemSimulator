@@ -36,8 +36,10 @@ void CellList::init()
     cellField.resize(CELL_GRID_LEN_Y);
     for (int32_t y = 0; y < CELL_GRID_LEN_Y; y++) {
         cellField[y].resize(CELL_GRID_LEN_X);
+
+        // 消すべき？
         for (int32_t x = 0; x < CELL_GRID_LEN_X; x++) {
-            cellField[y][x] = std::vector<std::shared_ptr<UserCell>>();
+            cellField[y][x] = std::vector<UserCell*>();
         }
     }
 }
@@ -48,9 +50,9 @@ void CellList::init()
  * @param c
  * @return std::tuple<int32_t, int32_t>
  */
-std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const std::shared_ptr<UserCell> c) const
+std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const UserCell& c) const
 {
-    Vec3 pos = c->getPosition();
+    Vec3 pos = c.getPosition();
 
     const int32_t gridX = (int32_t)((pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
     const int32_t gridY = (int32_t)((pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
@@ -65,7 +67,7 @@ std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const std::sha
  * @return std::vector<int>
  * @note CHECK_WIDTHはcalcRemoteForceのLAMBDAより大きくするのが理想。
  */
-std::vector<int32_t> CellList::aroundCellList(const std::shared_ptr<UserCell> c) const
+std::vector<int32_t> CellList::aroundCellList(const UserCell& c) const
 {
     std::vector<int32_t> aroundCells;
     const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
@@ -79,7 +81,7 @@ std::vector<int32_t> CellList::aroundCellList(const std::shared_ptr<UserCell> c)
             }
 
             for (int i = 0; i < (int32_t)cellField[y][x].size(); i++) {
-                if (checkInSearchRadius(c->getPosition(), cellField[y][x][i]->getPosition())) {
+                if (checkInSearchRadius(c.getPosition(), cellField[y][x][i]->getPosition())) {
                     aroundCells.emplace_back(cellField[y][x][i]->arrayIndex);
                 }
             }
@@ -133,9 +135,9 @@ bool CellList::checkInSearchRadius(const Vec3 v, const Vec3 u) const
  */
 void CellList::resetGrid() noexcept
 {
-    for (int32_t y = 0; y < CELL_GRID_LEN_Y; y++) {
-        for (int32_t x = 0; x < CELL_GRID_LEN_X; x++) {
-            cellField[y][x].clear();
+    for (auto&& vec2 : cellField) {
+        for (auto&& vec : vec2) {
+            vec.clear();
         }
     }
 }
@@ -145,7 +147,7 @@ void CellList::resetGrid() noexcept
  *
  * @param cell
  */
-void CellList::addCell(const std::shared_ptr<UserCell>& cell)
+void CellList::addCell(UserCell* cell)
 {
     Vec3 pos = cell->getPosition();
 
@@ -155,23 +157,23 @@ void CellList::addCell(const std::shared_ptr<UserCell>& cell)
     cellField[scaledY][scaledX].emplace_back(cell);
 }
 
-Vec3 CellList::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&)
+Vec3 CellList::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     auto aroundCells = this->aroundCellList(c);
     Vec3 force       = Vec3::zero();
 
-    switch (c->getCellType()) {
+    switch (c.getCellType()) {
         case CellType::WORKER:
             for (auto i : aroundCells) {
                 if (cells[i]->getCellType() == CellType::WORKER) {
-                    force += Simulation::calcRemoteForce(c, cells[i]);
+                    force += Simulation::calcRemoteForce(c, *cells[i]);
                 }
             }
             force = force.normalize();
 
             for (auto i : aroundCells) {
                 if (cells[i]->getCellType() != CellType::NONE) {
-                    force += Simulation::calcVolumeExclusion(c, cells[i]);
+                    force += Simulation::calcVolumeExclusion(c, *cells[i]);
                 }
             }
 
@@ -180,7 +182,7 @@ Vec3 CellList::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector
         case CellType::DEAD:
             for (auto i : aroundCells) {
                 if (cells[i]->getCellType() != CellType::NONE) {
-                    force += Simulation::calcVolumeExclusion(c, cells[i]);
+                    force += Simulation::calcVolumeExclusion(c, *cells[i]);
                 }
             }
 
@@ -189,12 +191,12 @@ Vec3 CellList::calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector
         case CellType::NONE:
             return Vec3::zero();
         default:
-            std::cerr << "CellType is Wrong: " << NAMEOF_ENUM(c->getCellType()) << std::endl;
+            std::cerr << "CellType is Wrong: " << NAMEOF_ENUM(c.getCellType()) << std::endl;
             exit(1);
     }
 }
 
-void CellList::beforeNextStep(const ::std::vector<::std::shared_ptr<UserCell>>& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&)
+void CellList::beforeNextStep(const ::std::vector<::UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     resetGrid();
 

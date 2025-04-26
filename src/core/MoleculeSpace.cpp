@@ -136,7 +136,7 @@ void MoleculeSpace::setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType b
     }
 }
 
-MoleculeSpace::MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
+MoleculeSpace::MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<UserCell*>& cells,
                              const uint32_t ID, const double _D)
   : width(SimulationSettings::MOLECULE_FIELD_X_LEN)
   , height(SimulationSettings::MOLECULE_FIELD_Y_LEN)
@@ -266,14 +266,14 @@ void MoleculeSpace::calcConcentrationDiff() noexcept
     const int32_t width  = SimulationSettings::FIELD_X_LEN;
     const int32_t height = SimulationSettings::FIELD_Y_LEN;
     const int32_t depth  = SimulationSettings::FIELD_Z_LEN;
-    for (uint32_t i = 0; i < cells.size(); i++) {
-        std::shared_ptr<UserCell> cell = cells[i];
+    for (auto&& pCell : cells) {
+        UserCell& cell = *pCell;
 
-        int32_t x = (int32_t)((cell->getPosition().x + width / 2) / dr) + 1;
-        int32_t y = (int32_t)((cell->getPosition().y + height / 2) / dr) + 1;
-        int32_t z = (int32_t)((cell->getPosition().z + depth / 2) / dr) + 1;
+        int32_t x = (int32_t)((cell.getPosition().x + width / 2) / dr) + 1;
+        int32_t y = (int32_t)((cell.getPosition().y + height / 2) / dr) + 1;
+        int32_t z = (int32_t)((cell.getPosition().z + depth / 2) / dr) + 1;
 
-        deltaMoleculeSpace[x][y][z] += cell->emitMolecule(ID);
+        deltaMoleculeSpace[x][y][z] += cell.emitMolecule(ID);
     }
 }
 

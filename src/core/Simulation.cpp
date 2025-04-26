@@ -29,7 +29,7 @@ Simulation::Simulation()
 
     for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
         // cells はvector<UserCell*>& を渡すはずなのに、vector<shared_ptr<UserCEll>>& になっている。スマートポインタをやめるかスマートポインタを渡すようにするか考える
-        moleculeSpaces[i] = std::make_unique<UserMoleculeSpace>(SimulationSettings::DEFAULT_MOLECULE_NUMS[i], MoleculeDistributionType::UNIFORM, MoleculeSpaceBorderType::NEUMANN, cells, i);
+        moleculeSpaces[i] = new UserMoleculeSpace(SimulationSettings::DEFAULT_MOLECULE_NUMS[i], MoleculeDistributionType::UNIFORM, MoleculeSpaceBorderType::NEUMANN, cells, i);
         // moleculeSpaces[i]->
     }
 }
@@ -46,6 +46,14 @@ Simulation::~Simulation()
             case AlgorithmType::CellList: deleteAlgorithm<CellList>(cellAlgorithm); break;
             case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
         }
+    }
+
+    for (UserCell* pCell : cells) {
+        delete pCell;
+    }
+
+    for (UserMoleculeSpace* pSpace : moleculeSpaces) {
+        delete pSpace;
     }
 }
 
@@ -77,7 +85,7 @@ void Simulation::initCells() noexcept
         double xPos = randomCellPosX(rand_gen);
         double yPos = randomCellPosY(rand_gen);
         
-        cells.push_back(std::make_shared<UserCell>(CellType::WORKER, xPos, yPos, 10.0));
+        cells.push_back(new UserCell(CellType::WORKER, xPos, yPos, 10.0));
     }
 }
 
@@ -164,7 +172,7 @@ void Simulation::printMolecules(int32_t time) const
  * @param c
  * @return Vec3
  */
-Vec3 Simulation::calcCellForce(const std::shared_ptr<UserCell>& c) const noexcept
+Vec3 Simulation::calcCellForce(UserCell& c) const noexcept
 {
     return cellAlgorithm->calcCellForce(c, cells, moleculeSpaces);
 }
@@ -179,16 +187,19 @@ Vec3 Simulation::calcCellForce(const std::shared_ptr<UserCell>& c) const noexcep
  * e^{(-|C-C_i|/\lambda)}
  * @f}
  */
-Vec3 Simulation::calcRemoteForce(const std::shared_ptr<UserCell>& c1, const std::shared_ptr<UserCell>& c2) noexcept
+Vec3 Simulation::calcRemoteForce(UserCell& c1, UserCell& c2) noexcept
 {
-    UserCell& target = *c1;
-    UserCell& cell = *c2;
+    UserCell& target = c1;
+    UserCell& cell = c2;
 
     const Vec3 diff              = target.getPosition() - cell.getPosition();
     const double dist            = diff.length();
+
+    if (dist == 0.0) [[unlikely]] return Vec3::zero();
+    
     const double weight          = cell.getWeight() * target.getWeight();
 
-    return diff.normalize().timesScalar(-weight * std::exp(-dist * SimulationSettings::REVERSE_LAMBDA));
+    return diff.timesScalar(-weight * std::exp(-dist * SimulationSettings::REVERSE_LAMBDA) / dist);
 }
 
 /**
@@ -200,21 +211,25 @@ Vec3 Simulation::calcRemoteForce(const std::shared_ptr<UserCell>& c1, const std:
  * F = \sum_i
  * @f}
  */
-Vec3 Simulation::calcVolumeExclusion(const std::shared_ptr<UserCell>& c1, const std::shared_ptr<UserCell>& c2) noexcept
+Vec3 Simulation::calcVolumeExclusion(UserCell& c1, UserCell& c2) noexcept
 {
     Vec3 force        = Vec3::zero();
-    const Vec3 diff   = c1->getPosition() - c2->getPosition();
+    const Vec3 diff   = c1.getPosition() - c2.getPosition();
     const double dist = diff.length();
     // const double weight               = c2->getWeight() * c1->getWeight();
-    const double sumRadius = c1->getRadius() + c2->getRadius();
+    const double sumRadius = c1.getRadius() + c2.getRadius();
     // const double overlapDist          = c1->getRadius() + c2->getRadius() - dist;
     constexpr double ELIMINATION_BIAS = 10.0;
     constexpr double ADHESION_BIAS    = 0.4;
 
-    if (dist < sumRadius) {
+    if (dist < sumRadius && dist != 0.0) {
         // force += diff.normalize().timesScalar(std::pow(1.8, overlapDist)).timesScalar(BIAS);
-        force += diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ELIMINATION_BIAS);
-        force -= diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ADHESION_BIAS);
+
+        //いのこくんによる最適化
+        //force += diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ELIMINATION_BIAS);
+        //force -= diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ADHESION_BIAS);
+
+        force += diff.timesScalar(pow(1.0 - dist / sumRadius, 2) * (ELIMINATION_BIAS - ADHESION_BIAS) / dist);
     }
 
     return force;
@@ -237,7 +252,7 @@ void Simulation::stepEndProcess() noexcept
  * @param c
  * @return Vec3
  */
-Vec3 Simulation::calcForce(const std::shared_ptr<UserCell>& c) const noexcept
+Vec3 Simulation::calcForce(UserCell& c) const noexcept
 {
     // Vec3 force = Vec3::zero();
 
@@ -262,12 +277,11 @@ int32_t Simulation::nextStep() noexcept
 // XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。
 #pragma omp parallel for num_threads(8) schedule(dynamic) private(force)
     for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
-        auto& pCell = cells[i];
-        UserCell& cell = *pCell;
+        UserCell& cell = *cells[i];;
         if (cell.getCellType() == CellType::DEAD || cell.getCellType() == CellType::NONE)
             continue;
 
-        force = calcCellForce(pCell);
+        force = calcCellForce(cell);
         cell.addForce(force);
     }
 

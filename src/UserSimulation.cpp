@@ -47,7 +47,7 @@ void UserSimulation::stepPreprocess() noexcept
         }
 
         if (cells[i]->checkWillDivide()) {
-            auto c = std::make_shared<UserCell>(cells[i]->divide());
+            auto c = new UserCell(cells[i]->divide());
 
             // 分裂した場合は配列に新しいCellを上書き(あるいは追加)する。
             if (c->arrayIndex >= (int32_t)cells.size()) {

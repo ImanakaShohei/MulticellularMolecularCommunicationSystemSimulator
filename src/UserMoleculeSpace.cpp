@@ -1,7 +1,7 @@
 #include "UserMoleculeSpace.hpp"
 
 UserMoleculeSpace::UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType,
-                                     std::vector<std::shared_ptr<UserCell>>& cells, const uint32_t ID)
+                                     std::vector<UserCell*>& cells, const uint32_t ID)
   : MoleculeSpace(moleculeNum, distributionType, borderType, cells, ID, 0.024 * 1000000.0)
 {
 }
@@ -34,15 +34,15 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
 
     // #pragma omp parallel for
     for (uint32_t i = 0; i < cells.size(); i++) {
-        std::shared_ptr<UserCell>& cell = cells[i];
-        auto position = cell->getPosition();
+        UserCell& cell = *cells[i];
+        auto position = cell.getPosition();
 
         int32_t x = (int32_t)((position.x + width / 2) / dr) + 1;
         int32_t y = (int32_t)((position.y + height / 2) / dr) + 1;
         int32_t z = (int32_t)((position.z + depth / 2) / dr) + 1;
 
         // #pragma omp atomic
-        deltaMoleculeSpace[x][y][z] += cell->emitMolecule(ID);
+        deltaMoleculeSpace[x][y][z] += cell.emitMolecule(ID);
     }
 }
 

@@ -43,10 +43,10 @@ class Simulation
 {
   protected:
     CellAlgorithm* cellAlgorithm;                            //!< CellListのデータ構造を管理するクラス
-    std::vector<std::shared_ptr<UserCell>> cells; //!< シミュレーションで使うCellのリスト。
+    std::vector<UserCell*> cells; //!< シミュレーションで使うCellのリスト。
     std::streambuf* consoleStream;                //!< 標準出力のストリームバッファ
 
-    std::vector<std::unique_ptr<UserMoleculeSpace>> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
+    std::vector<UserMoleculeSpace*> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
 
     // random
     std::mt19937 rand_gen{ (uint_fast32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
@@ -84,10 +84,10 @@ class Simulation
     
     virtual void stepPreprocess() noexcept;
     virtual void stepEndProcess() noexcept;
-    virtual Vec3 calcCellForce(const std::shared_ptr<UserCell>& c) const noexcept;
-    static Vec3 calcRemoteForce(const std::shared_ptr<UserCell>&, const std::shared_ptr<UserCell>&) noexcept;
-    static Vec3 calcVolumeExclusion(const std::shared_ptr<UserCell>&, const std::shared_ptr<UserCell>&) noexcept;
-    Vec3 calcForce(const std::shared_ptr<UserCell>&) const noexcept;
+    virtual Vec3 calcCellForce(UserCell& c) const noexcept;
+    static Vec3 calcRemoteForce(UserCell&, UserCell&) noexcept;
+    static Vec3 calcVolumeExclusion(UserCell&, UserCell&) noexcept;
+    Vec3 calcForce(UserCell&) const noexcept;
 
     int32_t nextStep() noexcept;
     int32_t run();

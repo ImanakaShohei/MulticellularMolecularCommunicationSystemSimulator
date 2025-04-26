@@ -1,7 +1,7 @@
 #include "ClusterModel.hpp"
 #include "Simulation.hpp"
 
-void ClusterModel::onNextStep(const ::std::vector<::std::shared_ptr<UserCell>>& cells)
+void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する

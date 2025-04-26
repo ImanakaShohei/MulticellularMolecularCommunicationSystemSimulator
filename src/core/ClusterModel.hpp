@@ -13,5 +13,5 @@ class ClusterModel final {
     ClusterModel(ClusterModel const&) = delete;
     ClusterModel(ClusterModel&&) = delete;
 
-    static void onNextStep(const ::std::vector<::std::shared_ptr<UserCell>>& cells);
+    static void onNextStep(const ::std::vector<UserCell*>& cells);
 };

@@ -30,7 +30,7 @@ class CellAlgorithm {
      * @return Vec3
      * @details Cellから働く力は遠隔力と近隣力の2つで構成される。さらに、近接力は体積排除効果と接着力の2つに分類される。
      */
-    virtual Vec3 calcCellForce(const ::std::shared_ptr<UserCell>& c, ::std::vector<::std::shared_ptr<UserCell>> const& cells, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>& moleculeSpaces) = 0;
-    constexpr virtual void beforeNextStep(const ::std::vector<::std::shared_ptr<UserCell>>&, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) {}
-    constexpr virtual void onNextStep(const ::std::vector<::std::shared_ptr<UserCell>>&, const ::std::vector<::std::unique_ptr<UserMoleculeSpace>>&) {}
+    virtual Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
+    constexpr virtual void beforeNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
+    constexpr virtual void onNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
 };

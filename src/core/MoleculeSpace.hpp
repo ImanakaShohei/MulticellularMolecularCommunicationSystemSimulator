@@ -61,7 +61,7 @@ class MoleculeSpace
 
     Field3D<double> deltaMoleculeSpace;            // 次のステップでの分子の増減を格納する空間
     Field3D<double> moleculeSpace;                 // 分子を扱う空間。各格子に分子の数を格納する。
-    std::vector<std::shared_ptr<UserCell>>& cells; // 格子の情報を格納する配列
+    std::vector<UserCell*>& cells; // 格子の情報を格納する配列
 
     const double D; // 拡散係数
     const uint32_t ID;
@@ -74,9 +74,9 @@ class MoleculeSpace
     void setupBoundary(Field3D<double>& ms, MoleculeSpaceBorderType borderType);
 
   public:
-    MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<std::shared_ptr<UserCell>>& cells,
+    MoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<UserCell*>& cells,
                   const uint32_t ID, const double _D);
-    ~MoleculeSpace();
+    virtual ~MoleculeSpace();
 
     virtual void calcConcentrationDiff() noexcept;
     virtual void nextStep() noexcept;
