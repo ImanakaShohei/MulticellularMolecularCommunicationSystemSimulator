@@ -53,7 +53,7 @@ Cell::Cell(CellType _typeID, double x, double y, double radius, double vx, doubl
 Cell::Cell(CellType _typeID, Vec3 pos, double radius, Vec3 v)
   : typeID(_typeID)
   , position(pos)
-  , velocity(v)
+  , addedForce(v)
   , weight(1.0)
   , radius(radius)
   , id(numberOfCellsBorn)
@@ -382,7 +382,7 @@ int32_t Cell::getNewCellIndex() noexcept
 void Cell::printCell() const noexcept
 {
     std::cout << id << "\t" << NAMEOF_ENUM(typeID) << "\t";
-    std::cout << position.x << "\t" << position.y << "\t" << position.z << "\t" << velocity.x << "\t" << velocity.y << "\t" << velocity.z << "\t" << radius << "\t" << adhereCells.size() << "\t"
+    std::cout << position.x << "\t" << position.y << "\t" << position.z << "\t" << addedForce.x << "\t" << addedForce.y << "\t" << addedForce.z << "\t" << radius << "\t" << adhereCells.size() << "\t"
               << "_";
 
     // std::cout << id << "\t";
@@ -404,10 +404,11 @@ void Cell::printCell() const noexcept
  */
 void Cell::printDebug() const noexcept
 {
+    auto v = getVelocity();
     std::cout << "x = " << position.x << std::endl;
     std::cout << "y = " << position.y << std::endl;
-    std::cout << "vx = " << velocity.x << std::endl;
-    std::cout << "vy = " << velocity.y << std::endl;
+    std::cout << "vx = " << v.x << std::endl;
+    std::cout << "vy = " << v.y << std::endl;
     std::cout << std::endl;
 }
 

@@ -28,9 +28,7 @@ Vec3 Vec3::rotate(double theta, double phi) const noexcept
         rotatedPos[y_i] = sum;
     }
 
-    Vec3 tmp(rotatedPos[0], rotatedPos[1], rotatedPos[2]);
-
-    return tmp;
+    return Vec3(rotatedPos[0], rotatedPos[1], rotatedPos[2]);
 }
 
 /**

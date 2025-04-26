@@ -31,7 +31,7 @@ class Cell
   protected:
     CellType typeID; //!< Cellの種類
     Vec3 position;   //!< Cellの座標(x,y,z)
-    Vec3 velocity;   //!< Cellの速度(x,y,z)
+    Vec3 addedForce;   //!< Cellにくわえられた力
     double weight;   //!< Cellの質量
     double radius;   //!< Cellの半径
 
@@ -129,7 +129,7 @@ constexpr Vec3 Cell::getPosition() const noexcept
  */
 constexpr Vec3 Cell::getVelocity() const noexcept
 {
-    return velocity;
+    return addedForce / weight;
 }
 
 /**
@@ -174,7 +174,7 @@ constexpr double Cell::setRadius(double r)
  */
 inline void Cell::initForce() noexcept
 {
-    velocity = Vec3::zero();
+    addedForce = Vec3::zero();
 }
 
 /**
@@ -185,8 +185,8 @@ inline void Cell::initForce() noexcept
  */
 inline void Cell::addForce(double fx, double fy) noexcept
 {
-    velocity.x += fx / weight;
-    velocity.y += fy / weight;
+    addedForce.x += fx;
+    addedForce.y += fy;
 }
 
 /**
@@ -196,7 +196,7 @@ inline void Cell::addForce(double fx, double fy) noexcept
  */
 inline void Cell::addForce(const Vec3& f) noexcept
 {
-    velocity += f.timesScalar(1.0 / weight);
+    addedForce += f;
 }
 
 /**
@@ -207,6 +207,7 @@ inline void Cell::addForce(const Vec3& f) noexcept
 inline void Cell::nextStep() noexcept
 {
     Vec3 adjustedVelocity = Vec3::zero();
+    Vec3 velocity = getVelocity();
 
     uint32_t queueSize;
     switch (SimulationSettings::POSITION_UPDATE_METHOD) {
