@@ -92,44 +92,6 @@ std::vector<int32_t> CellList::aroundCellList(const UserCell& c) const
 }
 
 /**
- * @brief 指定されたグリッド座標(x, y)がグリッドの定義域に存在するかを返す。
- *
- * @param x
- * @param y
- * @return bool
- */
-bool CellList::isInGrid(const int32_t x, const int32_t y) const
-{
-    // 範囲外の場合は空のvectorを返す
-    if (x < 0 || CELL_GRID_LEN_X <= x || y < 0 || CELL_GRID_LEN_Y <= y) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * @brief UserCell cの範囲内にCell dが存在するかを返す。ただし、c == dのときもfalseにする。
- *
- * @param c
- * @param d
- * @return true
- * @return false
- */
-bool CellList::checkInSearchRadius(const Vec3 v, const Vec3 u) const
-{
-    Vec3 diff            = v - u;
-    const bool isInRange = (diff.x * diff.x + diff.y * diff.y + diff.z * diff.z) <= SimulationSettings::CELL_LIST_SEARCH_RADIUS * SimulationSettings::CELL_LIST_SEARCH_RADIUS;
-
-    // 距離がSEARCH_RADIUSより離れている場合はfalse
-    if (!isInRange) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
  * @brief CellListに保存されているCellの配列をすべて削除する。
  *
  */

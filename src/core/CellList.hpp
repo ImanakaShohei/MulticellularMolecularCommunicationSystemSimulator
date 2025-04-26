@@ -36,11 +36,36 @@ class CellList : public CellAlgorithm
 
     void init();
     std::vector<int32_t> aroundCellList(const UserCell& c) const;
-    bool isInGrid(const int32_t x, const int32_t y) const;
-    bool checkInSearchRadius(const Vec3 v, const Vec3 u) const;
+    constexpr bool isInGrid(const int32_t x, const int32_t y) const noexcept;
+    static constexpr bool checkInSearchRadius(const Vec3& v, const Vec3& u) noexcept;
     void resetGrid() noexcept;
     void addCell(UserCell* cell);
     Vec3 calcCellForce(UserCell& c, ::std::vector<::UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&) override;
     //  周辺のCellのIDを格納する。ただし、vectorは一列分のみしか確保しない。
     void beforeNextStep(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&) override;
 };
+
+/**
+ * @brief 指定されたグリッド座標(x, y)がグリッドの定義域に存在するかを返す。
+ *
+ * @param x
+ * @param y
+ * @return bool
+ */
+constexpr bool CellList::isInGrid(const int32_t x, const int32_t y) const noexcept
+{
+  return (0 <= x && x < CELL_GRID_LEN_X) && (0 <= y && y < CELL_GRID_LEN_Y);
+}
+
+/**
+ * @brief UserCell cの範囲内にCell dが存在するかを返す。ただし、c == dのときもfalseにする。
+ *
+ * @param c
+ * @param d
+ * @return true
+ * @return false
+ */
+constexpr bool CellList::checkInSearchRadius(const Vec3& v, const Vec3& u) noexcept
+{
+    return (v - u).squareLength() < SimulationSettings::CELL_LIST_SEARCH_RADIUS * SimulationSettings::CELL_LIST_SEARCH_RADIUS;
+}

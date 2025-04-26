@@ -66,16 +66,16 @@ class Cell
     static double calcRadiusFromVolume(double volume) noexcept;
     static double calcVolumeFromRadius(double radius) noexcept;
 
-    CellType getCellType() const noexcept;
-    Vec3 getPosition() const noexcept;
-    Vec3 getVelocity() const noexcept;
-    double getWeight() const noexcept;
-    double getRadius() const noexcept;
-    double setRadius(double r);
+    constexpr CellType getCellType() const noexcept;
+    constexpr Vec3 getPosition() const noexcept;
+    constexpr Vec3 getVelocity() const noexcept;
+    constexpr double getWeight() const noexcept;
+    constexpr double getRadius() const noexcept;
+    constexpr double setRadius(double r);
 
     void initForce() noexcept;
     void addForce(double fx, double fy) noexcept;
-    void addForce(Vec3 f) noexcept;
+    void addForce(const Vec3& f) noexcept;
     void nextStep() noexcept;
 
     void clearAdhereCells() noexcept;
@@ -107,7 +107,7 @@ class Cell
  *
  * @return int CellのID
  */
-inline CellType Cell::getCellType() const noexcept
+constexpr CellType Cell::getCellType() const noexcept
 {
     return typeID;
 }
@@ -117,7 +117,7 @@ inline CellType Cell::getCellType() const noexcept
  *
  * @return Vec3 Cellの座標
  */
-inline Vec3 Cell::getPosition() const noexcept
+constexpr Vec3 Cell::getPosition() const noexcept
 {
     return position;
 }
@@ -127,7 +127,7 @@ inline Vec3 Cell::getPosition() const noexcept
  *
  * @return Vec3 Cellの速度
  */
-inline Vec3 Cell::getVelocity() const noexcept
+constexpr Vec3 Cell::getVelocity() const noexcept
 {
     return velocity;
 }
@@ -137,7 +137,7 @@ inline Vec3 Cell::getVelocity() const noexcept
  *
  * @return double Cellの質量
  */
-inline double Cell::getWeight() const noexcept
+constexpr double Cell::getWeight() const noexcept
 {
     return weight;
 }
@@ -147,7 +147,7 @@ inline double Cell::getWeight() const noexcept
  *
  * @return double Cellの半径
  */
-inline double Cell::getRadius() const noexcept
+constexpr double Cell::getRadius() const noexcept
 {
     return radius;
 }
@@ -158,9 +158,9 @@ inline double Cell::getRadius() const noexcept
  * @param r Cellの半径
  * @return double Cellの半径
  */
-inline double Cell::setRadius(double r)
+constexpr double Cell::setRadius(double r)
 {
-    if (r < 0.0) {
+    if (r < 0.0) [[unlikely]] {
         throw std::invalid_argument("Cell::setRadius() : radius must be positive.");
     }
     radius = r;
@@ -194,7 +194,7 @@ inline void Cell::addForce(double fx, double fy) noexcept
  *
  * @param f
  */
-inline void Cell::addForce(Vec3 f) noexcept
+inline void Cell::addForce(const Vec3& f) noexcept
 {
     velocity += f.timesScalar(1.0 / weight);
 }
