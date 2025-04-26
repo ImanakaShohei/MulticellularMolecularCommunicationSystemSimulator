@@ -10,7 +10,9 @@ simulation:
     field_y_len: 1024 # シミュレーションフィールドのy座標の長さ
     field_z_len: 0 # シミュレーションフィールドのz座標の長さ
     delta_time: 0.1 # 1ステップあたりのシミュレーション内時間
-    algorithm_type: CLUSTER # NAIVE, CELL-LIST, BARNES-HUT, CLUSTER から選択
+    lambda: 30.0 # 力が届く範囲を決める値
+    algorithm_type: NAIVE # NAIVE, CELL-LIST, BARNES-HUT から選択
+    use_cluster_model: false # シミュレーションでクラスタモデルを使うかどうか
 
 molecule:
     default_molecule_nums: # 各分子の初期個数(リストで表現する)
@@ -50,9 +52,7 @@ molecule:
         zx1: NEUMANN
         zx2: NEUMANN
 
+# CellListを使わない場合は無視される
 cell_list:
     grid_size_mag: 32 # cell listにおけるグリッドの分割倍率。最小は1、値は2^nである必要がある。
     search_radius: 64 # この半径内(positionの差)にあるcellを力の計算対象とする。
-
-cluster:
-    lambda: 30.0 # 力が届く範囲を決める値

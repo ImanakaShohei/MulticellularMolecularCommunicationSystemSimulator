@@ -52,16 +52,20 @@ bool SimulationSettings::init_settings()
         DELTA_TIME = simulationNode["delta_time"].as<double>();
         assert(DELTA_TIME > 0.0);
 
+        LAMBDA = simulationNode["lambda"].as<double>();
+        REVERSE_LAMBDA = 1.0 / LAMBDA;
+
         auto algorithmsTypeStr = simulationNode["algorithm_type"].as<::std::string>();
 
         if (algorithmsTypeStr == "NAIVE") ALGORITHM_TYPE = AlgorithmType::Naive;
         else if (algorithmsTypeStr == "CELL-LIST") ALGORITHM_TYPE = AlgorithmType::CellList;
         else if (algorithmsTypeStr == "BARNES-HUT") ALGORITHM_TYPE = AlgorithmType::BarnesHut;
-        else if (algorithmsTypeStr == "CLUSTER") ALGORITHM_TYPE = AlgorithmType::Cluster;
         else [[unlikely]] {
             std::cerr << "Invalid algorithm_type: " << postionUpdateMethodStr << std::endl;
             return false;
         }
+
+        USE_CLUSTER_MODEL = simulationNode["use_cluster_model"].as<bool>();
 
         auto&& moleculeNode = config["molecule"];
 
@@ -100,14 +104,6 @@ bool SimulationSettings::init_settings()
             {
                 break;
             }
-            case AlgorithmType::Cluster:
-            {
-                auto&& clusterNode = config["cluster"];
-                CLUSTER_LAMBDA = clusterNode["lambda"].as<double>();
-                CLUSTER_REVERSE_LAMBDA = 1.0 / CLUSTER_LAMBDA;
-                break;
-            }
-                
         }
         
 
@@ -132,9 +128,10 @@ void SimulationSettings::printSettings()
         case AlgorithmType::Naive:     ::std::cout << "NAIVE";      break;
         case AlgorithmType::CellList:  ::std::cout << "CELL-LIST";  break;
         case AlgorithmType::BarnesHut: ::std::cout << "BARNES-HUT"; break;
-        case AlgorithmType::Cluster:   ::std::cout << "CLUSTER";    break;
     }
     ::std::cout << ::std::endl;
+
+    ::std::cout << "USE CLUSTER MODEL : " << ::std::boolalpha << USE_CLUSTER_MODEL << ::std::endl;
 
     std::cout << "CELL SEED : " << CELL_SEED << std::endl;
     std::cout << "SIM STEP : " << SIM_STEP << std::endl;
@@ -168,8 +165,9 @@ constinit int32_t SimulationSettings::CELL_NUM                            = 0;
 constinit PositionUpdateMethod SimulationSettings::POSITION_UPDATE_METHOD = PositionUpdateMethod::AB4;
 constinit int32_t SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION   = 0;
 constinit int32_t SimulationSettings::CELL_LIST_SEARCH_RADIUS             = 0;
-constinit double SimulationSettings::CLUSTER_LAMBDA                       = 0;
-constinit double SimulationSettings::CLUSTER_REVERSE_LAMBDA               = 0;
+constinit bool SimulationSettings::USE_CLUSTER_MODEL                      = false;
+constinit double SimulationSettings::LAMBDA                               = 0;
+constinit double SimulationSettings::REVERSE_LAMBDA                       = 0;
 constinit int32_t SimulationSettings::FIELD_X_LEN                         = 0;
 constinit int32_t SimulationSettings::FIELD_Y_LEN                         = 0;
 constinit int32_t SimulationSettings::FIELD_Z_LEN                         = 0;

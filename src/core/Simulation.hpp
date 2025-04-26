@@ -20,7 +20,7 @@
 #include "NaiveAlgorithm.hpp"
 #include "CellList.hpp"
 #include "BarnesHut.hpp"
-#include "Cluster.hpp"
+#include "ClusterModel.hpp"
 #include <chrono>
 #include <fstream>
 #include <iomanip>

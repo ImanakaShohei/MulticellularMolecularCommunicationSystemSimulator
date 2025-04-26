@@ -2,7 +2,12 @@ import cv2
 import numpy as np
 import glob
 import math
+import os
 from visualize_setting import Setting
+
+if not os.path.exists("./result"):
+    print("Error: './result/' was not found.")
+    exit()
 
 files = sorted(glob.glob('./result/*'))
 
@@ -15,6 +20,9 @@ with open('config.txt', 'r') as f:
 IMAGE_LEN = 1024
 
 time_delta_sec = time_per_file * 60
+
+if not os.path.exists("./image"):
+    os.makedirs("./image")
 
 scale = IMAGE_LEN/img_w_len
 

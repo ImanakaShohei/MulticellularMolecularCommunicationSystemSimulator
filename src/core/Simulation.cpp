@@ -24,8 +24,7 @@ Simulation::Simulation()
     switch (SimulationSettings::ALGORITHM_TYPE) {
         case AlgorithmType::Naive: cellAlgorithm = new NaiveAlgorithm(); break;
         case AlgorithmType::CellList: cellAlgorithm = new CellList(); break;
-        case AlgorithmType::BarnesHut: break; // TODO: Barnes-Hutアルゴリズムを追加
-        case AlgorithmType::Cluster: cellAlgorithm = new Cluster(); break;
+        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented."); break; // TODO: Barnes-Hutアルゴリズムを追加
     }
 
     for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
@@ -46,7 +45,6 @@ Simulation::~Simulation()
             case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
             case AlgorithmType::CellList: deleteAlgorithm<CellList>(cellAlgorithm); break;
             case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
-            case AlgorithmType::Cluster: deleteAlgorithm<Cluster>(cellAlgorithm); break;
         }
     }
 }
@@ -183,15 +181,14 @@ Vec3 Simulation::calcCellForce(const std::shared_ptr<UserCell>& c) const noexcep
  */
 Vec3 Simulation::calcRemoteForce(const std::shared_ptr<UserCell>& c1, const std::shared_ptr<UserCell>& c2) noexcept
 {
-    constexpr double COEFFICIENT = 1.0;
-    const Vec3 diff              = c1->getPosition() - c2->getPosition();
-    const double dist            = diff.length();
-    constexpr double LAMBDA      = 30.0;
-    const double weight          = c2->getWeight() * c1->getWeight();
+    UserCell& target = *c1;
+    UserCell& cell = *c2;
 
-    // d = |C1 - C2|
-    // F = c (C1 - C2) / d * e^(-d/λ)
-    return -diff.normalize().timesScalar(COEFFICIENT * weight * std::exp(-dist / LAMBDA));
+    const Vec3 diff              = target.getPosition() - cell.getPosition();
+    const double dist            = diff.length();
+    const double weight          = cell.getWeight() * target.getWeight();
+
+    return diff.normalize().timesScalar(-weight * std::exp(-dist * SimulationSettings::REVERSE_LAMBDA));
 }
 
 /**
@@ -286,6 +283,7 @@ int32_t Simulation::nextStep() noexcept
         moleculeSpaces[i]->nextStep();
     }
 
+    if (SimulationSettings::USE_CLUSTER_MODEL) ClusterModel::onNextStep(cells);
     cellAlgorithm->onNextStep(cells, moleculeSpaces);
 
     return 0;

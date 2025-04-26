@@ -34,7 +34,7 @@ class Vec3
     bool operator==(const Vec3 &obj) const noexcept;
     bool operator!=(const Vec3 &obj) const noexcept;
 
-    Vec3 timesScalar(double num) const noexcept;          // スカラー倍
+    constexpr Vec3 timesScalar(double num) const noexcept;          // スカラー倍
     double dot(Vec3 vec) const noexcept;                  // 内積
     Vec3 rotate(double theta, double phi) const noexcept; // theta, phi = Rad で回転
     Vec3 cross(Vec3 vec) const noexcept;                  // 外積
@@ -46,7 +46,9 @@ class Vec3
     void print() const noexcept;
 
     static Vec3 zero() noexcept;
+
     static Vec3 randomDirection2() noexcept; // 方向のみを表すランダムな正規化されたベクトル(z=0で固定)を返す。
+
     static Vec3 randomDirection3() noexcept; // 方向のみを表すランダムな正規化されたベクトルを返す。
 
     double x, y, z; //!< x, y, z座標
@@ -111,7 +113,7 @@ constexpr Vec3::Vec3(double x, double y, double z) noexcept : x(x), y(y), z(z) {
  * @param num
  * @return Vec3
  */
-inline Vec3 Vec3::timesScalar(double num) const noexcept
+constexpr Vec3 Vec3::timesScalar(double num) const noexcept
 {
     return Vec3(x * num, y * num, z * num);
 }

@@ -12,22 +12,6 @@
 #include "UserSimulation.hpp"
 
 /**
- * @brief コンストラクタ。何も呼び出さない。
- *
- */
-UserSimulation::UserSimulation(/* args */)
-{
-}
-
-/**
- * @brief デストラクタ。何もしない。
- *
- */
-UserSimulation::~UserSimulation()
-{
-}
-
-/**
  * @brief シミュレーションで扱う細胞の初期化。ここで細胞を生成する。生成した細胞はcellsに格納する。
  * @note 各細胞の初期状態はユーザが定義する。
  *

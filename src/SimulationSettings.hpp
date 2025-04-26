@@ -33,7 +33,6 @@ enum class AlgorithmType
     Naive,
     CellList,
     BarnesHut,
-    Cluster,
 };
 
 class SimulationSettings final
@@ -60,8 +59,9 @@ class SimulationSettings final
     static int32_t CELL_LIST_GRID_SIZE_MAGNIFICATION; //!< CellListで使用するグリッドサイズの倍率。最小は1、値は2^nである必要がある。
     static int32_t CELL_LIST_SEARCH_RADIUS;           //!< この半径内(positionの差)にあるcellを力の計算の対象とする。
 
-    static double CLUSTER_LAMBDA; //力が届く範囲を決める値
-    static double CLUSTER_REVERSE_LAMBDA; //力が届く範囲を決める値
+    static bool   USE_CLUSTER_MODEL; //シミュレーションでクラスタモデルを使うかどうか
+    static double LAMBDA; //力が届く範囲を決める値
+    static double REVERSE_LAMBDA; //力が届く範囲を決める値
 
     static int32_t FIELD_X_LEN; //!< シミュレーションをおこなうフィールドのx方向の辺の長さ。長さは2のn乗とする。
     static int32_t FIELD_Y_LEN; //!< シミュレーションをおこなうフィールドのy方向の辺の長さ。長さは2のn乗とする。

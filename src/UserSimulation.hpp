@@ -22,8 +22,7 @@ class UserSimulation : public Simulation
     void stepEndProcess() noexcept override;
 
   public:
-    UserSimulation(/* args */);
-    ~UserSimulation();
+    UserSimulation() = default;
 
     void initCells() noexcept override;
 };

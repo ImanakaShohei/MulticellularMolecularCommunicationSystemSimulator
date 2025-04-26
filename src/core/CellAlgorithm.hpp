@@ -10,6 +10,15 @@
 class CellAlgorithm {
     private:
 
+    protected:
+
+    CellAlgorithm() = default;
+    CellAlgorithm(CellAlgorithm const&) = default;
+    CellAlgorithm(CellAlgorithm&&) = default;
+
+    CellAlgorithm& operator=(CellAlgorithm const&) = default;
+    CellAlgorithm& operator=(CellAlgorithm&&) = default;
+
     public:
 
     constexpr virtual ~CellAlgorithm() {}

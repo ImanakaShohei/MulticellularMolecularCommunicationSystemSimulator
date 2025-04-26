@@ -26,7 +26,7 @@ namespace detail {
     }
 } // detail::
 
-template<typename Tp, size_t N>
+template <typename Tp, size_t N>
 auto make_vector(size_t const (&sizes)[N], Tp const& x = Tp())
 {
     std::vector<size_t> s(N);

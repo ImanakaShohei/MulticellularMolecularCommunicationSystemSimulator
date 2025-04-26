@@ -1,15 +1,23 @@
 import cv2
 import glob
+import os
 
 # encoder
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
 
 # output
 
+if not os.path.exists("./image"):
+    print("Error: './image/' was not found.")
+    exit()
+
 file_paths = sorted(glob.glob('./image/cells_*'))
 base_img = cv2.imread(file_paths[0])
 img_w_len = base_img.shape[1]
 img_h_len = base_img.shape[0]
+
+if not os.path.exists("./video"):
+    os.makedirs("./video")
 
 video = cv2.VideoWriter('./video/out.mp4', fourcc,
                         20.0, (img_w_len, img_h_len))

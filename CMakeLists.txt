@@ -19,7 +19,7 @@ set(SOURCES
     src/core/BarnesHut.cpp
     src/core/Cell.cpp
     src/core/CellList.cpp
-    src/core/Cluster.cpp
+    src/core/ClusterModel.cpp
     src/core/MoleculeSpace.cpp
     src/core/NaiveAlgorithm.cpp
     src/core/Simulation.cpp
@@ -63,6 +63,9 @@ add_custom_command(TARGET SimMain POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/src/config.yaml
             $<TARGET_FILE_DIR:SimMain>/config.yaml
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/src/convert_tools
+            $<TARGET_FILE_DIR:MyApp>/convert_tools
 )
 
 # yaml-cppの取得に使う
