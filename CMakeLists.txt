@@ -59,13 +59,14 @@ if(OpenMP_CXX_FOUND)
 endif()
 
 # ビルド後にconfig.yamlをコピー
+# ついでにconvert_toolsもコピー
 add_custom_command(TARGET SimMain POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/src/config.yaml
             $<TARGET_FILE_DIR:SimMain>/config.yaml
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/src/convert_tools
-            $<TARGET_FILE_DIR:MyApp>/convert_tools
+            $<TARGET_FILE_DIR:SimMain>/convert_tools
 )
 
 # yaml-cppの取得に使う
