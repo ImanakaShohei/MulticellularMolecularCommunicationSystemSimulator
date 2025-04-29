@@ -74,8 +74,8 @@ class Cell
     constexpr double setRadius(double r);
 
     void initForce() noexcept;
-    void addForce(double fx, double fy) noexcept;
-    void addForce(const Vec3& f) noexcept;
+    constexpr void addForce(double fx, double fy) noexcept;
+    constexpr void addForce(const Vec3& f) noexcept;
     void nextStep() noexcept;
 
     void clearAdhereCells() noexcept;
@@ -183,7 +183,7 @@ inline void Cell::initForce() noexcept
  * @param fx x方向の力
  * @param fy y方向の力
  */
-inline void Cell::addForce(double fx, double fy) noexcept
+constexpr void Cell::addForce(double fx, double fy) noexcept
 {
     addedForce.x += fx;
     addedForce.y += fy;
@@ -194,7 +194,7 @@ inline void Cell::addForce(double fx, double fy) noexcept
  *
  * @param f
  */
-inline void Cell::addForce(const Vec3& f) noexcept
+constexpr void Cell::addForce(const Vec3& f) noexcept
 {
     addedForce += f;
 }

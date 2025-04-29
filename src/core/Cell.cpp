@@ -13,8 +13,8 @@
 #include <numbers>
 
 // static変数の初期化
-int32_t Cell::upperOfCellCount  = 0;
-int32_t Cell::numberOfCellsBorn = 0;
+constinit int32_t Cell::upperOfCellCount  = 0;
+constinit int32_t Cell::numberOfCellsBorn = 0;
 std::queue<int> Cell::cellPool  = std::queue<int>();
 
 /**

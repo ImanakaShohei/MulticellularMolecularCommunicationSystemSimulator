@@ -230,8 +230,7 @@ inline Vec3 Vec3::normalize() const noexcept
 {
     double len = this->length();
 
-    if (len == 0)
-        return Vec3(0, 0, 0);
+    if (len == 0) [[unlikely]] return Vec3(0, 0, 0);
 
     return Vec3(x / len, y / len, z / len);
 }
