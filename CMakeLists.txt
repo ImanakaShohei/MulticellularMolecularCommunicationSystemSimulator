@@ -40,13 +40,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Default build type" FORCE)
 endif()
 
-# 最適化オプション
-target_compile_options(SimMain PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
-    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
-    $<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
-)
-
 # OpenMPを検索
 # ChatGPTからコピペしたやつだよ
 find_package(OpenMP REQUIRED)
