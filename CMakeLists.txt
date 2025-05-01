@@ -29,6 +29,13 @@ set(SOURCES
 # ターゲット名は'SimMain'
 add_executable(SimMain ${SOURCES})
 
+# 追加のオプション
+target_compile_options(SimMain PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
+#$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
+#$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
+)
+
 # 追加のincludeパス
 target_include_directories(SimMain
   PRIVATE
