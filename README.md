@@ -19,10 +19,10 @@ Pythonの必要ライブラリは以下のコマンドで一括インストー�
 
 # Usage
 ### Step 1
-シミュレータを`make`する。
+シミュレータを`make`する。  
 `Windows`の場合
 ```sh
-> ./Build-Windows.bat
+./Build-Windows.bat
 ```
 `macOS`の場合
 ```sh
