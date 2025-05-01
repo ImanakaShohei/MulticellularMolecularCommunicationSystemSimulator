@@ -7,7 +7,7 @@
 tutorial  
 jp -> https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/tutorial/out/tutorial.pdf
 
-# Requirement
+# 動作要件
 - C++20とOpenMPをサポートするコンパイラ
 - Python3系(必要ライブラリはrequirements.txtから取得可能)
 - pip
@@ -17,12 +17,13 @@ jp -> https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/tutori
 Pythonの必要ライブラリは以下のコマンドで一括インストールできます。  
 `pip install -r requirements.txt`
 
-# Usage
+# 使い方
 ### Step 1
 シミュレータを`make`する。  
+  
 `Windows`の場合
 ```sh
-./Build-Windows.bat
+.\Build-Windows.bat
 ```
 `macOS`の場合
 ```sh
@@ -64,7 +65,7 @@ $ make open
 あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
 サンプルの力学モデルは`UserSimulation::calcCellForce()`を参考にすると良いです。
 
-# Features
+# 特長
 - CellListなどのアルゴリズムを利用することによりシミュレーションを高速に実行することが可能となっています。  
 - Makefileに定義されたコマンドにより、ユーザはディレクトリの構造を深く考えることなく、コンパイルから結果の確認までを簡単に実行することができます。  
 - シミュレーションの結果をテキスト(`./result/*`)に出力しているため、ユーザが独自にビジュアライザを作成し、再利用することもできます。
