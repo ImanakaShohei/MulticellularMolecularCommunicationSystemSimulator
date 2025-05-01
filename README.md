@@ -2,69 +2,75 @@
 ![gif](https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/readme_img/sim.gif)
 
 # Overview
-It is a general-purpose simulator for multicellular molecular communication simulations and allows users to define simulation parameters and dynamics to run simulations for various models.
+分子通信シミュレーションのための汎用シミュレータであり、ユーザがシミュレーションのパラメータや力学作用を定義することでさまざまなモデルに対応したシミュレーションを実行することができます。
 
-## Other Languages README
-[日本語](https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/README_jp.md)
-
-## Tutorial  
-[日本語](https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/tutorial/out/tutorial.pdf)
+tutorial  
+jp -> https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/tutorial/out/tutorial.pdf
 
 # Requirement
-- gcc(version 11 or later)
-- Python3 series(Required libraries can be obtained from requirements.txt)
+- C++20とOpenMPをサポートするコンパイラ
+- Python3系(必要ライブラリはrequirements.txtから取得可能)
 - pip
-- make
-- mac OS or Linux (Windows is possible depending on the environment)
+- CMake (version 3.11以降)
+- Windows or mac OS or Linux
 
-The required Python libraries can be installed in a batch with the following command.  
-```sh
-$ pip install -r requirements.txt
-```
+Pythonの必要ライブラリは以下のコマンドで一括インストールできます。  
+`pip install -r requirements.txt`
 
 # Usage
 ### Step 1
-`make` the simulator.  
+シミュレータを`make`する。
+`Windows`の場合
 ```sh
-$ make
+> ./Build-Windows.bat
+```
+`macOS`の場合
+```sh
+$ chmod +x Build-macOS.sh
+$ ./Build-macOS.sh
+```
+`Linux`の場合
+```sh
+$ chmod +x Linux.sh
+$ ./Linux.sh
 ```
 
 ### Step 2
-Run the simulator.  
+シミュレータを実行する。  
 ```sh
 $ make run
 ```
 
 ### Step 3
-Convert the execution results to video.  
+実行結果を動画に変換する。  
 ```sh
 $ make convert
 ```
 
 ### Step 4
-Check the converted video.  
+変換した動画を確認する。  
 ```sh
 $ make open
 ```
   
   
-However, Step 1 ~ Step 4 can also be run together with `make all`.
-You can also check the various commands from `make help`.
+ただし、Step 1 ~ Step 4は`make all`でまとめて実行することもできます。
+また、各種コマンドは`make help`から確認することができます。
 
-## How to create a simulation model
-Describe the model in `src/UserSimulation.cpp(.hpp)` and `src/UserCell.cpp(.hpp)`.  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(`calcCellCellForce()`)、細胞分裂の条件チェック(``)のみです。 -->
-The simulation parameters are written in `src/config.yaml`. These are the three main programs written by the user.  
-<!-- `UserSimulation`の親クラスは`Simulation`であり、ユーザが使用できる変数(つまり、publicかprotectedの変数)は`cells`(シミュレーション中のすべての`Cell`を保存したリスト)と`cellList`(`CellList`クラスのインスタンス)です。   -->
-<!-- あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
-You can refer to ` UserSimulation::calcCellCellForce()` for a sample dynamics model.
+## シミュレーションモデルの作成方法
+`src/UserSimulation.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
+シミュレーションのパラメータは`src/config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
+<!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
+あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
+サンプルの力学モデルは`UserSimulation::calcCellForce()`を参考にすると良いです。
 
 # Features
-- The CellList algorithm makes it possible to run simulations at high speed.  
-- The commands defined in the Makefile allow the user to easily compile and check the results without having to think too much about the directory structure.  
-- The simulation results can be saved as text (`./result/*`), allowing users to create and reuse their own visualizers.
+- CellListなどのアルゴリズムを利用することによりシミュレーションを高速に実行することが可能となっています。  
+- Makefileに定義されたコマンドにより、ユーザはディレクトリの構造を深く考えることなく、コンパイルから結果の確認までを簡単に実行することができます。  
+- シミュレーションの結果をテキスト(`./result/*`)に出力しているため、ユーザが独自にビジュアライザを作成し、再利用することもできます。
 
 # Tips
-Since Doxygen is used to generate the documentation, you can easily view the description of each class and method by preparing the Doxygen environment.
+ドキュメントの生成にDoxygenを利用しているので、Doxygenの環境を用意することで各クラスやメソッドの説明を簡単に見ることができます。
 
 # References
 - S. Imanaka and T. Nakano, ``Algorithm Design for Multicellular Molecular Communication Simulations,'' 7th International Conference on Knowledge Innovation and Invention 2024 (ICKII 2024), Aichi, Aug. 2024.
@@ -74,4 +80,4 @@ Since Doxygen is used to generate the documentation, you can easily view the des
 - T. Saiki and T. Nakano, ``Design and Implementation of a Multicellular Molecular Communication Simulator," full paper, in Proc. 2022 Joint 12th International Conference on Soft Computing and Intelligent Systems and 23rd International Symposium on Advanced Intelligent Systems (SCIS&ISIS 2022), Mie, Nov.--Dec. 2022.
 
 # Author
-Affiliation : https://sites.google.com/c.info.eng.osaka-cu.ac.jp/ect/%E3%83%9B%E3%83%BC%E3%83%A0
+所属 : https://sites.google.com/c.info.eng.osaka-cu.ac.jp/ect/%E3%83%9B%E3%83%BC%E3%83%A0
