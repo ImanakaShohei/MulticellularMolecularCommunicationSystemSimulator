@@ -80,7 +80,9 @@ std::vector<int32_t> CellList::aroundCellList(const UserCell& c) const
                 continue;
             }
 
-            for (int i = 0; i < (int32_t)cellField[y][x].size(); i++) {
+            int32_t size = (int32_t)cellField[y][x].size();
+
+            for (int32_t i = 0; i < size; i++) {
                 if (checkInSearchRadius(c.getPosition(), cellField[y][x][i]->getPosition())) {
                     aroundCells.emplace_back(cellField[y][x][i]->arrayIndex);
                 }

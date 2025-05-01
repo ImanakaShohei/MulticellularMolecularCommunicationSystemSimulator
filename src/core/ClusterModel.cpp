@@ -46,6 +46,9 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList& cell
             case CellType::WORKER:
             {
                 for (int aroundIndex : cellList.aroundCellList(cell)) {
+
+                    if (aroundIndex == i) continue;
+
                     UserCell& cellr = *cells[aroundIndex];
 
                     if (cellr.getCellType() != CellType::WORKER) continue;
