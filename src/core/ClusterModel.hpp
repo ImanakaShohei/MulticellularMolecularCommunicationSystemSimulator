@@ -16,13 +16,13 @@ class ClusterModel final {
     ClusterModel& operator=(ClusterModel const&) = delete;
     ClusterModel& operator=(ClusterModel&&) = delete;
 
-    static void onNextStep(const ::std::vector<UserCell*>& cells);
-    static void onNextStep(const ::std::vector<UserCell*>& cells, CellList const& cellList);
-    static void onNextStep(const ::std::vector<UserCell*>& cells, const CellList* pCellList);
-    static void onNextStep(const ::std::vector<UserCell*>& cells, ::std::nullptr_t);
+    static void combine(const ::std::vector<UserCell*>& cells);
+    static void combine(const ::std::vector<UserCell*>& cells, CellList& cellList);
+    static void combine(const ::std::vector<UserCell*>& cells, CellList* pCellList);
+    static void combine(const ::std::vector<UserCell*>& cells, ::std::nullptr_t);
 };
 
-inline void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells, ::std::nullptr_t)
+inline void ClusterModel::combine(const ::std::vector<UserCell*>& cells, ::std::nullptr_t)
 {
-    onNextStep(cells);
+    combine(cells);
 }

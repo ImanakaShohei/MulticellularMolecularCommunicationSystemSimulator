@@ -1,7 +1,7 @@
 #include "ClusterModel.hpp"
 #include "Simulation.hpp"
 
-void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
@@ -35,7 +35,7 @@ void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells)
     }
 }
 
-void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells, CellList const& cellList)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList& cellList)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
@@ -69,8 +69,8 @@ void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells, CellList co
     }
 }
 
-void ClusterModel::onNextStep(const ::std::vector<UserCell*>& cells, const CellList* pCellList)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList* pCellList)
 {
-    if (pCellList == nullptr) onNextStep(cells);
-    else onNextStep(cells, *pCellList);
+    if (pCellList == nullptr) combine(cells);
+    else combine(cells, *pCellList);
 }

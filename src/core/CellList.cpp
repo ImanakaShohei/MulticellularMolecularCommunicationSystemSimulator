@@ -158,11 +158,16 @@ Vec3 CellList::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells,
     }
 }
 
-void CellList::beforeNextStep(const ::std::vector<::UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void CellList::setCells(const ::std::vector<UserCell*>& cells)
 {
     resetGrid();
 
     for (auto&& cell : cells) {
         addCell(cell);
     }
+}
+
+void CellList::beforeNextStep(const ::std::vector<::UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+{
+    setCells(cells);
 }

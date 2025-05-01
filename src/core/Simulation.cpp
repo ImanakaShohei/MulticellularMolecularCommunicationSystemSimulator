@@ -13,6 +13,7 @@
  */
 Simulation::Simulation()
   : cellAlgorithm(nullptr)
+  , cellList(SimulationSettings::USE_CLUSTER_MODEL ? new CellList() : nullptr)
   , consoleStream(::std::cout.rdbuf())
   , moleculeSpaces(SimulationSettings::MOLECULE_TYPE_NUM)
   , randomCellPosX(-SimulationSettings::FIELD_X_LEN / 2, SimulationSettings::FIELD_X_LEN / 2)
@@ -23,8 +24,12 @@ Simulation::Simulation()
 {
     switch (SimulationSettings::ALGORITHM_TYPE) {
         case AlgorithmType::Naive: cellAlgorithm = new NaiveAlgorithm(); break;
-        case AlgorithmType::CellList: cellAlgorithm = new CellList(); break;
-        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented."); break; // TODO: Barnes-Hutアルゴリズムを追加
+        case AlgorithmType::CellList:
+        {
+            cellAlgorithm = SimulationSettings::USE_CLUSTER_MODEL ? cellList : new CellList();
+            break;
+        }
+        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); break; // TODO: Barnes-Hutアルゴリズムを追加
     }
 
     for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
@@ -43,9 +48,11 @@ Simulation::~Simulation()
     if (cellAlgorithm != nullptr) {
         switch (SimulationSettings::ALGORITHM_TYPE) {
             case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
-            case AlgorithmType::CellList: deleteAlgorithm<CellList>(cellAlgorithm); break;
+            case AlgorithmType::CellList: /*本当に何もしない*/ break;
             case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
         }
+
+        if (cellList != nullptr) delete cellList;
     }
 
     for (UserCell* pCell : cells) {
@@ -273,6 +280,13 @@ int32_t Simulation::nextStep() noexcept
 {
     cellAlgorithm->beforeNextStep(cells, moleculeSpaces);
 
+    if (SimulationSettings::USE_CLUSTER_MODEL) {
+        if (SimulationSettings::ALGORITHM_TYPE != AlgorithmType::CellList) cellList->setCells(cells);
+
+        ClusterModel::combine(cells, *cellList);
+        cellList->setCells(cells);
+    }
+
 // XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。
 #pragma omp parallel for schedule(dynamic)
     for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
@@ -300,7 +314,6 @@ int32_t Simulation::nextStep() noexcept
         moleculeSpaces[i]->nextStep();
     }
 
-    if (SimulationSettings::USE_CLUSTER_MODEL) ClusterModel::onNextStep(cells);
     cellAlgorithm->onNextStep(cells, moleculeSpaces);
 
     return 0;

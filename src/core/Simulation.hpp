@@ -43,6 +43,7 @@ class Simulation
 {
   protected:
     CellAlgorithm* cellAlgorithm;                            //!< CellListのデータ構造を管理するクラス
+    CellList* cellList;
     std::vector<UserCell*> cells; //!< シミュレーションで使うCellのリスト。
     std::streambuf* consoleStream;                //!< 標準出力のストリームバッファ
 
