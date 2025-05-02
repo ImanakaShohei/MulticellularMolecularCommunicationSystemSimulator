@@ -1,4 +1,4 @@
-from glob import glob
+import glob
 import matplotlib.animation as animation
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -7,10 +7,13 @@ import cv2
 import numpy as np
 import glob
 import math
-
+import os
 
 cell_files = sorted(glob.glob('./result/*'))
 molecule_files = sorted(glob.glob("molecule_result/0/molecule_*"))
+
+if not os.path.exists('./sample'):
+    os.mkdir('./sample')
 
 with open('config.txt', 'r') as f:
     img_w_len = int(f.readline())
