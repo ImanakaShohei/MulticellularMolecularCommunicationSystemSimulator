@@ -381,21 +381,23 @@ int32_t Cell::getNewCellIndex() noexcept
  */
 void Cell::printCell() const noexcept
 {
-    std::cout << id << "\t" << NAMEOF_ENUM(typeID) << "\t";
-    std::cout << position.x << "\t" << position.y << "\t" << position.z << "\t" << addedForce.x << "\t" << addedForce.y << "\t" << addedForce.z << "\t" << radius << "\t" << adhereCells.size() << "\t"
-              << "_";
+    std::cout << id << '\t' << NAMEOF_ENUM(typeID) << '\t';
+    std::cout << position.x << '\t' << position.y << '\t' << position.z << '\t' << addedForce.x << '\t' << addedForce.y << '\t' << addedForce.z << '\t' << radius << '\t' << adhereCells.size() << '\t';
 
-    // std::cout << id << "\t";
-    // std::cout << position.x << "\t" << position.y;
-
-    for (int i = 0; i < (int)adhereCells.size(); i++) {
-        std::cout << adhereCells[i]->id;
-
-        if (i != (int)adhereCells.size() - 1) {
-            std::cout << ",";
+    if (adhereCells.empty()) {
+        std::cout << '_';
+    }
+    else {
+        for (int i = 0; i < (int)adhereCells.size(); i++) {
+            std::cout << adhereCells[i]->id;
+    
+            if (i != (int)adhereCells.size() - 1) {
+                std::cout << ",";
+            }
         }
     }
-    std::cout << "\n";
+    
+    std::cout << '\n';
 }
 
 /**

@@ -18,7 +18,7 @@ Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
         const double dist = diff.length();
         const double co = 30.0 / dist;
         force -= diff.timesScalar(std::exp(-dist / s_lambda) / dist);
-        
+
         if (m_bondMatrix[c.id][cell.id]) {
             force -= diff.timesScalar(std::max((dist - s_dMin) / (s_dMax - s_dMin), 0.0) * co);
         }
@@ -28,7 +28,7 @@ Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
     return force.timesScalar(SimulationSettings::DELTA_TIME);
 }
 
-void NetworkFormationModel::onNextStep(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>&)
 {
     const size_t cellsLength = cells.size();
 

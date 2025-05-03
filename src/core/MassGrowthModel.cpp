@@ -52,7 +52,7 @@ Vec3 MassGrowthModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const&
     return force.timesScalar(SimulationSettings::DELTA_TIME);
 }
 
-void MassGrowthModel::beforeNextStep(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void MassGrowthModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>&)
 {
     size_t preCellCount = cells.size();
 
