@@ -12,16 +12,6 @@
 #include "UserSimulation.hpp"
 
 /**
- * @brief シミュレーションで扱う細胞の初期化。ここで細胞を生成する。生成した細胞はcellsに格納する。
- * @note 各細胞の初期状態はユーザが定義する。
- *
- */
-void UserSimulation::initCells() noexcept
-{
-    Simulation::initCells();
-}
-
-/**
  * @brief 各ステップの前処理。
  *
  */

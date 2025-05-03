@@ -55,6 +55,18 @@ bool SimulationSettings::init_settings()
         LAMBDA = simulationNode["lambda"].as<double>();
         REVERSE_LAMBDA = 1.0 / LAMBDA;
 
+        auto simulationTypeStr = simulationNode["simulation_type"].as<::std::string>();
+
+        if (simulationTypeStr == "CF") SIMULATION_TYPE = SimulationType::ClusterFormation;
+        else if (simulationTypeStr == "NF") SIMULATION_TYPE = SimulationType::NetworkFormation;
+        else if (simulationTypeStr == "MG") SIMULATION_TYPE = SimulationType::MassGrowth;
+        else if (simulationTypeStr == "MR") SIMULATION_TYPE = SimulationType::MassRotation;
+        else if (simulationTypeStr == "SMD") SIMULATION_TYPE = SimulationType::SignalMoleculeDiffusion;
+        else [[unlikely]] {
+            std::cerr << "Invalid simulation_type: " << postionUpdateMethodStr << std::endl;
+            return false;
+        }
+
         auto algorithmsTypeStr = simulationNode["algorithm_type"].as<::std::string>();
 
         if (algorithmsTypeStr == "NAIVE") ALGORITHM_TYPE = AlgorithmType::Naive;
@@ -99,7 +111,7 @@ bool SimulationSettings::init_settings()
                 assert(CELL_LIST_SEARCH_RADIUS >= 0);
                 break;
             }
-
+            
             case AlgorithmType::BarnesHut:
             {
                 break;
@@ -158,6 +170,7 @@ void SimulationSettings::printSettings()
 
 // staticメンバの初期化
 constinit AlgorithmType SimulationSettings::ALGORITHM_TYPE                = AlgorithmType::Naive;
+constinit SimulationType SimulationSettings::SIMULATION_TYPE              = SimulationType::ClusterFormation;
 constinit int32_t SimulationSettings::CELL_SEED                           = 0;
 constinit int32_t SimulationSettings::SIM_STEP                            = 0;
 constinit int32_t SimulationSettings::OUTPUT_INTERVAL_STEP                = 0;

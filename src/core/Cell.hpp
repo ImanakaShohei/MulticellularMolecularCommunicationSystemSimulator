@@ -80,6 +80,7 @@ class Cell
 
     void clearAdhereCells() noexcept;
     void adhere(const Cell& c) noexcept;
+    constexpr size_t adhereCellsCount() const noexcept;
 
     virtual bool checkWillDie() const noexcept;    // ユーザが定義
     virtual bool checkWillDivide() const noexcept; // ユーザが定義
@@ -242,4 +243,9 @@ inline void Cell::nextStep() noexcept
     position += adjustedVelocity; // 位置を更新
 
     adjustPosInField(); // 枠外にはみ出さないように調整
+}
+
+constexpr size_t Cell::adhereCellsCount() const noexcept
+{
+    return adhereCells.size();
 }

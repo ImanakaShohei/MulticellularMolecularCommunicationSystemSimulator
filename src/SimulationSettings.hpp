@@ -35,6 +35,15 @@ enum class AlgorithmType
     BarnesHut,
 };
 
+enum class SimulationType
+{
+    ClusterFormation,           // クラスタ形成モデル
+    NetworkFormation,           // ネットワーク形成モデル
+    MassGrowth,                 // 細胞塊成長モデル
+    MassRotation,               // 細胞塊回転モデル
+    SignalMoleculeDiffusion,    // 信号分子拡散モデル
+};
+
 class SimulationSettings final
 {
   public:
@@ -49,6 +58,7 @@ class SimulationSettings final
     // 入力値チェックのため、uintではなくintを使う
     // そもそもuintを使ったところでそれほど大きな値を扱うわけではないので、intで十分
     static AlgorithmType ALGORITHM_TYPE;
+    static SimulationType SIMULATION_TYPE;
     static int32_t CELL_SEED;
     static int32_t SIM_STEP;             //!< シミュレーションで行うステップの絶対数。シミュレーションの時間はDELTA_TIME*SIM_STEP[単位時間]となる。
     static int32_t OUTPUT_INTERVAL_STEP; //!< シミュレーション結果を出力するステップ間隔。

@@ -154,7 +154,7 @@ Vec3 CellList::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells,
 
         case CellType::NONE:
             return Vec3::zero();
-        default:
+        default: [[unlikely]]
             std::cerr << "CellType is Wrong: " << NAMEOF_ENUM(c.getCellType()) << std::endl;
             exit(1);
     }

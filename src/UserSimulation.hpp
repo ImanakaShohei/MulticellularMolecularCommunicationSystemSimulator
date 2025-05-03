@@ -23,6 +23,4 @@ class UserSimulation : public Simulation
 
   public:
     UserSimulation() = default;
-
-    void initCells() noexcept override;
 };

@@ -19,9 +19,15 @@ set(SOURCES
     src/core/BarnesHut.cpp
     src/core/Cell.cpp
     src/core/CellList.cpp
+    src/core/CellSimulationModel.cpp
+    src/core/ClusterFormationModel.cpp
     src/core/ClusterModel.cpp
     src/core/MoleculeSpace.cpp
     src/core/NaiveAlgorithm.cpp
+    src/core/NetworkFormationModel.cpp
+    src/core/MassGrowthModel.cpp
+    src/core/MassRotationModel.cpp
+    src/core/SignalMoleculeDiffusionModel.cpp
     src/core/Simulation.cpp
     src/utils/Vec3.cpp
 )

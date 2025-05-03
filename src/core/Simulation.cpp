@@ -1,4 +1,9 @@
 #include "Simulation.hpp"
+#include "ClusterFormationModel.hpp"
+#include "MassGrowthModel.hpp"
+#include "MassRotationModel.hpp"
+#include "NetworkFormationModel.hpp"
+#include "SignalMoleculeDiffusionModel.hpp"
 #include <filesystem>
 
 // TODO: cellsをスマートポインタの配列にする。
@@ -14,13 +19,11 @@
 Simulation::Simulation()
   : cellAlgorithm(nullptr)
   , cellList(SimulationSettings::USE_CLUSTER_MODEL ? new CellList() : nullptr)
+  , pCellSimulationModel(nullptr)
   , consoleStream(::std::cout.rdbuf())
   , moleculeSpaces(SimulationSettings::MOLECULE_TYPE_NUM)
-  , randomCellPosX(-SimulationSettings::FIELD_X_LEN / 2, SimulationSettings::FIELD_X_LEN / 2)
-  , randomCellPosY(-SimulationSettings::FIELD_Y_LEN / 2, SimulationSettings::FIELD_Y_LEN / 2)
   , stepNumDigit((int32_t)std::log10(SimulationSettings::SIM_STEP) + 1) // ファイル名の0埋めに使う
   , moleculeTypeNumDigit((int32_t)std::log10(SimulationSettings::MOLECULE_TYPE_NUM) + 1) /// ファイル名の0埋めに使う
-// , aroundCellSetList(SimulationSettings::FIELD_Y_LEN, std::unordered_set<int32_t>())
 {
     switch (SimulationSettings::ALGORITHM_TYPE) {
         case AlgorithmType::Naive: cellAlgorithm = new NaiveAlgorithm(); break;
@@ -29,13 +32,19 @@ Simulation::Simulation()
             cellAlgorithm = SimulationSettings::USE_CLUSTER_MODEL ? cellList : new CellList();
             break;
         }
-        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); break; // TODO: Barnes-Hutアルゴリズムを追加
+        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented algorithm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); break; // TODO: Barnes-Hutアルゴリズムを追加
+    }
+
+    switch (SimulationSettings::SIMULATION_TYPE) {
+        case SimulationType::ClusterFormation: pCellSimulationModel = new ClusterFormationModel(*cellAlgorithm); break;
+        case SimulationType::MassGrowth: pCellSimulationModel = new MassGrowthModel(*cellAlgorithm); break;
+        case SimulationType::MassRotation: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
+        case SimulationType::NetworkFormation: pCellSimulationModel = new NetworkFormationModel(*cellAlgorithm); break;
+        case SimulationType::SignalMoleculeDiffusion: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
     }
 
     for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
-        // cells はvector<UserCell*>& を渡すはずなのに、vector<shared_ptr<UserCEll>>& になっている。スマートポインタをやめるかスマートポインタを渡すようにするか考える
         moleculeSpaces[i] = new UserMoleculeSpace(SimulationSettings::DEFAULT_MOLECULE_NUMS[i], MoleculeDistributionType::UNIFORM, MoleculeSpaceBorderType::NEUMANN, cells, i);
-        // moleculeSpaces[i]->
     }
 }
 
@@ -45,15 +54,22 @@ Simulation::Simulation()
  */
 Simulation::~Simulation()
 {
-    if (cellAlgorithm != nullptr) {
-        switch (SimulationSettings::ALGORITHM_TYPE) {
-            case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
-            case AlgorithmType::CellList: /*本当に何もしない*/ break;
-            case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
-        }
-
-        if (cellList != nullptr) delete cellList;
+   switch (SimulationSettings::ALGORITHM_TYPE) {
+        case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
+        case AlgorithmType::CellList: /*本当に何もしない*/ break;
+        case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
     }
+
+    if (cellList != nullptr) delete cellList;
+    
+    switch (SimulationSettings::SIMULATION_TYPE) {
+        case SimulationType::ClusterFormation: deleteModel<ClusterFormationModel>(pCellSimulationModel); break;
+        case SimulationType::MassGrowth: deleteModel<MassGrowthModel>(pCellSimulationModel); break;
+        case SimulationType::MassRotation: deleteModel<MassRotationModel>(pCellSimulationModel); break;
+        case SimulationType::NetworkFormation: deleteModel<NetworkFormationModel>(pCellSimulationModel); break;
+        case SimulationType::SignalMoleculeDiffusion: deleteModel<SignalMoleculeDiffusionModel>(pCellSimulationModel); break;
+    }
+
 
     for (UserCell* pCell : cells) {
         delete pCell;
@@ -82,20 +98,6 @@ void Simulation::exportConfig() const
     outputfile.close();
 }
 
-/**
- * @brief 各セルをランダムな座標で初期化する。
- *
- */
-void Simulation::initCells() noexcept
-{
-    for (int32_t i = 0; i < SimulationSettings::CELL_NUM; i++) {
-        double xPos = randomCellPosX(rand_gen);
-        double yPos = randomCellPosY(rand_gen);
-        
-        cells.push_back(new UserCell(CellType::WORKER, xPos, yPos, 10.0));
-    }
-}
-
 void Simulation::initDirectories()
 {
     if (!std::filesystem::exists("result")) std::filesystem::create_directory("result");
@@ -115,6 +117,12 @@ template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, Cel
 void Simulation::deleteAlgorithm(CellAlgorithm* cellAlgorithm) noexcept
 {
     delete static_cast<TCellAlgorithm*>(cellAlgorithm);
+}
+
+template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, CellSimulationModel>
+void Simulation::deleteModel(CellSimulationModel* pCellSimulationModel) noexcept
+{
+    delete static_cast<TCellAlgorithm*>(pCellSimulationModel);
 }
 
 /**
@@ -181,7 +189,7 @@ void Simulation::printMolecules(int32_t time) const
  */
 Vec3 Simulation::calcCellForce(UserCell& c) const noexcept
 {
-    return cellAlgorithm->calcCellForce(c, cells, moleculeSpaces);
+    return pCellSimulationModel->calcCellForce(c, cells, moleculeSpaces);
 }
 
 /**
@@ -278,18 +286,16 @@ Vec3 Simulation::calcForce(UserCell& c) const noexcept
  */
 int32_t Simulation::nextStep() noexcept
 {
-    cellAlgorithm->beforeNextStep(cells, moleculeSpaces);
+    pCellSimulationModel->beforeNextStep(cells, moleculeSpaces);
 
     if (SimulationSettings::USE_CLUSTER_MODEL) {
         if (SimulationSettings::ALGORITHM_TYPE != AlgorithmType::CellList) cellList->setCells(cells);
 
         ClusterModel::combine(cells, *cellList);
         cellList->setCells(cells);
-
-        //ClusterModel::combine(cells, nullptr);
     }
 
-// XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。
+// XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。が気にしない
 #pragma omp parallel for schedule(dynamic)
     for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
         UserCell& cell = *cells[i];
@@ -316,7 +322,7 @@ int32_t Simulation::nextStep() noexcept
         moleculeSpaces[i]->nextStep();
     }
 
-    cellAlgorithm->onNextStep(cells, moleculeSpaces);
+    pCellSimulationModel->onNextStep(cells, moleculeSpaces);
 
     return 0;
 }
@@ -359,7 +365,7 @@ int32_t Simulation::run()
     }
 
     const double averageTime = (double)sumTime / (double)SimulationSettings::SIM_STEP;
-    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << "    Model : ";
+    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << "    Algorithm : ";
 
     switch (SimulationSettings::ALGORITHM_TYPE) {
         case AlgorithmType::Naive:     std::cout << "Naive";     break;

@@ -21,6 +21,7 @@
 #include "CellList.hpp"
 #include "BarnesHut.hpp"
 #include "ClusterModel.hpp"
+#include "CellSimulationModel.hpp"
 #include <chrono>
 #include <fstream>
 #include <iomanip>
@@ -44,24 +45,27 @@ class Simulation
   protected:
     CellAlgorithm* cellAlgorithm;                            //!< CellListのデータ構造を管理するクラス
     CellList* cellList;
+    CellSimulationModel* pCellSimulationModel;
+
     std::vector<UserCell*> cells; //!< シミュレーションで使うCellのリスト。
     std::streambuf* consoleStream;                //!< 標準出力のストリームバッファ
 
     std::vector<UserMoleculeSpace*> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
-
-    // random
-    std::mt19937 rand_gen{ (uint_fast32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
-    std::uniform_real_distribution<> randomCellPosX;        //!< Cellのx座標の生成器
-    std::uniform_real_distribution<> randomCellPosY;        //!< Cellのy座標の生成器
 
   private:
     // ヒープに確保したアルゴリズムのインスタンスを削除
     template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, CellAlgorithm>
     static void deleteAlgorithm(CellAlgorithm* cellAlgorithm) noexcept;
 
+    template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, CellSimulationModel>
+    static void deleteModel(CellSimulationModel* pCellSimulationModel) noexcept;
+
     // まだできていないクラスに対しては何もしない
     template <class TNotImplemented>
     static constexpr void deleteAlgorithm(CellAlgorithm*) noexcept {}
+
+    template <class TNotImplemented>
+    static constexpr void deleteModel(CellSimulationModel*) noexcept {}
 
     Field<std::vector<std::shared_ptr<Cell>>> cellsInGrid; //!< グリッド内にcellのポインタを入れる。
 
@@ -80,7 +84,7 @@ class Simulation
 
     void exportConfig() const;
 
-    virtual void initCells() noexcept;
+    void initCells();
     void initDirectories();
     
     virtual void stepPreprocess() noexcept;
@@ -96,3 +100,9 @@ class Simulation
     // pythonにパラメタを渡す都合上必要になった。
     int32_t getFieldLen();
 };
+
+
+inline void Simulation::initCells()
+{
+  pCellSimulationModel->initCells(cells);
+}
