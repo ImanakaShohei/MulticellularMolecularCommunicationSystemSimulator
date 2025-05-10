@@ -3,11 +3,11 @@
 void ClusterFormationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     // すべての細胞の力を初期化する(速度を0に設定)
-    for (auto&& pCell : cells) {
+    for (auto pCell : cells) {
         pCell->initForce();
     }
 
-    for (auto&& pCell : cells) {
+    for (auto pCell : cells) {
         UserCell& c = *pCell;
 
         switch (c.getCellType()) {
@@ -21,7 +21,7 @@ void ClusterFormationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::st
         }
     }
 
-    for (auto&& pCell : cells) {
+    for (auto pCell : cells) {
         UserCell& cell = *pCell;
 
         switch (cell.getCellType()) {

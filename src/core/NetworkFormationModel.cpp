@@ -1,31 +1,34 @@
 #include "NetworkFormationModel.hpp"
 
-NetworkFormationModel::NetworkFormationModel(CellAlgorithm& cellArgorithm)
-    : CellSimulationModel(cellArgorithm)
-    , m_bondMatrix(SimulationSettings::CELL_NUM, ::std::vector<bool>(SimulationSettings::CELL_NUM, false))
-{
-}
-
-Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
+Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpace)
 {
     Vec3 force = Vec3::zero();
-    for (auto&& pCell : cells) {
+    for (auto pCell : cells) {
         if (&c == pCell) continue;
 
         UserCell& cell = *pCell;
 
-        const Vec3 diff = c.getPosition() - cell.getPosition();
-        const double dist = diff.length();
-        const double co = 30.0 / dist;
-        force -= diff.timesScalar(std::exp(-dist / s_lambda) / dist);
+        if (c.isAdhere(pCell)) {
+            const Vec3 diff = c.getPosition() - cell.getPosition();
+            const double dist = diff.length();
 
-        if (m_bondMatrix[c.id][cell.id]) {
-            force -= diff.timesScalar(std::max((dist - s_dMin) / (s_dMax - s_dMin), 0.0) * co);
+            constexpr double co = 3.0 / (s_dMax - s_dMin);
+
+            double v = dist - s_dMin;
+
+            if (v > 0.0) {
+                force -= diff.timesScalar(v * co / dist);
+            }
+
+            v = s_dEx - dist;
+
+            if (v > 0.0) {
+                force += diff.timesScalar(v * 3.0 / (s_dEx * dist));
+            }
+            
         }
-        force += diff.timesScalar(std::max((s_dEx - dist) / s_dEx, 0.0) * co);
     }
-    
-    return force.timesScalar(SimulationSettings::DELTA_TIME);
+    return force.timesScalar(SimulationSettings::DELTA_TIME) + CellSimulationModel::calcCellForce(c, cells, moleculeSpace);
 }
 
 void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>&)
@@ -35,28 +38,23 @@ void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::v
     for (size_t i = 0; i != cellsLength; i++) {
         UserCell& cell = *cells[i];
 
+        if (cell.getCellType() != CellType::WORKER) continue;
+
         cell.clearAdhereCells();
 
-        for (size_t j = 0; j != cellsLength; j++) {
-            if (i == j) continue;
+        for (size_t j = i + 1; j != cellsLength; j++) {
 
             UserCell& cell1 = *cells[j];
+
+            if (cell1.getCellType() != CellType::WORKER) continue;
 
             const Vec3 diff = cell.getPosition() - cell1.getPosition();
             const double dist = diff.length();
 
-            auto&& ref = m_bondMatrix[i][j];
-
-            if (dist < s_dMin) {
-                ref = true;
+            if (dist < s_dMax) {
+                cell.adhere(cell1);
+                cell1.adhere(cell);
             }
-            // ここでdist >= s_dMin
-            else if (dist > s_dMax && ref) {
-                ref = false;
-            }
-            // (s_dMin <= dist) && (dist <= s_dMax || !m_bondMatrix[i][j]) の時は何もしない
-
-            if (ref) cell.adhere(cell1);
         }
     }
 }

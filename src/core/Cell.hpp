@@ -81,6 +81,7 @@ class Cell
     void clearAdhereCells() noexcept;
     void adhere(const Cell& c) noexcept;
     constexpr size_t adhereCellsCount() const noexcept;
+    constexpr bool isAdhere(const Cell* pCell) const noexcept;
 
     virtual bool checkWillDie() const noexcept;    // ユーザが定義
     virtual bool checkWillDivide() const noexcept; // ユーザが定義
@@ -248,4 +249,13 @@ inline void Cell::nextStep() noexcept
 constexpr size_t Cell::adhereCellsCount() const noexcept
 {
     return adhereCells.size();
+}
+
+constexpr bool Cell::isAdhere(const Cell* pCell) const noexcept
+{
+    for (const Cell* p : adhereCells) {
+        if (p == pCell) return true;
+    }
+
+    return false;
 }

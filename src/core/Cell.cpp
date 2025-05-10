@@ -93,7 +93,7 @@ Vec3 Cell::calcVelocity(std::queue<Vec3>& velocities) noexcept
             return calcAB4(velocities);
         case PositionUpdateMethod::ORIGINAL:
             return calcOriginal(velocities);
-        default:
+        default: [[unlikely]]
             std::cerr << "Error: Invalid PositionUpdateMethod" << std::endl;
             exit(1);
     }

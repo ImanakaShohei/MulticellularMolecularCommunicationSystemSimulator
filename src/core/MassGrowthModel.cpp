@@ -57,7 +57,7 @@ void MassGrowthModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vec
 {
     size_t preCellCount = cells.size();
 
-    for (auto&& pCell : cells) {
+    for (auto pCell : cells) {
         pCell->initForce();
     }
 

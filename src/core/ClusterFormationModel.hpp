@@ -1,3 +1,5 @@
+#pragma once
+
 #include "CellSimulationModel.hpp"
 
 /// @brief クラスタ形成モデル

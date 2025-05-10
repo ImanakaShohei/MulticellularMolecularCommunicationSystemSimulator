@@ -9,7 +9,7 @@ Vec3 NaiveAlgorithm::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& 
     switch (target.getCellType()) {
         case CellType::WORKER:
         {
-            for (auto&& p : cells) {
+            for (auto p : cells) {
                 if (p == &target) continue;
         
                 UserCell& cell = *p;
@@ -20,7 +20,7 @@ Vec3 NaiveAlgorithm::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& 
             }
             vec = vec.normalize();
 
-            for (auto&& p : cells) {
+            for (auto p : cells) {
                 if (p == &target) continue;
         
                 UserCell& cell = *p;
@@ -33,7 +33,7 @@ Vec3 NaiveAlgorithm::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& 
         }
         case CellType::DEAD:
         {
-            for (auto&& p : cells) {
+            for (auto p : cells) {
                 if (p == &target) continue;
         
                 UserCell& cell = *p;
