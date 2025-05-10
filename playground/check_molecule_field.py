@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.animation as animation
-from glob import glob
+import glob
 
 ims = []
 

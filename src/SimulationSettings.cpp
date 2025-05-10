@@ -62,6 +62,7 @@ bool SimulationSettings::init_settings()
         else if (simulationTypeStr == "MG") SIMULATION_TYPE = SimulationType::MassGrowth;
         else if (simulationTypeStr == "MR") SIMULATION_TYPE = SimulationType::MassRotation;
         else if (simulationTypeStr == "SMD") SIMULATION_TYPE = SimulationType::SignalMoleculeDiffusion;
+        else if (simulationTypeStr == "US") SIMULATION_TYPE = SimulationType::UserSimulation;
         else [[unlikely]] {
             std::cerr << "Invalid simulation_type: " << postionUpdateMethodStr << std::endl;
             return false;
@@ -72,6 +73,7 @@ bool SimulationSettings::init_settings()
         if (algorithmsTypeStr == "NAIVE") ALGORITHM_TYPE = AlgorithmType::Naive;
         else if (algorithmsTypeStr == "CELL-LIST") ALGORITHM_TYPE = AlgorithmType::CellList;
         else if (algorithmsTypeStr == "BARNES-HUT") ALGORITHM_TYPE = AlgorithmType::BarnesHut;
+        else if (algorithmsTypeStr == "USER") ALGORITHM_TYPE = AlgorithmType::User;
         else [[unlikely]] {
             std::cerr << "Invalid algorithm_type: " << postionUpdateMethodStr << std::endl;
             return false;
@@ -116,6 +118,11 @@ bool SimulationSettings::init_settings()
             {
                 break;
             }
+
+            case AlgorithmType::User:
+            {
+                break;
+            }
         }
         
 
@@ -140,6 +147,7 @@ void SimulationSettings::printSettings()
         case AlgorithmType::Naive:     ::std::cout << "NAIVE";      break;
         case AlgorithmType::CellList:  ::std::cout << "CELL-LIST";  break;
         case AlgorithmType::BarnesHut: ::std::cout << "BARNES-HUT"; break;
+        case AlgorithmType::User:      ::std::cout << "USER";       break;
     }
     ::std::cout << ::std::endl;
 

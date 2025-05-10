@@ -32,8 +32,8 @@ $ ./Build-macOS.sh
 ```
 `Linux`の場合
 ```sh
-$ chmod +x Linux.sh
-$ ./Linux.sh
+$ chmod +x Build-Linux.sh
+$ ./Build-Linux.sh
 ```
 
 ### Step 2

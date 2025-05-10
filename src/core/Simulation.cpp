@@ -1,9 +1,11 @@
 #include "Simulation.hpp"
+#include "../UserCellAlgorithm.hpp"
 #include "ClusterFormationModel.hpp"
 #include "MassGrowthModel.hpp"
 #include "MassRotationModel.hpp"
 #include "NetworkFormationModel.hpp"
 #include "SignalMoleculeDiffusionModel.hpp"
+#include "../UserSimulationModel.hpp"
 #include <filesystem>
 
 // TODO: cellsをスマートポインタの配列にする。
@@ -33,6 +35,7 @@ Simulation::Simulation()
             break;
         }
         case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented algorithm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); break; // TODO: Barnes-Hutアルゴリズムを追加
+        case AlgorithmType::User: cellAlgorithm = new UserCellAlgorithm(); break;
     }
 
     switch (SimulationSettings::SIMULATION_TYPE) {
@@ -41,6 +44,7 @@ Simulation::Simulation()
         case SimulationType::MassRotation: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
         case SimulationType::NetworkFormation: pCellSimulationModel = new NetworkFormationModel(*cellAlgorithm); break;
         case SimulationType::SignalMoleculeDiffusion: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
+        case SimulationType::UserSimulation: pCellSimulationModel = new UserSimulationModel(*cellAlgorithm); break;
     }
 
     for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {

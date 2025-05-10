@@ -33,6 +33,7 @@ enum class AlgorithmType
     Naive,
     CellList,
     BarnesHut,
+    User,
 };
 
 enum class SimulationType
@@ -42,6 +43,7 @@ enum class SimulationType
     MassGrowth,                 // 細胞塊成長モデル
     MassRotation,               // 細胞塊回転モデル
     SignalMoleculeDiffusion,    // 信号分子拡散モデル
+    UserSimulation,
 };
 
 class SimulationSettings final
