@@ -67,8 +67,6 @@ class Simulation
     template <class TNotImplemented>
     static constexpr void deleteModel(CellSimulationModel*) noexcept {}
 
-    Field<std::vector<std::shared_ptr<Cell>>> cellsInGrid; //!< グリッド内にcellのポインタを入れる。
-
     void printHeader() const noexcept;
     void printCells(int32_t time) const;
     void printMolecules(int32_t time) const;
@@ -87,9 +85,7 @@ class Simulation
     void initCells();
     void initDirectories();
     
-    virtual void stepPreprocess() noexcept;
-    virtual void stepEndProcess() noexcept;
-    virtual Vec3 calcCellForce(UserCell& c) const noexcept;
+    Vec3 calcCellForce(UserCell& c) const noexcept;
     static Vec3 calcRemoteForce(UserCell&, UserCell&) noexcept;
     static Vec3 calcVolumeExclusion(UserCell&, UserCell&) noexcept;
     Vec3 calcForce(UserCell&) const noexcept;

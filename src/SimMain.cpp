@@ -9,7 +9,6 @@
  *
  */
 
-#include "UserSimulation.hpp"
 #include "core/Simulation.hpp"
 
 int main(void)
@@ -21,7 +20,7 @@ int main(void)
         return -1;
     }
 
-    UserSimulation sim;
+    Simulation sim;
 
     sim.exportConfig();
     sim.initCells();

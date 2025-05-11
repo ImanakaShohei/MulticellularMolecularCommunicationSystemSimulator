@@ -254,17 +254,6 @@ Vec3 Simulation::calcVolumeExclusion(UserCell& c1, UserCell& c2) noexcept
     return force;
 }
 
-void Simulation::stepPreprocess() noexcept
-{
-    for (auto&& cell : cells) {
-        cell->initForce();
-    }
-}
-
-void Simulation::stepEndProcess() noexcept
-{
-}
-
 /**
  * @brief 指定したCellにかかるすべての力を計算する。O(n^2)
  *
@@ -350,9 +339,7 @@ int32_t Simulation::run()
     for (int32_t step = 1; step < SimulationSettings::SIM_STEP; step++) {
         auto start = std::chrono::system_clock::now();
 
-        stepPreprocess();
         nextStep();
-        stepEndProcess();
 
         const bool willOut = (step % SimulationSettings::OUTPUT_INTERVAL_STEP) == 0;
         if (willOut) {
