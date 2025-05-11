@@ -153,12 +153,11 @@ void Simulation::printCells(int32_t time) const
     std::ofstream ofs(outputPath);
     std::cout.rdbuf(ofs.rdbuf()); // 標準出力の出力先を指定ファイルに変更
                                   // ./result/cells_<stepNum>
-
     printHeader();
-    for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
-        if (cells[i]->getCellType() == CellType::NONE)
-            continue;
-        cells[i]->printCell();
+    for (auto pCell : cells) {
+        if (pCell->getCellType() == CellType::NONE) continue;
+
+        pCell->printCell();
     }
 
     std::cout.rdbuf(consoleStream);
