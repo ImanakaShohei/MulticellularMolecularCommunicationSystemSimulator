@@ -13,10 +13,10 @@ void MassGrowthModel::initCells(::std::vector<UserCell*>& cells)
     std::mt19937 rand_gen{ (uint32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
 
     std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
-    std::uniform_real_distribution<double> rand_r(0, 1);
+    std::uniform_real_distribution<double> rand_r(0, maxRadius);
 
     for (int32_t i = 0; i != SimulationSettings::CELL_NUM; i++) {
-        double r = ::sqrt(rand_r(rand_gen)) * maxRadius;
+        double r = ::sqrt(rand_r(rand_gen));
         double theta = rand_theta(rand_gen);
         double x = r * std::cos(theta);
         double y = r * std::sin(theta);

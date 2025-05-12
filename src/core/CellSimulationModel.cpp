@@ -8,10 +8,11 @@ void CellSimulationModel::initCells(::std::vector<UserCell*>& cells)
     const double fieldRadiusY = SimulationSettings::FIELD_Y_LEN * 0.5;
 
     ::std::uniform_real_distribution<double> urd(0.0, 1.0);
+    ::std::uniform_real_distribution<double> urdPi(0.0, ::std::numbers::pi * 2.0);
 
     if (fieldRadiusX == fieldRadiusY) [[likely]] {
         for (int32_t i = 0; i != SimulationSettings::CELL_NUM; i++) {
-            double theta = urd(mt) * (::std::numbers::pi * 2.0);
+            double theta = urdPi(mt);
             double r = ::std::sqrt(urd(mt)) * fieldRadiusX;
             
             cells.push_back(new UserCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));
@@ -26,7 +27,7 @@ void CellSimulationModel::initCells(::std::vector<UserCell*>& cells)
     const double minRidius = fieldRadiusX < fieldRadiusY ? fieldRadiusX : fieldRadiusY;
 
     for (int32_t i = 0; i != SimulationSettings::CELL_NUM; i++) {
-        double theta = urd(mt) * (::std::numbers::pi * 2.0);
+        double theta = urdPi(mt);
         double r = ::std::sqrt(urd(mt)) * minRidius;
         
         cells.push_back(new UserCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));

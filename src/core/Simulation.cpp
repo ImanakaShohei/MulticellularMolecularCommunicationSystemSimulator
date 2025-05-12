@@ -53,7 +53,7 @@ Simulation::Simulation()
 }
 
 /**
- * @brief いまのところ何もしない。わけではない。
+ * @brief いまのところ何もしない。と思っていたのか？
  *
  */
 Simulation::~Simulation()
