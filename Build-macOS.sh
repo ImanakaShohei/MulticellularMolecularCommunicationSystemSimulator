@@ -10,8 +10,8 @@ fi
 echo "Creating build directory..."
 mkdir build
 
-# コンパイラにgccを指定
-cmake -S . -B build -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+# コンパイラにgccを指定する、と思っていたのか？
+# cmake -S . -B build -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
 
 # コピー
 cp ./resources/build.sh ./build/

@@ -19,11 +19,12 @@ Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
             if (v > 0.0) {
                 force -= diff.timesScalar(v * co / dist);
             }
+            else {
+                v = s_dEx - dist;
 
-            v = s_dEx - dist;
-
-            if (v > 0.0) {
-                force += diff.timesScalar(v * 3.0 / (s_dEx * dist));
+                if (v > 0.0) {
+                    force += diff.timesScalar(v * 3.0 / (s_dEx * dist));
+                }
             }
             
         }

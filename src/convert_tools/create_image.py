@@ -3,7 +3,6 @@ import numpy as np
 import glob
 import math
 import os
-from visualize_setting import Setting
 
 if not os.path.exists("./result"):
     print("Error: './result/' was not found.")

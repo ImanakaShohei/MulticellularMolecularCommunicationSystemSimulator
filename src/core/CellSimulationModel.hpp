@@ -12,15 +12,16 @@ class CellSimulationModel {
     protected:
 
     constexpr CellSimulationModel(CellAlgorithm& cellAlgorithm) noexcept : m_cellAlgorithm(cellAlgorithm) {}
-    CellSimulationModel(CellSimulationModel const&) = default;
-    CellSimulationModel(CellSimulationModel&&) = default;
 
     virtual ~CellSimulationModel() {}
 
-    CellSimulationModel& operator=(CellSimulationModel const&) = default;
-    CellSimulationModel& operator=(CellSimulationModel&&) = default;
-
     public:
+
+    CellSimulationModel(CellSimulationModel const&) = delete;
+    CellSimulationModel(CellSimulationModel&&) = delete;    
+
+    CellSimulationModel& operator=(CellSimulationModel const&) = delete;
+    CellSimulationModel& operator=(CellSimulationModel&&) = delete;
 
     virtual void initCells(::std::vector<UserCell*>& cells);
     

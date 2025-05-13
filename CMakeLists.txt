@@ -30,6 +30,8 @@ set(SOURCES
     src/core/MassRotationModel.cpp
     src/core/SignalMoleculeDiffusionModel.cpp
     src/core/Simulation.cpp
+    src/threading/AsyncAction.cpp
+    src/threading/ThreadPool.cpp
     src/utils/Vec3.cpp
 )
 
@@ -52,17 +54,6 @@ target_include_directories(SimMain
 # デフォルトでReleaseビルドにする
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Default build type" FORCE)
-endif()
-
-# OpenMPを検索
-# ChatGPTからコピペしたやつだよ
-find_package(OpenMP REQUIRED)
-
-# コンパイラにOpenMPオプションを追加
-# ChatGPTからコピペしたやつだよ
-if(OpenMP_CXX_FOUND)
-    target_compile_options(SimMain PRIVATE ${OpenMP_CXX_FLAGS})
-    target_link_libraries(SimMain PRIVATE ${OpenMP_CXX_LIBRARIES})
 endif()
 
 # ビルド後にconfig.yamlをコピー

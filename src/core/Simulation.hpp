@@ -22,12 +22,12 @@
 #include "BarnesHut.hpp"
 #include "ClusterModel.hpp"
 #include "CellSimulationModel.hpp"
+#include "threading/ThreadPool.hpp"
 #include <chrono>
 #include <fstream>
 #include <iomanip>
 #include <memory>
 #include <numbers>
-#include <omp.h>
 #include <queue>
 #include <sstream>
 #include <string>
@@ -43,6 +43,8 @@
 class Simulation
 {
   protected:
+    ThreadPool m_threadPool;
+
     CellAlgorithm* cellAlgorithm;                            //!< CellListのデータ構造を管理するクラス
     CellList* cellList;
     CellSimulationModel* pCellSimulationModel;

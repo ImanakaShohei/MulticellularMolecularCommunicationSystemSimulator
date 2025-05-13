@@ -19,7 +19,8 @@
  * {[-4, -3), [-3, -2), [-2, -1), [-1, 0), [0, 1), [1, 2), [2, 3), [3, 4)}
  */
 Simulation::Simulation()
-  : cellAlgorithm(nullptr)
+  : m_threadPool()
+  , cellAlgorithm(nullptr)
   , cellList(SimulationSettings::USE_CLUSTER_MODEL ? new CellList() : nullptr)
   , pCellSimulationModel(nullptr)
   , consoleStream(::std::cout.rdbuf())
@@ -62,6 +63,7 @@ Simulation::~Simulation()
         case AlgorithmType::Naive: deleteAlgorithm<NaiveAlgorithm>(cellAlgorithm); break;
         case AlgorithmType::CellList: /*本当に何もしない*/ break;
         case AlgorithmType::BarnesHut: deleteAlgorithm<BarnesHut>(cellAlgorithm); break;
+        case AlgorithmType::User: deleteAlgorithm<UserCellAlgorithm>(cellAlgorithm); break;
     }
 
     if (cellList != nullptr) delete cellList;
@@ -72,6 +74,7 @@ Simulation::~Simulation()
         case SimulationType::MassRotation: deleteModel<MassRotationModel>(pCellSimulationModel); break;
         case SimulationType::NetworkFormation: deleteModel<NetworkFormationModel>(pCellSimulationModel); break;
         case SimulationType::SignalMoleculeDiffusion: deleteModel<SignalMoleculeDiffusionModel>(pCellSimulationModel); break;
+        case SimulationType::UserSimulation: deleteModel<UserSimulationModel>(pCellSimulationModel); break;
     }
 
 
@@ -288,19 +291,23 @@ int32_t Simulation::nextStep() noexcept
     }
 
 // XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。が気にしない
-#pragma omp parallel for schedule(dynamic)
-    for (int32_t i = 0; i < (int32_t)cells.size(); i++) {
-        UserCell& cell = *cells[i];
-        switch (cell.getCellType()) {
-            case CellType::DEAD:
-            case CellType::NONE:
-                break;
+    m_threadPool.parallelFor(
+        0, 
+        cells.size(),
+        [this](size_t i) {
+            printf("%zu\n", i);
+            UserCell& cell = *cells[i];
+            switch (cell.getCellType()) {
+                case CellType::DEAD:
+                case CellType::NONE:
+                    break;
 
-            default:
-                cell.addForce(calcCellForce(cell));
-                break;
+                default:
+                    cell.addForce(calcCellForce(cell));
+                    break;
+            }
         }
-    }
+    ).getResult();
 
     for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
         moleculeSpaces[i]->calcConcentrationDiff();
@@ -327,7 +334,7 @@ int32_t Simulation::nextStep() noexcept
  */
 int32_t Simulation::run()
 {
-    std::cout << "Open MP max threads: " << omp_get_max_threads() << std::endl;
+    std::cout << "ThreadPool max threads: " << m_threadPool.threadCount() << std::endl;
 
     printCells(0);
     printMolecules(0);
@@ -361,6 +368,7 @@ int32_t Simulation::run()
         case AlgorithmType::Naive:     std::cout << "Naive";     break;
         case AlgorithmType::CellList:  std::cout << "CellList";  break;
         case AlgorithmType::BarnesHut: std::cout << "BarnesHut"; break;
+        case AlgorithmType::User:      std::cout << "User";      break;
     }
 
     if (SimulationSettings::USE_CLUSTER_MODEL) std::cout << "+Cluster";
