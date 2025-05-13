@@ -35,8 +35,13 @@ AsyncAction::AsyncAction(AsyncAction&& right) noexcept
     right._handle = nullptr;
 
     if (_isFinished) return;
-
+    
     _handle.promise().m__action = this;
+
+    if (_isFinished != right._isFinished) [[likely]] {
+        puts("ふぁ！？っく");
+        exit(1);
+    }
 }
 
 AsyncAction::AsyncAction(promise_type& promise)

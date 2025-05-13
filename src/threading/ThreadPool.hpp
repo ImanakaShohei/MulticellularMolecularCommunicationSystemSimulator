@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <functional>
 #include <coroutine>
+#include <atomic>
 #include "AsyncAction.hpp"
 
 class ThreadPool final {
@@ -39,6 +40,7 @@ class ThreadPool final {
     ::std::mutex m_mutex;
     ::std::condition_variable m_condition;
     bool m_isRunning;
+    ::std::atomic<uint32_t> m_currentTasks;
 
     s_task m_getTask();
 
@@ -87,8 +89,11 @@ class ThreadPool final {
     /// @param args パラメータ
     void appendTask(TaskEntryPoint entryPoint, void* args);
 
-    AsyncAction parallelFor(size_t begin, size_t end, ::std::function<void(size_t)>&& f);
-    AsyncAction parallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)>&& f);
+    [[nodiscard]]
+    uint32_t currentTasks() const noexcept { return m_currentTasks.load(); }
+
+    void parallelFor(size_t begin, size_t end, ::std::function<void(size_t)>&& f);
+    void parallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)>&& f);
 
     template <class FArgs, class Args>
     AsyncAction runAsync(void(*func)(FArgs), Args args);
@@ -102,6 +107,8 @@ class ThreadPool final {
     /// @brief ワーカースレッド数
     [[nodiscard]]
     constexpr size_t threadCount() const noexcept { return m_workers.size(); }
+
+    void waitAll() noexcept;
     
 };
 

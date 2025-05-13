@@ -10,6 +10,7 @@
  */
 
 #include "core/Simulation.hpp"
+#include <atomic>
 
 int main(void)
 {

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <coroutine>
+#include <mutex>
 
 class AsyncAction final {
     public:

@@ -290,7 +290,7 @@ int32_t Simulation::nextStep() noexcept
         cellList->setCells(cells);
     }
 
-// XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。が気にしない
+    // XXX: スレッド数を増やしてもメモリアクセスがボトルネックになってしまう。が気にしない
     m_threadPool.parallelFor(
         0, 
         cells.size(),
@@ -306,7 +306,7 @@ int32_t Simulation::nextStep() noexcept
                     break;
             }
         }
-    ).getResult();
+    );
 
     for (int32_t i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
         moleculeSpaces[i]->calcConcentrationDiff();
