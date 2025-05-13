@@ -22,7 +22,6 @@ test-tools
 README_tmp.html
 tutorial/out/*.log
 package
-src/convert_tools/__pycache__
 src/debug
 src/thirdparty/yaml-cpp
 *Test

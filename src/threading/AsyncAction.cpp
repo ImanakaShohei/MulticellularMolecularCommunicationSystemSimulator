@@ -39,7 +39,9 @@ AsyncAction::AsyncAction(AsyncAction&& right) noexcept
     _handle.promise().m__action = this;
 }
 
-AsyncAction::AsyncAction(promise_type& promise) : _handle(::std::coroutine_handle<promise_type>::from_promise(promise))
+AsyncAction::AsyncAction(promise_type& promise)
+    : _handle(::std::coroutine_handle<promise_type>::from_promise(promise))
+    , _isFinished(false)
 {
     promise.m__action = this;
 }

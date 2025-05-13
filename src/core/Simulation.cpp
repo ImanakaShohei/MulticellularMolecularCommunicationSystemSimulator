@@ -295,7 +295,6 @@ int32_t Simulation::nextStep() noexcept
         0, 
         cells.size(),
         [this](size_t i) {
-            printf("%zu\n", i);
             UserCell& cell = *cells[i];
             switch (cell.getCellType()) {
                 case CellType::DEAD:

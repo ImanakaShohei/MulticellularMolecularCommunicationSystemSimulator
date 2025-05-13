@@ -52,7 +52,7 @@ class ThreadPool final {
     public:
 
     explicit ThreadPool();
-    explicit ThreadPool(size_t threadCount);
+    explicit ThreadPool(uint32_t threadCount);
 
     ThreadPool(ThreadPool const&) = delete;
     ThreadPool(ThreadPool&&) = delete;

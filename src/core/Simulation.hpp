@@ -13,7 +13,6 @@
 
 #include "../UserCell.hpp"
 #include "Cell.hpp"
-// #include "UserRule.hpp"
 #include "../SimulationSettings.hpp"
 #include "../UserMoleculeSpace.hpp"
 #include "../utils/Util.hpp"
@@ -22,7 +21,7 @@
 #include "BarnesHut.hpp"
 #include "ClusterModel.hpp"
 #include "CellSimulationModel.hpp"
-#include "threading/ThreadPool.hpp"
+#include "../threading/ThreadPool.hpp"
 #include <chrono>
 #include <fstream>
 #include <iomanip>

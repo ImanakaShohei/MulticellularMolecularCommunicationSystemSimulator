@@ -4,7 +4,7 @@ ThreadPool::ThreadPool() : ThreadPool(::std::thread::hardware_concurrency())
 {
 }
 
-ThreadPool::ThreadPool(size_t threadCount)
+ThreadPool::ThreadPool(uint32_t threadCount)
     : m_workers()
     , m_tasks()
     , m_mutex()
@@ -59,7 +59,7 @@ void ThreadPool::appendTask(TaskEntryPoint entryPoint, void* args)
 
 AsyncAction ThreadPool::parallelFor(size_t begin, size_t end, ::std::function<void(size_t)>&& f)
 {
-    return parallelFor(m_workers.size(), begin, end, ::std::move(f));
+    return parallelFor((uint32_t)m_workers.size(), begin, end, ::std::move(f));
 }
 
 AsyncAction ThreadPool::parallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)>&& f)
@@ -135,7 +135,7 @@ ThreadPool::s_task ThreadPool::m_getTask()
         m_condition.wait(lock);
     }
 
-    if (!m_isRunning || m_tasks.size() == 0) return s_task{};
+    if (!m_isRunning) return s_task{};
 
     s_task result = m_tasks.front();
 
