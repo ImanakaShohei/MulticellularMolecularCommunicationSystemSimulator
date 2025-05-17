@@ -9,10 +9,95 @@
  *
  */
 
+#include "core/base.hpp"
+#include "SimMain.hpp"
 #include "core/Simulation.hpp"
-#include <atomic>
+#include <string_view>
 
-int main(void)
+int SimMain::Run(int argc, char** args)
+{
+    using namespace std;
+    
+    if (argc != 2) return RunCommandLineError();
+    
+    string_view view = args[1];
+
+    if (view == "all"sv)     return RunAll();
+    if (view == "convert"sv) return RunConvert();
+    if (view == "help"sv)    return RunHelp();
+    if (view == "open"sv)    return RunOpenMovie();
+    if (view == "run"sv)     return RunSimulation();
+
+    fprintf(stderr, "Unknown option: %s\n", args[1]);
+    fputs("Run './SimMain help' for all supported options.\n", stderr);
+
+    return 1;
+}
+
+int SimMain::RunAll()
+{
+    int result;
+
+    result = RunSimulation();
+
+    if (result != 0) return result;
+
+    result = RunConvert();
+
+    if (result != 0) return result;
+
+    return RunOpenMovie();
+}
+
+int SimMain::RunCommandLineError()
+{
+    fputs("Invalid number of command-line arguments: exactly 2 expected.\n", stderr);
+    fputs("Run './SimMain help' for all supported options.\n", stderr);
+
+    return 1;
+}
+
+int SimMain::RunConvert()
+{
+    int result = ::system("python3 convert_tools/create_image.py");
+
+    if (result != 0) return result;
+
+    return ::system("python3 convert_tools/img2video.py");
+}
+
+int SimMain::RunHelp()
+{
+    puts("Usage");
+    putchar('\n');
+
+    puts("  ./SimMain [option]");
+    putchar('\n');
+
+    puts("Options");
+    puts("  convert = Convert from simulation's result to mp4.");
+    puts("  help    = Print help.");
+    puts("  open    = Open out.mp4.");
+    puts("  run     = Run simulation.");
+
+    return 0;
+}
+
+int SimMain::RunOpenMovie()
+{
+#if SIM_ENV_WINDOWS
+    return ::system("start \"\" \".\\video\\out.mp4\"");
+#elif SIM_ENV_APPLE
+    return ::system("open ./video/out.mp4");
+#elif SIM_ENV_UNIX
+    return ::system("xdg-open ./video/out.mp4");
+#else
+    puts("This option \"open\" is not supported on this platform.");
+    return 1;
+#endif
+}
+
+int SimMain::RunSimulation()
 {
     bool res = SimulationSettings::init_settings();
 

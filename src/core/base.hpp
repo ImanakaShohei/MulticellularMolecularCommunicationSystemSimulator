@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #if __has_include(<Windows.h>)
-    #define SIM_ENV_WINDOWS
+    #define SIM_ENV_WINDOWS 1
 
     #if __cplusplus == 199711L
         #define SIM_COMPILER_MSVC 1

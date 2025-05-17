@@ -19,7 +19,7 @@ Pythonの必要ライブラリは以下のコマンドで一括インストー�
 
 # 使い方
 ### Step 1
-シミュレータを`make`する。  
+シミュレータを`build`する。  
   
 `Windows`の場合
 ```sh
@@ -39,31 +39,31 @@ $ ./Build-Linux.sh
 ### Step 2
 シミュレータを実行する。  
 ```sh
-$ make run
+./SimMain run
 ```
 
 ### Step 3
 実行結果を動画に変換する。  
 ```sh
-$ make convert
+./SimMain convert
 ```
 
 ### Step 4
 変換した動画を確認する。  
 ```sh
-$ make open
+./SimMain open
 ```
   
   
-ただし、Step 1 ~ Step 4は`make all`でまとめて実行することもできます。
-また、各種コマンドは`make help`から確認することができます。
+ただし、Step 2 ~ Step 4は`./SimMain all`でまとめて実行することもできます。
+また、各種コマンドは`./SimMain help`から確認することができます。
 
 ## シミュレーションモデルの作成方法
-`src/UserSimulation.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
+`src/UserSimulationModel.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
 シミュレーションのパラメータは`src/config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
 <!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
 あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
-サンプルの力学モデルは`UserSimulation::calcCellForce()`を参考にすると良いです。
+サンプルの力学モデルは`NaiveAlgorithm::calcCellForce::calcCellForce()`を参考にすると良いです。
 
 # 特長
 - CellListなどのアルゴリズムを利用することによりシミュレーションを高速に実行することが可能となっています。  

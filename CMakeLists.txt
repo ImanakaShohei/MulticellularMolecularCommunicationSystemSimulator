@@ -13,6 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(SOURCES
     src/SimMain.cpp
     src/SimulationSettings.cpp
+    src/main.cpp
     src/UserCell.cpp
     src/UserCellAlgorithm.cpp
     src/UserMoleculeSpace.cpp
