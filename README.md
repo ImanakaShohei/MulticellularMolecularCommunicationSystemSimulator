@@ -63,7 +63,7 @@ $ ./Build-Linux.sh
 シミュレーションのパラメータは`src/config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
 <!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
 あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
-サンプルの力学モデルは`NaiveAlgorithm::calcCellForce::calcCellForce()`を参考にすると良いです。
+サンプルの力学モデルは`NaiveAlgorithm::calcCellForce()`を参考にすると良いです。
 
 # 特長
 - CellListなどのアルゴリズムを利用することによりシミュレーションを高速に実行することが可能となっています。  

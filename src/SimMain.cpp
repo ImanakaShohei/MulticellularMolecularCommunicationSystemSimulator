@@ -13,6 +13,7 @@
 #include "SimMain.hpp"
 #include "core/Simulation.hpp"
 #include <string_view>
+#include <filesystem>
 
 int SimMain::Run(int argc, char** args)
 {
@@ -23,12 +24,13 @@ int SimMain::Run(int argc, char** args)
     string_view view = args[1];
 
     if (view == "all"sv)     return RunAll();
+    if (view == "clean"sv)   return RunClean();
     if (view == "convert"sv) return RunConvert();
     if (view == "help"sv)    return RunHelp();
     if (view == "open"sv)    return RunOpenMovie();
     if (view == "run"sv)     return RunSimulation();
 
-    fprintf(stderr, "Unknown option: %s\n", args[1]);
+    fprintf(stderr, "Unknown option: '%s'\n", args[1]);
     fputs("Run './SimMain help' for all supported options.\n", stderr);
 
     return 1;
@@ -49,6 +51,36 @@ int SimMain::RunAll()
     return RunOpenMovie();
 }
 
+int SimMain::RunClean()
+{
+    auto deletePath = [] (const char* path) {
+        ::std::filesystem::path p = path;
+
+        if (!::std::filesystem::exists(p)) return;
+
+        if (::std::filesystem::is_directory(p)) {
+            ::std::filesystem::remove_all(p);
+        }
+        else {
+            ::std::filesystem::remove(p);
+        }
+    };
+
+    try {
+        deletePath("./result/");
+        deletePath("./molecule_result/");
+        deletePath("./image/");
+        deletePath("./video/");
+        deletePath("./config.txt");
+    }
+    catch (::std::exception& e) {
+        ::std::cerr << "Filesystem error: " << e.what() << '\n';
+        return 1;
+    }
+
+    return 0;
+}
+
 int SimMain::RunCommandLineError()
 {
     fputs("Invalid number of command-line arguments: exactly 2 expected.\n", stderr);
@@ -59,10 +91,12 @@ int SimMain::RunCommandLineError()
 
 int SimMain::RunConvert()
 {
+    puts("Converting result...");
     int result = ::system("python3 convert_tools/create_image.py");
 
     if (result != 0) return result;
 
+    puts("Creating video...");
     return ::system("python3 convert_tools/img2video.py");
 }
 
@@ -75,6 +109,7 @@ int SimMain::RunHelp()
     putchar('\n');
 
     puts("Options");
+    puts("  clean   = Remove result data.");
     puts("  convert = Convert from simulation's result to mp4.");
     puts("  help    = Print help.");
     puts("  open    = Open out.mp4.");

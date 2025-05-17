@@ -4,6 +4,7 @@ class SimMain final {
     private:
 
     static int RunAll();
+    static int RunClean();
     static int RunCommandLineError();
     static int RunConvert();
     static int RunHelp();
