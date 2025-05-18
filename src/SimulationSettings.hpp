@@ -88,4 +88,10 @@ class SimulationSettings final
 
     static double DELTA_TIME;          //!< 時間スケール(1が通常時)
     static double MOLECULE_DELTA_TIME; //!< 分子の時間スケール(だいたいDELTA_TIMEより小さい)
+
+    // ネットワーク形成モデル
+    static double NF_MAX_ATTRACTION_DISTANCE; //引力が届く最大距離
+    static double NF_MIN_ATTRACTION_DISTANCE; //引力が働く最小距離
+    static double NF_MAX_REPULSION_DISTANCE;  //斥力が働く最大距離
+    static double NF_COEFFICIENT;             //力に掛ける係数
 };

@@ -15,6 +15,18 @@ simulation:
     algorithm_type: CELL-LIST # NAIVE, CELL-LIST, BARNES-HUT, USER から選択
     use_cluster_model: false # シミュレーションでクラスタモデルを使うかどうか
 
+    # ネットワーク形成モデル固有のパラメータ
+    network_formation_model:
+        max_attraction_distance: 100 # 引力が届く最大距離
+        min_attraction_distance: 40 # 引力が働く最小距離
+        max_repulsion_distance:  20 # 斥力が働く最大距離
+        coefficient:             10 # 力に掛ける係数
+
+    # CellList固有のパラメータ
+    cell-list:
+        grid_size_mag: 32 # cell listにおけるグリッドの分割倍率。最小は1、値は2^nである必要がある。
+        search_radius: 64 # この半径内(positionの差)にあるcellを力の計算対象とする。
+
 molecule:
     default_molecule_nums: # 各分子の初期個数(リストで表現する)
         - 3000
@@ -52,8 +64,3 @@ molecule:
         yz2: NEUMANN
         zx1: NEUMANN
         zx2: NEUMANN
-
-# CellListを使わない場合は無視される
-cell_list:
-    grid_size_mag: 32 # cell listにおけるグリッドの分割倍率。最小は1、値は2^nである必要がある。
-    search_radius: 64 # この半径内(positionの差)にあるcellを力の計算対象とする。

@@ -2,6 +2,8 @@
 
 Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpace)
 {
+    static const double co = SimulationSettings::NF_COEFFICIENT / (SimulationSettings::NF_MAX_ATTRACTION_DISTANCE - SimulationSettings::NF_MIN_ATTRACTION_DISTANCE);
+
     Vec3 force = Vec3::zero();
     for (auto pCell : cells) {
         if (&c == pCell) continue;
@@ -12,18 +14,16 @@ Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
             const Vec3 diff = c.getPosition() - cell.getPosition();
             const double dist = diff.length();
 
-            constexpr double co = 3.0 / (s_dMax - s_dMin);
-
-            double v = dist - s_dMin;
+            double v = dist - SimulationSettings::NF_MIN_ATTRACTION_DISTANCE;
 
             if (v > 0.0) {
                 force -= diff.timesScalar(v * co / dist);
             }
             else {
-                v = s_dEx - dist;
+                v = SimulationSettings::NF_MAX_REPULSION_DISTANCE - dist;
 
                 if (v > 0.0) {
-                    force += diff.timesScalar(v * 3.0 / (s_dEx * dist));
+                    force += diff.timesScalar(v * SimulationSettings::NF_COEFFICIENT / (SimulationSettings::NF_MAX_REPULSION_DISTANCE * dist));
                 }
             }
             
@@ -52,7 +52,7 @@ void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::v
             const Vec3 diff = cell.getPosition() - cell1.getPosition();
             const double dist = diff.length();
 
-            if (dist < s_dMax) {
+            if (dist < SimulationSettings::NF_MAX_ATTRACTION_DISTANCE) {
                 cell.adhere(cell1);
                 cell1.adhere(cell);
             }

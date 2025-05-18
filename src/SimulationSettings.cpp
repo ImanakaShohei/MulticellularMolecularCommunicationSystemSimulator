@@ -15,114 +15,167 @@ bool SimulationSettings::init_settings()
     try {
         YAML::Node config = YAML::LoadFile(path);
 
-        auto&& cellNode = config["cell"];
+        {
+            auto cellNode = config["cell"];
 
-        CELL_SEED = cellNode["cell_seed"].as<int32_t>();
-        CELL_NUM  = cellNode["cell_num"].as<int32_t>();
-        assert(CELL_NUM >= 0);
+            CELL_SEED = cellNode["cell_seed"].as<int32_t>();
+            CELL_NUM  = cellNode["cell_num"].as<int32_t>();
+            assert(CELL_NUM >= 0);
 
-        std::string postionUpdateMethodStr = cellNode["position_update_method"].as<std::string>();
-        if (postionUpdateMethodStr == "AB4")
-            POSITION_UPDATE_METHOD = PositionUpdateMethod::AB4;
-        else if (postionUpdateMethodStr == "AB3")
-            POSITION_UPDATE_METHOD = PositionUpdateMethod::AB3;
-        else if (postionUpdateMethodStr == "AB2")
-            POSITION_UPDATE_METHOD = PositionUpdateMethod::AB2;
-        else if (postionUpdateMethodStr == "EULER")
-            POSITION_UPDATE_METHOD = PositionUpdateMethod::EULER;
-        else if (postionUpdateMethodStr == "ORIGINAL")
-            POSITION_UPDATE_METHOD = PositionUpdateMethod::ORIGINAL;
-        else {
-            std::cerr << "Invalid position_update_method: " << postionUpdateMethodStr << std::endl;
-            return false;
-        }
-
-        auto&& simulationNode = config["simulation"];
-
-        SIM_STEP = simulationNode["sim_step"].as<int32_t>();
-        assert(SIM_STEP >= 0);
-        OUTPUT_INTERVAL_STEP = simulationNode["output_interval"].as<int32_t>();
-        assert(OUTPUT_INTERVAL_STEP > 0);
-        FIELD_X_LEN = simulationNode["field_x_len"].as<int32_t>();
-        assert(FIELD_X_LEN >= 0);
-        FIELD_Y_LEN = simulationNode["field_y_len"].as<int32_t>();
-        assert(FIELD_Y_LEN >= 0);
-        FIELD_Z_LEN = simulationNode["field_z_len"].as<int32_t>();
-        assert(FIELD_Z_LEN >= 0);
-        DELTA_TIME = simulationNode["delta_time"].as<double>();
-        assert(DELTA_TIME > 0.0);
-
-        LAMBDA = simulationNode["lambda"].as<double>();
-        REVERSE_LAMBDA = 1.0 / LAMBDA;
-
-        auto simulationTypeStr = simulationNode["simulation_type"].as<::std::string>();
-
-        if (simulationTypeStr == "CF") SIMULATION_TYPE = SimulationType::ClusterFormation;
-        else if (simulationTypeStr == "NF") SIMULATION_TYPE = SimulationType::NetworkFormation;
-        else if (simulationTypeStr == "MG") SIMULATION_TYPE = SimulationType::MassGrowth;
-        else if (simulationTypeStr == "MR") SIMULATION_TYPE = SimulationType::MassRotation;
-        else if (simulationTypeStr == "SMD") SIMULATION_TYPE = SimulationType::SignalMoleculeDiffusion;
-        else if (simulationTypeStr == "US") SIMULATION_TYPE = SimulationType::UserSimulation;
-        else [[unlikely]] {
-            std::cerr << "Invalid simulation_type: " << postionUpdateMethodStr << std::endl;
-            return false;
-        }
-
-        auto algorithmsTypeStr = simulationNode["algorithm_type"].as<::std::string>();
-
-        if (algorithmsTypeStr == "NAIVE") ALGORITHM_TYPE = AlgorithmType::Naive;
-        else if (algorithmsTypeStr == "CELL-LIST") ALGORITHM_TYPE = AlgorithmType::CellList;
-        else if (algorithmsTypeStr == "BARNES-HUT") ALGORITHM_TYPE = AlgorithmType::BarnesHut;
-        else if (algorithmsTypeStr == "USER") ALGORITHM_TYPE = AlgorithmType::User;
-        else [[unlikely]] {
-            std::cerr << "Invalid algorithm_type: " << postionUpdateMethodStr << std::endl;
-            return false;
-        }
-
-        USE_CLUSTER_MODEL = simulationNode["use_cluster_model"].as<bool>();
-
-        auto&& moleculeNode = config["molecule"];
-
-        DEFAULT_MOLECULE_NUMS = moleculeNode["default_molecule_nums"].as<std::vector<int64_t>>();
-        assert(DEFAULT_MOLECULE_NUMS.size() > 0);
-        MOLECULE_TYPE_NUM    = (int32_t)DEFAULT_MOLECULE_NUMS.size();
-        MOLECULE_FIELD_X_LEN = moleculeNode["field_x_len"].as<int32_t>();
-        assert(MOLECULE_FIELD_X_LEN >= 1);
-        MOLECULE_FIELD_Y_LEN = moleculeNode["field_y_len"].as<int32_t>();
-        assert(MOLECULE_FIELD_Y_LEN >= 1);
-        MOLECULE_FIELD_Z_LEN = moleculeNode["field_z_len"].as<int32_t>();
-        assert(MOLECULE_FIELD_Z_LEN >= 1);
-        MOLECULE_DELTA_TIME = moleculeNode["delta_time"].as<double>();
-        assert(MOLECULE_DELTA_TIME > 0.0);
-
-        switch (ALGORITHM_TYPE) {
-            case AlgorithmType::Naive:
-            {
-                break;
+            std::string postionUpdateMethodStr = cellNode["position_update_method"].as<std::string>();
+            if (postionUpdateMethodStr == "AB4")
+                POSITION_UPDATE_METHOD = PositionUpdateMethod::AB4;
+            else if (postionUpdateMethodStr == "AB3")
+                POSITION_UPDATE_METHOD = PositionUpdateMethod::AB3;
+            else if (postionUpdateMethodStr == "AB2")
+                POSITION_UPDATE_METHOD = PositionUpdateMethod::AB2;
+            else if (postionUpdateMethodStr == "EULER")
+                POSITION_UPDATE_METHOD = PositionUpdateMethod::EULER;
+            else if (postionUpdateMethodStr == "ORIGINAL")
+                POSITION_UPDATE_METHOD = PositionUpdateMethod::ORIGINAL;
+            else {
+                std::cerr << "Invalid position_update_method: " << postionUpdateMethodStr << std::endl;
+                return false;
             }
-            case AlgorithmType::CellList:
-            {
-                auto&& cellListNode = config["cell_list"];
-                CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
-                int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
-                while (tmp > 1) {
-                    assert(tmp % 2 == 0);
-                    tmp >>= 1;
-                }
-                CELL_LIST_SEARCH_RADIUS = cellListNode["search_radius"].as<int32_t>();
-                assert(CELL_LIST_SEARCH_RADIUS >= 0);
-                break;
+        }
+        
+        {
+            auto simulationNode = config["simulation"];
+
+            SIM_STEP = simulationNode["sim_step"].as<int32_t>();
+            assert(SIM_STEP >= 0);
+            OUTPUT_INTERVAL_STEP = simulationNode["output_interval"].as<int32_t>();
+            assert(OUTPUT_INTERVAL_STEP > 0);
+            FIELD_X_LEN = simulationNode["field_x_len"].as<int32_t>();
+            assert(FIELD_X_LEN >= 0);
+            FIELD_Y_LEN = simulationNode["field_y_len"].as<int32_t>();
+            assert(FIELD_Y_LEN >= 0);
+            FIELD_Z_LEN = simulationNode["field_z_len"].as<int32_t>();
+            assert(FIELD_Z_LEN >= 0);
+            DELTA_TIME = simulationNode["delta_time"].as<double>();
+            assert(DELTA_TIME > 0.0);
+
+            LAMBDA = simulationNode["lambda"].as<double>();
+            REVERSE_LAMBDA = 1.0 / LAMBDA;
+
+            auto simulationTypeStr = simulationNode["simulation_type"].as<::std::string>();
+
+            if (simulationTypeStr == "CF") SIMULATION_TYPE = SimulationType::ClusterFormation;
+            else if (simulationTypeStr == "NF") SIMULATION_TYPE = SimulationType::NetworkFormation;
+            else if (simulationTypeStr == "MG") SIMULATION_TYPE = SimulationType::MassGrowth;
+            else if (simulationTypeStr == "MR") SIMULATION_TYPE = SimulationType::MassRotation;
+            else if (simulationTypeStr == "SMD") SIMULATION_TYPE = SimulationType::SignalMoleculeDiffusion;
+            else if (simulationTypeStr == "US") SIMULATION_TYPE = SimulationType::UserSimulation;
+            else [[unlikely]] {
+                std::cerr << "Invalid simulation_type: " << simulationTypeStr << std::endl;
+                return false;
             }
+
+            auto algorithmsTypeStr = simulationNode["algorithm_type"].as<::std::string>();
+
+            if (algorithmsTypeStr == "NAIVE") ALGORITHM_TYPE = AlgorithmType::Naive;
+            else if (algorithmsTypeStr == "CELL-LIST") ALGORITHM_TYPE = AlgorithmType::CellList;
+            else if (algorithmsTypeStr == "BARNES-HUT") ALGORITHM_TYPE = AlgorithmType::BarnesHut;
+            else if (algorithmsTypeStr == "USER") ALGORITHM_TYPE = AlgorithmType::User;
+            else [[unlikely]] {
+                std::cerr << "Invalid algorithm_type: " << algorithmsTypeStr << std::endl;
+                return false;
+            }
+
+            USE_CLUSTER_MODEL = simulationNode["use_cluster_model"].as<bool>();
             
-            case AlgorithmType::BarnesHut:
-            {
-                break;
+            switch (SIMULATION_TYPE) {
+                case SimulationType::ClusterFormation:
+                {
+                    break;
+                }
+                case SimulationType::NetworkFormation:
+                {
+                    auto nfNode = simulationNode["network_formation_model"];
+
+                    NF_MAX_ATTRACTION_DISTANCE = nfNode["max_attraction_distance"].as<double>();
+                    NF_MIN_ATTRACTION_DISTANCE = nfNode["min_attraction_distance"].as<double>();
+                    NF_MAX_REPULSION_DISTANCE  = nfNode["max_repulsion_distance"].as<double>();
+                    NF_COEFFICIENT             = nfNode["coefficient"].as<double>();
+
+                    if (NF_MIN_ATTRACTION_DISTANCE > NF_MAX_ATTRACTION_DISTANCE) [[unlikely]] {
+                        ::std::cerr << "Invalid network_formation_model parameter." << ::std::endl;
+                        return false;
+                    }
+
+                    if (NF_MAX_REPULSION_DISTANCE > NF_MIN_ATTRACTION_DISTANCE) [[unlikely]] {
+                        ::std::cerr << "Invalid network_formation_model parameter." << ::std::endl;
+                        return false;
+                    }
+
+                    if (NF_COEFFICIENT <= 0.0) [[unlikely]] {
+                        ::std::cerr << "Invalid network_formation_model parameter." << ::std::endl;
+                        return false;
+                    }
+                    break;
+                }
+                case SimulationType::MassGrowth:
+                {
+                    break;
+                }
+                case SimulationType::MassRotation:
+                {
+                    break;
+                }
+                case SimulationType::SignalMoleculeDiffusion:
+                {
+                    break;
+                }
+                case SimulationType::UserSimulation:
+                {
+                    break;
+                }
+                
             }
 
-            case AlgorithmType::User:
-            {
-                break;
+            switch (ALGORITHM_TYPE) {
+                case AlgorithmType::Naive:
+                {
+                    break;
+                }
+                case AlgorithmType::CellList:
+                {
+                    auto cellListNode = simulationNode["cell-list"];
+                    CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
+                    int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
+                    while (tmp > 1) {
+                        assert(tmp % 2 == 0);
+                        tmp >>= 1;
+                    }
+                    CELL_LIST_SEARCH_RADIUS = cellListNode["search_radius"].as<int32_t>();
+                    assert(CELL_LIST_SEARCH_RADIUS >= 0);
+                    break;
+                }
+                case AlgorithmType::BarnesHut:
+                {
+                    break;
+                }
+                case AlgorithmType::User:
+                {
+                    break;
+                }
             }
+        }
+        
+        {
+            auto moleculeNode = config["molecule"];
+
+            DEFAULT_MOLECULE_NUMS = moleculeNode["default_molecule_nums"].as<std::vector<int64_t>>();
+            assert(DEFAULT_MOLECULE_NUMS.size() > 0);
+            MOLECULE_TYPE_NUM    = (int32_t)DEFAULT_MOLECULE_NUMS.size();
+            MOLECULE_FIELD_X_LEN = moleculeNode["field_x_len"].as<int32_t>();
+            assert(MOLECULE_FIELD_X_LEN >= 1);
+            MOLECULE_FIELD_Y_LEN = moleculeNode["field_y_len"].as<int32_t>();
+            assert(MOLECULE_FIELD_Y_LEN >= 1);
+            MOLECULE_FIELD_Z_LEN = moleculeNode["field_z_len"].as<int32_t>();
+            assert(MOLECULE_FIELD_Z_LEN >= 1);
+            MOLECULE_DELTA_TIME = moleculeNode["delta_time"].as<double>();
+            assert(MOLECULE_DELTA_TIME > 0.0);
         }
         
 
@@ -199,3 +252,7 @@ constinit int32_t SimulationSettings::MOLECULE_FIELD_Y_LEN                = 0;
 constinit int32_t SimulationSettings::MOLECULE_FIELD_Z_LEN                = 0;
 constinit double SimulationSettings::DELTA_TIME                           = 0.0;
 constinit double SimulationSettings::MOLECULE_DELTA_TIME                  = 0.0;
+constinit double SimulationSettings::NF_MAX_ATTRACTION_DISTANCE           = 0.0;
+constinit double SimulationSettings::NF_MIN_ATTRACTION_DISTANCE           = 0.0;
+constinit double SimulationSettings::NF_MAX_REPULSION_DISTANCE            = 0.0;
+constinit double SimulationSettings::NF_COEFFICIENT                       = 0.0;
