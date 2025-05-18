@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "../core/base.hpp"
+
 #include <thread>
 #include <vector>
 #include <queue>
@@ -9,15 +11,15 @@
 #include <atomic>
 #include "AsyncAction.hpp"
 
+#if SIM_ENV_WINDOWS
+    #include <Windows.h>
+#endif
+
 class ThreadPool final {
     public:
     using TaskEntryPoint = void(*)(void*);
 
     private:
-    struct s_task {
-        TaskEntryPoint m_func;
-        void* args;
-    };
 
     template <class FArgs, class Args>
     struct s_actionArgs0 {
@@ -35,6 +37,27 @@ class ThreadPool final {
         ::std::coroutine_handle<> h;
     };
 
+    struct s_task {
+        TaskEntryPoint m_func;
+        void* args;
+    };
+
+#if SIM_ENV_WINDOWS
+    ::std::queue<s_task> m_tasks;
+    ::std::atomic<uint32_t> m_currentTasks;
+    uint32_t m_threadCount;
+    ::PTP_POOL m_pool;
+    ::TP_CALLBACK_ENVIRON m_env;
+
+    template <class FArgs, class Args>
+    static void s_callback0(::PTP_CALLBACK_INSTANCE instance, ::PVOID context, ::PTP_WORK work);
+
+    template <class FArgs, class Args>
+    static void s_callback1(::PTP_CALLBACK_INSTANCE instance, ::PVOID context, ::PTP_WORK work);
+
+    static void s_callback2(::PTP_CALLBACK_INSTANCE instance, ::PVOID context, ::PTP_WORK work);
+#else
+
     ::std::vector<::std::thread> m_workers;
     ::std::queue<s_task> m_tasks;
     ::std::mutex m_mutex;
@@ -51,6 +74,7 @@ class ThreadPool final {
     static void s_callback1(void* args);
 
     static void s_workerEntryPoint(ThreadPool* pThreadPool);
+#endif
     public:
 
     explicit ThreadPool();
@@ -106,8 +130,9 @@ class ThreadPool final {
 
     /// @brief ワーカースレッド数
     [[nodiscard]]
-    constexpr size_t threadCount() const noexcept { return m_workers.size(); }
+    constexpr uint32_t threadCount() const noexcept;
 
+    /// @brief すべてのタスクが終了するまで待機
     void waitAll() noexcept;
     
 };
@@ -120,8 +145,14 @@ AsyncAction ThreadPool::runAsync(void(*func)(FArgs), Args args)
         void await_suspend(::std::coroutine_handle<> h) {
 
             m_s.h = h;
+#if SIM_ENV_WINDOWS
+            ::PTP_WORK work = ::CreateThreadpoolWork(s_callback0<FArgs, Args>, &m_s, m_s.pThreadPool->m_env);
+            ::SubmitThreadpoolWork(work);
 
+            ::CloseThreadpoolWork(work);
+#else
             m_s.pThreadPool->appendTask(ThreadPool::s_callback0<FArgs, Args>, &m_s);
+#endif
         }
         constexpr void await_resume() noexcept {}
         
@@ -137,10 +168,16 @@ AsyncAction ThreadPool::runAsync(::std::function<void(FArgs)> const& func, Args 
     struct tmpAwaiter {
         constexpr bool await_ready() noexcept { return false; } // すぐには完了しない
         void await_suspend(::std::coroutine_handle<> h) {
-
             m_s.h = h;
 
+#if SIM_ENV_WINDOWS
+            ::PTP_WORK work = ::CreateThreadpoolWork(s_callback1<FArgs, Args>, &m_s, m_s.pThreadPool->m_env);
+            ::SubmitThreadpoolWork(work);
+
+            ::CloseThreadpoolWork(work);
+#else
             m_s.pThreadPool->appendTask(ThreadPool::s_callback1<FArgs, Args>, &m_s);
+#endif
         }
         constexpr void await_resume() noexcept {}
         
@@ -158,6 +195,38 @@ AsyncAction ThreadPool::runAsync(::std::function<void(FArgs)>&& func, Args args)
     co_await runAsync(f, args);
 }
 
+constexpr uint32_t ThreadPool::threadCount() const noexcept
+{
+#if SIM_ENV_WINDOWS
+    return m_threadCount;
+#else
+    return (uint32_t)m_workers.size();
+#endif
+}
+
+#if SIM_ENV_WINDOWS
+template <class FArgs, class Args>
+void ThreadPool::s_callback0(::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK)
+{
+    s_actionArgs0<FArgs, Args>& actionArgs = *static_cast<s_actionArgs0<FArgs, Args>*>(context);
+
+    actionArgs.func(actionArgs.args);
+
+    actionArgs.h.resume();
+    --actionArgs.pThreadPool->m_currentTasks;
+}
+
+template <class FArgs, class Args>
+void ThreadPool::s_callback1(::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK)
+{
+    s_actionArgs1<FArgs, Args>& actionArgs = *static_cast<s_actionArgs1<FArgs, Args>*>(context);
+
+    actionArgs.func->operator()(actionArgs.args);
+
+    actionArgs.h.resume();
+    --actionArgs.pThreadPool->m_currentTasks;
+}
+#else
 template <class FArgs, class Args>
 void ThreadPool::s_callback0(void* args)
 {
@@ -177,3 +246,4 @@ void ThreadPool::s_callback1(void* args)
 
     actionArgs.h.resume();
 }
+#endif
