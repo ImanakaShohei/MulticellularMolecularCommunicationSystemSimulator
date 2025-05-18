@@ -8,7 +8,7 @@ tutorial
 jp -> https://github.com/saikiRA1011/CellNetworkShapeSimulation/blob/main/tutorial/out/tutorial.pdf
 
 # 動作要件
-- C++20とOpenMPをサポートするコンパイラ
+- C++20をサポートするコンパイラ
 - Python3系(必要ライブラリはrequirements.txtから取得可能)
 - pip
 - CMake (version 3.11以降)
@@ -60,7 +60,7 @@ $ ./Build-Linux.sh
 
 ## シミュレーションモデルの作成方法
 `src/UserSimulationModel.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
-シミュレーションのパラメータは`src/config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
+シミュレーションのパラメータは`SimMain`と同じフォルダにある`config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
 <!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
 あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
 サンプルの力学モデルは`NaiveAlgorithm::calcCellForce()`を参考にすると良いです。
