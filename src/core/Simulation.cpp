@@ -356,22 +356,37 @@ int32_t Simulation::run()
         auto end  = std::chrono::system_clock::now();
         auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-        std::cout << "step: " << step << "  " << msec << "msec" << (wasOut ? " Outputed" : "") << std::endl;
+        std::cout << "step: " << step << "  " << msec << "msec" << (wasOut ? " output saved" : "") << std::endl;
         sumTime += msec;
     }
 
     const double averageTime = (double)sumTime / (double)SimulationSettings::SIM_STEP;
-    std::cout << "Initial cell count : " << SimulationSettings::CELL_NUM << "    average processing time : " << averageTime << "    Algorithm : ";
+    ::std::cout << "Initial cell count      : " << SimulationSettings::CELL_NUM << ::std::endl;
+    ::std::cout << "Average processing time : " << averageTime << ::std::endl;
+    ::std::cout << "Simulation model        : ";
+
+    switch (SimulationSettings::SIMULATION_TYPE) {
+        case SimulationType::ClusterFormation:        ::std::cout << "ClusterFormation"; break;
+        case SimulationType::MassGrowth:              ::std::cout << "MassGrowth"; break;
+        case SimulationType::MassRotation:            ::std::cout << "MassRotation"; break;
+        case SimulationType::NetworkFormation:        ::std::cout << "NetworkFormation"; break;
+        case SimulationType::SignalMoleculeDiffusion: ::std::cout << "SignalMoleculeDiffusion"; break;
+        case SimulationType::UserSimulation:          ::std::cout << "UserSimulation"; break;
+    }
+
+    ::std::cout << ::std::endl;
+
+    ::std::cout << "Algorithm               : ";
 
     switch (SimulationSettings::ALGORITHM_TYPE) {
-        case AlgorithmType::Naive:     std::cout << "Naive";     break;
-        case AlgorithmType::CellList:  std::cout << "CellList";  break;
-        case AlgorithmType::BarnesHut: std::cout << "BarnesHut"; break;
-        case AlgorithmType::User:      std::cout << "User";      break;
+        case AlgorithmType::Naive:     std::cout << "Naive";         break;
+        case AlgorithmType::CellList:  std::cout << "CellList";      break;
+        case AlgorithmType::BarnesHut: std::cout << "BarnesHut";     break;
+        case AlgorithmType::User:      std::cout << "UserAlgorithm"; break;
     }
 
     if (SimulationSettings::USE_CLUSTER_MODEL) std::cout << "+Cluster";
-    std::cout << std::endl;
+    ::std::cout << ::std::endl;
 
     return 0;
 }
