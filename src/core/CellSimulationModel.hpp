@@ -7,9 +7,9 @@
 
 class CellSimulationModel {
     private:
-    CellAlgorithm& m_cellAlgorithm;
 
     protected:
+    CellAlgorithm& m_cellAlgorithm;
 
     constexpr CellSimulationModel(CellAlgorithm& cellAlgorithm) noexcept : m_cellAlgorithm(cellAlgorithm) {}
 

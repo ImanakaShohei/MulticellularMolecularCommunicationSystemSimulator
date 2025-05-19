@@ -11,6 +11,7 @@ simulation:
     field_z_len: 0 # シミュレーションフィールドのz座標の長さ
     delta_time: 0.1 # 1ステップあたりのシミュレーション内時間
     lambda: 30.0 # 力が届く範囲を決める値
+    cell_growth: true # 細胞の成長・分裂
     simulation_type: CF # CF(ClusterFormationModel), NF(NetworkFormationModel), MG(MassGrowthModel), MR(MassRotationModel), SMD(SignalMoleculeDiffusionModel), US(UserSimulationModel)から選択
     algorithm_type: CELL-LIST # NAIVE, CELL-LIST, BARNES-HUT, USER から選択
     use_cluster_model: false # シミュレーションでクラスタモデルを使うかどうか

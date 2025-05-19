@@ -58,6 +58,8 @@ bool SimulationSettings::init_settings()
             LAMBDA = simulationNode["lambda"].as<double>();
             REVERSE_LAMBDA = 1.0 / LAMBDA;
 
+            CELL_GROWTH = simulationNode["cell_growth"].as<bool>();
+
             auto simulationTypeStr = simulationNode["simulation_type"].as<::std::string>();
 
             if (simulationTypeStr == "CF") SIMULATION_TYPE = SimulationType::ClusterFormation;
@@ -252,6 +254,7 @@ constinit int32_t SimulationSettings::MOLECULE_FIELD_Y_LEN                = 0;
 constinit int32_t SimulationSettings::MOLECULE_FIELD_Z_LEN                = 0;
 constinit double SimulationSettings::DELTA_TIME                           = 0.0;
 constinit double SimulationSettings::MOLECULE_DELTA_TIME                  = 0.0;
+constinit bool SimulationSettings::CELL_GROWTH                            = false;
 constinit double SimulationSettings::NF_MAX_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MIN_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MAX_REPULSION_DISTANCE            = 0.0;

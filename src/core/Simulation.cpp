@@ -274,6 +274,65 @@ Vec3 Simulation::calcForce(UserCell& c) const noexcept
 }
 
 /**
+ * @brief 各ステップでの前処理
+ *
+ * @details 
+ */
+void Simulation::beforeNextStep()
+{
+    // すべての細胞の力を初期化する(速度を0に設定)
+    for (auto pCell : cells) {
+        pCell->initForce();
+    }
+
+    if (!SimulationSettings::CELL_GROWTH) return;
+
+    // ここから先は細胞の成長と分裂の処理
+
+    for (auto pCell : cells) {
+        UserCell& c = *pCell;
+
+        switch (c.getCellType()) {
+            case CellType::DEAD:
+            case CellType::NONE:
+                break;
+
+            default:
+                c.metabolize();
+                break;
+        }
+    }
+
+    // 要素数の変更があるので連想for文は使わない
+    for (uint32_t i = 0; i < cells.size(); i++) {
+        UserCell& cell = *cells[i];
+
+        switch (cell.getCellType()) {
+            case CellType::DEAD:
+            case CellType::NONE:
+                break;
+
+            default:
+            {
+                if (!cell.checkWillDivide()) break;
+                
+                UserCell* c = new UserCell(cell.divide());
+                
+                // 分裂した場合は配列に新しいCellを上書き(あるいは追加)する。
+                if (c->arrayIndex >= (int32_t)cells.size()) {
+                    cells.push_back(c);
+                }
+                else {
+                    cells[c->arrayIndex] = c;
+                }
+                
+                break;
+            }
+        }
+    }
+}
+
+/**
  * @brief すべてのCellに力を加えた後、それぞれのCellの位置を更新する。
  *
  * @return int32_t
@@ -281,6 +340,7 @@ Vec3 Simulation::calcForce(UserCell& c) const noexcept
  */
 int32_t Simulation::nextStep() noexcept
 {
+    beforeNextStep();
     pCellSimulationModel->beforeNextStep(cells, moleculeSpaces);
 
     if (SimulationSettings::USE_CLUSTER_MODEL) {

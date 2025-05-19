@@ -72,6 +72,8 @@ class Simulation
     void printCells(int32_t time) const;
     void printMolecules(int32_t time) const;
 
+    void beforeNextStep();
+
     //  std::vector<std::unordered_set<int32_t>> aroundCellSetList;
 
     int32_t stepNumDigit;

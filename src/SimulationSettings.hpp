@@ -89,6 +89,8 @@ class SimulationSettings final
     static double DELTA_TIME;          //!< 時間スケール(1が通常時)
     static double MOLECULE_DELTA_TIME; //!< 分子の時間スケール(だいたいDELTA_TIMEより小さい)
 
+    static bool CELL_GROWTH; //細胞の成長・分裂
+
     // ネットワーク形成モデル
     static double NF_MAX_ATTRACTION_DISTANCE; //引力が届く最大距離
     static double NF_MIN_ATTRACTION_DISTANCE; //引力が働く最小距離

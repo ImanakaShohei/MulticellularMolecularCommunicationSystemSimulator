@@ -7,7 +7,7 @@ ThreadPool::ThreadPool() : ThreadPool(::std::thread::hardware_concurrency())
 
 #if SIM_ENV_WINDOWS
 ThreadPool::ThreadPool(uint32_t threadCount)
-    , m_currentTasks(0)
+    : m_currentTasks(0)
     , m_threadCount(threadCount)
     , m_pool(::CreateThreadpool(nullptr))
     , m_env()
