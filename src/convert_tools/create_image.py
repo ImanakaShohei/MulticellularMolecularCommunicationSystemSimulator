@@ -40,6 +40,7 @@ for file in files:
 
     for cell in cells[1:-1]:
         cell = cell.split('\t')
+        cell_id = int(cell[0])
         cell_type = cell[1]
         x = float(cell[2])*scale+IMAGE_LEN/2
         y = float(cell[3])*scale+IMAGE_LEN/2
@@ -47,7 +48,7 @@ for file in files:
         r = float(cell[8])*scale
         adhere_cells_str = cell[10]
 
-        cell_objs.append((cell_type, x, y, r, adhere_cells_str))
+        cell_objs.append((cell_id, cell_type, x, y, r, adhere_cells_str))
 
         if x < 0 or x > IMAGE_LEN or y < 0 or y > IMAGE_LEN:
             print('out of range')
@@ -63,16 +64,27 @@ for file in files:
                    math.floor(r), cell_color, thickness=1)
 
     for cell_obj in cell_objs:
-        adhere_list = cell_obj[4].split(',')
+        adhere_list = cell_obj[5].split(',')
         for adhere_id in adhere_list:
             if adhere_id == '_':
                 continue
             adhere_id = int(adhere_id)
-            adhere_obj = cell_objs[adhere_id]
-            x1 = cell_obj[1]
-            y1 = cell_obj[2]
-            x2 = adhere_obj[1]
-            y2 = adhere_obj[2]
+            
+            # 二重に描画するのを防ぐ
+            if adhere_id < cell_obj[0]:
+                continue
+
+            # adhere_idのCellがあるindexを探す
+            adhere_index = 0
+            print(adhere_id)
+            while cell_objs[adhere_index][0] != adhere_id:
+                adhere_index += 1
+            
+            adhere_obj = cell_objs[adhere_index]
+            x1 = cell_obj[2]
+            y1 = cell_obj[3]
+            x2 = adhere_obj[2]
+            y2 = adhere_obj[3]
             cv2.line(img, (math.floor(x1), math.floor(y1)),
                      (math.floor(x2), math.floor(y2)), (0, 0, 255), thickness=1)
 

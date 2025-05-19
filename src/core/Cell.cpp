@@ -381,8 +381,9 @@ int32_t Cell::getNewCellIndex() noexcept
  */
 void Cell::printCell() const noexcept
 {
+    Vec3 vectory = getVelocity();
     std::cout << id << '\t' << NAMEOF_ENUM(typeID) << '\t';
-    std::cout << position.x << '\t' << position.y << '\t' << position.z << '\t' << addedForce.x << '\t' << addedForce.y << '\t' << addedForce.z << '\t' << radius << '\t' << adhereCells.size() << '\t';
+    std::cout << position.x << '\t' << position.y << '\t' << position.z << '\t' << vectory.x << '\t' << vectory.y << '\t' << vectory.z << '\t' << radius << '\t' << adhereCells.size() << '\t';
 
     if (adhereCells.empty()) {
         std::cout << '_';

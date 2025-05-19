@@ -36,13 +36,15 @@ void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::v
 {
     const size_t cellsLength = cells.size();
 
+    for (UserCell* pCell : cells) {
+        pCell->clearAdhereCells();
+    }
+
     for (size_t i = 0; i != cellsLength; i++) {
         UserCell& cell = *cells[i];
 
         if (cell.getCellType() != CellType::WORKER) continue;
-
-        cell.clearAdhereCells();
-
+        
         for (size_t j = i + 1; j != cellsLength; j++) {
 
             UserCell& cell1 = *cells[j];
