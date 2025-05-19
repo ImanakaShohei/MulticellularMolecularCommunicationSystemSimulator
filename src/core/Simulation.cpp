@@ -42,7 +42,7 @@ Simulation::Simulation()
     switch (SimulationSettings::SIMULATION_TYPE) {
         case SimulationType::ClusterFormation: pCellSimulationModel = new ClusterFormationModel(*cellAlgorithm); break;
         case SimulationType::MassGrowth: pCellSimulationModel = new MassGrowthModel(*cellAlgorithm); break;
-        case SimulationType::MassRotation: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
+        case SimulationType::MassRotation: pCellSimulationModel = new MassRotationModel(*cellAlgorithm); break;
         case SimulationType::NetworkFormation: pCellSimulationModel = new NetworkFormationModel(*cellAlgorithm); break;
         case SimulationType::SignalMoleculeDiffusion: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
         case SimulationType::UserSimulation: pCellSimulationModel = new UserSimulationModel(*cellAlgorithm); break;
