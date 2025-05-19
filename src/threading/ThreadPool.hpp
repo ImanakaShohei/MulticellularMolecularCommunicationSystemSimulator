@@ -43,7 +43,6 @@ class ThreadPool final {
     };
 
 #if SIM_ENV_WINDOWS
-    ::std::queue<s_task> m_tasks;
     ::std::atomic<uint32_t> m_currentTasks;
     uint32_t m_threadCount;
     ::PTP_POOL m_pool;

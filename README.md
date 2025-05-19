@@ -38,6 +38,7 @@ $ ./Build-Linux.sh
 
 ### Step 2
 シミュレータを実行する。  
+buildしたシミュレータはMSVCの場合は`./build/Release/`に、それ以外の場合は`./build/`にあります。  
 ```sh
 ./SimMain run
 ```
@@ -59,7 +60,7 @@ $ ./Build-Linux.sh
 また、各種コマンドは`./SimMain help`から確認することができます。
 
 ## シミュレーションモデルの作成方法
-`src/UserSimulationModel.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
+`src/UserSimulationModel.cpp(.hpp)`と`src/UserCellAlgorithm.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
 シミュレーションのパラメータは`SimMain`と同じフォルダにある`config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
 <!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
 あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->

@@ -21,8 +21,9 @@ void ClusterFormationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::st
         }
     }
 
-    for (auto pCell : cells) {
-        UserCell& cell = *pCell;
+    // 要素数の変更があるので連想for文は使わない
+    for (uint32_t i = 0; i < cells.size(); i++) {
+        UserCell& cell = *cells[i];
 
         switch (cell.getCellType()) {
             case CellType::DEAD:
@@ -34,7 +35,7 @@ void ClusterFormationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::st
                 if (!cell.checkWillDivide()) break;
                 
                 UserCell* c = new UserCell(cell.divide());
-
+                
                 // 分裂した場合は配列に新しいCellを上書き(あるいは追加)する。
                 if (c->arrayIndex >= (int32_t)cells.size()) {
                     cells.push_back(c);
@@ -42,6 +43,7 @@ void ClusterFormationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::st
                 else {
                     cells[c->arrayIndex] = c;
                 }
+                
                 break;
             }
         }

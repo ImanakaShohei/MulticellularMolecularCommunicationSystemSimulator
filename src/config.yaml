@@ -23,7 +23,7 @@ simulation:
         coefficient:             10 # 力に掛ける係数
 
     # CellList固有のパラメータ
-    cell-list:
+    cell_list:
         grid_size_mag: 32 # cell listにおけるグリッドの分割倍率。最小は1、値は2^nである必要がある。
         search_radius: 64 # この半径内(positionの差)にあるcellを力の計算対象とする。
 

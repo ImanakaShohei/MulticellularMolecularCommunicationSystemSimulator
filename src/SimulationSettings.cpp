@@ -140,7 +140,7 @@ bool SimulationSettings::init_settings()
                 }
                 case AlgorithmType::CellList:
                 {
-                    auto cellListNode = simulationNode["cell-list"];
+                    auto cellListNode = simulationNode["cell_list"];
                     CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
                     int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
                     while (tmp > 1) {
