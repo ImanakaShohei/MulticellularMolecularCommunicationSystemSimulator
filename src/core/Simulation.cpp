@@ -9,6 +9,7 @@
 #include "SignalDiffusionCell.hpp"
 #include "NormalCell.hpp"
 #include "NaiveAlgorithm.hpp"
+#include "BarnesHut.hpp"
 #include <filesystem>
 #include <fstream>
 
@@ -338,7 +339,7 @@ int32_t Simulation::nextStep() noexcept
 
     if (SimulationSettings::USE_CLUSTER_MODEL) {
         if (SimulationSettings::ALGORITHM_TYPE != AlgorithmType::CellList) cellList->setCells(cells);
-
+        
         ClusterModel::combine(cells, moleculeSpaces, *cellList);
         cellList->setCells(cells);
     }

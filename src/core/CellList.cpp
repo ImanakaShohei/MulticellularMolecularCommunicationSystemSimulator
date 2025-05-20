@@ -20,7 +20,6 @@ CellList::CellList()
   : CELL_GRID_LEN_X(SimulationSettings::FIELD_X_LEN / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION)
   , CELL_GRID_LEN_Y(SimulationSettings::FIELD_Y_LEN / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION)
 {
-    puts("a");
     init();
 }
 
@@ -157,14 +156,14 @@ void CellList::addCell(Cell* cell)
 
     const int32_t scaledY = (int32_t)((pos.y + SimulationSettings::FIELD_Y_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
     const int32_t scaledX = (int32_t)((pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
-
+    
     cellField[scaledY][scaledX].emplace_back(cell);
 }
 
 void CellList::setCells(const ::std::vector<Cell*>& cells)
 {
     resetGrid();
-
+    
     for (auto cell : cells) {
         addCell(cell);
     }

@@ -157,15 +157,7 @@ bool SimulationSettings::init_settings()
                 }
                 case AlgorithmType::CellList:
                 {
-                    auto cellListNode = simulationNode["cell_list"];
-                    CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
-                    int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
-                    while (tmp > 1) {
-                        assert(tmp % 2 == 0);
-                        tmp >>= 1;
-                    }
-                    CELL_LIST_SEARCH_RADIUS = cellListNode["search_radius"].as<int32_t>();
-                    assert(CELL_LIST_SEARCH_RADIUS >= 0);
+                    // ここでは何もしない
                     break;
                 }
                 case AlgorithmType::BarnesHut:
@@ -176,6 +168,18 @@ bool SimulationSettings::init_settings()
                 {
                     break;
                 }
+            }
+
+            if (USE_CLUSTER_MODEL || ALGORITHM_TYPE == AlgorithmType::CellList) {
+                auto cellListNode = simulationNode["cell_list"];
+                CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
+                int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
+                while (tmp > 1) {
+                    assert(tmp % 2 == 0);
+                    tmp >>= 1;
+                }
+                CELL_LIST_SEARCH_RADIUS = cellListNode["search_radius"].as<int32_t>();
+                assert(CELL_LIST_SEARCH_RADIUS >= 0);
             }
         }
         
