@@ -11,46 +11,15 @@
 
 #pragma once
 
-#include "thirdparty/nameof.hpp"
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <yaml-cpp/yaml.h>
-
-enum class PositionUpdateMethod
-{
-    ORIGINAL,
-    AB4,
-    AB3,
-    AB2,
-    EULER,
-};
-
-enum class AlgorithmType
-{
-    Naive,
-    CellList,
-    BarnesHut,
-    User,
-};
-
-enum class SimulationType
-{
-    ClusterFormation,           // クラスタ形成モデル
-    NetworkFormation,           // ネットワーク形成モデル
-    MassGrowth,                 // 細胞塊成長モデル
-    MassRotation,               // 細胞塊回転モデル
-    SignalMoleculeDiffusion,    // 信号分子拡散モデル
-    UserSimulation,
-};
-
-enum class PerformanceKind
-{
-    HighPerformance,
-    LowMemory,
-};
+#include "PositionUpdateMethod.hpp"
+#include "AlgorithmType.hpp"
+#include "SimulationType.hpp"
+#include "PerformanceKind.hpp"
 
 class SimulationSettings final
 {

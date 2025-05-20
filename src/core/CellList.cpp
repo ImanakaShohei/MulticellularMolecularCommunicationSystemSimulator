@@ -20,6 +20,7 @@ CellList::CellList()
   : CELL_GRID_LEN_X(SimulationSettings::FIELD_X_LEN / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION)
   , CELL_GRID_LEN_Y(SimulationSettings::FIELD_Y_LEN / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION)
 {
+    puts("a");
     init();
 }
 
@@ -39,7 +40,7 @@ void CellList::init()
 
         // 消すべき？
         for (int32_t x = 0; x < CELL_GRID_LEN_X; x++) {
-            cellField[y][x] = std::vector<UserCell*>();
+            cellField[y][x] = std::vector<Cell*>();
         }
     }
 }
@@ -50,7 +51,7 @@ void CellList::init()
  * @param c
  * @return std::tuple<int32_t, int32_t>
  */
-std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const UserCell& c) const
+std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const Cell& c) const
 {
     Vec3 pos = c.getPosition();
 
@@ -67,7 +68,7 @@ std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const UserCell
  * @return std::vector<int>
  * @note CHECK_WIDTHはcalcRemoteForceのLAMBDAより大きくするのが理想。
  */
-Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+Generator<CellInfo> CellList::iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
 
@@ -86,8 +87,10 @@ Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vec
             int32_t size = (int32_t)field.size();
             
             for (int32_t i = 0; i < size; i++) {
-                UserCell& cell = *field[i];
+                Cell& cell = *field[i];
+                
                 if (&cell == &c) continue;
+
                 if (checkInSearchRadius(c.getPosition(), cell.getPosition())) {
                     co_yield CellInfo(cell);
                 }
@@ -98,7 +101,7 @@ Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vec
 }
 
 // コピペはよくないので良い方法を考える
-::std::vector<CellInfo> CellList::getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+::std::vector<CellInfo> CellList::getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     ::std::vector<CellInfo> list;
     static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
@@ -118,7 +121,7 @@ Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vec
             int32_t size = (int32_t)field.size();
             
             for (int32_t i = 0; i < size; i++) {
-                UserCell& cell = *field[i];
+                Cell& cell = *field[i];
                 if (&cell == &c) continue;
                 if (checkInSearchRadius(c.getPosition(), cell.getPosition())) {
                     list.emplace_back(cell);
@@ -148,7 +151,7 @@ void CellList::resetGrid() noexcept
  *
  * @param cell
  */
-void CellList::addCell(UserCell* cell)
+void CellList::addCell(Cell* cell)
 {
     Vec3 pos = cell->getPosition();
 
@@ -158,16 +161,16 @@ void CellList::addCell(UserCell* cell)
     cellField[scaledY][scaledX].emplace_back(cell);
 }
 
-void CellList::setCells(const ::std::vector<UserCell*>& cells)
+void CellList::setCells(const ::std::vector<Cell*>& cells)
 {
     resetGrid();
 
-    for (auto&& cell : cells) {
+    for (auto cell : cells) {
         addCell(cell);
     }
 }
 
-void CellList::beforeNextStep(const ::std::vector<::UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void CellList::beforeNextStep(const ::std::vector<::Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     setCells(cells);
 }

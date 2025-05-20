@@ -28,8 +28,10 @@ set(SOURCES
     src/core/MoleculeSpace.cpp
     src/core/NaiveAlgorithm.cpp
     src/core/NetworkFormationModel.cpp
+    src/core/NormalCell.cpp
     src/core/MassGrowthModel.cpp
     src/core/MassRotationModel.cpp
+    src/core/SignalDiffusionCell.cpp
     src/core/SignalMoleculeDiffusionModel.cpp
     src/core/Simulation.cpp
     src/threading/AsyncAction.cpp
@@ -43,13 +45,12 @@ add_executable(SimMain ${SOURCES})
 # 追加のオプション
 target_compile_options(SimMain PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
-#$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
-#$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
+    #$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
+    #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
 )
 
 # 追加のincludeパス
-target_include_directories(SimMain
-  PRIVATE
+target_include_directories(SimMain PRIVATE
     ${CMAKE_SOURCE_DIR}/src
 )
 
@@ -74,9 +75,9 @@ include(FetchContent)
 
 # yaml-cppのURLからデータを取得
 FetchContent_Declare(
-  yaml-cpp
-  GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-  GIT_TAG        0.8.0
+    yaml-cpp
+    GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+    GIT_TAG        0.8.0
 )
 
 # よくわからんやつ

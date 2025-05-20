@@ -1,7 +1,8 @@
 #include "CellSimulationModel.hpp"
+#include "NormalCell.hpp"
 #include <numbers>
 
-void CellSimulationModel::initCells(::std::vector<UserCell*>& cells)
+void CellSimulationModel::initCells(::std::vector<Cell*>& cells)
 {
     std::mt19937 mt{ (uint32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
     const double fieldRadiusX = SimulationSettings::FIELD_X_LEN * 0.5;
@@ -15,7 +16,7 @@ void CellSimulationModel::initCells(::std::vector<UserCell*>& cells)
             double theta = urdPi(mt);
             double r = ::std::sqrt(urd(mt)) * fieldRadiusX;
             
-            cells.push_back(new UserCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));
+            cells.push_back(new NormalCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));
         }
 
         return;
@@ -30,6 +31,6 @@ void CellSimulationModel::initCells(::std::vector<UserCell*>& cells)
         double theta = urdPi(mt);
         double r = ::std::sqrt(urd(mt)) * minRidius;
         
-        cells.push_back(new UserCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));
+        cells.push_back(new NormalCell(CellType::WORKER, r * ::cos(theta), r * ::sin(theta), 10.0));
     }
 }

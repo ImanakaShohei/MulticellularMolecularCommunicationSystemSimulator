@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CellAlgorithm.hpp"
-#include "../UserCell.hpp"
+#include "Cell.hpp"
 #include "../UserMoleculeSpace.hpp"
 #include <vector>
 
@@ -23,20 +23,20 @@ class CellSimulationModel {
     CellSimulationModel& operator=(CellSimulationModel const&) = delete;
     CellSimulationModel& operator=(CellSimulationModel&&) = delete;
 
-    virtual void initCells(::std::vector<UserCell*>& cells);
+    virtual void initCells(::std::vector<Cell*>& cells);
     
-    virtual Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
+    virtual Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
 
-    virtual void beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
-    virtual void onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual void onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 };
 
-inline void CellSimulationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+inline void CellSimulationModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     m_cellAlgorithm.beforeNextStep(cells, moleculeSpaces);
 }
 
-inline void CellSimulationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+inline void CellSimulationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     m_cellAlgorithm.onNextStep(cells, moleculeSpaces);
 }

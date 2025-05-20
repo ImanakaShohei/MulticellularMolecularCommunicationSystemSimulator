@@ -1,20 +1,20 @@
 #include "NaiveAlgorithm.hpp"
 
-Generator<CellInfo> NaiveAlgorithm::iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
+Generator<CellInfo> NaiveAlgorithm::iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
-    for (UserCell* pCell : cells) {
+    for (Cell* pCell : cells) {
         if (pCell == &c) continue;
         
         co_yield CellInfo(*pCell);
     }
 }
 
-::std::vector<CellInfo> NaiveAlgorithm::getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
+::std::vector<CellInfo> NaiveAlgorithm::getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     ::std::vector<CellInfo> list;
     list.reserve(cells.size());
 
-    for (UserCell* pCell : cells) {
+    for (Cell* pCell : cells) {
         if (pCell == &c) continue;
 
         list.emplace_back(*pCell);

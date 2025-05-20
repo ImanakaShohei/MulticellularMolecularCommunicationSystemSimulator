@@ -1,18 +1,18 @@
 #include "ClusterModel.hpp"
 #include "Simulation.hpp"
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
     for (size_t i = 0; i < length; ++i) {
-        UserCell& cell = *cells[i];
+        Cell& cell = *cells[i];
         switch (cell.getCellType()) {
             case CellType::WORKER:
             {
                 for (size_t j = i + 1; j < length; j++) {
 
-                    UserCell& cellr = *cells[j];
+                    Cell& cellr = *cells[j];
 
                     if (cellr.getCellType() != CellType::WORKER) continue;
         
@@ -35,12 +35,12 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::v
     }
 }
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList& cellList)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList& cellList)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
     for (size_t i = 0; i < length; ++i) {
-        UserCell& cell = *cells[i];
+        Cell& cell = *cells[i];
         CellInfo info = CellInfo(cell);
 
         switch (info.cellType) {
@@ -56,7 +56,7 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::v
                     //距離 < 細胞半径 + 細胞半径 でくっつく
                     //高速化のため、２乗で計算
                     if ((info.position - cellInfo.position).squareLength() < radius * radius) {
-                        cell.combine(*info.pCell);
+                        cell.combine(*cellInfo.pCell);
                         continue;
                     }
                 }
@@ -69,7 +69,7 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::v
     }
 }
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList* pCellList)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList* pCellList)
 {
     if (pCellList == nullptr) combine(cells, moleculeSpaces);
     else combine(cells, moleculeSpaces, *pCellList);

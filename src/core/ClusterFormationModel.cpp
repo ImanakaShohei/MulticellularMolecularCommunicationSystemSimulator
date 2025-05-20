@@ -56,7 +56,7 @@ Vec3 ClusterFormationModel::calcVolumeExclusion(CellInfo target, CellInfo cell) 
     return force;
 }
 
-Vec3 ClusterFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+Vec3 ClusterFormationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     Vec3 vec;
     CellInfo info = CellInfo(c);

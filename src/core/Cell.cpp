@@ -334,9 +334,9 @@ Cell Cell::divide() noexcept
 
 void Cell::combine(Cell& cell) noexcept
 {
-    weight += cell.weight;
     radius = ::cbrt(radius * radius * radius + cell.radius * cell.radius * cell.radius);
     position = (position * weight + cell.position * cell.weight) / (weight + cell.weight);
+    weight += cell.weight;
 
     cell.typeID = CellType::NONE;
 }

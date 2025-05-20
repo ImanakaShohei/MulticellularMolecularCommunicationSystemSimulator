@@ -1,4 +1,5 @@
 #include "MassGrowthModel.hpp"
+#include "NormalCell.hpp"
 #include <numbers>
 
 MassGrowthModel::MassGrowthModel(CellAlgorithm& cellAlgorithm)
@@ -7,7 +8,7 @@ MassGrowthModel::MassGrowthModel(CellAlgorithm& cellAlgorithm)
 {
 }
 
-void MassGrowthModel::initCells(::std::vector<UserCell*>& cells)
+void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
 {
     constexpr double maxRadius = 150.0;
     std::mt19937 rand_gen{ (uint32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
@@ -21,16 +22,16 @@ void MassGrowthModel::initCells(::std::vector<UserCell*>& cells)
         double x = r * std::cos(theta);
         double y = r * std::sin(theta);
 
-        cells.push_back(new UserCell(CellType::WORKER, x, y, 10));
+        cells.push_back(new NormalCell(CellType::WORKER, x, y, 10));
     }
 }
 
-Vec3 MassGrowthModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) 
+Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) 
 {
     Vec3 force = Vec3::zero();
     
     for (auto pCell : cells) {
-        UserCell& cell = *pCell;
+        Cell& cell = *pCell;
         if (c.id == cell.id) continue;
 
         const Vec3 diff = c.getPosition()- cell.getPosition();
@@ -53,7 +54,7 @@ Vec3 MassGrowthModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const&
     return force.timesScalar(SimulationSettings::DELTA_TIME);
 }
 
-void MassGrowthModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>&)
+void MassGrowthModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>&)
 {
     size_t preCellCount = cells.size();
 
@@ -61,8 +62,8 @@ void MassGrowthModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vec
         for (size_t j = 0; j != preCellCount; j++) {
             if (j == i) continue;
 
-            UserCell& celli = *cells[i];
-            UserCell& cellj = *cells[j];
+            Cell& celli = *cells[i];
+            Cell& cellj = *cells[j];
 
             const Vec3 diff = celli.getPosition() - cellj.getPosition();
             const double dist = diff.length();

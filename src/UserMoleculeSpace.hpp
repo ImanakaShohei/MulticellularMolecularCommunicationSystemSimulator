@@ -19,7 +19,7 @@ class UserMoleculeSpace : public MoleculeSpace
     static constexpr double _D = 0.024 * 1000000.0;
 
   public:
-    UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<UserCell*>& cells,
+    UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<Cell*>& cells,
                       const uint32_t ID);
     ~UserMoleculeSpace();
 

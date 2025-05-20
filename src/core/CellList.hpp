@@ -23,9 +23,9 @@
 class CellList : public CellAlgorithm
 {
   private:
-    Field<std::vector<UserCell*>> cellField; //!< セルのポインタが格納されている2次元配列
+    Field<std::vector<Cell*>> cellField; //!< セルのポインタが格納されている2次元配列
 
-    std::tuple<int32_t, int32_t> getGridCoordinateByCellPos(const UserCell& c) const;
+    std::tuple<int32_t, int32_t> getGridCoordinateByCellPos(const Cell& c) const;
 
     const int32_t CELL_GRID_LEN_X;
     const int32_t CELL_GRID_LEN_Y;
@@ -38,12 +38,12 @@ class CellList : public CellAlgorithm
     constexpr bool isInGrid(const int32_t x, const int32_t y) const noexcept;
     static bool checkInSearchRadius(const Vec3& v, const Vec3& u) noexcept;
     void resetGrid() noexcept;
-    void addCell(UserCell* cell);
-    void setCells(const ::std::vector<UserCell*>& cells);
+    void addCell(Cell* cell);
+    void setCells(const ::std::vector<Cell*>& cells);
     //  周辺のCellのIDを格納する。ただし、vectorは一列分のみしか確保しない。
-    void beforeNextStep(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&) override;
-    Generator<CellInfo> iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
-    ::std::vector<CellInfo> getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    void beforeNextStep(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&) override;
+    Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
 };
 
 /**

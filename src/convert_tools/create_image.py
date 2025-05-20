@@ -76,7 +76,6 @@ for file in files:
 
             # adhere_idのCellがあるindexを探す
             adhere_index = 0
-            print(adhere_id)
             while cell_objs[adhere_index][0] != adhere_id:
                 adhere_index += 1
             

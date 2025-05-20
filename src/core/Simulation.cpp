@@ -6,7 +6,11 @@
 #include "NetworkFormationModel.hpp"
 #include "SignalMoleculeDiffusionModel.hpp"
 #include "../UserSimulationModel.hpp"
+#include "SignalDiffusionCell.hpp"
+#include "NormalCell.hpp"
+#include "NaiveAlgorithm.hpp"
 #include <filesystem>
+#include <fstream>
 
 // TODO: cellsをスマートポインタの配列にする。
 
@@ -44,7 +48,7 @@ Simulation::Simulation()
         case SimulationType::MassGrowth: pCellSimulationModel = new MassGrowthModel(*cellAlgorithm); break;
         case SimulationType::MassRotation: pCellSimulationModel = new MassRotationModel(*cellAlgorithm); break;
         case SimulationType::NetworkFormation: pCellSimulationModel = new NetworkFormationModel(*cellAlgorithm); break;
-        case SimulationType::SignalMoleculeDiffusion: throw ::std::runtime_error("Not implemented simulationModel!!!!!!!!!!!!!!!!"); break;
+        case SimulationType::SignalMoleculeDiffusion: pCellSimulationModel = new SignalMoleculeDiffusionModel(*cellAlgorithm); break;
         case SimulationType::UserSimulation: pCellSimulationModel = new UserSimulationModel(*cellAlgorithm); break;
     }
 
@@ -77,11 +81,34 @@ Simulation::~Simulation()
         case SimulationType::UserSimulation: deleteModel<UserSimulationModel>(pCellSimulationModel); break;
     }
 
+    switch (SimulationSettings::SIMULATION_TYPE) {
+        case SimulationType::ClusterFormation:
+        case SimulationType::MassGrowth:
+        case SimulationType::MassRotation:
+        case SimulationType::NetworkFormation:
+        {
+            for (Cell* pCell : cells) {
+                delete static_cast<NormalCell*>(pCell);
+            }
 
-    for (UserCell* pCell : cells) {
-        delete pCell;
+            break;
+        }
+        case SimulationType::SignalMoleculeDiffusion:
+        {
+            for (Cell* pCell : cells) {
+                delete static_cast<SignalDiffusionCell*>(pCell);
+            }
+            break;
+        }
+        case SimulationType::UserSimulation:
+        {
+            for (Cell* pCell : cells) {
+                delete static_cast<UserCell*>(pCell);
+            }
+            break;
+        }
     }
-
+    
     for (UserMoleculeSpace* pSpace : moleculeSpaces) {
         delete pSpace;
     }
@@ -193,12 +220,10 @@ void Simulation::printMolecules(int32_t time) const
  * @param c
  * @return Vec3
  */
-Vec3 Simulation::calcCellForce(UserCell& c) const noexcept
+Vec3 Simulation::calcCellForce(Cell& c) const noexcept
 {
     return pCellSimulationModel->calcCellForce(c, cells, moleculeSpaces);
 }
-
-
 
 /**
  * @brief 指定したCellにかかるすべての力を計算する。O(n^2)
@@ -206,7 +231,7 @@ Vec3 Simulation::calcCellForce(UserCell& c) const noexcept
  * @param c
  * @return Vec3
  */
-Vec3 Simulation::calcForce(UserCell& c) const noexcept
+Vec3 Simulation::calcForce(Cell& c) const noexcept
 {
     // Vec3 force = Vec3::zero();
 
@@ -234,7 +259,7 @@ void Simulation::beforeNextStep()
     // ここから先は細胞の成長と分裂の処理
 
     for (auto pCell : cells) {
-        UserCell& c = *pCell;
+        Cell& c = *pCell;
 
         switch (c.getCellType()) {
             case CellType::DEAD:
@@ -249,7 +274,7 @@ void Simulation::beforeNextStep()
 
     // 要素数の変更があるので連想for文は使わない
     for (uint32_t i = 0; i < cells.size(); i++) {
-        UserCell& cell = *cells[i];
+        Cell& cell = *cells[i];
 
         switch (cell.getCellType()) {
             case CellType::DEAD:
@@ -259,8 +284,32 @@ void Simulation::beforeNextStep()
             default:
             {
                 if (!cell.checkWillDivide()) break;
+
+                Cell* c;
                 
-                UserCell* c = new UserCell(cell.divide());
+                switch (SimulationSettings::SIMULATION_TYPE) {
+                    case SimulationType::ClusterFormation:
+                    case SimulationType::MassGrowth:
+                    case SimulationType::MassRotation:
+                    case SimulationType::NetworkFormation:
+                    {
+                        auto& ref = static_cast<NormalCell&>(cell);
+                        c = new NormalCell(ref.divide());
+                        break;
+                    }
+                    case SimulationType::SignalMoleculeDiffusion:
+                    {
+                        auto& ref = static_cast<SignalDiffusionCell&>(cell);
+                        c = new SignalDiffusionCell(ref.divide());
+                        break;
+                    }
+                    case SimulationType::UserSimulation:
+                    {
+                        auto& ref = static_cast<UserCell&>(cell);
+                        c = new UserCell(ref.divide());
+                        break;
+                    }
+                }
                 
                 // 分裂した場合は配列に新しいCellを上書き(あるいは追加)する。
                 if (c->arrayIndex >= (int32_t)cells.size()) {
@@ -299,7 +348,7 @@ int32_t Simulation::nextStep() noexcept
         0, 
         cells.size(),
         [this](size_t i) {
-            UserCell& cell = *cells[i];
+            Cell& cell = *cells[i];
             switch (cell.getCellType()) {
                 case CellType::DEAD:
                 case CellType::NONE:

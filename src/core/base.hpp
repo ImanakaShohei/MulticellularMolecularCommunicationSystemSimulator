@@ -80,3 +80,40 @@
 #ifndef SIM_ENV_APPLE
     #define SIM_ENV_APPLE 0
 #endif
+
+enum class AlgorithmType;
+enum class CellType;
+enum class PerformanceKind;
+enum class PositionUpdateMethod;
+enum class SimulationType;
+
+struct CellInfo;
+
+class AsyncAction;
+class BarnesHut;
+class Cell;
+class CellAlgorithm;
+class CellSimulationModel;
+class ClusterFormationModel;
+class ClusterModel;
+class MassGrowthModel;
+class MassRotationModel;
+class MoleculeSpace;
+class NaiveAlgorithm;
+class NetworkFormationModel;
+class NormalCell;
+class SignalDiffusionCell;
+class SignalMoleculeDiffusionModel;
+class Simulation;
+class SimulationSettings;
+class ThreadPool;
+class Vec3;
+class UserCell;
+class UserCellAlgorithm;
+class UserSimulationModel;
+
+template <class T>
+class Generator;
+
+template <SimulationType SType>
+struct SimulationTraits;

@@ -18,9 +18,9 @@ class MassGrowthModel : public CellSimulationModel {
 
     MassGrowthModel(CellAlgorithm& cellAlgorithm);
 
-    void initCells(::std::vector<UserCell*>& cells) override;
+    void initCells(::std::vector<Cell*>& cells) override;
 
-    Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
 
-    void beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
 };

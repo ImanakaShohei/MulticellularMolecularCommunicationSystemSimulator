@@ -11,28 +11,15 @@
 
 #pragma once
 
-#include "../UserCell.hpp"
 #include "Cell.hpp"
-#include "../SimulationSettings.hpp"
 #include "../UserMoleculeSpace.hpp"
-#include "../utils/Util.hpp"
-#include "NaiveAlgorithm.hpp"
 #include "CellList.hpp"
-#include "BarnesHut.hpp"
 #include "ClusterModel.hpp"
 #include "CellSimulationModel.hpp"
 #include "../threading/ThreadPool.hpp"
-#include <chrono>
-#include <fstream>
-#include <iomanip>
-#include <memory>
-#include <numbers>
-#include <queue>
-#include <sstream>
 #include <string>
-#include <thread>
-#include <unordered_set>
 #include <vector>
+#include <streambuf>
 
 /**
  * @class Simulation
@@ -41,19 +28,19 @@
  */
 class Simulation
 {
-  protected:
+    protected:
     ThreadPool m_threadPool;
 
     CellAlgorithm* cellAlgorithm;                            //!< CellListのデータ構造を管理するクラス
     CellList* cellList;
     CellSimulationModel* pCellSimulationModel;
 
-    std::vector<UserCell*> cells; //!< シミュレーションで使うCellのリスト。
+    std::vector<Cell*> cells; //!< シミュレーションで使うCellのリスト。
     std::streambuf* consoleStream;                //!< 標準出力のストリームバッファ
 
     std::vector<UserMoleculeSpace*> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
 
-  private:
+    private:
     // ヒープに確保したアルゴリズムのインスタンスを削除
     template <class TCellAlgorithm> requires ::std::derived_from<TCellAlgorithm, CellAlgorithm>
     static void deleteAlgorithm(CellAlgorithm* cellAlgorithm) noexcept;
@@ -79,7 +66,7 @@ class Simulation
     int32_t stepNumDigit;
     int32_t moleculeTypeNumDigit;
 
-  public:
+    public:
     Simulation(/* args */);
     ~Simulation();
 
@@ -88,8 +75,8 @@ class Simulation
     void initCells();
     void initDirectories();
     
-    Vec3 calcCellForce(UserCell& c) const noexcept;
-    Vec3 calcForce(UserCell&) const noexcept;
+    Vec3 calcCellForce(Cell& c) const noexcept;
+    Vec3 calcForce(Cell&) const noexcept;
 
     int32_t nextStep() noexcept;
     int32_t run();
@@ -101,5 +88,5 @@ class Simulation
 
 inline void Simulation::initCells()
 {
-  pCellSimulationModel->initCells(cells);
+    pCellSimulationModel->initCells(cells);
 }

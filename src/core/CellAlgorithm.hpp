@@ -23,9 +23,9 @@ class CellAlgorithm {
 
     constexpr virtual ~CellAlgorithm() {}
 
-    constexpr virtual void beforeNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
-    constexpr virtual void onNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
+    constexpr virtual void beforeNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
+    constexpr virtual void onNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
 
-    virtual Generator<CellInfo> iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
-    virtual ::std::vector<CellInfo> getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
+    virtual ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 };
