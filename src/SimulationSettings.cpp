@@ -38,6 +38,19 @@ bool SimulationSettings::init_settings()
                 return false;
             }
         }
+
+        {
+            auto optNode = config["optimization"];
+
+            auto peformanceStr = optNode["peformance"].as<::std::string>();
+
+            if (peformanceStr == "Fast") PERFORMANCE = PerformanceKind::HighPerformance;
+            else if (peformanceStr == "LOW-MEMORY") PERFORMANCE = PerformanceKind::LowMemory;
+            else {
+                std::cerr << "Invalid peformance: " << peformanceStr << std::endl;
+                return false;
+            }
+        }
         
         {
             auto simulationNode = config["simulation"];
@@ -232,6 +245,7 @@ void SimulationSettings::printSettings()
 }
 
 // staticメンバの初期化
+constinit PerformanceKind SimulationSettings::PERFORMANCE                 = PerformanceKind::HighPerformance;
 constinit AlgorithmType SimulationSettings::ALGORITHM_TYPE                = AlgorithmType::Naive;
 constinit SimulationType SimulationSettings::SIMULATION_TYPE              = SimulationType::ClusterFormation;
 constinit int32_t SimulationSettings::CELL_SEED                           = 0;

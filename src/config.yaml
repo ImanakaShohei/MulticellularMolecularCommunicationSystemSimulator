@@ -3,6 +3,9 @@ cell:
     cell_num: 1000 # cellの初期個数。TODO: 複数種類の細胞に対応する。細胞数を増やすとやたら重くなる。理由を調べる
     position_update_method: EULER # AB4, AB3, AB2, EULER から選択
 
+optimization:
+    peformance: Fast # FAST, LOW-MEMORY から選択
+
 simulation:
     sim_step: 1000 # シミュレーションの総ステップ数
     output_interval: 5 # 出力間隔

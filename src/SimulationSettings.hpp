@@ -46,6 +46,12 @@ enum class SimulationType
     UserSimulation,
 };
 
+enum class PerformanceKind
+{
+    HighPerformance,
+    LowMemory,
+};
+
 class SimulationSettings final
 {
   public:
@@ -56,6 +62,8 @@ class SimulationSettings final
 
     static bool init_settings();
     static void printSettings();
+
+    static PerformanceKind PERFORMANCE;
 
     // 入力値チェックのため、uintではなくintを使う
     // そもそもuintを使ったところでそれほど大きな値を扱うわけではないので、intで十分

@@ -17,8 +17,7 @@ Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> cons
 
     force -= diff_from_center.timesScalar(COEFFICIENT / diff_from_center.length());
 
-    for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
-
+    auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force, Vec3& force_cont, Vec3 velocity) {
         const Vec3 diff = info.position - cellInfo.position;
         const double dist = diff.length();
 
@@ -28,6 +27,23 @@ Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> cons
 
         if (dist < BONDING_LEN) {
             force_cont += velocity;
+        }
+    };
+
+    switch (SimulationSettings::PERFORMANCE) {
+        case PerformanceKind::HighPerformance:
+        {
+            for (auto cellInfo : m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces)) {
+                f(info, cellInfo, force, force_cont, velocity);
+            }
+            break;
+        }
+        case PerformanceKind::LowMemory:
+        {
+            for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+                f(info, cellInfo, force, force_cont, velocity);
+            }
+            break;
         }
     }
 

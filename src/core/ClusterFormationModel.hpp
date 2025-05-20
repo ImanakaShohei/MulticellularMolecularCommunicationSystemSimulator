@@ -7,8 +7,8 @@ class ClusterFormationModel : public CellSimulationModel {
 
     private:
 
-    static Vec3 calcRemoteForce(CellInfo const& target, CellInfo const& cell) noexcept;
-    static Vec3 calcVolumeExclusion(CellInfo const& target, CellInfo const& cell) noexcept;
+    static Vec3 calcRemoteForce(CellInfo target, CellInfo cell) noexcept;
+    static Vec3 calcVolumeExclusion(CellInfo target, CellInfo cell) noexcept;
 
     public:
 

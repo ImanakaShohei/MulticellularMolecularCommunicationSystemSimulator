@@ -11,7 +11,7 @@
  * e^{(-|C-C_i|/\lambda)}
  * @f}
  */
-Vec3 ClusterFormationModel::calcRemoteForce(CellInfo const& target, CellInfo const& cell) noexcept
+Vec3 ClusterFormationModel::calcRemoteForce(CellInfo target, CellInfo cell) noexcept
 {
     const Vec3 diff              = target.position - cell.position;
     const double dist            = diff.length();
@@ -32,7 +32,7 @@ Vec3 ClusterFormationModel::calcRemoteForce(CellInfo const& target, CellInfo con
  * F = \sum_i
  * @f}
  */
-Vec3 ClusterFormationModel::calcVolumeExclusion(CellInfo const& target, CellInfo const& cell) noexcept
+Vec3 ClusterFormationModel::calcVolumeExclusion(CellInfo target, CellInfo cell) noexcept
 {
     Vec3 force        = Vec3::zero();
     const Vec3 diff   = target.position - cell.position;
@@ -61,34 +61,69 @@ Vec3 ClusterFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
     Vec3 vec;
     CellInfo info = CellInfo(c);
 
+    auto f1 = [] (CellInfo info, CellInfo cellInfo, Vec3& vec) {
+        if (cellInfo.cellType != CellType::WORKER) return;
+        vec += calcRemoteForce(info, cellInfo);
+    };
+
+    auto f2 = [] (CellInfo info, CellInfo cellInfo, Vec3& vec) {
+        if (cellInfo.cellType == CellType::NONE) return;
+        vec += calcVolumeExclusion(info, cellInfo);
+    };
+
     switch (info.cellType) {
         case CellType::WORKER:
         {
-            auto list = m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces);
-            for (auto cellInfo : list) {
-        
-                if (cellInfo.cellType != CellType::WORKER) continue;
-        
-                vec += calcRemoteForce(info, cellInfo);
-            }
-            vec = vec.normalize();
+            switch (SimulationSettings::PERFORMANCE) {
+                case PerformanceKind::HighPerformance:
+                {
+                    auto list = m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces);
+                    for (auto cellInfo : list) {
+                        f1(info, cellInfo, vec);
+                    }
 
-            for (auto cellInfo : list) {
-        
-                if (cellInfo.cellType == CellType::NONE) continue;
-        
-                vec += calcVolumeExclusion(info, cellInfo);
+                    vec = vec.normalize();
+
+                    for (auto cellInfo : list) {
+                        f2(info, cellInfo, vec);
+                    }
+
+                    break;
+                }
+                case PerformanceKind::LowMemory:
+                {
+                    for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+                        f1(info, cellInfo, vec);
+                    }
+
+                    vec = vec.normalize();
+
+                    for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+                        f2(info, cellInfo, vec);
+                    }
+                    break;
+                }
             }
+            
             break;
         }
         case CellType::DEAD:
         {
-            auto list = m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces);
-            for (auto cellInfo : list) {
-        
-                if (cellInfo.cellType == CellType::NONE) continue;
-        
-                vec += calcVolumeExclusion(info, cellInfo);
+            switch (SimulationSettings::PERFORMANCE) {
+                case PerformanceKind::HighPerformance:
+                {
+                    for (auto cellInfo : m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces)) {
+                        f2(info, cellInfo, vec);
+                    }
+                    break;
+                }
+                case PerformanceKind::LowMemory:
+                {
+                    for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+                        f2(info, cellInfo, vec);
+                    }
+                    break;
+                }
             }
             break;
         }
