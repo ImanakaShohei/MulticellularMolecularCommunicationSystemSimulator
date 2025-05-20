@@ -38,9 +38,6 @@ class UserCell : public Cell
     // TODO: これの挙動をよく考える！
     UserCell divide() noexcept;
 
-    // 細胞が結合する
-    void combine(UserCell& cell) noexcept;
-
     double emitMolecule(int32_t moleculeId) noexcept override;
     double absorbMolecule(int32_t moleculeId, double amountOnTheSpot) noexcept override;
 };

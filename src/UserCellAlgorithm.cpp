@@ -1,11 +1,5 @@
 #include "UserCellAlgorithm.hpp"
 
-Vec3 UserCellAlgorithm::calcCellForce([[maybe_unused]] UserCell& c, [[maybe_unused]] ::std::vector<UserCell*> const& cells, [[maybe_unused]] const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
-{
-    // TODO: ここに処理を追加します
-    return Vec3::zero();
-}
-
 void UserCellAlgorithm::beforeNextStep([[maybe_unused]] const ::std::vector<UserCell*>& cells, [[maybe_unused]] const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     // TODO: ここに処理を追加します
@@ -14,4 +8,22 @@ void UserCellAlgorithm::beforeNextStep([[maybe_unused]] const ::std::vector<User
 void UserCellAlgorithm::onNextStep([[maybe_unused]] const ::std::vector<UserCell*>& cells, [[maybe_unused]] const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     // TODO: ここに処理を追加します
+}
+
+Generator<CellInfo> UserCellAlgorithm::iterateAffectableCellInfos([[maybe_unused]] UserCell& c, [[maybe_unused]] ::std::vector<UserCell*> const& cells, [[maybe_unused]] const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+{
+    // TODO: ここに処理を追加します
+    co_return;
+}
+
+::std::vector<CellInfo> UserCellAlgorithm::getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+{
+    // TODO: 最適コードに置き換えます
+
+    ::std::vector<CellInfo> list;
+    for (CellInfo info : iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+        list.push_back(info);
+    }
+
+    return list;
 }

@@ -1,7 +1,7 @@
 #include "ClusterModel.hpp"
 #include "Simulation.hpp"
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
@@ -35,31 +35,28 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells)
     }
 }
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList& cellList)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList& cellList)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
     for (size_t i = 0; i < length; ++i) {
         UserCell& cell = *cells[i];
+        CellInfo info = CellInfo(cell);
 
-        switch (cell.getCellType()) {
+        switch (info.cellType) {
             case CellType::WORKER:
             {
-                for (int aroundIndex : cellList.aroundCellList(cell)) {
+                for (CellInfo cellInfo : cellList.iterateAffectableCellInfos(cell, cells, moleculeSpaces)) {
 
-                    if (aroundIndex == i) continue;
-
-                    UserCell& cellr = *cells[aroundIndex];
-
-                    if (cellr.getCellType() != CellType::WORKER) continue;
+                    if (cellInfo.cellType != CellType::WORKER) continue;
         
                     //
-                    double radius = cell.getRadius() + cellr.getRadius();
+                    double radius = info.radius + cellInfo.radius;
         
                     //距離 < 細胞半径 + 細胞半径 でくっつく
                     //高速化のため、２乗で計算
-                    if ((cell.getPosition() - cellr.getPosition()).squareLength() < radius * radius) {
-                        cell.combine(cellr);
+                    if ((info.position - cellInfo.position).squareLength() < radius * radius) {
+                        cell.combine(*info.pCell);
                         continue;
                     }
                 }
@@ -72,8 +69,8 @@ void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList& cell
     }
 }
 
-void ClusterModel::combine(const ::std::vector<UserCell*>& cells, CellList* pCellList)
+void ClusterModel::combine(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList* pCellList)
 {
-    if (pCellList == nullptr) combine(cells);
-    else combine(cells, *pCellList);
+    if (pCellList == nullptr) combine(cells, moleculeSpaces);
+    else combine(cells, moleculeSpaces, *pCellList);
 }

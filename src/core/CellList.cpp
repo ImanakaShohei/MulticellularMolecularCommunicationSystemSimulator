@@ -61,18 +61,52 @@ std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const UserCell
 }
 
 /**
- * @brief 指定したCellの周囲にあるCellのIDリストを返す。
+ * @brief 指定したCellの周囲にあるCellのinfoを返す
  *
  * @param c
  * @return std::vector<int>
  * @note CHECK_WIDTHはcalcRemoteForceのLAMBDAより大きくするのが理想。
  */
-std::vector<int32_t> CellList::aroundCellList(const UserCell& c) const
+Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
-    std::vector<int32_t> aroundCells;
-    const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
+    static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
 
     auto [gridX, gridY] = getGridCoordinateByCellPos(c);
+
+    auto yMax = gridY + CHECK_GRID_WIDTH;
+    auto xMax = gridX + CHECK_GRID_WIDTH;
+
+    for (int32_t y = gridY - CHECK_GRID_WIDTH; y <= yMax; y++) {
+        for (int32_t x = gridX - CHECK_GRID_WIDTH; x <= xMax; x++) {
+            if (!isInGrid(x, y)) { // グリッド外を参照している場合は飛ばす
+                continue;
+            }
+
+            auto& field = cellField[y][x];
+            int32_t size = (int32_t)field.size();
+            
+            for (int32_t i = 0; i < size; i++) {
+                UserCell& cell = *field[i];
+                if (&cell == &c) continue;
+                if (checkInSearchRadius(c.getPosition(), cell.getPosition())) {
+                    co_yield CellInfo(cell);
+                }
+            }
+        }
+    }
+    
+}
+
+// コピペはよくないので良い方法を考える
+::std::vector<CellInfo> CellList::getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+{
+    ::std::vector<CellInfo> list;
+    static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
+
+    auto [gridX, gridY] = getGridCoordinateByCellPos(c);
+
+    auto yMax = gridY + CHECK_GRID_WIDTH;
+    auto xMax = gridX + CHECK_GRID_WIDTH;
 
     for (int32_t y = gridY - CHECK_GRID_WIDTH; y <= gridY + CHECK_GRID_WIDTH; y++) {
         for (int32_t x = gridX - CHECK_GRID_WIDTH; x <= gridX + CHECK_GRID_WIDTH; x++) {
@@ -80,17 +114,20 @@ std::vector<int32_t> CellList::aroundCellList(const UserCell& c) const
                 continue;
             }
 
-            int32_t size = (int32_t)cellField[y][x].size();
-
+            auto& field = cellField[y][x];
+            int32_t size = (int32_t)field.size();
+            
             for (int32_t i = 0; i < size; i++) {
-                if (checkInSearchRadius(c.getPosition(), cellField[y][x][i]->getPosition())) {
-                    aroundCells.emplace_back(cellField[y][x][i]->arrayIndex);
+                UserCell& cell = *field[i];
+                if (&cell == &c) continue;
+                if (checkInSearchRadius(c.getPosition(), cell.getPosition())) {
+                    list.emplace_back(cell);
                 }
             }
         }
     }
 
-    return aroundCells;
+    return list;
 }
 
 /**
@@ -119,45 +156,6 @@ void CellList::addCell(UserCell* cell)
     const int32_t scaledX = (int32_t)((pos.x + SimulationSettings::FIELD_X_LEN / 2) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION);
 
     cellField[scaledY][scaledX].emplace_back(cell);
-}
-
-Vec3 CellList::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
-{
-    auto aroundCells = this->aroundCellList(c);
-    Vec3 force       = Vec3::zero();
-
-    switch (c.getCellType()) {
-        case CellType::WORKER:
-            for (auto i : aroundCells) {
-                if (cells[i]->getCellType() == CellType::WORKER) {
-                    force += Simulation::calcRemoteForce(c, *cells[i]);
-                }
-            }
-            force = force.normalize();
-
-            for (auto i : aroundCells) {
-                if (cells[i]->getCellType() != CellType::NONE) {
-                    force += Simulation::calcVolumeExclusion(c, *cells[i]);
-                }
-            }
-
-            return force.timesScalar(SimulationSettings::DELTA_TIME);
-
-        case CellType::DEAD:
-            for (auto i : aroundCells) {
-                if (cells[i]->getCellType() != CellType::NONE) {
-                    force += Simulation::calcVolumeExclusion(c, *cells[i]);
-                }
-            }
-
-            return force.timesScalar(SimulationSettings::DELTA_TIME);
-
-        case CellType::NONE:
-            return Vec3::zero();
-        default: [[unlikely]]
-            std::cerr << "CellType is Wrong: " << NAMEOF_ENUM(c.getCellType()) << std::endl;
-            exit(1);
-    }
 }
 
 void CellList::setCells(const ::std::vector<UserCell*>& cells)

@@ -198,63 +198,7 @@ Vec3 Simulation::calcCellForce(UserCell& c) const noexcept
     return pCellSimulationModel->calcCellForce(c, cells, moleculeSpaces);
 }
 
-/**
- * @brief 与えられたCellに対して働く遠隔力を計算する。O(n^2)
- *
- * @param c
- * @return Vec3
- * @details @f{eqnarray*}{
- * F = \sum_i \frac{c(C - C_i)}{|C-C_i|}  *
- * e^{(-|C-C_i|/\lambda)}
- * @f}
- */
-Vec3 Simulation::calcRemoteForce(UserCell& c1, UserCell& c2) noexcept
-{
-    UserCell& target = c1;
-    UserCell& cell = c2;
 
-    const Vec3 diff              = target.getPosition() - cell.getPosition();
-    const double dist            = diff.length();
-
-    if (dist == 0.0) [[unlikely]] return Vec3::zero();
-    
-    const double weight          = cell.getWeight() * target.getWeight();
-
-    return diff.timesScalar(-weight * std::exp(-dist * SimulationSettings::REVERSE_LAMBDA) / dist);
-}
-
-/**
- * @brief 与えられたCellに働く体積排除効果による力を計算する。O(n^2)
- *
- * @param c
- * @return Vec3
- * @details @f{eqnarray*}{
- * F = \sum_i
- * @f}
- */
-Vec3 Simulation::calcVolumeExclusion(UserCell& c1, UserCell& c2) noexcept
-{
-    Vec3 force        = Vec3::zero();
-    const Vec3 diff   = c1.getPosition() - c2.getPosition();
-    const double dist = diff.length();
-    // const double weight               = c2->getWeight() * c1->getWeight();
-    const double sumRadius = c1.getRadius() + c2.getRadius();
-    // const double overlapDist          = c1->getRadius() + c2->getRadius() - dist;
-    constexpr double ELIMINATION_BIAS = 10.0;
-    constexpr double ADHESION_BIAS    = 0.4;
-
-    if (dist < sumRadius && dist != 0.0) {
-        // force += diff.normalize().timesScalar(std::pow(1.8, overlapDist)).timesScalar(BIAS);
-
-        //いのこくんによる最適化
-        //force += diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ELIMINATION_BIAS);
-        //force -= diff.normalize().timesScalar(pow(1.0 - dist / sumRadius, 2) * ADHESION_BIAS);
-
-        force += diff.timesScalar(pow(1.0 - dist / sumRadius, 2) * (ELIMINATION_BIAS - ADHESION_BIAS) / dist);
-    }
-
-    return force;
-}
 
 /**
  * @brief 指定したCellにかかるすべての力を計算する。O(n^2)
@@ -346,7 +290,7 @@ int32_t Simulation::nextStep() noexcept
     if (SimulationSettings::USE_CLUSTER_MODEL) {
         if (SimulationSettings::ALGORITHM_TYPE != AlgorithmType::CellList) cellList->setCells(cells);
 
-        ClusterModel::combine(cells, *cellList);
+        ClusterModel::combine(cells, moleculeSpaces, *cellList);
         cellList->setCells(cells);
     }
 

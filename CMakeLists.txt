@@ -20,6 +20,7 @@ set(SOURCES
     src/UserSimulationModel.cpp
     src/core/BarnesHut.cpp
     src/core/Cell.cpp
+    src/core/CellAlgorithm.cpp
     src/core/CellList.cpp
     src/core/CellSimulationModel.cpp
     src/core/ClusterFormationModel.cpp

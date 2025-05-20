@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../SimulationSettings.hpp"
 #include "../UserCell.hpp"
-#include "../utils/Util.hpp"
 #include "../utils/Vec3.hpp"
 #include "../UserMoleculeSpace.hpp"
-#include <memory>
+#include <vector>
+#include "CellInfo.hpp"
+#include "../threading/Generator.hpp"
 
 class CellAlgorithm {
     private:
@@ -23,14 +23,9 @@ class CellAlgorithm {
 
     constexpr virtual ~CellAlgorithm() {}
 
-    /**
-     * @brief  与えられたCellに対して他のCellから働く力を計算する。
-     * @attention 複数スレッドがこの関数を呼ぶことに注意
-     * @param c
-     * @return Vec3
-     * @details Cellから働く力は遠隔力と近隣力の2つで構成される。さらに、近接力は体積排除効果と接着力の2つに分類される。
-     */
-    virtual Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
     constexpr virtual void beforeNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
     constexpr virtual void onNextStep(const ::std::vector<UserCell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
+
+    virtual Generator<CellInfo> iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
+    virtual ::std::vector<CellInfo> getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 };

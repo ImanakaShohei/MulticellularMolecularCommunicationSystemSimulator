@@ -29,7 +29,7 @@ Vec3 NetworkFormationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> 
             
         }
     }
-    return force.timesScalar(SimulationSettings::DELTA_TIME) + CellSimulationModel::calcCellForce(c, cells, moleculeSpace);
+    return force.timesScalar(SimulationSettings::DELTA_TIME) + ClusterFormationModel::calcCellForce(c, cells, moleculeSpace);
 }
 
 void NetworkFormationModel::onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>&)

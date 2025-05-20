@@ -1,12 +1,14 @@
 #include "MassRotationModel.hpp"
 
 
-Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
+Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {
     Vec3 force = Vec3::zero();
     const Vec3 center = Vec3(0, 0, 0);
     const Vec3 diff_from_center = c.getPosition();
     Vec3 force_cont = Vec3::zero();
+    CellInfo info = CellInfo(c);
+    const Vec3 velocity = c.getVelocity();
 
     constexpr double COEFFICIENT = 1.0;
     constexpr double REPUlSION_C = 0.20;
@@ -15,12 +17,9 @@ Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> cons
 
     force -= diff_from_center.timesScalar(COEFFICIENT / diff_from_center.length());
 
-    for (auto pCell : cells) {
-        auto cell = *pCell;
+    for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
 
-        if (pCell == &c) continue;
-
-        const Vec3 diff = c.getPosition() - cell.getPosition();
+        const Vec3 diff = info.position - cellInfo.position;
         const double dist = diff.length();
 
         if (dist < REPULSION_LEN) {
@@ -28,7 +27,7 @@ Vec3 MassRotationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> cons
         }
 
         if (dist < BONDING_LEN) {
-            force_cont += cell.getVelocity();
+            force_cont += velocity;
         }
     }
 

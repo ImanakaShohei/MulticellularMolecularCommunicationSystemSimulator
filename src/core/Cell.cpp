@@ -332,6 +332,15 @@ Cell Cell::divide() noexcept
     return c;
 }
 
+void Cell::combine(Cell& cell) noexcept
+{
+    weight += cell.weight;
+    radius = ::cbrt(radius * radius * radius + cell.radius * cell.radius * cell.radius);
+    position = (position * weight + cell.position * cell.weight) / (weight + cell.weight);
+
+    cell.typeID = CellType::NONE;
+}
+
 // TODO: 実装する。
 /**
  * @brief moleculeId の分子を周囲環境に放出する。

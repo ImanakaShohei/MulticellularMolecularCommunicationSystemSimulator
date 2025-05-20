@@ -11,5 +11,6 @@
 class NaiveAlgorithm : public CellAlgorithm {
     public:
 
-    Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&) noexcept override;
+    Generator<CellInfo> iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    ::std::vector<CellInfo> getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
 };

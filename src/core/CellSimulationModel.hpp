@@ -25,16 +25,11 @@ class CellSimulationModel {
 
     virtual void initCells(::std::vector<UserCell*>& cells);
     
-    virtual Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual Vec3 calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
 
     virtual void beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
     virtual void onNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 };
-
-inline Vec3 CellSimulationModel::calcCellForce(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
-{
-    return m_cellAlgorithm.calcCellForce(c, cells, moleculeSpaces);
-}
 
 inline void CellSimulationModel::beforeNextStep(::std::vector<UserCell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
 {

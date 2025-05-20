@@ -89,6 +89,9 @@ class Cell
     virtual int32_t die() noexcept;                // ユーザが定義
     Cell divide() noexcept;                        // オーバーライドして使う。
 
+    // 細胞が結合する
+    void combine(Cell& cell) noexcept;
+
     virtual double emitMolecule(int moleculeId) noexcept;
     virtual double absorbMolecule(int moleculeId, double amountOnTheSpot) noexcept;
 

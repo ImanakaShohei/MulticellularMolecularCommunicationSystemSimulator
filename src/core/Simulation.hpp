@@ -89,8 +89,6 @@ class Simulation
     void initDirectories();
     
     Vec3 calcCellForce(UserCell& c) const noexcept;
-    static Vec3 calcRemoteForce(UserCell&, UserCell&) noexcept;
-    static Vec3 calcVolumeExclusion(UserCell&, UserCell&) noexcept;
     Vec3 calcForce(UserCell&) const noexcept;
 
     int32_t nextStep() noexcept;

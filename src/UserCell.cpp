@@ -125,15 +125,6 @@ UserCell UserCell::divide() noexcept
     return c;
 }
 
-void UserCell::combine(UserCell& cell) noexcept
-{
-    weight += cell.weight;
-    radius = ::cbrt(radius * radius * radius + cell.radius * cell.radius * cell.radius);
-    position = (position * weight + cell.position * cell.weight) / (weight + cell.weight);
-
-    cell.typeID = CellType::NONE;
-}
-
 double UserCell::emitMolecule(int32_t) noexcept
 {
     return 0;

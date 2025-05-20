@@ -35,15 +35,15 @@ class CellList : public CellAlgorithm
     ~CellList();
 
     void init();
-    std::vector<int32_t> aroundCellList(const UserCell& c) const;
     constexpr bool isInGrid(const int32_t x, const int32_t y) const noexcept;
     static bool checkInSearchRadius(const Vec3& v, const Vec3& u) noexcept;
     void resetGrid() noexcept;
     void addCell(UserCell* cell);
     void setCells(const ::std::vector<UserCell*>& cells);
-    Vec3 calcCellForce(UserCell& c, ::std::vector<::UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>&) override;
     //  周辺のCellのIDを格納する。ただし、vectorは一列分のみしか確保しない。
     void beforeNextStep(const ::std::vector<UserCell*>& cells, const ::std::vector<UserMoleculeSpace*>&) override;
+    Generator<CellInfo> iterateAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    ::std::vector<CellInfo> getAffectableCellInfos(UserCell& c, ::std::vector<UserCell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
 };
 
 /**
