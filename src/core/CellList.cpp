@@ -108,8 +108,8 @@ Generator<CellInfo> CellList::iterateAffectableCellInfos(UserCell& c, ::std::vec
     auto yMax = gridY + CHECK_GRID_WIDTH;
     auto xMax = gridX + CHECK_GRID_WIDTH;
 
-    for (int32_t y = gridY - CHECK_GRID_WIDTH; y <= gridY + CHECK_GRID_WIDTH; y++) {
-        for (int32_t x = gridX - CHECK_GRID_WIDTH; x <= gridX + CHECK_GRID_WIDTH; x++) {
+    for (int32_t y = gridY - CHECK_GRID_WIDTH; y <= yMax; y++) {
+        for (int32_t x = gridX - CHECK_GRID_WIDTH; x <= xMax; x++) {
             if (!isInGrid(x, y)) { // グリッド外を参照している場合は飛ばす
                 continue;
             }
