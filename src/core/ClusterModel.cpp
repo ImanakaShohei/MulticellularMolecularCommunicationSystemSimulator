@@ -46,20 +46,35 @@ void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vecto
         switch (info.cellType) {
             case CellType::WORKER:
             {
-                for (CellInfo cellInfo : cellList.iterateAffectableCellInfos(cell, cells, moleculeSpaces)) {
-
-                    if (cellInfo.cellType != CellType::WORKER) continue;
+                auto f = [] (Cell& cell, CellInfo info, CellInfo cellInfo) {
+                    if (cellInfo.cellType != CellType::WORKER) return;
         
-                    //
                     double radius = info.radius + cellInfo.radius;
         
                     //距離 < 細胞半径 + 細胞半径 でくっつく
                     //高速化のため、２乗で計算
                     if ((info.position - cellInfo.position).squareLength() < radius * radius) {
                         cell.combine(*cellInfo.pCell);
-                        continue;
+                    }
+                };
+
+                switch (SimulationSettings::PERFORMANCE) {
+                    case PerformanceKind::HighPerformance:
+                    {
+                        for (CellInfo cellInfo : cellList.getAffectableCellInfos(cell, cells, moleculeSpaces)) {
+                            f(cell, info, cellInfo);
+                        }
+                        break;
+                    }
+                    case PerformanceKind::LowMemory:
+                    {
+                        for (CellInfo cellInfo : cellList.iterateAffectableCellInfos(cell, cells, moleculeSpaces)) {
+                            f(cell, info, cellInfo);
+                        }
+                        break;
                     }
                 }
+                
                 break;
             }
 

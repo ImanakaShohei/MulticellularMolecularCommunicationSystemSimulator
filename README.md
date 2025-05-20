@@ -59,16 +59,83 @@ buildしたシミュレータはMSVCの場合は`./build/Release/`に、それ�
 ただし、Step 2 ~ Step 4は`./SimMain all`でまとめて実行することもできます。
 また、各種コマンドは`./SimMain help`から確認することができます。
 
-## シミュレーションモデルの作成方法
-`src/UserSimulationModel.cpp(.hpp)`と`src/UserCellAlgorithm.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
-シミュレーションのパラメータは`SimMain`と同じフォルダにある`config.yaml`に記述します。ユーザが記述するプログラムは主にこの3つです。  
-<!-- UserSimulationの親クラスはSimulationであり、ユーザが使用できる変数(つまり、publicかprotectedの変数)はcells(シミュレーション中のすべてのCellを保存したリスト)とcellList(CellListクラスのインスタンス)です。  
-あるCell cの付近のすべてのCell(のポインタ)を取得したい場合は、`cellList.aroundCellList(c)`によって取得可能です。ただし、すべてのCellを力学モデルの計算対象にしたい場合は、cellsの方を利用したほうが良いです。   -->
-サンプルの力学モデルは`NaiveAlgorithm::calcCellForce()`を参考にすると良いです。
+# シミュレーションモデルの作成方法
+`src/UserSimulationModel.cpp(.hpp)`と`src/UserCellAlgorithm.cpp(.hpp)`と`src/UserCell.cpp(.hpp)`にモデルを記述します。  <!-- 現在作成可能なモデルは細胞間に働く力学モデル(calcCellCellForce)のみです。   -->
+シミュレーションのパラメータは`SimMain`と同じフォルダにある`config.yaml`に記述します。ユーザが記述するプログラムはこの4つです。  
+
+## 最適化アルゴリズム
+シミュレーション時間を短縮する最適化アルゴリズムを独自に作成できます。
+基底クラス`CellAlgorithm`にある4つの仮想関数をオーバーライドしてください。
+```c++
+virtual void beforeNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&);
+virtual void onNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&);
+virtual Generator<CellInfo> iterateAffectableCellInfos(Cell& c, const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+virtual ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+```
+### beforeNextStep()
+細胞に力を加える前にする処理を記述します。
+この関数の実装は任意です。
+
+### onNextStep()
+細胞の位置更新後にする処理を記述します。
+この関数の実装も任意です。
+
+### iterateAffectableCellInfos()
+ターゲットに力を加えることができる細胞の情報をコルーチン`co_yield`で1つ1つ返します。
+この関数は設定で`optimization: performance`が`LOW-MEMORY`に設定されている時に各シミュレーションモデルで細胞に力を加える時に呼ばれます。
+複数スレッドから呼ばれるのでデータ競合が起こらないように設計してください。
+
+### getAffectableCellInfos()
+ターゲットに力を加えることができる細胞の情報をリストにして返します。
+この関数は設定で`optimization: performance`が`FAST`に設定されている時に呼ばれます。
+この関数がよばれるタイミングは`iterateAffectableCellInfos()`と同様です。
+
+### 定義済みアルゴリズム
+このシミュレータには3つの定義済みアルゴリズムがあります。
+独自アルゴリズムを設計する際に参考にしてください。
+  * ナイーブなアルゴリズム(`src/core/NaiveAlgorithm.cpp(.hpp)`)
+  * Barnes-Hutアルゴリズム(`src/core/BarnesHut.cpp(.hpp)`)  
+  * CellList(`src/core/CellList.cpp(.hpp)`)
+
+## シミュレーションモデル
+`UserSimulationModel`の基底クラスである`CellSimulationModel`には４つの仮想関数があります。これらをオーバーライドすることで独自のモデルを作成できます。
+```c++
+virtual void initCells(::std::vector<Cell*>& cells);
+virtual Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+virtual void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+virtual void onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+```
+
+### initCells()
+ここでは各細胞の初期配置を決めます。デフォルトでは円の内部に細胞を敷き詰めるようになっています。
+
+### calcCellForce()
+ここでは、ターゲットの細胞にどのような力を加えるかを記述します。
+基底クラス`CellSimulationModel`に最適化アルゴリズムのインスタンスへの参照`m_cellAlgorithm`があるので、
+それを使うことでシミュレーションの高速化ができます。
+この関数は複数スレッドから呼ばれるため、データの競合が起こらないように設計してください。
+また、最適化アルゴリズムを使用する際は、設定の`optimization: performance`と連動するように設計すると良いです。
+この値が、`LOW-MEMORY`の時には`iterateAffectableCellInfos()`を、`FAST`の時は`getAffectableCellInfos()`を呼ぶようにすると他の定義済みモデルとの動作の整合性が取れます。
+
+### beforeNextStep()
+細胞に力を加える前にする処理を記述します。
+この関数の実装は任意です。
+
+### onNextStep()
+細胞の位置更新後にする処理を記述します。
+この関数の実装も任意です。
+
+### 定義済みモデル
+このシミュレータには5つの定義済みモデルがあります。
+独自モデルを設計する際に参考にしてください。
+  * クラスタ形成モデル(`src/core/ClusterFormationModel.cpp(.hpp)`)  
+  * 細胞塊成長モデル(`src/core/MassGrowthModel.cpp(.hpp)`)  
+  * 細胞塊回転モデル(`src/core/MassRotationModel.cpp(.hpp)`)  
+  * ネットワーク形成モデル(`src/core/NetworkFormationModel.cpp(.hpp)`)  
+  * 信号分子拡散モデル(`src/core/SignalMoleculeDiffusionModel.cpp(.hpp)`)
 
 # 特長
 - CellListなどのアルゴリズムを利用することによりシミュレーションを高速に実行することが可能となっています。  
-- Makefileに定義されたコマンドにより、ユーザはディレクトリの構造を深く考えることなく、コンパイルから結果の確認までを簡単に実行することができます。  
 - シミュレーションの結果をテキスト(`./result/*`)に出力しているため、ユーザが独自にビジュアライザを作成し、再利用することもできます。
 
 # Tips
