@@ -29,7 +29,7 @@
 // }
 
 // 3次元拡散方程式の参考文献 https://cvtech.cc/diffusion3d/
-double MoleculeSpace::diffuse(int32_t x, int32_t y, int32_t z)
+double MoleculeSpace::diffuse(int32_t x, int32_t y, int32_t z) const
 {
     return D *
            (moleculeSpace[x + 1][y][z] + moleculeSpace[x - 1][y][z] + moleculeSpace[x][y + 1][z]   //

@@ -2,12 +2,6 @@
 #include "NormalCell.hpp"
 #include <numbers>
 
-MassGrowthModel::MassGrowthModel(CellAlgorithm& cellAlgorithm)
-    : CellSimulationModel(cellAlgorithm)
-    , m_bondMatrix(SimulationSettings::CELL_NUM, ::std::vector<bool>(SimulationSettings::CELL_NUM, false))
-{
-}
-
 void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
 {
     constexpr double maxRadius = 150.0;
@@ -31,17 +25,22 @@ Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, 
     Vec3 force = Vec3::zero();
     
     for (auto pCell : cells) {
+        if (&c == pCell) continue;
         Cell& cell = *pCell;
-        if (c.id == cell.id) continue;
 
         const Vec3 diff = c.getPosition()- cell.getPosition();
         const double dist = diff.length();
-        if (m_bondMatrix[c.id][cell.id]) {
+
+        if (c.isAdhere(pCell)) {
             if (c.adhereCellsCount() <= 3) {
                 force += diff.timesScalar((s_dMax - dist) * 2.0 / (s_dMax * dist));
             }
             else {
-                force -= diff.timesScalar(std::max(0.0, (dist- s_dMin) / (s_dMax- s_dMin)) * 2.0 / dist);
+                double v = (dist - s_dMin) / (s_dMax - s_dMin);
+
+                if (v > 0.0) {
+                    force -= diff.timesScalar(v * 2.0 / dist);
+                }
             }
         }
 
@@ -56,30 +55,30 @@ Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, 
 
 void MassGrowthModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>&)
 {
-    size_t preCellCount = cells.size();
+    const size_t cellsLength = cells.size();
 
-    for (size_t i = 0; i != preCellCount; i++) {
-        for (size_t j = 0; j != preCellCount; j++) {
-            if (j == i) continue;
+    for (Cell* pCell : cells) {
+        pCell->clearAdhereCells();
+    }
 
-            Cell& celli = *cells[i];
-            Cell& cellj = *cells[j];
+    for (size_t i = 0; i != cellsLength; i++) {
+        Cell& cell = *cells[i];
 
-            const Vec3 diff = celli.getPosition() - cellj.getPosition();
+        if (cell.getCellType() != CellType::WORKER) continue;
+        
+        for (size_t j = i + 1; j != cellsLength; j++) {
+
+            Cell& cell1 = *cells[j];
+
+            if (cell1.getCellType() != CellType::WORKER) continue;
+
+            const Vec3 diff = cell.getPosition() - cell1.getPosition();
             const double dist = diff.length();
 
-            auto&& ref = m_bondMatrix[i][j];
-
-            if (dist < s_dCont) {
-                ref = true;
+            if (dist < SimulationSettings::NF_MAX_ATTRACTION_DISTANCE) {
+                cell.adhere(cell1);
+                cell1.adhere(cell);
             }
-            // ここでdist >= s_dCont
-            else if (dist > s_dMax && ref) {
-                ref = false;
-            }
-            // (s_dCont <= dist) && (dist <= s_dMax || !m_bondMatrix[i][j]) の時は何もしない
-
-            if (ref) celli.adhere(cellj);
         }
     }
     

@@ -20,8 +20,7 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
     for (uint32_t x = 1; x <= width; x++) {
         for (uint32_t y = 1; y <= height; y++) {
             for (uint32_t z = 1; z <= depth; z++) {
-                deltaMoleculeSpace[x][y][z] = diffuse(x, y, z);
-                deltaMoleculeSpace[x][y][z] += -hydrolysisCoefficient * moleculeSpace[x][y][z];
+                deltaMoleculeSpace[x][y][z] = diffuse(x, y, z) - hydrolysisCoefficient * moleculeSpace[x][y][z];
             }
         }
     }

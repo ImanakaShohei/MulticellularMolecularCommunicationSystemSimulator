@@ -1,6 +1,7 @@
 #include "SimulationSettings.hpp"
 #include "thirdparty/nameof.hpp"
 #include <yaml-cpp/yaml.h>
+#include <iostream>
 
 /**
  * @brief 設定ファイルからの読み込み

@@ -66,7 +66,7 @@ class MoleculeSpace
     const double D; // 拡散係数
     const uint32_t ID;
 
-    double diffuse(int32_t x, int32_t y, int32_t z);
+    double diffuse(int32_t x, int32_t y, int32_t z) const;
     double production(int32_t x, int32_t y, int32_t z);
     double decay(int32_t x, int32_t y, int32_t z);
     double advection(int32_t x, int32_t y, int32_t z);

@@ -11,12 +11,10 @@ class MassGrowthModel : public CellSimulationModel {
     static constexpr double s_dMin = 80.0;
     static constexpr double s_dCont = 20.0;
     static constexpr double s_lambda = 20.0;
-
-    ::std::vector<std::vector<bool>> m_bondMatrix;
     
     public:
 
-    MassGrowthModel(CellAlgorithm& cellAlgorithm);
+    constexpr MassGrowthModel(CellAlgorithm& cellArgorithm) noexcept : CellSimulationModel(cellArgorithm) {}
 
     void initCells(::std::vector<Cell*>& cells) override;
 

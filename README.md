@@ -101,7 +101,7 @@ virtual ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, const ::std::vec
 `UserSimulationModel`の基底クラスである`CellSimulationModel`には４つの仮想関数があります。これらをオーバーライドすることで独自のモデルを作成できます。
 ```c++
 virtual void initCells(::std::vector<Cell*>& cells);
-virtual Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+virtual Vec3 calcCellForce(Cell& c, const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 virtual void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 virtual void onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
 ```
