@@ -1,7 +1,7 @@
 #include "ClusterModel.hpp"
 #include "Simulation.hpp"
 
-void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>&)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
@@ -35,7 +35,7 @@ void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vecto
     }
 }
 
-void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList& cellList)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, CellList& cellList)
 {
     size_t length = cells.size();
     //細胞同士が十分に近ければくっついたと判定する
@@ -84,7 +84,7 @@ void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vecto
     }
 }
 
-void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList* pCellList)
+void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, CellList* pCellList)
 {
     if (pCellList == nullptr) combine(cells, moleculeSpaces);
     else combine(cells, moleculeSpaces, *pCellList);

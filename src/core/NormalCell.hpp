@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Cell.hpp"
+#include <random>
 
 class NormalCell : public Cell
 {

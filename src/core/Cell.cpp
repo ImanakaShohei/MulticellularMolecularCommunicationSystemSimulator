@@ -10,6 +10,9 @@
  */
 
 #include "Cell.hpp"
+
+#include "../SimulationSettings.hpp"
+#include "../thirdparty/nameof.hpp"
 #include <numbers>
 
 // static変数の初期化
@@ -388,26 +391,26 @@ int32_t Cell::getNewCellIndex() noexcept
  * @brief Cellの情報をすべて出力する。
  *
  */
-void Cell::printCell() const noexcept
+void Cell::printCell(::std::ostream& out) const
 {
     Vec3 vectory = getVelocity();
-    std::cout << id << '\t' << NAMEOF_ENUM(typeID) << '\t';
-    std::cout << position.x << '\t' << position.y << '\t' << position.z << '\t' << vectory.x << '\t' << vectory.y << '\t' << vectory.z << '\t' << radius << '\t' << adhereCells.size() << '\t';
+    out << id << '\t' << NAMEOF_ENUM(typeID) << '\t';
+    out << position.x << '\t' << position.y << '\t' << position.z << '\t' << vectory.x << '\t' << vectory.y << '\t' << vectory.z << '\t' << radius << '\t' << adhereCells.size() << '\t';
 
     if (adhereCells.empty()) {
-        std::cout << '_';
+        out << '_';
     }
     else {
         for (int i = 0; i < (int)adhereCells.size(); i++) {
-            std::cout << adhereCells[i]->id;
+            out << adhereCells[i]->id;
     
             if (i != (int)adhereCells.size() - 1) {
-                std::cout << ",";
+                out << ",";
             }
         }
     }
     
-    std::cout << '\n';
+    out << '\n';
 }
 
 /**
@@ -458,4 +461,49 @@ void Cell::adjustPosInField() noexcept
     if ((double)(FIELD_WIDTH / 2) <= position.y) {
         position.y = -FIELD_WIDTH / 2;
     }
+}
+
+/**
+ * @brief
+ * Cellの位置を更新し、次の時間に進める。このメソッドはすべてのセルにaddForceした後に呼び出すことを想定している。
+ *  もしすべてのCellにaddForceしていなかった場合、Cellを呼び出す順番によって挙動が変わってしまう。
+ */
+void Cell::nextStep() noexcept
+{
+    Vec3 adjustedVelocity = Vec3::zero();
+    Vec3 velocity = getVelocity();
+
+    uint32_t queueSize;
+    switch (SimulationSettings::POSITION_UPDATE_METHOD) {
+        case PositionUpdateMethod::AB4:
+            queueSize = 4;
+            break;
+        case PositionUpdateMethod::AB3:
+            queueSize = 3;
+            break;
+        case PositionUpdateMethod::AB2:
+            queueSize = 2;
+            break;
+        default:
+            queueSize = 1;
+            break;
+    }
+
+    // 初回は過去の速度がないので、現在の速度をキューに追加する
+    if (preVelocitiesQueue.empty()) {
+        for (uint32_t i = 0; i < queueSize - 1; i++) {
+            preVelocitiesQueue.push(velocity);
+        }
+    }
+
+    preVelocitiesQueue.push(velocity); // 現在の速度をキューに追加
+
+    adjustedVelocity = calcVelocity(preVelocitiesQueue); // 過去+現在の速度を用いて、調整された速度を計算
+
+    if (!(SimulationSettings::POSITION_UPDATE_METHOD == PositionUpdateMethod::ORIGINAL && preVelocitiesQueue.size() < 4))
+        preVelocitiesQueue.pop(); // 一番古い速度をキューから削除
+
+    position += adjustedVelocity; // 位置を更新
+
+    adjustPosInField(); // 枠外にはみ出さないように調整
 }

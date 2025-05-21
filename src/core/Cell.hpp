@@ -12,13 +12,11 @@
 #pragma once
 
 #include "../CellType.hpp"
-#include "../SimulationSettings.hpp"
-#include "../thirdparty/nameof.hpp"
 #include "../utils/Vec3.hpp"
-#include <iostream>
-#include <memory>
 #include <queue>
 #include <random>
+#include <vector>
+#include <iosfwd>
 
 class MoleculeSpace;
 
@@ -97,7 +95,7 @@ class Cell
 
     static int32_t getNewCellIndex() noexcept;
 
-    void printCell() const noexcept;
+    void printCell(::std::ostream& out) const;
     void printDebug() const noexcept; // デバッグ用
 
     static int32_t numberOfCellsBorn; //!< 今までに生成した生きているCellの数。static変数。
@@ -202,51 +200,6 @@ constexpr void Cell::addForce(double fx, double fy) noexcept
 constexpr void Cell::addForce(const Vec3& f) noexcept
 {
     addedForce += f;
-}
-
-/**
- * @brief
- * Cellの位置を更新し、次の時間に進める。このメソッドはすべてのセルにaddForceした後に呼び出すことを想定している。
- *  もしすべてのCellにaddForceしていなかった場合、Cellを呼び出す順番によって挙動が変わってしまう。
- */
-inline void Cell::nextStep() noexcept
-{
-    Vec3 adjustedVelocity = Vec3::zero();
-    Vec3 velocity = getVelocity();
-
-    uint32_t queueSize;
-    switch (SimulationSettings::POSITION_UPDATE_METHOD) {
-        case PositionUpdateMethod::AB4:
-            queueSize = 4;
-            break;
-        case PositionUpdateMethod::AB3:
-            queueSize = 3;
-            break;
-        case PositionUpdateMethod::AB2:
-            queueSize = 2;
-            break;
-        default:
-            queueSize = 1;
-            break;
-    }
-
-    // 初回は過去の速度がないので、現在の速度をキューに追加する
-    if (preVelocitiesQueue.empty()) {
-        for (uint32_t i = 0; i < queueSize - 1; i++) {
-            preVelocitiesQueue.push(velocity);
-        }
-    }
-
-    preVelocitiesQueue.push(velocity); // 現在の速度をキューに追加
-
-    adjustedVelocity = calcVelocity(preVelocitiesQueue); // 過去+現在の速度を用いて、調整された速度を計算
-
-    if (!(SimulationSettings::POSITION_UPDATE_METHOD == PositionUpdateMethod::ORIGINAL && preVelocitiesQueue.size() < 4))
-        preVelocitiesQueue.pop(); // 一番古い速度をキューから削除
-
-    position += adjustedVelocity; // 位置を更新
-
-    adjustPosInField(); // 枠外にはみ出さないように調整
 }
 
 constexpr size_t Cell::adhereCellsCount() const noexcept

@@ -11,13 +11,11 @@
 
 #pragma once
 
-#include "../SimulationSettings.hpp"
-#include "../UserCell.hpp"
+#include "Cell.hpp"
 #include "../utils/Util.hpp"
 #include "../utils/Vec3.hpp"
+#include "../SimulationSettings.hpp"
 #include "CellAlgorithm.hpp"
-#include <memory>
-#include <tuple>
 #include <vector>
 
 class CellList : public CellAlgorithm
@@ -41,9 +39,9 @@ class CellList : public CellAlgorithm
     void addCell(Cell* cell);
     void setCells(const ::std::vector<Cell*>& cells);
     //  周辺のCellのIDを格納する。ただし、vectorは一列分のみしか確保しない。
-    void beforeNextStep(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&) override;
-    Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
-    ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    void beforeNextStep(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>&) override;
+    Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) override;
+    ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) override;
 };
 
 /**

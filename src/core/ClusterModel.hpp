@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../SimulationSettings.hpp"
 #include "Cell.hpp"
-#include "../utils/Util.hpp"
 #include "../utils/Vec3.hpp"
 #include "CellList.hpp"
+#include "MoleculeSpace.hpp"
 
 class ClusterModel final {
     public:
@@ -16,13 +15,13 @@ class ClusterModel final {
     ClusterModel& operator=(ClusterModel const&) = delete;
     ClusterModel& operator=(ClusterModel&&) = delete;
 
-    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
-    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList& cellList);
-    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, CellList* pCellList);
-    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, ::std::nullptr_t);
+    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces);
+    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, CellList& cellList);
+    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, CellList* pCellList);
+    static void combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, ::std::nullptr_t);
 };
 
-inline void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces, ::std::nullptr_t)
+inline void ClusterModel::combine(const ::std::vector<Cell*>& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces, ::std::nullptr_t)
 {
     combine(cells, moleculeSpaces);
 }

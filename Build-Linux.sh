@@ -11,8 +11,8 @@ echo "Creating build directory..."
 mkdir build
 
 # コピー
-cp ./resources/build.sh ./build/
-cp ./resources/rebuild.sh ./build/
+cp ./src/resources/build.sh ./build/
+cp ./src/resources/rebuild.sh ./build/
 
 # "build" ディレクトリに移動
 cd build

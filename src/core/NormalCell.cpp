@@ -1,5 +1,7 @@
 ﻿#include "NormalCell.hpp"
 
+#include "../SimulationSettings.hpp"
+
 std::mt19937 NormalCell::randomEngine(1231);
 std::exponential_distribution<> NormalCell::divisionDist(1.0 / 130.0);
 std::exponential_distribution<> NormalCell::dieDist(1.0 / 150.0);

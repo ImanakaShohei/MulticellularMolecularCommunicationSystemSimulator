@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../UserCell.hpp"
+#include "Cell.hpp"
 #include "../utils/Vec3.hpp"
-#include "../UserMoleculeSpace.hpp"
+#include "MoleculeSpace.hpp"
 #include <vector>
 #include "CellInfo.hpp"
 #include "../threading/Generator.hpp"
@@ -23,9 +23,9 @@ class CellAlgorithm {
 
     constexpr virtual ~CellAlgorithm() {}
 
-    constexpr virtual void beforeNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
-    constexpr virtual void onNextStep(const ::std::vector<Cell*>&, const ::std::vector<UserMoleculeSpace*>&) {}
+    constexpr virtual void beforeNextStep(const ::std::vector<Cell*>&, const ::std::vector<MoleculeSpace*>&) {}
+    constexpr virtual void onNextStep(const ::std::vector<Cell*>&, const ::std::vector<MoleculeSpace*>&) {}
 
-    virtual Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
-    virtual ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual Generator<CellInfo> iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) = 0;
+    virtual ::std::vector<CellInfo> getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces);
 };

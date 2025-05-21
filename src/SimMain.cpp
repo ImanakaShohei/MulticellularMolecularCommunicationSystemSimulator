@@ -11,6 +11,7 @@
 
 #include "core/base.hpp"
 #include "SimMain.hpp"
+#include "SimulationSettings.hpp"
 #include "core/Simulation.hpp"
 #include <string_view>
 #include <filesystem>

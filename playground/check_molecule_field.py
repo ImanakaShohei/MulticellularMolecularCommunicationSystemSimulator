@@ -6,8 +6,7 @@ import glob
 
 ims = []
 
-files = glob("molecule_result/0/molecule_*")
-files = sorted(files)
+files = sorted(glob.glob("molecule_result/0/molecule_*"))
 
 fig, ax = plt.subplots(figsize=(1, 1), dpi=50)
 is_first = True

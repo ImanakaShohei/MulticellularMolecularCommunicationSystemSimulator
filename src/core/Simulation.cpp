@@ -1,15 +1,20 @@
 #include "Simulation.hpp"
-#include "../UserCellAlgorithm.hpp"
+
+#include "BarnesHut.hpp"
 #include "ClusterFormationModel.hpp"
+#include "ClusterModel.hpp"
+#include "EmptyMoleculeSpace.hpp"
 #include "MassGrowthModel.hpp"
 #include "MassRotationModel.hpp"
-#include "NetworkFormationModel.hpp"
-#include "SignalMoleculeDiffusionModel.hpp"
-#include "../UserSimulationModel.hpp"
-#include "SignalDiffusionCell.hpp"
-#include "NormalCell.hpp"
 #include "NaiveAlgorithm.hpp"
-#include "BarnesHut.hpp"
+#include "NetworkFormationModel.hpp"
+#include "NormalCell.hpp"
+#include "SignalDiffusionCell.hpp"
+#include "SignalDiffusionMoleculeSpace.hpp"
+#include "SignalMoleculeDiffusionModel.hpp"
+#include "../UserCellAlgorithm.hpp"
+#include "../UserMoleculeSpace.hpp"
+#include "../UserSimulationModel.hpp"
 #include <filesystem>
 #include <fstream>
 
@@ -28,7 +33,6 @@ Simulation::Simulation()
   , cellAlgorithm(nullptr)
   , cellList(SimulationSettings::USE_CLUSTER_MODEL ? new CellList() : nullptr)
   , pCellSimulationModel(nullptr)
-  , consoleStream(::std::cout.rdbuf())
   , moleculeSpaces(SimulationSettings::MOLECULE_TYPE_NUM)
   , stepNumDigit((int32_t)std::log10(SimulationSettings::SIM_STEP) + 1) // ファイル名の0埋めに使う
   , moleculeTypeNumDigit((int32_t)std::log10(SimulationSettings::MOLECULE_TYPE_NUM) + 1) /// ファイル名の0埋めに使う
@@ -53,9 +57,45 @@ Simulation::Simulation()
         case SimulationType::UserSimulation: pCellSimulationModel = new UserSimulationModel(*cellAlgorithm); break;
     }
 
-    for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
-        moleculeSpaces[i] = new UserMoleculeSpace(SimulationSettings::DEFAULT_MOLECULE_NUMS[i], MoleculeDistributionType::UNIFORM, MoleculeSpaceBorderType::NEUMANN, cells, i);
+    switch (SimulationSettings::SIMULATION_TYPE) {
+        case SimulationType::ClusterFormation:
+        case SimulationType::MassGrowth:
+        case SimulationType::MassRotation:
+        case SimulationType::NetworkFormation:
+        {
+            for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+                moleculeSpaces[i] = new EmptyMoleculeSpace();
+            }
+            break;
+        }
+        case SimulationType::SignalMoleculeDiffusion:
+        {
+            for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+                moleculeSpaces[i] = new SignalDiffusionMoleculeSpace(
+                    SimulationSettings::DEFAULT_MOLECULE_NUMS[i],
+                    MoleculeDistributionType::UNIFORM,
+                    MoleculeSpaceBorderType::NEUMANN,
+                    &cells,
+                    i
+                );
+            }
+            break;
+        }
+        case SimulationType::UserSimulation:
+        {
+            for (int i = 0; i < SimulationSettings::MOLECULE_TYPE_NUM; i++) {
+                moleculeSpaces[i] = new UserMoleculeSpace(
+                    SimulationSettings::DEFAULT_MOLECULE_NUMS[i],
+                    MoleculeDistributionType::UNIFORM,
+                    MoleculeSpaceBorderType::NEUMANN,
+                    &cells,
+                    i
+                );
+            }
+            break;
+        }
     }
+    
 }
 
 /**
@@ -92,12 +132,19 @@ Simulation::~Simulation()
                 delete static_cast<NormalCell*>(pCell);
             }
 
+            for (MoleculeSpace* pSpace : moleculeSpaces) {
+                delete static_cast<EmptyMoleculeSpace*>(pSpace);
+            }
             break;
         }
         case SimulationType::SignalMoleculeDiffusion:
         {
             for (Cell* pCell : cells) {
                 delete static_cast<SignalDiffusionCell*>(pCell);
+            }
+
+            for (MoleculeSpace* pSpace : moleculeSpaces) {
+                delete static_cast<SignalDiffusionMoleculeSpace*>(pSpace);
             }
             break;
         }
@@ -106,13 +153,15 @@ Simulation::~Simulation()
             for (Cell* pCell : cells) {
                 delete static_cast<UserCell*>(pCell);
             }
+
+            for (MoleculeSpace* pSpace : moleculeSpaces) {
+                delete static_cast<UserMoleculeSpace*>(pSpace);
+            }
             break;
         }
     }
     
-    for (UserMoleculeSpace* pSpace : moleculeSpaces) {
-        delete pSpace;
-    }
+    
 }
 
 /**
@@ -164,10 +213,10 @@ void Simulation::deleteModel(CellSimulationModel* pCellSimulationModel) noexcept
  * @brief ファイルにヘッダ情報を出力する。
  *
  */
-void Simulation::printHeader() const noexcept
+void Simulation::printHeader(::std::ostream& out) const noexcept
 {
     // std::cout << "ID\ttypeID\tX\tY\tZ\tVx\tVy\tVz\tR\tN_contact\tContact_IDs" << std::endl;
-    std::cout << "ID\tX\tY" << std::endl;
+    out << "ID\tX\tY" << std::endl;
 }
 
 /**
@@ -182,16 +231,12 @@ void Simulation::printCells(int32_t time) const
 
     std::string outputPath = "./result/cells_" + sout.str();
     std::ofstream ofs(outputPath);
-    std::cout.rdbuf(ofs.rdbuf()); // 標準出力の出力先を指定ファイルに変更
-                                  // ./result/cells_<stepNum>
-    printHeader();
+    printHeader(ofs);
     for (auto pCell : cells) {
         if (pCell->getCellType() == CellType::NONE) continue;
 
-        pCell->printCell();
+        pCell->printCell(ofs);
     }
-
-    std::cout.rdbuf(consoleStream);
 }
 
 void Simulation::printMolecules(int32_t time) const
@@ -205,14 +250,10 @@ void Simulation::printMolecules(int32_t time) const
         typeSout << std::setfill('0') << std::setw(moleculeTypeNumDigit) << i;
         outputPath.replace(18, moleculeTypeNumDigit, typeSout.str());
         std::ofstream ofs(outputPath);
-        std::cout.rdbuf(ofs.rdbuf()); // 標準出力の出力先を指定ファイルに変更
-                                      // ./molecule_result/<moleculeTypeNum>/molecule_<stepNum>
 
         // ファイルに書き込まれる
-        moleculeSpaces[i]->print();
+        moleculeSpaces[i]->print(ofs);
     }
-
-    std::cout.rdbuf(consoleStream);
 }
 
 /**

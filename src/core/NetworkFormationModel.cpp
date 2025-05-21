@@ -1,6 +1,8 @@
 #include "NetworkFormationModel.hpp"
 
-Vec3 NetworkFormationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpace)
+#include "../SimulationSettings.hpp"
+
+Vec3 NetworkFormationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpace)
 {
     static const double co = SimulationSettings::NF_COEFFICIENT / (SimulationSettings::NF_MAX_ATTRACTION_DISTANCE - SimulationSettings::NF_MIN_ATTRACTION_DISTANCE);
 
@@ -32,7 +34,7 @@ Vec3 NetworkFormationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& c
     return force.timesScalar(SimulationSettings::DELTA_TIME) + ClusterFormationModel::calcCellForce(c, cells, moleculeSpace);
 }
 
-void NetworkFormationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>&)
+void NetworkFormationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>&)
 {
     const size_t cellsLength = cells.size();
 

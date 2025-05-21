@@ -1,5 +1,6 @@
 #include "CellSimulationModel.hpp"
 #include "NormalCell.hpp"
+#include "../SimulationSettings.hpp"
 #include <numbers>
 
 void CellSimulationModel::initCells(::std::vector<Cell*>& cells)

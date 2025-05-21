@@ -2,6 +2,8 @@
 #include "NormalCell.hpp"
 #include <numbers>
 
+#include "../SimulationSettings.hpp"
+
 void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
 {
     constexpr double maxRadius = 150.0;
@@ -20,7 +22,7 @@ void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
     }
 }
 
-Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) 
+Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) 
 {
     Vec3 force = Vec3::zero();
     
@@ -53,7 +55,7 @@ Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, 
     return force.timesScalar(SimulationSettings::DELTA_TIME);
 }
 
-void MassGrowthModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>&)
+void MassGrowthModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>&)
 {
     const size_t cellsLength = cells.size();
 

@@ -1,5 +1,7 @@
 #include "UserCell.hpp"
 
+#include "SimulationSettings.hpp"
+
 std::mt19937 UserCell::randomEngine(1231);
 std::exponential_distribution<> UserCell::divisionDist(1.0 / 130.0);
 std::exponential_distribution<> UserCell::dieDist(1.0 / 150.0);

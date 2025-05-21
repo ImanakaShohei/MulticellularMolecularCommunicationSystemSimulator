@@ -25,6 +25,8 @@ set(SOURCES
     src/core/CellSimulationModel.cpp
     src/core/ClusterFormationModel.cpp
     src/core/ClusterModel.cpp
+    src/core/DiffusionMoleculeSpace.cpp
+    src/core/EmptyMoleculeSpace.cpp
     src/core/MoleculeSpace.cpp
     src/core/NaiveAlgorithm.cpp
     src/core/NetworkFormationModel.cpp
@@ -32,6 +34,7 @@ set(SOURCES
     src/core/MassGrowthModel.cpp
     src/core/MassRotationModel.cpp
     src/core/SignalDiffusionCell.cpp
+    src/core/SignalDiffusionMoleculeSpace.cpp
     src/core/SignalMoleculeDiffusionModel.cpp
     src/core/Simulation.cpp
     src/threading/AsyncAction.cpp
@@ -66,7 +69,7 @@ add_custom_command(TARGET SimMain POST_BUILD
             ${CMAKE_SOURCE_DIR}/src/config.yaml
             $<TARGET_FILE_DIR:SimMain>/config.yaml
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/src/convert_tools
+            ${CMAKE_SOURCE_DIR}/src/resources/convert_tools
             $<TARGET_FILE_DIR:SimMain>/convert_tools
 )
 

@@ -2,7 +2,7 @@
 
 #include "CellAlgorithm.hpp"
 #include "Cell.hpp"
-#include "../UserMoleculeSpace.hpp"
+#include "MoleculeSpace.hpp"
 #include <vector>
 
 class CellSimulationModel {
@@ -25,18 +25,18 @@ class CellSimulationModel {
 
     virtual void initCells(::std::vector<Cell*>& cells);
     
-    virtual Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) = 0;
+    virtual Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) = 0;
 
-    virtual void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
-    virtual void onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces);
+    virtual void beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces);
+    virtual void onNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces);
 };
 
-inline void CellSimulationModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+inline void CellSimulationModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     m_cellAlgorithm.beforeNextStep(cells, moleculeSpaces);
 }
 
-inline void CellSimulationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+inline void CellSimulationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     m_cellAlgorithm.onNextStep(cells, moleculeSpaces);
 }

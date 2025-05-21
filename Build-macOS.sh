@@ -14,8 +14,8 @@ mkdir build
 # cmake -S . -B build -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
 
 # コピー
-cp ./resources/build.sh ./build/
-cp ./resources/rebuild.sh ./build/
+cp ./src/resources/build.sh ./build/
+cp ./src/resources/rebuild.sh ./build/
 
 # "build" ディレクトリに移動
 cd build

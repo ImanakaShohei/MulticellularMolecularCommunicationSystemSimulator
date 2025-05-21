@@ -1,5 +1,7 @@
 ﻿#include "SignalDiffusionCell.hpp"
 
+#include "../SimulationSettings.hpp"
+
 double SignalDiffusionCell::calcSynthesis(double extracellularCAMP) const noexcept
 {
     const double y = (activeReceptor * extracellularCAMP) / (1.0 +

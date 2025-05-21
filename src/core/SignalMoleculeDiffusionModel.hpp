@@ -7,11 +7,13 @@ class SignalMoleculeDiffusionModel : public CellSimulationModel {
 
     constexpr SignalMoleculeDiffusionModel(CellAlgorithm& cellAlgorithm) noexcept : CellSimulationModel(cellAlgorithm) {}
 
-    constexpr Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces) noexcept override;
-    void onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces) override;
+    void initCells(::std::vector<Cell*>& cells) override;
+
+    constexpr Vec3 calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) noexcept override;
+    void onNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces) override;
 };
 
-constexpr Vec3 SignalMoleculeDiffusionModel::calcCellForce(Cell&, ::std::vector<Cell*> const&, const ::std::vector<UserMoleculeSpace*>&) noexcept
+constexpr Vec3 SignalMoleculeDiffusionModel::calcCellForce(Cell&, ::std::vector<Cell*> const&, const ::std::vector<MoleculeSpace*>&) noexcept
 {
     return Vec3::zero();
 }

@@ -11,15 +11,15 @@
 
 #pragma once
 
-#include "core/MoleculeSpace.hpp"
+#include "core/DiffusionMoleculeSpace.hpp"
 
-class UserMoleculeSpace : public MoleculeSpace
+class UserMoleculeSpace : public DiffusionMoleculeSpace
 {
   private:
     static constexpr double _D = 0.024 * 1000000.0;
 
   public:
-    UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<Cell*>& cells,
+    UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType, std::vector<Cell*>* cells,
                       const uint32_t ID);
     ~UserMoleculeSpace();
 

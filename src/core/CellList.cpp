@@ -10,7 +10,6 @@
  */
 
 #include "CellList.hpp"
-#include "Simulation.hpp"
 
 /**
  * @brief CellListの初期化を呼びだす。
@@ -67,7 +66,7 @@ std::tuple<int32_t, int32_t> CellList::getGridCoordinateByCellPos(const Cell& c)
  * @return std::vector<int>
  * @note CHECK_WIDTHはcalcRemoteForceのLAMBDAより大きくするのが理想。
  */
-Generator<CellInfo> CellList::iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>&)
+Generator<CellInfo> CellList::iterateAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>&)
 {
     static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
 
@@ -100,7 +99,7 @@ Generator<CellInfo> CellList::iterateAffectableCellInfos(Cell& c, ::std::vector<
 }
 
 // コピペはよくないので良い方法を考える
-::std::vector<CellInfo> CellList::getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+::std::vector<CellInfo> CellList::getAffectableCellInfos(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     ::std::vector<CellInfo> list;
     static const int32_t CHECK_GRID_WIDTH = (SimulationSettings::CELL_LIST_SEARCH_RADIUS + SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION - 1) / SimulationSettings::CELL_LIST_GRID_SIZE_MAGNIFICATION; // 切り上げの割り算
@@ -169,7 +168,7 @@ void CellList::setCells(const ::std::vector<Cell*>& cells)
     }
 }
 
-void CellList::beforeNextStep(const ::std::vector<::Cell*>& cells, const ::std::vector<UserMoleculeSpace*>&)
+void CellList::beforeNextStep(const ::std::vector<::Cell*>& cells, const ::std::vector<MoleculeSpace*>&)
 {
     setCells(cells);
 }

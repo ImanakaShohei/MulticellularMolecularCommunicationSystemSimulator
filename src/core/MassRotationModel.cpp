@@ -1,7 +1,7 @@
 #include "MassRotationModel.hpp"
+#include "../SimulationSettings.hpp"
 
-
-Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     Vec3 force = Vec3::zero();
     const Vec3 center = Vec3(0, 0, 0);

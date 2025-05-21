@@ -1,5 +1,8 @@
 #include "UserSimulationModel.hpp"
+
 #include "UserCell.hpp"
+#include "UserMoleculeSpace.hpp"
+#include "SimulationSettings.hpp"
 #include <numbers>
 
 void UserSimulationModel::initCells(::std::vector<Cell*>& cells)
@@ -36,19 +39,19 @@ void UserSimulationModel::initCells(::std::vector<Cell*>& cells)
     }
 }
 
-Vec3 UserSimulationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+Vec3 UserSimulationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     // TODO: ユーザー独自の処理に変更
     return Vec3::zero();
 }
 
-void UserSimulationModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+void UserSimulationModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     // TODO: ユーザー独自の処理に変更
     CellSimulationModel::beforeNextStep(cells, moleculeSpaces);
 }
 
-void UserSimulationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<UserMoleculeSpace*>& moleculeSpaces)
+void UserSimulationModel::onNextStep(::std::vector<Cell*>& cells, ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     // TODO: ユーザー独自の処理に変更
     CellSimulationModel::onNextStep(cells, moleculeSpaces);

@@ -10,8 +10,8 @@ echo Creating build directory...
 mkdir build
 
 rem "バッチファイルをコピー"
-copy .\resources\build.bat .\build
-copy .\resources\rebuild.bat .\build
+copy .\src\resources\build.bat .\build
+copy .\src\resources\rebuild.bat .\build
 
 rem "build"フォルダに移動
 cd build

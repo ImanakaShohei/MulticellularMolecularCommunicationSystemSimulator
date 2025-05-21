@@ -12,14 +12,12 @@
 #pragma once
 
 #include "Cell.hpp"
-#include "../UserMoleculeSpace.hpp"
+#include "MoleculeSpace.hpp"
 #include "CellList.hpp"
-#include "ClusterModel.hpp"
 #include "CellSimulationModel.hpp"
 #include "../threading/ThreadPool.hpp"
-#include <string>
 #include <vector>
-#include <streambuf>
+#include <iosfwd>
 
 /**
  * @class Simulation
@@ -36,9 +34,8 @@ class Simulation
     CellSimulationModel* pCellSimulationModel;
 
     std::vector<Cell*> cells; //!< シミュレーションで使うCellのリスト。
-    std::streambuf* consoleStream;                //!< 標準出力のストリームバッファ
 
-    std::vector<UserMoleculeSpace*> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
+    std::vector<MoleculeSpace*> moleculeSpaces; //!< 分子の空間を管理するクラス。分子の種類ごとに1つの空間を持つ。
 
     private:
     // ヒープに確保したアルゴリズムのインスタンスを削除
@@ -55,7 +52,7 @@ class Simulation
     template <class TNotImplemented>
     static constexpr void deleteModel(CellSimulationModel*) noexcept {}
 
-    void printHeader() const noexcept;
+    void printHeader(::std::ostream& out) const noexcept;
     void printCells(int32_t time) const;
     void printMolecules(int32_t time) const;
 

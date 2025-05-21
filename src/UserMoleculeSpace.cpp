@@ -1,8 +1,10 @@
 #include "UserMoleculeSpace.hpp"
 
+#include "SimulationSettings.hpp"
+
 UserMoleculeSpace::UserMoleculeSpace(const uint64_t moleculeNum, const MoleculeDistributionType distributionType, const MoleculeSpaceBorderType borderType,
-                                     std::vector<Cell*>& cells, const uint32_t ID)
-  : MoleculeSpace(moleculeNum, distributionType, borderType, cells, ID, _D)
+                                     std::vector<Cell*>* cells, const uint32_t ID)
+  : DiffusionMoleculeSpace(moleculeNum, distributionType, borderType, cells, ID, _D)
 {
 }
 
@@ -32,8 +34,8 @@ void UserMoleculeSpace::calcConcentrationDiff() noexcept
     const int32_t depth  = SimulationSettings::FIELD_Z_LEN;
 
     // #pragma omp parallel for
-    for (uint32_t i = 0; i < cells.size(); i++) {
-        Cell& cell = *cells[i];
+    for (uint32_t i = 0; i < pCells->size(); i++) {
+        Cell& cell = *(*pCells)[i];
         auto position = cell.getPosition();
 
         int32_t x = (int32_t)((position.x + width / 2) / dr) + 1;
