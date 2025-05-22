@@ -17,6 +17,7 @@ set(SOURCES
     src/UserCell.cpp
     src/UserCellAlgorithm.cpp
     src/UserMoleculeSpace.cpp
+    src/UserSettings.cpp
     src/UserSimulationModel.cpp
     src/core/BarnesHut.cpp
     src/core/Cell.cpp

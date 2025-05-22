@@ -1,5 +1,6 @@
 #include "SimulationSettings.hpp"
 #include "thirdparty/nameof.hpp"
+#include "UserSettings.hpp"
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
@@ -213,6 +214,8 @@ bool SimulationSettings::init_settings()
             MOLECULE_DELTA_TIME = moleculeNode["delta_time"].as<double>();
             assert(MOLECULE_DELTA_TIME > 0.0);
         }
+
+        UserSettings::init(config["user_settings"]);
         
 
     } catch (YAML::ParserException& e) {

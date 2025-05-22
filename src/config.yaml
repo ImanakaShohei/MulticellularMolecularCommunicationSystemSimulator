@@ -75,3 +75,6 @@ molecule:
         yz2: NEUMANN
         zx1: NEUMANN
         zx2: NEUMANN
+
+# TODO: ここにユーザー独自の設定を追加します
+user_settings:
