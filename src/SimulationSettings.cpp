@@ -139,6 +139,34 @@ bool SimulationSettings::init_settings()
                 }
                 case SimulationType::MassGrowth:
                 {
+                    auto mgNode = simulationModelNode["mass_glowth_model"];
+
+                    MG_ADHESIONTHRESHOLD = mgNode["adhesion_threshold"].as<uint32_t>();
+                    MG_COEFFICIENT_CD = mgNode["coefficient_cd"].as<double>();
+                    MG_CONTACT_DISTANCE = mgNode["contact_distance"].as<double>();
+                    MG_FOLLOWER_ATTRACTION_FACTOR = mgNode["follower_attraction_factor"].as<double>();
+                    MG_GLOBAL_ATTRACTION_FACTOR = mgNode["global_attraction_factor"].as<double>();
+                    MG_INITIAL_RADIUS = mgNode["initial_radius"].as<double>();
+                    MG_LEADER_REPULSION_FACTOR = mgNode["leader_repulsion_factor"].as<double>();
+                    MG_LEADER_REPULSION_MAX_DISTANCE = mgNode["leader_repulsion_max_distance"].as<double>();
+                    MG_LEADER_REPULSION_MIN_DISTANCE = mgNode["leader_repulsion_min_distance"].as<double>();
+
+                    // エラーチェック
+                    if (MG_ADHESIONTHRESHOLD < 2) [[unlikely]] {
+                        ::std::cerr << "The parameter 'adhesion_threshold' must be set to a value of 2 or greater." << ::std::endl;
+                        return false;
+                    }
+
+                    if (MG_LEADER_REPULSION_MIN_DISTANCE > MG_LEADER_REPULSION_MAX_DISTANCE) {
+                        ::std::cerr << "Invalid mass_glowth_model parameter." << ::std::endl;
+                        return false;
+                    }
+
+                    if (MG_CONTACT_DISTANCE > MG_LEADER_REPULSION_MIN_DISTANCE) {
+                        ::std::cerr << "Invalid mass_glowth_model parameter." << ::std::endl;
+                        return false;
+                    }
+
                     break;
                 }
                 case SimulationType::MassRotation:
@@ -293,6 +321,15 @@ constinit int32_t SimulationSettings::MOLECULE_FIELD_Z_LEN                = 0;
 constinit double SimulationSettings::DELTA_TIME                           = 0.0;
 constinit double SimulationSettings::MOLECULE_DELTA_TIME                  = 0.0;
 constinit bool SimulationSettings::CELL_GROWTH                            = false;
+constinit uint32_t SimulationSettings::MG_ADHESIONTHRESHOLD               = 0;
+constinit double SimulationSettings::MG_COEFFICIENT_CD                    = 0.0;
+constinit double SimulationSettings::MG_CONTACT_DISTANCE                  = 0.0;
+constinit double SimulationSettings::MG_FOLLOWER_ATTRACTION_FACTOR        = 0.0;
+constinit double SimulationSettings::MG_GLOBAL_ATTRACTION_FACTOR          = 0.0;
+constinit double SimulationSettings::MG_INITIAL_RADIUS                    = 0.0;
+constinit double SimulationSettings::MG_LEADER_REPULSION_FACTOR           = 0.0;
+constinit double SimulationSettings::MG_LEADER_REPULSION_MAX_DISTANCE     = 0.0;
+constinit double SimulationSettings::MG_LEADER_REPULSION_MIN_DISTANCE     = 0.0;
 constinit double SimulationSettings::NF_MAX_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MIN_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MAX_REPULSION_DISTANCE            = 0.0;

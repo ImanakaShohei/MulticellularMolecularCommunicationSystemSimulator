@@ -4,16 +4,30 @@
 
 #include "../SimulationSettings.hpp"
 
+MassGrowthModel::MassGrowthModel(CellAlgorithm& cellArgorithm) noexcept
+    : CellSimulationModel(cellArgorithm)
+    , m_adhesionThreshold(SimulationSettings::MG_ADHESIONTHRESHOLD)
+    , m_coefficientCd(SimulationSettings::MG_COEFFICIENT_CD)
+    , m_contactDistance(SimulationSettings::MG_CONTACT_DISTANCE)
+    , m_followerAttractionFactor(SimulationSettings::MG_FOLLOWER_ATTRACTION_FACTOR)
+    , m_globalAttractionFactor(SimulationSettings::MG_GLOBAL_ATTRACTION_FACTOR)
+    , m_leaderRepulsionFactor(SimulationSettings::MG_LEADER_REPULSION_FACTOR)
+    , m_leaderRepulsionMaxDistance(SimulationSettings::MG_LEADER_REPULSION_MAX_DISTANCE)
+    , m_leaderRepulsionMinDistance(SimulationSettings::MG_LEADER_REPULSION_MIN_DISTANCE)
+    , m_leaderRepulsionRange(SimulationSettings::MG_LEADER_REPULSION_MAX_DISTANCE - SimulationSettings::MG_LEADER_REPULSION_MIN_DISTANCE)
+    , m_lambda(SimulationSettings::LAMBDA)
+{
+}
+
 void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
 {
-    constexpr double maxRadius = 150.0;
     std::mt19937 rand_gen{ (uint32_t)SimulationSettings::CELL_SEED }; //!< 乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
 
     std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
-    std::uniform_real_distribution<double> rand_r(0, maxRadius);
+    std::uniform_real_distribution<double> rand_r(0, 1.0);
 
     for (int32_t i = 0; i != SimulationSettings::CELL_NUM; i++) {
-        double r = ::sqrt(rand_r(rand_gen));
+        double r = ::sqrt(rand_r(rand_gen)) * SimulationSettings::MG_INITIAL_RADIUS;
         double theta = rand_theta(rand_gen);
         double x = r * std::cos(theta);
         double y = r * std::sin(theta);
@@ -35,44 +49,47 @@ Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, 
         const double dist = diff.length();
 
         if (c.isAdhere(pCell)) {
-            if (c.adhereCellsCount() <= 3) {
+            if (c.adhereCellsCount() <= m_adhesionThreshold) {
                 // 接着している細胞から離れようとする
-                force += diff.timesScalar((s_dMax - dist) * 2.0 / (s_dMax * dist));
+                // ここで
+                force += diff.timesScalar((m_leaderRepulsionMaxDistance - dist) * m_leaderRepulsionFactor / (m_leaderRepulsionMaxDistance * dist));
             }
             else {
-                double v = (dist - s_dMin) / (s_dMax - s_dMin);
+                double v = dist - m_leaderRepulsionMinDistance;
 
+                // 近すぎると何も起こらない
                 if (v > 0.0) {
-                    force -= diff.timesScalar(v * 2.0 / dist);
+                    force -= diff.timesScalar(v * m_followerAttractionFactor / (dist * m_leaderRepulsionRange));
                 }
             }
         }
 
-        if (dist < s_dCont) {
-            force += diff.timesScalar((s_dCont - dist) * 10.0 / (s_dCont * dist));
+        // 近すぎると反発力が発生
+        if (dist < m_contactDistance) {
+            force += diff.timesScalar((m_contactDistance - dist) * m_coefficientCd / (m_contactDistance * dist));
         }
     }
 
-    auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force) {
+    auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force, double lambda, double globalAttractionFactor) {
         const Vec3 diff = info.position - cellInfo.position;
         const double dist = diff.length();
 
         // すべての細胞に働く力
-        force -= diff.timesScalar(std::exp(-dist / s_lambda) * 0.05 / dist);
+        force -= diff.timesScalar(std::exp(-dist / lambda) * globalAttractionFactor / dist);
     };
     
     switch (SimulationSettings::PERFORMANCE) {
         case PerformanceKind::HighPerformance:
         {
             for (CellInfo cellInfo : m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces)) {
-                f(info, cellInfo, force);
+                f(info, cellInfo, force, m_lambda, m_globalAttractionFactor);
             }
             break;
         }
         case PerformanceKind::LowMemory:
         {
             for (CellInfo cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
-                f(info, cellInfo, force);
+                f(info, cellInfo, force, m_lambda, m_globalAttractionFactor);
             }
             break;
         }
@@ -103,7 +120,7 @@ void MassGrowthModel::beforeNextStep(::std::vector<Cell*>& cells, ::std::vector<
             const Vec3 diff = cell.getPosition() - cell1.getPosition();
             const double dist = diff.length();
 
-            if (dist < SimulationSettings::NF_MAX_ATTRACTION_DISTANCE) {
+            if (dist < m_contactDistance) {
                 cell.adhere(cell1);
                 cell1.adhere(cell);
             }

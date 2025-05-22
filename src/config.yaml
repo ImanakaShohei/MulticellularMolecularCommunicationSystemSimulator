@@ -20,6 +20,20 @@ simulation:
     use_cluster_model: false # シミュレーションでクラスタモデルを使うかどうか
     
 simulation_model:
+
+    # 細胞塊成長モデル固有のパラメータ
+    mass_glowth_model:
+        adhesion_threshold: 3 # 接着している細胞の数がこの値以下の時に反発力が働く
+        coefficient_cd: 10.0 # 反発力にかける係数
+        contact_distance: 20.0 # 細胞同士がこの値より近づくと反発力が発生
+        follower_attraction_factor: 2.0 # 接着している細胞の数がadhesion_thresholdより多い時に受ける引力にかける係数
+        global_attraction_factor: 0.05 # すべての細胞間にかかる力の係数
+        initial_radius: 150.0 # 細胞塊の初期半径
+        leader_repulsion_factor: 2.0 # 接着している細胞の数がadhesion_threshold以下の時に受ける反発力にかける係数
+        leader_repulsion_max_distance: 150.0 # リーダーに届く反発力の最大距離
+        leader_repulsion_min_distance: 80.0 # リーダーに届く反発力の最小距離
+
+
     # ネットワーク形成モデル固有のパラメータ
     network_formation_model:
         max_attraction_distance: 100 # 引力が届く最大距離
