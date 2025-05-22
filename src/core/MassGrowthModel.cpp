@@ -25,16 +25,18 @@ void MassGrowthModel::initCells(::std::vector<Cell*>& cells)
 Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces) 
 {
     Vec3 force = Vec3::zero();
+    CellInfo info = CellInfo(c);
     
     for (auto pCell : cells) {
         if (&c == pCell) continue;
         Cell& cell = *pCell;
 
-        const Vec3 diff = c.getPosition()- cell.getPosition();
+        const Vec3 diff = info.position - cell.getPosition();
         const double dist = diff.length();
 
         if (c.isAdhere(pCell)) {
             if (c.adhereCellsCount() <= 3) {
+                // 接着している細胞から離れようとする
                 force += diff.timesScalar((s_dMax - dist) * 2.0 / (s_dMax * dist));
             }
             else {
@@ -46,9 +48,33 @@ Vec3 MassGrowthModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, 
             }
         }
 
-        force -= diff.timesScalar(std::exp(-dist / s_lambda) * 0.05 / dist);
         if (dist < s_dCont) {
-            force += diff.timesScalar((s_dCont- dist) * 10.0 / (s_dCont * dist));
+            force += diff.timesScalar((s_dCont - dist) * 10.0 / (s_dCont * dist));
+        }
+    }
+
+    auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force) {
+        const Vec3 diff = info.position - cellInfo.position;
+        const double dist = diff.length();
+
+        // すべての細胞に働く力
+        force -= diff.timesScalar(std::exp(-dist / s_lambda) * 0.05 / dist);
+    };
+    
+    switch (SimulationSettings::PERFORMANCE) {
+        case PerformanceKind::HighPerformance:
+        {
+            for (CellInfo cellInfo : m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces)) {
+                f(info, cellInfo, force);
+            }
+            break;
+        }
+        case PerformanceKind::LowMemory:
+        {
+            for (CellInfo cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
+                f(info, cellInfo, force);
+            }
+            break;
         }
     }
 

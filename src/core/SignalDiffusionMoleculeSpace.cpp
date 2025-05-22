@@ -16,22 +16,21 @@ SignalDiffusionMoleculeSpace::SignalDiffusionMoleculeSpace(
         borderType,
         cells,
         ID,
-        s_D
+        SimulationSettings::SMD_DIFFUSION_COEFFICIENT
     )
+    , m_hydrolysisCoefficient(SimulationSettings::SMD_HYDROLYSYS_COEFFICIENT)
 {
 }
 
 void SignalDiffusionMoleculeSpace::calcConcentrationDiff() noexcept
 {
-    // 毎ステップ実行されることを考えると控えめな値にしておいた方がいい。あるいは細胞側の放出量を増やす
-    constexpr double hydrolysisCoefficient = 5.4;
 
     // すべての格子について拡散、生成、分解、移流を行う
     // #pragma omp parallel for
     for (uint32_t x = 1; x <= width; x++) {
         for (uint32_t y = 1; y <= height; y++) {
             for (uint32_t z = 1; z <= depth; z++) {
-                deltaMoleculeSpace[x][y][z] = diffuse(x, y, z) - hydrolysisCoefficient * moleculeSpace[x][y][z];
+                deltaMoleculeSpace[x][y][z] = diffuse(x, y, z) - m_hydrolysisCoefficient * moleculeSpace[x][y][z];
             }
         }
     }
@@ -50,8 +49,8 @@ void SignalDiffusionMoleculeSpace::calcConcentrationDiff() noexcept
         int32_t y = (int32_t)((position.y + height / 2) / dr) + 1;
         int32_t z = (int32_t)((position.z + depth / 2) / dr) + 1;
 
-        // #pragma omp atomic
-        deltaMoleculeSpace[x][y][z] += pCell->emitMolecule(ID);
+        //deltaMoleculeSpace[x][y][z] += pCell->emitMolecule(ID);
+        deltaMoleculeSpace[x][y][z] += 1;
     }
 
     for (Cell* pCell : *pCells) {

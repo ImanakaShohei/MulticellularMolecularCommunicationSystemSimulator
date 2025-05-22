@@ -101,7 +101,11 @@ bool SimulationSettings::init_settings()
             }
 
             USE_CLUSTER_MODEL = simulationNode["use_cluster_model"].as<bool>();
-            
+        }
+
+        {
+            auto simulationModelNode = config["simulation_model"];
+
             switch (SIMULATION_TYPE) {
                 case SimulationType::ClusterFormation:
                 {
@@ -109,7 +113,7 @@ bool SimulationSettings::init_settings()
                 }
                 case SimulationType::NetworkFormation:
                 {
-                    auto nfNode = simulationNode["network_formation_model"];
+                    auto nfNode = simulationModelNode["network_formation_model"];
 
                     NF_MAX_ATTRACTION_DISTANCE = nfNode["max_attraction_distance"].as<double>();
                     NF_MIN_ATTRACTION_DISTANCE = nfNode["min_attraction_distance"].as<double>();
@@ -142,6 +146,11 @@ bool SimulationSettings::init_settings()
                 }
                 case SimulationType::SignalMoleculeDiffusion:
                 {
+                    auto smdNode = simulationModelNode["signal_molecule_diffusion_model"];
+
+                    SMD_DIFFUSION_COEFFICIENT = smdNode["diffusion_coefficient"].as<double>();
+                    SMD_HYDROLYSYS_COEFFICIENT = smdNode["hydrolysis_coefficient"].as<double>();
+
                     break;
                 }
                 case SimulationType::UserSimulation:
@@ -150,6 +159,11 @@ bool SimulationSettings::init_settings()
                 }
                 
             }
+            
+        }
+
+        {
+            auto cellAlgorithmNode = config["cell_algorithm"];
 
             switch (ALGORITHM_TYPE) {
                 case AlgorithmType::Naive:
@@ -172,7 +186,7 @@ bool SimulationSettings::init_settings()
             }
 
             if (USE_CLUSTER_MODEL || ALGORITHM_TYPE == AlgorithmType::CellList) {
-                auto cellListNode = simulationNode["cell_list"];
+                auto cellListNode = cellAlgorithmNode["cell_list"];
                 CELL_LIST_GRID_SIZE_MAGNIFICATION = cellListNode["grid_size_mag"].as<int32_t>();
                 int32_t tmp             = CELL_LIST_GRID_SIZE_MAGNIFICATION;
                 while (tmp > 1) {
@@ -280,3 +294,5 @@ constinit double SimulationSettings::NF_MAX_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MIN_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MAX_REPULSION_DISTANCE            = 0.0;
 constinit double SimulationSettings::NF_COEFFICIENT                       = 0.0;
+constinit double SimulationSettings::SMD_DIFFUSION_COEFFICIENT            = 0.0;
+constinit double SimulationSettings::SMD_HYDROLYSYS_COEFFICIENT           = 0.0;

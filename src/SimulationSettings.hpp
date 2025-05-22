@@ -70,4 +70,8 @@ class SimulationSettings final
     static double NF_MIN_ATTRACTION_DISTANCE; //引力が働く最小距離
     static double NF_MAX_REPULSION_DISTANCE;  //斥力が働く最大距離
     static double NF_COEFFICIENT;             //力に掛ける係数
+
+    // 信号分子拡散モデル
+    static double SMD_DIFFUSION_COEFFICIENT; //拡散係数
+    static double SMD_HYDROLYSYS_COEFFICIENT; // 加水分解係数
 };

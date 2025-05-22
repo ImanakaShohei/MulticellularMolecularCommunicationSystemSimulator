@@ -2,10 +2,11 @@
 
 #include "DiffusionMoleculeSpace.hpp"
 
+/// @brief 信号分子拡散モデル
 class SignalDiffusionMoleculeSpace : public DiffusionMoleculeSpace {
     private:
 
-    static constexpr double s_D = 0.024 * 1000000.0;
+    double m_hydrolysisCoefficient;
 
     public:
 

@@ -8,13 +8,17 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
     const Vec3 diff_from_center = c.getPosition();
     Vec3 force_cont = Vec3::zero();
     CellInfo info = CellInfo(c);
+    // ここの速度は距離 BONDING_LEN 以内の細胞の速度の平均
+    // 細胞の速度はstepごとにゼロにしない
     const Vec3 velocity = c.getVelocity();
 
     constexpr double COEFFICIENT = 1.0;
-    constexpr double REPUlSION_C = 0.20;
-    constexpr double REPULSION_LEN = 15;
-    constexpr double BONDING_LEN = 5;
+    constexpr double COEFFICIENT2 = 1.0;
+    constexpr double REPUlSION_C = 0.20; // 反発係数？
+    constexpr double REPULSION_LEN = 15; // これより近いと反発する
+    constexpr double BONDING_LEN = 5; // これより近いと接着力が働く
 
+    // 中心力
     force -= diff_from_center.timesScalar(COEFFICIENT / diff_from_center.length());
 
     auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force, Vec3& force_cont, Vec3 velocity) {
@@ -26,7 +30,7 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
         }
 
         if (dist < BONDING_LEN) {
-            force_cont += velocity;
+            force_cont += COEFFICIENT2 * velocity;
         }
     };
 

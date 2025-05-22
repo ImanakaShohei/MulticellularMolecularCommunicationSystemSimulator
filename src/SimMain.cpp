@@ -93,7 +93,7 @@ int SimMain::RunCommandLineError()
 int SimMain::RunConvert()
 {
     puts("Converting result...");
-    int result = ::system("python3 convert_tools/create_image.py");
+    int result = ::system("python3 convert_tools/draw_colormap_cell.py");
 
     if (result != 0) return result;
 
