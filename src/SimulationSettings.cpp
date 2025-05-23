@@ -171,6 +171,14 @@ bool SimulationSettings::init_settings()
                 }
                 case SimulationType::MassRotation:
                 {
+                    auto mrNode = simulationModelNode["mass_rotation_model"];
+
+                    MR_ADHESION_DISTANCE_THRESHOLD = mrNode["adhesion_distance_threshold"].as<double>();
+                    MR_ADHESION_FORCE_FACTOR = mrNode["adhesion_force_factor"].as<double>();
+                    MR_CENTRAL_FORCE_FACTOR = mrNode["central_force_factor"].as<double>();
+                    MR_REPULSION_FACTOR = mrNode["repulsion_factor"].as<double>();
+                    MR_REPULSION_MAX_DISTANCE = mrNode["repulsion_max_distance"].as<double>();
+
                     break;
                 }
                 case SimulationType::SignalMoleculeDiffusion:
@@ -330,6 +338,11 @@ constinit double SimulationSettings::MG_INITIAL_RADIUS                    = 0.0;
 constinit double SimulationSettings::MG_LEADER_REPULSION_FACTOR           = 0.0;
 constinit double SimulationSettings::MG_LEADER_REPULSION_MAX_DISTANCE     = 0.0;
 constinit double SimulationSettings::MG_LEADER_REPULSION_MIN_DISTANCE     = 0.0;
+constinit double SimulationSettings::MR_ADHESION_DISTANCE_THRESHOLD       = 0.0;
+constinit double SimulationSettings::MR_ADHESION_FORCE_FACTOR             = 0.0;
+constinit double SimulationSettings::MR_CENTRAL_FORCE_FACTOR              = 0.0;
+constinit double SimulationSettings::MR_REPULSION_FACTOR                  = 0.0;
+constinit double SimulationSettings::MR_REPULSION_MAX_DISTANCE            = 0.0;
 constinit double SimulationSettings::NF_MAX_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MIN_ATTRACTION_DISTANCE           = 0.0;
 constinit double SimulationSettings::NF_MAX_REPULSION_DISTANCE            = 0.0;

@@ -30,6 +30,7 @@ class Cell
     CellType typeID; //!< Cellの種類
     Vec3 position;   //!< Cellの座標(x,y,z)
     Vec3 addedForce;   //!< Cellにくわえられた力
+    Vec3 periodAddedForce;
     double weight;   //!< Cellの質量
     double radius;   //!< Cellの半径
 
@@ -64,6 +65,8 @@ class Cell
     static double calcRadiusFromVolume(double volume) noexcept;
     static double calcVolumeFromRadius(double radius) noexcept;
 
+    constexpr Vec3 getAddedForce() const noexcept;
+    constexpr Vec3 getPeriodAddedForce() const noexcept;
     constexpr CellType getCellType() const noexcept;
     constexpr Vec3 getPosition() const noexcept;
     constexpr Vec3 getVelocity() const noexcept;
@@ -104,6 +107,26 @@ class Cell
     const int id;         //!< CellのID
     const int arrayIndex; //!< 配列のどこに入るか
 };
+
+/**
+ * @brief Cellに加えられた力を返す
+ *
+ * @return Vec3 Cellの座標
+ */
+constexpr Vec3 Cell::getAddedForce() const noexcept
+{
+    return addedForce;
+}
+
+/**
+ * @brief 1step前にCellに加えられた力を返す
+ *
+ * @return Vec3 Cellの座標
+ */
+constexpr Vec3 Cell::getPeriodAddedForce() const noexcept
+{
+    return periodAddedForce;
+}
 
 /**
  * @brief CellのIDを返す。必ず副作用をつけない点に注意。

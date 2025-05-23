@@ -32,8 +32,6 @@ for i in range(len(cell_files)):
 
     img = np.full((IMAGE_LEN, IMAGE_LEN, 3), 255, dtype=np.uint8)
 
-    fig, ax = plt.subplots(figsize=(1, 1), dpi=20)
-
     deg3 = []
     with open(molecule_files[i], "r") as f:
         field3D = f.readlines()

@@ -79,6 +79,13 @@ class SimulationSettings final
     static double MG_LEADER_REPULSION_MAX_DISTANCE; //リーダーに届く反発力の最大距離
     static double MG_LEADER_REPULSION_MIN_DISTANCE; //リーダーに届く反発力の最小距離
 
+    // 細胞塊成長モデル
+    static double MR_ADHESION_DISTANCE_THRESHOLD; // 細胞同士がこの値より近いと接着力が働く
+    static double MR_ADHESION_FORCE_FACTOR; // 接着力にかける係数
+    static double MR_CENTRAL_FORCE_FACTOR; // 中心力にかける係数
+    static double MR_REPULSION_FACTOR; // 反発力の係数
+    static double MR_REPULSION_MAX_DISTANCE; // 細胞同士がこの値より近いと反発する
+
     // ネットワーク形成モデル
     static double NF_MAX_ATTRACTION_DISTANCE; //引力が届く最大距離
     static double NF_MIN_ATTRACTION_DISTANCE; //引力が働く最小距離

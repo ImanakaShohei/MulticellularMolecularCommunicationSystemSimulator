@@ -1,6 +1,22 @@
 #include "MassRotationModel.hpp"
 #include "../SimulationSettings.hpp"
 
+MassRotationModel::MassRotationModel(CellAlgorithm& cellAlgorithm) noexcept
+    : CellSimulationModel(cellAlgorithm)
+    , m_adhesionDistanceThreshold(SimulationSettings::MR_ADHESION_DISTANCE_THRESHOLD)
+    , m_adhesionForceFactor(SimulationSettings::MR_ADHESION_FORCE_FACTOR)
+    , m_centralForceFactor(SimulationSettings::MR_CENTRAL_FORCE_FACTOR)
+    , m_repulsionFactor(SimulationSettings::MR_REPULSION_FACTOR)
+    , m_repulsionMaxDistance(SimulationSettings::MR_REPULSION_MAX_DISTANCE)
+{
+    #if 0
+    if (SimulationSettings::CELL_GROWTH) {
+        ::std::cerr << "In this simulation model, 'cell_growth' must be set to false." << ::std::endl;
+        exit(1);
+    }
+    #endif
+}
+
 Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces)
 {
     Vec3 force = Vec3::zero();
@@ -8,29 +24,30 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
     const Vec3 diff_from_center = c.getPosition();
     Vec3 force_cont = Vec3::zero();
     CellInfo info = CellInfo(c);
-    // ここの速度は距離 BONDING_LEN 以内の細胞の速度の平均
-    // 細胞の速度はstepごとにゼロにしない
-    const Vec3 velocity = c.getVelocity();
-
-    constexpr double COEFFICIENT = 1.0;
-    constexpr double COEFFICIENT2 = 1.0;
-    constexpr double REPUlSION_C = 0.20; // 反発係数？
-    constexpr double REPULSION_LEN = 15; // これより近いと反発する
-    constexpr double BONDING_LEN = 5; // これより近いと接着力が働く
 
     // 中心力
-    force -= diff_from_center.timesScalar(COEFFICIENT / diff_from_center.length());
+    force -= diff_from_center.timesScalar(m_centralForceFactor / diff_from_center.length());
 
-    auto f = [] (CellInfo info, CellInfo cellInfo, Vec3& force, Vec3& force_cont, Vec3 velocity) {
+    auto f = [] (
+        CellInfo info,
+        CellInfo cellInfo,
+        Vec3& force,
+        Vec3& force_cont,
+        double adhesionForceFactor,
+        double repulsionMaxDistance,
+        double repulsionFactor,
+        double adhesionDistanceThreshold
+    )
+    {
         const Vec3 diff = info.position - cellInfo.position;
         const double dist = diff.length();
 
-        if (dist < REPULSION_LEN) {
-            force += diff.timesScalar(REPUlSION_C * (REPULSION_LEN - dist) / (REPULSION_LEN * dist));
+        if (dist < repulsionMaxDistance) {
+            force += diff.timesScalar(repulsionFactor * (repulsionMaxDistance - dist) / (repulsionMaxDistance * dist));
         }
 
-        if (dist < BONDING_LEN) {
-            force_cont += COEFFICIENT2 * velocity;
+        if (dist < adhesionDistanceThreshold) {
+            force_cont += adhesionForceFactor * cellInfo.pCell->getPeriodAddedForce();
         }
     };
 
@@ -38,20 +55,38 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
         case PerformanceKind::HighPerformance:
         {
             for (auto cellInfo : m_cellAlgorithm.getAffectableCellInfos(c, cells, moleculeSpaces)) {
-                f(info, cellInfo, force, force_cont, velocity);
+                f(
+                    info,
+                    cellInfo,
+                    force,
+                    force_cont,
+                    m_adhesionForceFactor,
+                    m_repulsionMaxDistance,
+                    m_repulsionFactor,
+                    m_adhesionDistanceThreshold
+                );
             }
             break;
         }
         case PerformanceKind::LowMemory:
         {
             for (auto cellInfo : m_cellAlgorithm.iterateAffectableCellInfos(c, cells, moleculeSpaces)) {
-                f(info, cellInfo, force, force_cont, velocity);
+                f(
+                    info,
+                    cellInfo,
+                    force,
+                    force_cont,
+                    m_adhesionForceFactor,
+                    m_repulsionMaxDistance,
+                    m_repulsionFactor,
+                    m_adhesionDistanceThreshold
+                );
             }
             break;
         }
     }
 
-    if (force_cont != Vec3::zero()) force += force_cont.timesScalar(0.2 / force_cont.length());
+    if (force_cont != Vec3::zero()) force += force_cont;
     
     return force.timesScalar(SimulationSettings::DELTA_TIME);
 }

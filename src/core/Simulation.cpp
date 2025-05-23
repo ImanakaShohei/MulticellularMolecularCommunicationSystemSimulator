@@ -407,7 +407,7 @@ int32_t Simulation::nextStep() noexcept
         moleculeSpaces[i]->calcConcentrationDiff();
     }
 
-    for (auto&& cell : cells) {
+    for (auto cell : cells) {
         cell->nextStep();
     }
 

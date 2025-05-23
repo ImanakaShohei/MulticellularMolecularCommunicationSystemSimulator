@@ -33,6 +33,13 @@ simulation_model:
         leader_repulsion_max_distance: 150.0 # リーダーに届く反発力の最大距離
         leader_repulsion_min_distance: 80.0 # リーダーに届く反発力の最小距離
 
+    # 細胞塊回転モデル固有のパラメータ
+    mass_rotation_model:
+        adhesion_distance_threshold: 50.0 # 細胞同士がこの値より近いと接着力が働く
+        adhesion_force_factor: 1.0 # 接着力にかける係数
+        central_force_factor: 1.0 # 中心力にかける係数
+        repulsion_factor: 10.0 # 反発力の係数
+        repulsion_max_distance: 15.0 # 細胞同士がこの値より近いと反発する
 
     # ネットワーク形成モデル固有のパラメータ
     network_formation_model:
