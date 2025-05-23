@@ -17,6 +17,10 @@ MassGrowthModel::MassGrowthModel(CellAlgorithm& cellArgorithm) noexcept
     , m_leaderRepulsionRange(SimulationSettings::MG_LEADER_REPULSION_MAX_DISTANCE - SimulationSettings::MG_LEADER_REPULSION_MIN_DISTANCE)
     , m_lambda(SimulationSettings::LAMBDA)
 {
+    if (SimulationSettings::USE_CLUSTER_MODEL) {
+        ::std::cerr << "In this simulation model, 'use_cluster_model' must be set to false." << ::std::endl;
+        exit(1);
+    }
 }
 
 void MassGrowthModel::initCells(::std::vector<Cell*>& cells)

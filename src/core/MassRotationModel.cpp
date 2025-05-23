@@ -9,12 +9,10 @@ MassRotationModel::MassRotationModel(CellAlgorithm& cellAlgorithm) noexcept
     , m_repulsionFactor(SimulationSettings::MR_REPULSION_FACTOR)
     , m_repulsionMaxDistance(SimulationSettings::MR_REPULSION_MAX_DISTANCE)
 {
-    #if 0
-    if (SimulationSettings::CELL_GROWTH) {
-        ::std::cerr << "In this simulation model, 'cell_growth' must be set to false." << ::std::endl;
+    if (SimulationSettings::USE_CLUSTER_MODEL) {
+        ::std::cerr << "In this simulation model, 'use_cluster_model' must be set to false." << ::std::endl;
         exit(1);
     }
-    #endif
 }
 
 Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells, const ::std::vector<MoleculeSpace*>& moleculeSpaces)
@@ -47,7 +45,7 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
         }
 
         if (dist < adhesionDistanceThreshold) {
-            force_cont += adhesionForceFactor * cellInfo.pCell->getPeriodAddedForce();
+            force_cont += (adhesionForceFactor * cellInfo.weight) * cellInfo.previusVelocity;
         }
     };
 

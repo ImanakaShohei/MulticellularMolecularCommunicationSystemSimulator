@@ -472,7 +472,6 @@ void Cell::nextStep() noexcept
 {
     Vec3 adjustedVelocity = Vec3::zero();
     Vec3 velocity = getVelocity();
-    periodAddedForce = addedForce;
 
     uint32_t queueSize;
     switch (SimulationSettings::POSITION_UPDATE_METHOD) {
