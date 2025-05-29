@@ -48,7 +48,7 @@ bool SimulationSettings::init_settings()
 
             auto peformanceStr = optNode["peformance"].as<::std::string>();
 
-            if (peformanceStr == "Fast") PERFORMANCE = PerformanceKind::HighPerformance;
+            if (peformanceStr == "FAST") PERFORMANCE = PerformanceKind::HighPerformance;
             else if (peformanceStr == "LOW-MEMORY") PERFORMANCE = PerformanceKind::LowMemory;
             else {
                 std::cerr << "Invalid peformance: " << peformanceStr << std::endl;

@@ -15,6 +15,7 @@
 #include "../UserCellAlgorithm.hpp"
 #include "../UserMoleculeSpace.hpp"
 #include "../UserSimulationModel.hpp"
+#include "../UserCell.hpp"
 #include <filesystem>
 #include <fstream>
 
@@ -44,7 +45,7 @@ Simulation::Simulation()
             cellAlgorithm = SimulationSettings::USE_CLUSTER_MODEL ? cellList : new CellList();
             break;
         }
-        case AlgorithmType::BarnesHut: throw std::runtime_error("Not implemented algorithm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); break; // TODO: Barnes-Hutアルゴリズムを追加
+        case AlgorithmType::BarnesHut: cellAlgorithm = new BarnesHut(); break;
         case AlgorithmType::User: cellAlgorithm = new UserCellAlgorithm(); break;
     }
 

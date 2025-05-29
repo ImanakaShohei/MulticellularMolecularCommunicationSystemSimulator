@@ -45,7 +45,7 @@ Vec3 MassRotationModel::calcCellForce(Cell& c, ::std::vector<Cell*> const& cells
         }
 
         if (dist < adhesionDistanceThreshold) {
-            force_cont += (adhesionForceFactor * cellInfo.weight) * cellInfo.previusVelocity;
+            force_cont += adhesionForceFactor * cellInfo.previusAddedForce;
         }
     };
 

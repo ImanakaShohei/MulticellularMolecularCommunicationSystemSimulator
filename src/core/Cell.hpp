@@ -30,6 +30,7 @@ class Cell
     CellType typeID; //!< Cellの種類
     Vec3 position;   //!< Cellの座標(x,y,z)
     Vec3 addedForce;   //!< Cellにくわえられた力
+    Vec3 previusAddedForce;
     double weight;   //!< Cellの質量
     double radius;   //!< Cellの半径
 
@@ -65,7 +66,7 @@ class Cell
     static double calcVolumeFromRadius(double radius) noexcept;
 
     constexpr Vec3 getAddedForce() const noexcept;
-    constexpr Vec3 getPreviusVelocity() const noexcept;
+    constexpr Vec3 getPreviusAddedForce() const noexcept;
     constexpr CellType getCellType() const noexcept;
     constexpr Vec3 getPosition() const noexcept;
     constexpr Vec3 getVelocity() const noexcept;
@@ -118,14 +119,13 @@ constexpr Vec3 Cell::getAddedForce() const noexcept
 }
 
 /**
- * @brief 1step前速度を取得
+ * @brief 1step前に加えられて力を取得
  *
  * @return Vec3 Cellの座標
  */
-constexpr Vec3 Cell::getPreviusVelocity() const noexcept
+constexpr Vec3 Cell::getPreviusAddedForce() const noexcept
 {
-    if (preVelocitiesQueue.size() == 0) return Vec3::zero();
-    return preVelocitiesQueue.back();
+    return previusAddedForce;
 }
 
 /**

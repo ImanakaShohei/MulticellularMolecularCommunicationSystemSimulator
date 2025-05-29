@@ -4,7 +4,7 @@ cell:
     position_update_method: EULER # AB4, AB3, AB2, EULER から選択
 
 optimization:
-    peformance: Fast # FAST, LOW-MEMORY から選択
+    peformance: FAST # FAST, LOW-MEMORY から選択
 
 simulation:
     sim_step: 1000 # シミュレーションの総ステップ数
