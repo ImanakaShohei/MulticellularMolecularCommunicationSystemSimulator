@@ -5,6 +5,10 @@
 #include <concepts>
 #include <type_traits>
 
+#define CELLSIM_VERSION_MAJOR 2
+#define CELLSIM_VERSION_MINOR 0
+#define CELLSIM_VERSION_PATCH 0
+
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1
 
@@ -102,6 +106,7 @@ namespace CellSim::CellAlgorithms
 {
     class BarnesHut;
     class CellAlgorithm;
+    enum class CellAlgorithmType;
     class CellList;
     class ClusterModel;
     class NaiveAlgorithm;
@@ -127,6 +132,12 @@ namespace CellSim::Cells
 namespace CellSim::Imaging
 {
 
+}
+
+/// @brief 追加の入出力機能
+namespace CellSim::IO
+{
+    class NamedPipe;
 }
 
 /// @brief シミュレーションモデル
@@ -162,6 +173,7 @@ namespace CellSim::Numerics
 /// @brief 各種設定
 namespace CellSim::Settings
 {
+    class Config;
     class SettingLoader;
 }
 
@@ -183,6 +195,12 @@ namespace CellSim::Threading
     class StlThreadPool;
     class ThreadPool;
     
+}
+
+/// @brief ユーザーデータ
+namespace CellSim::Users
+{
+
 }
 
 // エイリアス定義
