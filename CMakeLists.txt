@@ -12,6 +12,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ここにソースファイルを追加
 set(SOURCES
     src/cpp/main.cpp
+    src/cpp/impl/CellSim.Cells.Cell.cpp
+    src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
 )
 
 # ターゲット名は'cellsim'

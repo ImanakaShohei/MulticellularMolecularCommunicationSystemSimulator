@@ -2,12 +2,24 @@
 #define CELLSIM_CELLS_CELL_HPP
 
 #include "base.hpp"
+#include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
+#include <vector>
 
 namespace CellSim::Cells
 {
-    class Cell {
+    /// @brief 細胞クラス
+    class Cell final {
         private:
+
+        /// @brief 各細胞に割り振るID
+        static int32_t s_id;
+
+        /// @brief 接着している細胞のリスト
+        ::std::vector<Cell*> m_attachedCells;
+
+        /// @brief ふるまい定義
+        CellBehavior* m_behavior;
 
         /// @brief 細胞が受けた力
         Numerics::Vector3 m_force;
@@ -30,11 +42,19 @@ namespace CellSim::Cells
         /// @brief 細胞の半径
         double m_radius;
 
-        protected:
-
+        /// @brief 細胞の種類
+        CellType m_type;
+        
         public:
 
+        Cell(Cell const&) = delete;
+
+        Cell& operator=(Cell const&) = delete;
+
         // プロパティ
+
+        /// @brief 接着している細胞のリスト
+        [[nodiscard]] constexpr ::std::vector<Cell*> const& AttachedCells() const noexcept;
 
         /// @brief 細胞が受けた力
         [[nodiscard]] constexpr Numerics::Vector3 Force() const noexcept;
@@ -69,21 +89,33 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr double Radius() const noexcept;
 
         /// @brief 細胞の種類
-        [[nodiscard]] CellType Type() const noexcept;
+        [[nodiscard]] constexpr CellType Type() const noexcept;
 
         /// @brief 細胞の速度
         [[nodiscard]] constexpr Numerics::Vector3 Velocity() const noexcept;
 
         // メソッド
 
+        /// @brief 細胞に力を加える
+        /// @param force 加える力
+        constexpr void AddForce(Numerics::Vector3 force) noexcept;
+
         void Combine(Cell& c);
 
         void Move() noexcept;
+
+        /// @brief 細胞にかかっている力をゼロにする
+        constexpr void ResetForce() noexcept;
     };
 }
 
 namespace CellSim::Cells
 {
+    constexpr ::std::vector<Cell*> const& Cell::AttachedCells() const noexcept
+    {
+        return m_attachedCells;
+    }
+
     constexpr Numerics::Vector3 Cell::Force() const noexcept
     {
         return m_force;
@@ -139,9 +171,24 @@ namespace CellSim::Cells
         return m_radius;
     }
 
+    constexpr CellType Cell::Type() const noexcept
+    {
+        return m_type;
+    }
+
     constexpr Numerics::Vector3 Cell::Velocity() const noexcept
     {
         return m_force / m_mass;
+    }
+
+    constexpr void Cell::AddForce(Numerics::Vector3 force) noexcept
+    {
+        m_force += force;
+    }
+
+    void Cell::ResetForce() noexcept
+    {
+        m_force = Numerics::Vector3::Zero();
     }
 }
 

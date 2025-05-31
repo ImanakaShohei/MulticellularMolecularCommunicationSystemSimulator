@@ -5,6 +5,83 @@
 #include <concepts>
 #include <type_traits>
 
+#if __has_include(<Windows.h>)
+    #define CELLSIM_ENV_WINDOWS 1
+
+    #if __cplusplus == 199711L
+        #define CELLSIM_COMPILER_MSVC 1
+        #define CELLSIM_CPP_LANG_VERSION _MSVC_LANG
+    #else
+        #define CELLSIM_COMPILER_MSVC 0
+        #define CELLSIM_CPP_LANG_VERSION __cplusplus
+    #endif
+
+#endif
+
+#if __has_include(<unistd.h>) && !defined(CELLSIM_ENV_WINDOWS)
+    #define CELLSIM_ENV_UNIX 1
+#endif
+
+#ifdef __APPLE__
+    #define CELLSIM_ENV_APPLE 1
+#endif
+
+#ifndef CELLSIM_CPP_LANG_VERSION
+    #define CELLSIM_CPP_LANG_VERSION __cplusplus
+#endif
+
+#define CELLSIM_CPP11 201103L
+#define CELLSIM_CPP14 201402L
+#define CELLSIM_CPP17 201703L
+#define CELLSIM_CPP20 202002L
+#define CELLSIM_CPP23 202302L
+
+#if CELLSIM_CPP_LANG_VERSION >= CELLSIM_CPP11
+    #define CELLSIM_HAS_CPP11 1
+#else
+    #define CELLSIM_HAS_CPP11 0
+#endif
+
+#if CELLSIM_CPP_LANG_VERSION >= CELLSIM_CPP14
+    #define CELLSIM_HAS_CPP14 1
+#else
+    #define CELLSIM_HAS_CPP14 0
+#endif
+
+#if CELLSIM_CPP_LANG_VERSION >= CELLSIM_CPP17
+    #define CELLSIM_HAS_CPP17 1
+#else
+    #define CELLSIM_HAS_CPP17 0
+#endif
+
+#if CELLSIM_CPP_LANG_VERSION >= CELLSIM_CPP20
+    #define CELLSIM_HAS_CPP20 1
+#else
+    #define CELLSIM_HAS_CPP20 0
+#endif
+
+#if CELLSIM_CPP_LANG_VERSION >= CELLSIM_CPP23
+    #define CELLSIM_HAS_CPP23 1
+#else
+    #define CELLSIM_HAS_CPP23 0
+#endif
+
+#ifndef CELLSIM_ENV_WINDOWS
+    #define CELLSIM_ENV_WINDOWS 0
+#endif
+
+#ifndef CELLSIM_ENV_UNIX
+    #define CELLSIM_ENV_UNIX 0
+#endif
+
+#ifndef CELLSIM_COMPILER_MSVC
+    #define CELLSIM_COMPILER_MSVC 0
+#endif
+
+#ifndef CELLSIM_ENV_APPLE
+    #define CELLSIM_ENV_APPLE 0
+#endif
+
 // クラスをインスタンス化できないようにする
 #define CELLSIM_STATIC_CLASS(className)                 \
     className() = delete;                               \
@@ -27,6 +104,8 @@ namespace CellSim::CellAlgorithms
     class CellAlgorithm;
     class CellList;
     class ClusterModel;
+    class NaiveAlgorithm;
+    class NullAlgorithm;
     class ParticleMesh;
 }
 
@@ -39,6 +118,7 @@ namespace CellSim::CellAlgorithms::Core
 namespace CellSim::Cells
 {
     class Cell;
+    class CellBehavior;
     struct CellInfo;
     enum class CellType;
 }
@@ -66,21 +146,10 @@ namespace CellSim::Model
 namespace CellSim::Model::Molecule
 {
     class MoleculeDiffusion;
+    class MoleculeDiffusionBehavior;
     class NoMoleculeDiffusion;
     //class SimpleMoleculeDiffusion;
     class SignalMoleculeDiffusion;
-}
-
-/// @brief 各種設定
-namespace CellSim::Options
-{
-    class SettingLoader;
-}
-
-/// @brief コマンドライン処理
-namespace CellSim::Options::Cli
-{
-
 }
 
 /// @brief 数値関連
@@ -88,6 +157,19 @@ namespace CellSim::Numerics
 {
     template <::std::floating_point TFloat>
     struct Vector3T;
+}
+
+/// @brief 各種設定
+namespace CellSim::Settings
+{
+    class SettingLoader;
+}
+
+/// @brief コマンドライン処理
+namespace CellSim::Settings::Cli
+{
+    class CliMain;
+    class CliOptions;
 }
 
 /// @brief 並列処理とコルーチン

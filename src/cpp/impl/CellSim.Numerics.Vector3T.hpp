@@ -10,6 +10,9 @@ namespace CellSim::Numerics
     template <::std::floating_point TFloat>
     struct Vector3T {
         public:
+
+        [[nodiscard]] static constexpr Vector3T Zero() noexcept;
+
         TFloat X;
         TFloat Y;
         TFloat Z;
@@ -18,6 +21,9 @@ namespace CellSim::Numerics
         explicit constexpr Vector3T(TFloat x) noexcept;
         constexpr Vector3T(TFloat x, TFloat y) noexcept;
         constexpr Vector3T(TFloat x, TFloat y, TFloat z) noexcept;
+
+        constexpr Vector3T& operator+=(Vector3T right) noexcept;
+        constexpr Vector3T& operator-=(Vector3T right) noexcept;
     };
 
     template <::std::floating_point TFloat>
@@ -41,6 +47,12 @@ namespace CellSim::Numerics
 
 namespace CellSim::Numerics
 {
+    template <::std::floating_point TFloat>
+    constexpr Vector3T<TFloat> Vector3T<TFloat>::Zero() noexcept
+    {
+        return Vector3T<TFloat>(0, 0, 0);
+    }
+
     template <::std::floating_point TFloat>
     constexpr Vector3T<TFloat>::Vector3T() noexcept
         : X(0)
@@ -71,6 +83,22 @@ namespace CellSim::Numerics
         , Y(y)
         , Z(z)
     {
+    }
+
+    template <::std::floating_point TFloat>
+    constexpr Vector3T<TFloat>& Vector3T<TFloat>::operator+=(Vector3T right) noexcept
+    {
+        X += right.X;
+        Y += right.Y;
+        Z += right.Z;
+    }
+
+    template <::std::floating_point TFloat>
+    constexpr Vector3T<TFloat>& Vector3T<TFloat>::operator-=(Vector3T right) noexcept
+    {
+        X -= right.X;
+        Y -= right.Y;
+        Z -= right.Z;
     }
 
     template <::std::floating_point TFloat>

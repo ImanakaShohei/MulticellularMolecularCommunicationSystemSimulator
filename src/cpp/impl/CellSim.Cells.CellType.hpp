@@ -7,6 +7,7 @@ namespace CellSim::Cells
 {
     /// @brief 細胞の種類
     enum class CellType {
+        None,
         Normal,
     };
 }
