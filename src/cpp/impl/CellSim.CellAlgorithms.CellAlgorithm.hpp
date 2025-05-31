@@ -12,6 +12,9 @@ namespace CellSim::CellAlgorithms
 
         constexpr virtual ~CellAlgorithm() {}
 
+        /// @brief 前処理
+        /// @param cells 細胞リスト
+        /// @param molecules 分子空間リスト
         virtual void BeforeNextStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
@@ -29,6 +32,9 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
 
+        /// @brief 後処理
+        /// @param cells 細胞リスト
+        /// @param molecules 分子空間リスト
         virtual void OnNextStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules

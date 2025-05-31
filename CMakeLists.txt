@@ -12,9 +12,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ここにソースファイルを追加
 set(SOURCES
     src/cpp/main.cpp
+    src/cpp/CellSim.Users.UserCellAlgorithm.cpp
+    src/cpp/CellSim.Users.UserCellBehavior.cpp
     src/cpp/impl/CellSim.Simulation.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
+    src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
     src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
+    src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
+    src/cpp/impl/CellSim.Threading.ThreadPool.cpp
 )
 
 # ターゲット名は'cellsim'

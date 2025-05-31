@@ -27,7 +27,7 @@ namespace CellSim
         CellAlgorithms::CellList* m_pCellList;
 
         /// @brief シミュレーションモデルインスタンスへのポインター
-        Model::SimulationModel* m_pSimulationModel;
+        Model::CellSimulationModel* m_pCellSimulationModel;
 
         /// @brief m_nextstep()の前処理
         void m_beforeNextStep();

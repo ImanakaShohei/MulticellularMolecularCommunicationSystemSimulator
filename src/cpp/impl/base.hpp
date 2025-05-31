@@ -144,12 +144,12 @@ namespace CellSim::IO
 namespace CellSim::Model
 {
     class CellGrowthModel;
+    class CellSimulationModel;
     class ClusterFormationModel;
     class ClusterRotationModel;
     class ClusterSproutingModel;
     class NetworkFormationModel;
     class NullModel;
-    class SimulationModel;
     class WavePropagationModel;
 }
 
@@ -200,7 +200,10 @@ namespace CellSim::Threading
 /// @brief ユーザーデータ
 namespace CellSim::Users
 {
-
+    class UserCellAlgorithm;
+    class UserCellBehavior;
+    class UserMoleculeDiffusionBehavior;
+    class UserSimulationModel;
 }
 
 // エイリアス定義
