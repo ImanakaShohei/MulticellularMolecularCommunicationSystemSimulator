@@ -11,7 +11,7 @@ using namespace CellSim::Threading;
 
 namespace CellSim::Users
 {
-    void UserCellAlgorithm::BeforeNextStep(
+    void UserCellAlgorithm::BeforeAdvanceStep(
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
     )
@@ -39,7 +39,7 @@ namespace CellSim::Users
         co_return;
     }
 
-    void UserCellAlgorithm::OnNextStep(
+    void UserCellAlgorithm::OnAdvanceStep(
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
     )

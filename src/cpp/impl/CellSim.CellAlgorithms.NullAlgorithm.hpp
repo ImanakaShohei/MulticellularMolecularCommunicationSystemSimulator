@@ -12,7 +12,7 @@ namespace CellSim::CellAlgorithms
     class NullAlgorithm : public CellAlgorithm {
         public:
 
-        constexpr void BeforeNextStep(
+        constexpr void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
@@ -29,7 +29,7 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
 
-        constexpr void OnNextStep(
+        constexpr void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
@@ -38,7 +38,7 @@ namespace CellSim::CellAlgorithms
 
 namespace CellSim::CellAlgorithms
 {
-    constexpr void NullAlgorithm::BeforeNextStep(
+    constexpr void NullAlgorithm::BeforeAdvanceStep(
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     )
@@ -62,7 +62,7 @@ namespace CellSim::CellAlgorithms
         co_return;
     }
 
-    constexpr void NullAlgorithm::OnNextStep(
+    constexpr void NullAlgorithm::OnAdvanceStep(
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     )

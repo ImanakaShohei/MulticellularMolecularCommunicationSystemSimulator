@@ -6,7 +6,7 @@ namespace CellSim::Threading
         StlThreadPool ThreadPool::s_pool;
 #endif
 
-    void ThreadPool::ParallelFor(uint32_t threadCount, ssize_t begin, ssize_t end, ::std::function<void(size_t)> const& f)
+    void ThreadPool::ParallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)> const& f)
     {
         struct fArgs {
             size_t b;

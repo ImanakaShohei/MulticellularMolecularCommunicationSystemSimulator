@@ -23,8 +23,24 @@ namespace CellSim::Threading
 
         public:
 
-        static void ParallelFor(ssize_t begin, ssize_t end, ::std::function<void(size_t)> const& f);
-        static void ParallelFor(uint32_t threadCount, ssize_t begin, ssize_t end, ::std::function<void(size_t)> const& f);
+        CELLSIM_STATIC_CLASS(ThreadPool);
+
+        // for (size_t i = begin; i != end; ++i) {
+        //     f(i);
+        // }
+
+        /// @brief 範囲を並列処理
+        /// @param begin 範囲のはじめの要素
+        /// @param end 範囲の最後の次の要素
+        /// @param f 実行する関数
+        static void ParallelFor(size_t begin, size_t end, ::std::function<void(size_t)> const& f);
+
+        /// @brief 範囲を並列処理
+        /// @param threadCount スレッド数を指定
+        /// @param begin 範囲のはじめの要素
+        /// @param end 範囲の最後の次の要素
+        /// @param f 実行する関数
+        static void ParallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)> const& f);
 
 
     };
@@ -32,7 +48,7 @@ namespace CellSim::Threading
 
 namespace CellSim::Threading
 {
-    void ThreadPool::ParallelFor(ssize_t begin, ssize_t end, ::std::function<void(size_t)> const& f)
+    void ThreadPool::ParallelFor(size_t begin, size_t end, ::std::function<void(size_t)> const& f)
     {
         ParallelFor(::std::thread::hardware_concurrency(), begin, end, f);
     }

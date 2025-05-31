@@ -13,7 +13,7 @@ namespace CellSim::Users
         // ここで引数は指定してはいけなウイ
         UserCellAlgorithm() = default;
 
-        void BeforeNextStep(
+        void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
@@ -30,7 +30,7 @@ namespace CellSim::Users
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
 
-        void OnNextStep(
+        void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;

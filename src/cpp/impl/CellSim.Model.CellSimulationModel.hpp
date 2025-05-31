@@ -14,7 +14,7 @@ namespace CellSim::Model
         /// @brief 前処理
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
-        virtual void BeforeNextStep(
+        virtual void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
@@ -39,7 +39,7 @@ namespace CellSim::Model
         /// @brief 後処理
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
-        virtual void OnNextStep(
+        virtual void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;

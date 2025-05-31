@@ -29,11 +29,11 @@ namespace CellSim
         /// @brief シミュレーションモデルインスタンスへのポインター
         Model::CellSimulationModel* m_pCellSimulationModel;
 
-        /// @brief m_nextstep()の前処理
-        void m_beforeNextStep();
+        /// @brief m_advanceStep()の前処理
+        void m_beforeAdvanceStep();
 
         /// @brief 1step進める
-        void m_nextstep();
+        void m_advanceStep();
 
         public:
 
