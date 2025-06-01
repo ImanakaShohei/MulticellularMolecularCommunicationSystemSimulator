@@ -21,13 +21,13 @@ namespace CellSim::CellAlgorithms
         ) = 0;
 
         virtual ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& c,
+            Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
 
         virtual Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& c,
+            Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
