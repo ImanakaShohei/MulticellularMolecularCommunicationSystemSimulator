@@ -18,6 +18,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
     src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
+    src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
     src/cpp/impl/CellSim.Threading.ThreadPool.cpp
 )

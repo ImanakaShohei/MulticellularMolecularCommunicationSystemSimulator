@@ -2,6 +2,7 @@
 #define CELLSIM_CELLS_CELL_HPP
 
 #include "base.hpp"
+#include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include <vector>
@@ -19,7 +20,7 @@ namespace CellSim::Cells
         ::std::vector<Cell*> m_attachedCells;
 
         /// @brief ふるまい定義
-        CellBehavior* m_behavior;
+        CellBehaviorPtr m_behaviorPtr;
 
         /// @brief 細胞が受けた力
         Numerics::Vector3 m_force;
@@ -48,6 +49,7 @@ namespace CellSim::Cells
         public:
 
         Cell(Cell const&) = delete;
+        Cell(Cell&&) = default;
 
         Cell& operator=(Cell const&) = delete;
 

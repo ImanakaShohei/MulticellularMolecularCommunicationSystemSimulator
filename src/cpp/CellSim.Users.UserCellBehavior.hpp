@@ -7,9 +7,14 @@
 namespace CellSim::Users
 {
     /// @brief ユーザー定義の細胞のふるまい
-    class UserCellBehavior: public Cells::CellBehavior {
+    class UserCellBehavior : public Cells::CellBehavior {
         public:
 
+        UserCellBehavior() = default;
+
+        CellBehavior* CreateClone() const override;
+
+        bool HasState() const noexcept override;
     };
 }
 

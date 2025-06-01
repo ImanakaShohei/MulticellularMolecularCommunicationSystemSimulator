@@ -124,6 +124,8 @@ namespace CellSim::Cells
 {
     class Cell;
     class CellBehavior;
+    class CellBehaviorPtr;
+    enum class CellBehaviorType;
     struct CellInfo;
     enum class CellType;
 }
@@ -161,6 +163,11 @@ namespace CellSim::Model::Molecule
     class NoMoleculeDiffusion;
     //class SimpleMoleculeDiffusion;
     class SignalMoleculeDiffusion;
+}
+
+namespace CellSim::Memory
+{
+
 }
 
 /// @brief 数値関連

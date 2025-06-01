@@ -1,5 +1,9 @@
 ﻿#include "CellSim.Threading.ThreadPool.hpp"
 
+#if CELLSIM_ENV_WINDOWS
+    #include <threadpoolapiset.h>
+#endif
+
 namespace CellSim::Threading
 {
 #if !CELLSIM_ENV_WINDOWS
@@ -12,11 +16,11 @@ namespace CellSim::Threading
             size_t b;
             size_t e;
             ::std::function<void(size_t)> f;
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
             ::PTP_WORK work;
-    #endif
+#endif
         };
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
         void(*func)(::PTP_CALLBACK_INSTANCE, ::PVOID, ::PTP_WORK) = [](::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK) {
             fArgs& fargs = *static_cast<fArgs*>(context);
             while (fargs.b != fargs.e) {
@@ -54,15 +58,15 @@ namespace CellSim::Threading
         if (c == 0) {
             for (size_t i = begin; i != end;) {
                 list.emplace_back(fArgs{ i, i += d, f });
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
                 ::SubmitThreadpoolWork(work);
                 
                 back.work = work;
-    #else
+#else
                 s_pool.AppendTask(func, &list.back());
-    #endif
+#endif
             }
         }
         else {
@@ -71,41 +75,41 @@ namespace CellSim::Threading
 
             while (i != n) {
                 list.emplace_back(fArgs{ i, i += d, f });
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
                 ::SubmitThreadpoolWork(work);
                 
                 back.work = work;
-    #else
+#else
                 s_pool.AppendTask(func, &list.back());
-    #endif
+#endif
             }
 
             d++;
 
             while (i != count) {
                 list.emplace_back(fArgs{ i, i += d, f });
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
                 ::SubmitThreadpoolWork(work);
                 
                 back.work = work;
-    #else
+#else
                 s_pool.AppendTask(func, &list.back());
-    #endif
+#endif
             }
         }
 
-    #if SIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
         for (auto& args : list) {
             PTP_WORK work = args.work;
             ::WaitForThreadpoolWorkCallbacks(args.work, FALSE);
             ::CloseThreadpoolWork(work);
         }
-    #else
+#else
         s_pool.WaitAll();
-    #endif
+#endif
     }
 }
