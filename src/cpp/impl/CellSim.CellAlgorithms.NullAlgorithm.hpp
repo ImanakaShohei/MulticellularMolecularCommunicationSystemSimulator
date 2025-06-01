@@ -17,14 +17,14 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
 
-        constexpr ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& c,
+        ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
+            Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& c,
+            Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) override;
@@ -45,12 +45,13 @@ namespace CellSim::CellAlgorithms
     {
     }
 
-    constexpr ::std::vector<Cells::CellInfo> NullAlgorithm::GetAffectableCellInfos(
+    inline ::std::vector<Cells::CellInfo> NullAlgorithm::GetAffectableCellInfos(
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     )
     {
+        return {};
     }
 
     inline Threading::Generator<Cells::CellInfo> NullAlgorithm::IterateAffectableCellInfos(

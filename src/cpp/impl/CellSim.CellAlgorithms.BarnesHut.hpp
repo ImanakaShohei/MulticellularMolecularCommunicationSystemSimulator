@@ -1,18 +1,17 @@
-﻿#ifndef CELLSIM_USERS_USERCELLALGORITHM_HPP
-#define CELLSIM_USERS_USERCELLALGORITHM_HPP
+﻿#ifndef CELLSIM_CELLALGORITHMS_BARNESHUT_HPP
+#define CELLSIM_CELLALGORITHMS_BARNESHUT_HPP
 
-#include "impl/base.hpp"
-#include "impl/CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "base.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 
-namespace CellSim::Users
+namespace CellSim::CellAlgorithms
 {
-    /// @brief ユーザー定義高速化アルゴリズム
-    class UserCellAlgorithm : public CellAlgorithms::CellAlgorithm {
+    /// @brief Baenes-Hut アルゴリズム
+    class BarnesHut : public CellAlgorithm {
         public:
 
-        // ここで引数は指定してはいけなウイ
-        UserCellAlgorithm();
-        ~UserCellAlgorithm();
+        BarnesHut();
+        ~BarnesHut();
 
         void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
@@ -38,4 +37,4 @@ namespace CellSim::Users
     };
 }
 
-#endif //!CELLSIM_USERS_USERCELLALGORITHM_HPP
+#endif //!CELLSIM_CELLALGORITHMS_BARNESHUT_HPP

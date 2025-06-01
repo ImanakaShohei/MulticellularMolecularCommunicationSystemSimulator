@@ -10,6 +10,11 @@ namespace CellSim::CellAlgorithms
     class CellAlgorithm {
         public:
 
+        /// @brief CellAlgorithmTypeからインスタンスを作成
+        /// @param type 種類
+        /// @return インスタンス
+        [[nodiscard]] static CellAlgorithm* FromType(CellAlgorithmType type);
+
         constexpr virtual ~CellAlgorithm() {}
 
         /// @brief 前処理

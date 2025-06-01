@@ -15,6 +15,9 @@ set(SOURCES
     src/cpp/CellSim.Users.UserCellAlgorithm.cpp
     src/cpp/CellSim.Users.UserCellBehavior.cpp
     src/cpp/impl/CellSim.Simulation.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.BarnesHut.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.CellAlgorithm.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.CellList.cpp
     src/cpp/impl/CellSim.CellAlgorithms.NaiveAlgorithm.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp

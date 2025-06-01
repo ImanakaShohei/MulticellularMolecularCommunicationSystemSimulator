@@ -11,6 +11,17 @@ using namespace CellSim::Threading;
 
 namespace CellSim::Users
 {
+
+    UserCellAlgorithm::UserCellAlgorithm()
+    {
+        // TODO: ここに処理を追加します
+    }
+
+    UserCellAlgorithm::~UserCellAlgorithm()
+    {
+        // TODO: ここに処理を追加します
+    }
+
     void UserCellAlgorithm::BeforeAdvanceStep(
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
@@ -19,8 +30,8 @@ namespace CellSim::Users
         // TODO: ここに処理を追加します
     }
 
-    ::std::vector<CellInfo> GetAffectableCellInfos(
-        [[maybe_ununsed]] Cell const& c,
+    ::std::vector<CellInfo> UserCellAlgorithm::GetAffectableCellInfos(
+        [[maybe_ununsed]] Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
     )
@@ -30,7 +41,7 @@ namespace CellSim::Users
     }
 
     Generator<CellInfo> UserCellAlgorithm::IterateAffectableCellInfos(
-        [[maybe_ununsed]] Cell const& c,
+        [[maybe_ununsed]] Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
     )
