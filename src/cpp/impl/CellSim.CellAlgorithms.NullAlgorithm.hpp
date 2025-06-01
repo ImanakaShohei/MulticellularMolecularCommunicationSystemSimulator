@@ -21,13 +21,13 @@ namespace CellSim::CellAlgorithms
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         constexpr void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
@@ -49,7 +49,7 @@ namespace CellSim::CellAlgorithms
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
-    )
+    ) const
     {
         return {};
     }
@@ -58,7 +58,7 @@ namespace CellSim::CellAlgorithms
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
-    )
+    ) const
     {
         co_return;
     }

@@ -13,12 +13,13 @@ namespace CellSim::Settings
 
         static inline Cells::CellBehaviorType s_behaviorType;
         static inline size_t s_cellCount;
+        static inline bool s_enableGrowth;
         static inline double s_growthRate;
         static inline double s_radius;
 
-        CELLSIM_STATIC_CLASS(Cell);
-
         public:
+
+        CELLSIM_STATIC_CLASS(Cell);
 
         // プロパティ
 
@@ -27,6 +28,9 @@ namespace CellSim::Settings
 
         /// @brief 細胞の初期数
         [[nodiscard]] static size_t CellCount() noexcept;
+
+        /// @brief 細胞の成長・分裂を有効にするかどうか
+        [[nodiscard]] static bool EnableGrowth() noexcept;
 
         /// @brief 細胞の成長速度
         [[nodiscard]] static double GrowthRate() noexcept;
@@ -48,6 +52,11 @@ namespace CellSim::Settings
     inline size_t Config::Cell::CellCount() noexcept
     {
         return s_cellCount;
+    }
+
+    inline bool Config::Cell::EnableGrowth() noexcept
+    {
+        return s_enableGrowth;
     }
 
     inline double Config::Cell::GrowthRate() noexcept

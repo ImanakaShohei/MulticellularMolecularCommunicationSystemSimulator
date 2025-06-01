@@ -26,7 +26,7 @@ namespace CellSim::CellAlgorithms
         [[maybe_ununsed]] Cells::Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-    )
+    ) const
     {
         //: ここに処理を追加します
         return {};
@@ -36,7 +36,7 @@ namespace CellSim::CellAlgorithms
         [[maybe_ununsed]] Cells::Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-    )
+    ) const
     {
         //: ここに処理を追加します
         co_return;

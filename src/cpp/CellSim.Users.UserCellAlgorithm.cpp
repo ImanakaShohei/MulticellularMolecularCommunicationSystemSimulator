@@ -34,7 +34,7 @@ namespace CellSim::Users
         [[maybe_ununsed]] Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
-    )
+    ) const
     {
         //: ここに処理を追加します
         return {};
@@ -44,7 +44,7 @@ namespace CellSim::Users
         [[maybe_ununsed]] Cell const& target,
         [[maybe_ununsed]] ::std::vector<Cell> const& cells,
         [[maybe_ununsed]] ::std::vector<MoleculeDiffusion> const& molecules
-    )
+    ) const
     {
         //: ここに処理を追加します
         co_return;

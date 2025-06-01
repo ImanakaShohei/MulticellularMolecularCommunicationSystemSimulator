@@ -8,6 +8,10 @@ namespace CellSim::Users
 {
     /// @brief ユーザー定義高速化アルゴリズム
     class UserCellAlgorithm : public CellAlgorithms::CellAlgorithm {
+        private:
+
+        // TODO: ここにメンバーを追加します
+
         public:
 
         // ここで引数は指定してはいけなウイ
@@ -23,13 +27,13 @@ namespace CellSim::Users
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,

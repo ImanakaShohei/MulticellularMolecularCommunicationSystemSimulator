@@ -29,13 +29,13 @@ namespace CellSim::CellAlgorithms
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) = 0;
+        ) const = 0;
 
         virtual Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) = 0;
+        ) const = 0;
 
         /// @brief 後処理
         /// @param cells 細胞リスト

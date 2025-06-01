@@ -18,13 +18,13 @@ namespace CellSim::CellAlgorithms
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         constexpr void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,

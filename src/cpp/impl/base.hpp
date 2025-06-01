@@ -114,7 +114,7 @@ namespace CellSim::CellAlgorithms
     class ParticleMesh;
 }
 
-namespace CellSim::CellAlgorithms::Core
+namespace CellSim::CellAlgorithms::Detail
 {
 
 }

@@ -8,7 +8,7 @@ namespace CellSim::CellAlgorithms
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
-    )
+    ) const
     {
         ::std::vector<Cells::CellInfo> vec;
         if (cells.size() > 0) [[likely]] vec.reserve(cells.size() - 1);
@@ -25,7 +25,7 @@ namespace CellSim::CellAlgorithms
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
-    )
+    ) const
     {
         const Cells::Cell* pTarget = &target;
         

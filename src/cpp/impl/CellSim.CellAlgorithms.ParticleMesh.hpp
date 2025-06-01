@@ -8,6 +8,10 @@ namespace CellSim::CellAlgorithms
 {
     /// @brief PM法
     class ParticleMesh : public CellAlgorithm {
+        private:
+
+        // TODO: ここにメンバーを追加します
+
         public:
 
         // 引数を追加してはいけない
@@ -23,13 +27,13 @@ namespace CellSim::CellAlgorithms
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
-        ) override;
+        ) const override;
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
