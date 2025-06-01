@@ -9,6 +9,7 @@ namespace CellSim::Settings
         public:
 
         class Cell;
+        class Simulation;
     };
 }
 

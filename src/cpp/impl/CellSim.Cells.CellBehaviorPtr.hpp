@@ -16,6 +16,9 @@ namespace CellSim::Cells
         template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
         static void DefaultDeleter(CellBehavior* p) noexcept;
 
+        template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
+        CellBehaviorPtr(TBehavior* ptr);
+
         CellBehavior* m_ptr;
         DeleterType m_deleter;
 
@@ -24,8 +27,7 @@ namespace CellSim::Cells
 
         public:
 
-        template <class TBehavior, class... Args> requires ::std::derived_from<TBehavior, CellBehavior>
-        CellBehaviorPtr(Args&&... args);
+        [[nodiscard]] static CellBehaviorPtr FromType(CellBehaviorType type);
 
         CellBehaviorPtr(CellBehaviorPtr const& right);
         constexpr CellBehaviorPtr(CellBehaviorPtr&& right) noexcept;
@@ -68,9 +70,9 @@ namespace CellSim::Cells
         m_deleter(m_ptr);
     }
 
-    template <class TBehavior, class... Args> requires ::std::derived_from<TBehavior, CellBehavior>
-    CellBehaviorPtr::CellBehaviorPtr(Args&&... args)
-        : m_ptr(new TBehavior(::std::forward<Args>(args)...))
+    template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
+    CellBehaviorPtr::CellBehaviorPtr(TBehavior* ptr)
+        : m_ptr(ptr)
         , m_deleter(DefaultDeleter<TBehavior>)
     {
     }

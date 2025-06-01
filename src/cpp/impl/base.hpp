@@ -126,8 +126,10 @@ namespace CellSim::Cells
     class CellBehavior;
     class CellBehaviorPtr;
     enum class CellBehaviorType;
+    struct CellGrowthResult;
     struct CellInfo;
     enum class CellType;
+    class NormalCellBehavior;
 }
 
 /// @brief 画像処理

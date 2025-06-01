@@ -104,6 +104,9 @@ namespace CellSim::Cells
 
         void Combine(Cell& c);
 
+        /// @brief 細胞が成長
+        void Grow();
+
         void Move() noexcept;
 
         /// @brief 細胞にかかっている力をゼロにする

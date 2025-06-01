@@ -18,6 +18,11 @@ namespace CellSim::Cells
 
         constexpr void AddOwner() noexcept;
 
+        /// @brief 細胞の成長度合いを計算
+        /// @param cell ターゲットの細胞
+        /// @return 計算結果
+        [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) const = 0;
+
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
 
         [[nodiscard]] constexpr bool HasOwner() const noexcept;
@@ -50,7 +55,6 @@ namespace CellSim::Cells
     {
         --m_ownerCount;
     }
-
     
 }
 

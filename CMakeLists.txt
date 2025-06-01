@@ -16,6 +16,8 @@ set(SOURCES
     src/cpp/CellSim.Users.UserCellBehavior.cpp
     src/cpp/impl/CellSim.Simulation.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
+    src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
+    src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
     src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
