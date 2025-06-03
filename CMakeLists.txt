@@ -32,9 +32,12 @@ set(SOURCES
     src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
     src/cpp/impl/CellSim.Model.WavePropagationModel.cpp
     src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
+    src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
+    src/cpp/impl/CellSim.Settings.Config.Simulation.cpp
+    src/cpp/impl/CellSim.Settings.Config.SimulationModel.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterFormation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.NetworkFormation.cpp
     src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
@@ -49,4 +52,9 @@ target_compile_options(SimMain PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
     #$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
     #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
+)
+
+# 追加のincludeパス
+target_include_directories(SimMain PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
 )

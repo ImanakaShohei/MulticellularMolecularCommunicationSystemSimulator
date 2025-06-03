@@ -114,6 +114,9 @@ namespace CellSim::Cells
 
         [[nodiscard]] bool IsAdheringTo(Cell const& cell) const noexcept;
 
+        /// @brief 代謝
+        void Metabolize();
+
         void Move() noexcept;
 
         /// @brief 細胞にかかっている力をゼロにする

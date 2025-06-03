@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Settings.Config.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config::Simulation final {
@@ -15,6 +17,8 @@ namespace CellSim::Settings
 
         /// @brief 1ステップあたりのシミュレーション内時間
         [[nodiscard]] static double DeltaTime() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 

@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config::SimulationModel::NetworkFormation final {
@@ -40,6 +42,8 @@ namespace CellSim::Settings
 
         /// @brief 遠隔力の係数
         [[nodiscard]] static double RemoteForceFactor() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 

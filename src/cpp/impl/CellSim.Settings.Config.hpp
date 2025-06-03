@@ -3,9 +3,16 @@
 
 #include "base.hpp"
 
+#include <string>
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config final {
+        private:
+
+        static void s_loadUnsafe(const char* filePath);
+
         public:
 
         class Cell;
@@ -14,6 +21,11 @@ namespace CellSim::Settings
         class Simulation;
         class SimulationModel;
         class UserSettings;
+
+        static void Load();
+        static void Load(const char* filePath);
+        static void Load(::std::string const& filePath);
+        static void Load(::nlohmann::json const& config);
     };
 }
 

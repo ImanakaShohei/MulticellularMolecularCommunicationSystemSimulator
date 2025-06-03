@@ -5,6 +5,8 @@
 #include "CellSim.PeformanceType.hpp"
 #include "CellSim.Settings.Config.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     /// @brief 最適化設定
@@ -19,6 +21,8 @@ namespace CellSim::Settings
 
         /// @brief 実行速度とメモリ使用量の設定
         [[nodiscard]] static PeformanceType Peformance() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 

@@ -5,6 +5,8 @@
 #include "CellSim.Model.CellSimulationType.hpp"                                                                                                                              
 #include "CellSim.Settings.Config.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config::SimulationModel final {
@@ -21,6 +23,8 @@ namespace CellSim::Settings
 
         /// @brief 
         [[nodiscard]] static Model::CellSimulationType SimulationType() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 

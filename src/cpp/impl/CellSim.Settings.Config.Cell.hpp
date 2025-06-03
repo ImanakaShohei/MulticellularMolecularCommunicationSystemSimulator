@@ -5,6 +5,8 @@
 #include "CellSim.Cells.CellBehaviorType.hpp"
 #include "CellSim.Settings.Config.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     /// @brief 細胞設定
@@ -39,6 +41,8 @@ namespace CellSim::Settings
         [[nodiscard]] static double Radius() noexcept;
 
         // メソッド
+
+        static void Load(::nlohmann::json const& cellConfig);
     };
 }
 

@@ -5,6 +5,8 @@
 #include "CellSim.Settings.Config.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmType.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config::CellAlgorithm final {
@@ -22,6 +24,8 @@ namespace CellSim::Settings
 
         /// @brief シミュレーションでクラスタモデルを使用するかどうか
         [[nodiscard]] static bool UseClusterModel() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 
