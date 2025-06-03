@@ -11,8 +11,7 @@ namespace CellSim::Cells
     class CellBehaviorPtr {
         private:
 
-        template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
-        CellBehaviorPtr(TBehavior* ptr);
+        constexpr CellBehaviorPtr(CellBehavior* ptr) noexcept;
 
         CellBehavior* m_ptr;
 
@@ -22,6 +21,14 @@ namespace CellSim::Cells
         public:
 
         [[nodiscard]] static CellBehaviorPtr FromType(CellBehaviorType type);
+
+        static CellBehaviorPtr FromPointer(::std::nullptr_t) = delete;
+
+        /// @brief 生ポインタから作成
+        /// @param ptr ポインタ
+        /// @return オブジェクト
+        /// @exception std::invalid_argument: ptrがnullptrのとき
+        [[nodiscard]] static CellBehaviorPtr FromPointer(CellBehavior* ptr);
 
         CellBehaviorPtr(CellBehaviorPtr const& right);
         constexpr CellBehaviorPtr(CellBehaviorPtr&& right) noexcept;
@@ -59,8 +66,7 @@ namespace CellSim::Cells
         delete m_ptr;
     }
 
-    template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
-    CellBehaviorPtr::CellBehaviorPtr(TBehavior* ptr)
+    constexpr CellBehaviorPtr::CellBehaviorPtr(CellBehavior* ptr) noexcept
         : m_ptr(ptr)
     {
     }

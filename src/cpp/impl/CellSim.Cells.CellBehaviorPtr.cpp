@@ -18,4 +18,11 @@ namespace CellSim::Cells
             }
         }
     }
+
+    CellBehaviorPtr CellBehaviorPtr::FromPointer(CellBehavior* ptr)
+    {
+        if (ptr == nullptr) [[unlikely]] throw ::std::invalid_argument("CellBehavior* is nullptr.");
+
+        return CellBehaviorPtr(ptr);
+    }
 }
