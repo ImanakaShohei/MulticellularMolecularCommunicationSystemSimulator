@@ -9,7 +9,9 @@ namespace CellSim::Settings
         public:
 
         class Cell;
+        class CellAlgorithm;
         class Simulation;
+        class SimulationModel;
     };
 }
 

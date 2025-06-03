@@ -12,8 +12,6 @@ namespace CellSim
     class Simulation final {
         private:
 
-        static CellAlgorithms::CellAlgorithm* s_createAlgorithm();
-
         /// @brief 細胞リスト
         ::std::vector<Cells::Cell> m_cells;
 
@@ -21,6 +19,7 @@ namespace CellSim
         ::std::vector<Model::Molecule::MoleculeDiffusion> m_molecules;
 
         /// @brief 使用する高速化アルゴリズムへのポインター
+        /// @note シミュレーションモデルのUserCellAlgorithm()がfalseの場合はnullptr
         CellAlgorithms::CellAlgorithm* m_pCellAlgorithm;
 
         /// @brief クラスタモデルで使うCellListインスタンスへのポインター
@@ -29,17 +28,22 @@ namespace CellSim
         /// @brief シミュレーションモデルインスタンスへのポインター
         Model::CellSimulationModel* m_pCellSimulationModel;
 
+        /// @brief 1step進める
+        void m_advanceStep();
+
         /// @brief m_advanceStep()の前処理
         void m_beforeAdvanceStep();
 
-        /// @brief 1step進める
-        void m_advanceStep();
+        /// @brief 高速化アルゴリズムインスタンスの初期化
+        void m_initializeCellAlgorithm();
 
         public:
 
         /// @brief 初期化
         Simulation();
         Simulation(Simulation const&) = delete;
+
+        ~Simulation();
 
         Simulation& operator=(Simulation const&) = delete;
 

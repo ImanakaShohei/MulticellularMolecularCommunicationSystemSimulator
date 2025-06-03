@@ -11,16 +11,10 @@ namespace CellSim::Cells
     class CellBehaviorPtr {
         private:
 
-        using DeleterType = void(*)(CellBehavior*);
-
-        template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
-        static void DefaultDeleter(CellBehavior* p) noexcept;
-
         template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
         CellBehaviorPtr(TBehavior* ptr);
 
         CellBehavior* m_ptr;
-        DeleterType m_deleter;
 
         void m_copyFrom(CellBehaviorPtr const& right);
         void m_delete() noexcept;
@@ -44,11 +38,6 @@ namespace CellSim::Cells
 
 namespace CellSim::Cells
 {
-    template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
-    void CellBehaviorPtr::DefaultDeleter(CellBehavior* p) noexcept
-    {
-        delete static_cast<TBehavior*>(p);
-    }
 
     void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
     {
@@ -67,26 +56,23 @@ namespace CellSim::Cells
 
         if (m_ptr->HasOwner()) return;
 
-        m_deleter(m_ptr);
+        delete m_ptr;
     }
 
     template <class TBehavior> requires ::std::derived_from<TBehavior, CellBehavior>
     CellBehaviorPtr::CellBehaviorPtr(TBehavior* ptr)
         : m_ptr(ptr)
-        , m_deleter(DefaultDeleter<TBehavior>)
     {
     }
 
     inline CellBehaviorPtr::CellBehaviorPtr(CellBehaviorPtr const& right)
         : m_ptr()
-        , m_deleter(right.m_deleter)
     {
         m_copyFrom(right);
     }
 
     constexpr CellBehaviorPtr::CellBehaviorPtr(CellBehaviorPtr&& right) noexcept
         : m_ptr(right.m_ptr)
-        , m_deleter(right.m_deleter)
     {
         right.m_ptr = nullptr;
     }
@@ -102,7 +88,6 @@ namespace CellSim::Cells
     {
         m_delete();
         m_copyFrom(right);
-        m_deleter = right.m_deleter;
 
         return *this;
     }
@@ -112,7 +97,6 @@ namespace CellSim::Cells
         m_delete();
         
         m_ptr = right.m_ptr;
-        m_deleter = right.m_deleter;
 
         right.m_ptr = nullptr;
 

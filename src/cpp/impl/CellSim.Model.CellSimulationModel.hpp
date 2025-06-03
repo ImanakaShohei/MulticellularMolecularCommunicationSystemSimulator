@@ -11,6 +11,11 @@ namespace CellSim::Model
     class CellSimulationModel {
         public:
 
+        /// @brief CellSimulationTypeからインスタンスを作成
+        /// @param type 種類
+        /// @return インスタンス
+        [[nodiscard]] static CellSimulationModel* FromType(CellSimulationType type);
+
         /// @brief 前処理
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
@@ -30,7 +35,7 @@ namespace CellSim::Model
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces,
             CellAlgorithms::CellAlgorithm const& cellAlgorithm
-        ) = 0;
+        ) const = 0;
 
         /// @brief リストに細胞を格納
         /// @param cells リスト

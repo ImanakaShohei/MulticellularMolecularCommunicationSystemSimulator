@@ -14,6 +14,7 @@ set(SOURCES
     src/cpp/main.cpp
     src/cpp/CellSim.Users.UserCellAlgorithm.cpp
     src/cpp/CellSim.Users.UserCellBehavior.cpp
+    src/cpp/CellSim.Users.UserSimulationModel.cpp
     src/cpp/impl/CellSim.Simulation.cpp
     src/cpp/impl/CellSim.CellAlgorithms.BarnesHut.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellAlgorithm.cpp
@@ -22,9 +23,16 @@ set(SOURCES
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
     src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
+    src/cpp/impl/CellSim.Model.CellGrowthModel.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
+    src/cpp/impl/CellSim.Model.ClusterFormationModel.cpp
+    src/cpp/impl/CellSim.Model.ClusterRotationModel.cpp
+    src/cpp/impl/CellSim.Model.ClusterSproutingModel.cpp
+    src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
+    src/cpp/impl/CellSim.Model.WavePropagationModel.cpp
     src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
+    src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
     src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
     src/cpp/impl/CellSim.Threading.ThreadPool.cpp
 )

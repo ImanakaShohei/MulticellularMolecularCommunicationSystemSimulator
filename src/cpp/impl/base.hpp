@@ -149,6 +149,7 @@ namespace CellSim::Model
 {
     class CellGrowthModel;
     class CellSimulationModel;
+    enum class CellSimulationType;
     class ClusterFormationModel;
     class ClusterRotationModel;
     class ClusterSproutingModel;
