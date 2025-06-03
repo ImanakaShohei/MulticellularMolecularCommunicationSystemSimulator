@@ -30,4 +30,9 @@ namespace CellSim::Model
             }
         }
     }
+
+    void CellSimulationModel::InitializeCells(::std::vector<Cells::Cell>& cells)
+    {
+        
+    }
 }

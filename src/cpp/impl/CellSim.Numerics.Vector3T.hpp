@@ -2,6 +2,7 @@
 #define CELLSIM_NUMERICS_VECTOR3T_HPP
 
 #include "base.hpp"
+#include <math.h>
 
 namespace CellSim::Numerics
 {
@@ -24,6 +25,12 @@ namespace CellSim::Numerics
 
         constexpr Vector3T& operator+=(Vector3T right) noexcept;
         constexpr Vector3T& operator-=(Vector3T right) noexcept;
+
+        [[nodiscard]] TFloat Length() const noexcept;
+
+        [[nodiscard]] Vector3T Normalize() const noexcept;
+
+        [[nodiscard]] constexpr TFloat SquareLength() const noexcept;
     };
 
     template <::std::floating_point TFloat>
@@ -99,6 +106,27 @@ namespace CellSim::Numerics
         X -= right.X;
         Y -= right.Y;
         Z -= right.Z;
+    }
+
+    template <::std::floating_point TFloat>
+    inline TFloat Vector3T<TFloat>::Length() const noexcept
+    {
+        return ::sqrt(SquareLength());
+    }
+
+    template <::std::floating_point TFloat>
+    inline Vector3T<TFloat> Vector3T<TFloat>::Normalize() const noexcept
+    {
+        TFloat length = Length();
+        if (Length() == 0.0) return Vector3T<TFloat>();
+
+        return *this / length;
+    }
+
+    template <::std::floating_point TFloat>
+    constexpr TFloat Vector3T<TFloat>::SquareLength() const noexcept
+    {
+        return X * X + Y * Y + Z * Z;
     }
 
     template <::std::floating_point TFloat>

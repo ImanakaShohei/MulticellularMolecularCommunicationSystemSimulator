@@ -14,8 +14,11 @@ namespace CellSim::Settings
 
         public:
 
+        class ClusterFormation;
+
         CELLSIM_STATIC_CLASS(SimulationModel);
 
+        /// @brief 
         [[nodiscard]] static Model::CellSimulationType SimulationType() noexcept;
     };
 }

@@ -28,15 +28,28 @@ namespace CellSim
         }
 
         // 力を加える
-        Threading::ThreadPool::ParallelFor(
-            0,
-            m_cells.size(),
-            [this] (size_t i) {
-                Cells::Cell& cell = m_cells[i];
-                cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, *m_pCellAlgorithm));
-            }
-        );
-
+        if (m_overrideForceComputation) {
+            // ここでm_pCellAlgorithmはnullptrではありません
+            Threading::ThreadPool::ParallelFor(
+                0,
+                m_cells.size(),
+                [this] (size_t i) {
+                    Cells::Cell& cell = m_cells[i];
+                    cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                }
+            );
+        }
+        else {
+            Threading::ThreadPool::ParallelFor(
+                0,
+                m_cells.size(),
+                [this] (size_t i) {
+                    Cells::Cell& cell = m_cells[i];
+                    cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                }
+            );
+        }
+        
         // 移動
         for (Cells::Cell& cell : m_cells) {
             cell.Move();
@@ -62,6 +75,8 @@ namespace CellSim
         if (m_pCellSimulationModel->UseCellAlgorithm()) {
             m_pCellAlgorithm = CellAlgorithms::CellAlgorithm::FromType(Settings::Config::CellAlgorithm::AlgorithmType());
 
+            m_overrideForceComputation = m_pCellAlgorithm->OverrideForceComputation();
+
             if (Settings::Config::CellAlgorithm::UseClusterModel()) {
                 if (Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) {
                     m_pCellList = static_cast<CellAlgorithms::CellList*>(m_pCellAlgorithm);
@@ -82,24 +97,30 @@ namespace CellSim
     Simulation::Simulation()
     : m_cells()
     , m_molecules()
+    , m_overrideForceComputation(false)
     , m_pCellAlgorithm(nullptr)
     , m_pCellList(nullptr)
     , m_pCellSimulationModel(Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType()))
     {
+        s_current = this;
+
         m_initializeCellAlgorithm();
         
         m_pCellSimulationModel->InitializeCells(m_cells);
-
-        s_current = this;
     }
 
     Simulation::~Simulation()
     {
+        s_current = nullptr;
+
         delete m_pCellSimulationModel;
         if (Settings::Config::CellAlgorithm::UseClusterModel()) delete m_pCellList;
 
         if (m_pCellAlgorithm != nullptr && Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) delete m_pCellAlgorithm;
+    }
 
-        s_current = nullptr;
+    void Simulation::Run()
+    {
+        s_current = this;
     }
 }

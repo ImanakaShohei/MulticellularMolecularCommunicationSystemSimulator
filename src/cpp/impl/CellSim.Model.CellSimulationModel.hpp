@@ -34,12 +34,12 @@ namespace CellSim::Model
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces,
-            CellAlgorithms::CellAlgorithm const& cellAlgorithm
+            const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const = 0;
 
         /// @brief リストに細胞を格納
         /// @param cells リスト
-        virtual void InitializeCells(::std::vector<Cells::Cell>& cells) = 0;
+        virtual void InitializeCells(::std::vector<Cells::Cell>& cells);
 
         /// @brief 後処理
         /// @param cells 細胞リスト

@@ -22,7 +22,7 @@ namespace CellSim::Users
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces,
-            CellAlgorithms::CellAlgorithm const& cellAlgorithm
+            const CellAlgorithms::CellAlgorithm* cellAlgorithm
         ) const override;
 
         void InitializeCells(::std::vector<Cells::Cell>& cells) override;

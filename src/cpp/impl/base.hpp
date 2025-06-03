@@ -98,6 +98,7 @@
 /// @brief シミュレーターの既定の名前空間
 namespace CellSim
 {
+    enum class PeformanceType;
     class Simulation;
 }
 

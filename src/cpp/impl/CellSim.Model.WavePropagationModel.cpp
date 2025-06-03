@@ -15,7 +15,7 @@ namespace CellSim::Model
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Molecule::MoleculeDiffusion> const& moleculeSpaces,
-        CellAlgorithms::CellAlgorithm const& cellAlgorithm
+        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
         // TODO: ここに処理を追加します

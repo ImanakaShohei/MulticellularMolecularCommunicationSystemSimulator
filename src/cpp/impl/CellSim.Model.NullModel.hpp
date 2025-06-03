@@ -20,7 +20,7 @@ namespace CellSim::Model
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces,
-            CellAlgorithms::CellAlgorithm const& cellAlgorithm
+            const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const override;
 
         constexpr void InitializeCells(::std::vector<Cells::Cell>& cells) override;
@@ -47,7 +47,7 @@ namespace CellSim::Model
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const& ,
-        CellAlgorithms::CellAlgorithm const&
+        const CellAlgorithms::CellAlgorithm*
     ) const
     {
         return Numerics::Vector3();

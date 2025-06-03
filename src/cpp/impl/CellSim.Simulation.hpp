@@ -23,6 +23,9 @@ namespace CellSim
         /// @brief 分子空間リスト
         ::std::vector<Model::Molecule::MoleculeDiffusion> m_molecules;
 
+        /// @brief アルゴリズム側で力を計算するかどうか
+        bool m_overrideForceComputation;
+
         /// @brief 使用する高速化アルゴリズムへのポインター
         /// @note シミュレーションモデルのUserCellAlgorithm()がfalseの場合はnullptr
         CellAlgorithms::CellAlgorithm* m_pCellAlgorithm;

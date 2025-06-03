@@ -2,7 +2,25 @@
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_HPP
 
 #include "base.hpp"
+#include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.Numerics.Vector3T.hpp"
+#include "CellSim.Settings.Config.Optimization.hpp"
+#include "CellSim.Threading.Generator.hpp"
 #include <vector>
+
+#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(cellInfo, cellAlgorithm, target, cells, molecules, func)              \
+    switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                     \
+        case ::CellSim::PeformanceType::Fast:                                                                              \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).GetAffectableCellInfos(target, cells, molecules)) {     \
+            func                                                                                                           \
+        }                                                                                                                  \
+        break;                                                                                                             \
+        case ::CellSim::PeformanceType::LowMemory:                                                                         \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(target, cells, molecules)) { \
+            func                                                                                                           \
+        }                                                                                                                  \
+        break;                                                                                                             \
+    }
 
 namespace CellSim::CellAlgorithms
 {
@@ -25,6 +43,19 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
 
+        /// @brief ターゲットの細胞かける力を計算
+        /// @param target ターゲットの細胞
+        /// @param cells 細胞リスト
+        /// @param moleculeSpaces 分子空間リスト
+        /// @param cellAlgorithm 高速化アルゴリズム
+        /// @return 計算結果
+        /// @note この関数はOverrideForceComputation()が'true'のときに呼ばれます
+        [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
+            Cells::Cell const& target,
+            ::std::vector<Cells::Cell> const& cells,
+            ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces
+        ) const;
+
         virtual ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
@@ -44,8 +75,28 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
         ) = 0;
+
+        /// @brief アルゴリズム側で力の計算をすることを強制するフラグ
+        [[nodiscard]] virtual constexpr bool OverrideForceComputation() const noexcept;
         
     };
+}
+
+namespace CellSim::CellAlgorithms
+{
+    Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
+        Cells::Cell const& target,
+        ::std::vector<Cells::Cell> const& cells,
+        ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces
+    ) const
+    {
+        return Numerics::Vector3();
+    }
+
+    constexpr bool CellAlgorithm::OverrideForceComputation() const noexcept
+    {
+        return false;
+    }
 }
 
 #endif //!CELLSIM_CELLALGORITHMS_CELLALGORITHM_HPP

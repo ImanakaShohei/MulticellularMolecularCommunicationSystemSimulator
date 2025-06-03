@@ -10,8 +10,10 @@ namespace CellSim::Settings
 
         class Cell;
         class CellAlgorithm;
+        class Optimization;
         class Simulation;
         class SimulationModel;
+        class UserSettings;
     };
 }
 
