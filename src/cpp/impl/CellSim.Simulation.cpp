@@ -89,6 +89,8 @@ namespace CellSim
         m_initializeCellAlgorithm();
         
         m_pCellSimulationModel->InitializeCells(m_cells);
+
+        s_current = this;
     }
 
     Simulation::~Simulation()
@@ -97,5 +99,7 @@ namespace CellSim
         if (Settings::Config::CellAlgorithm::UseClusterModel()) delete m_pCellList;
 
         if (m_pCellAlgorithm != nullptr && Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) delete m_pCellAlgorithm;
+
+        s_current = nullptr;
     }
 }
