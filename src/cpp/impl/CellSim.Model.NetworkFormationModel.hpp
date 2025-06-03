@@ -7,7 +7,31 @@
 namespace CellSim::Model
 {
     class NetworkFormationModel : public CellSimulationModel {
+        private:
+
+        double m_adhesiveRepulsionFactor;
+        double m_attractionFactor;
+        double m_lambda;
+        double m_maxAttractionDistance;
+        double m_maxRepulsionDistance;
+        double m_minAttractionDistance;
+        double m_remoteForceFactor;
+        double m_reverseLambda;
+        double m_squareMaxAttractionDistance;
+
         public:
+
+        NetworkFormationModel();
+
+        NetworkFormationModel(
+            double adhesiveRepulsionFactor,
+            double attractionFactor,
+            double lambda,
+            double maxAttractionDistance,
+            double maxRepulsionDistance,
+            double minAttractionDistance,
+            double remoteForceFactor
+        );
 
         void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
@@ -20,8 +44,6 @@ namespace CellSim::Model
             ::std::vector<Molecule::MoleculeDiffusion> const& moleculeSpaces,
             const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const override;
-
-        void InitializeCells(::std::vector<Cells::Cell>& cells) override;
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,

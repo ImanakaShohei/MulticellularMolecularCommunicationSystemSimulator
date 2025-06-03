@@ -36,6 +36,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterFormation.cpp
+    src/cpp/impl/CellSim.Settings.Config.SimulationModel.NetworkFormation.cpp
     src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
     src/cpp/impl/CellSim.Threading.ThreadPool.cpp
 )

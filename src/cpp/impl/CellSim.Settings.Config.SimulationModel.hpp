@@ -15,6 +15,7 @@ namespace CellSim::Settings
         public:
 
         class ClusterFormation;
+        class NetworkFormation;
 
         CELLSIM_STATIC_CLASS(SimulationModel);
 

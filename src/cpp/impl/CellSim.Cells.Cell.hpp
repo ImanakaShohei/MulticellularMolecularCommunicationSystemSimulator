@@ -17,7 +17,7 @@ namespace CellSim::Cells
         static int32_t s_id;
 
         /// @brief 接着している細胞のリスト
-        ::std::vector<Cell*> m_attachedCells;
+        ::std::vector<const Cell*> m_attachedCells;
 
         /// @brief ふるまい定義
         CellBehaviorPtr m_behaviorPtr;
@@ -56,7 +56,7 @@ namespace CellSim::Cells
         // プロパティ
 
         /// @brief 接着している細胞のリスト
-        [[nodiscard]] constexpr ::std::vector<Cell*> const& AttachedCells() const noexcept;
+        [[nodiscard]] constexpr ::std::vector<const Cell*> const& AttachedCells() const noexcept;
 
         /// @brief 細胞が受けた力
         [[nodiscard]] constexpr Numerics::Vector3 Force() const noexcept;
@@ -102,10 +102,17 @@ namespace CellSim::Cells
         /// @param force 加える力
         constexpr void AddForce(Numerics::Vector3 force) noexcept;
 
+        void Adhere(Cell const& cell);
+
+        /// @brief すべての細胞の接着を解除
+        constexpr void ClearAttachedCells() noexcept;
+
         void Combine(Cell& c);
 
         /// @brief 細胞が成長
         void Grow();
+
+        [[nodiscard]] bool IsAdheringTo(Cell const& cell) const noexcept;
 
         void Move() noexcept;
 
@@ -116,7 +123,7 @@ namespace CellSim::Cells
 
 namespace CellSim::Cells
 {
-    constexpr ::std::vector<Cell*> const& Cell::AttachedCells() const noexcept
+    constexpr ::std::vector<const Cell*> const& Cell::AttachedCells() const noexcept
     {
         return m_attachedCells;
     }
@@ -189,6 +196,27 @@ namespace CellSim::Cells
     constexpr void Cell::AddForce(Numerics::Vector3 force) noexcept
     {
         m_force += force;
+    }
+
+    inline void Cell::Adhere(Cell const& cell)
+    {
+        m_attachedCells.push_back(&cell);
+    }
+
+    constexpr void Cell::ClearAttachedCells() noexcept
+    {
+        m_attachedCells.clear();
+    }
+
+    inline bool Cell::IsAdheringTo(Cell const& cell) const noexcept
+    {
+        const Cell* pCell = &cell;
+
+        for (const Cell* pAttached : m_attachedCells) {
+            if (pAttached == pCell) return true;
+        }
+
+        return false;
     }
 
     void Cell::ResetForce() noexcept
