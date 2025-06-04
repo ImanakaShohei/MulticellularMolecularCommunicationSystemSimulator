@@ -54,6 +54,7 @@ $ ./build-linux.sh
 ```
 ### `-o` `--output`
 実行結果の出力ディレクトリを指定します。
+指定しない場合は`./result/`になります。
 ```sh
 ./cellsim -b -i -o "./my-output-path"
 ```
@@ -84,6 +85,7 @@ $ ./build-linux.sh
 ### `--create-image`
 出力したcsvファイルまたはbinファイルから画像を作成します。
 このオプションは`-o` `--output`のみと併用可能です。
+指定しない場合は`./result/images/`になります。
 ```sh
 ./cellsim --create-image "./my-csvpath" -o "./my-image-path"
 ```
@@ -93,6 +95,7 @@ $ ./build-linux.sh
 ### `--create-video`
 出力したcsvファイル、binファイル、画像ファイルから動画を作成します。
 このオプションは`-o` `--output`のみと併用可能です。
+指定しない場合は`out.mp4`になります。
 ```sh
 ./cellsim --create-image "./my-imagepath" -o "./my-video-path/my-video-name.mp4"
 ```
