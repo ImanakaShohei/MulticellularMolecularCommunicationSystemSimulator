@@ -50,13 +50,17 @@ set(SOURCES
 add_executable(cellsim ${SOURCES})
 
 # 追加のオプション
-target_compile_options(SimMain PRIVATE
+target_compile_options(cellsim PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
     #$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
     #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
 )
 
 # 追加のincludeパス
-target_include_directories(SimMain PRIVATE
+target_include_directories(cellsim PRIVATE
     ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
 )
+
+# 外部ライブラリのインポート
+find_package(OpenCV REQUIRED)
+target_link_libraries(cellsim PRIVATE ${OpenCV_LIBS})
