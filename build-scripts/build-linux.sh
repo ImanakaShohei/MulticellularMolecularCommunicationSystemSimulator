@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # "build" ディレクトリが存在する場合は削除（中身ごと）
 if [ -d build ]; then
@@ -19,7 +19,7 @@ cd build
 
 # cmake の初期構成を実行
 echo "Running cmake .."
-cmake ..
+cmake ..\..
 
 # Releaseビルドを実行
 echo "Building in Release mode..."

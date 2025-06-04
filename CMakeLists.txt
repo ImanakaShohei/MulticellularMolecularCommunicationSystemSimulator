@@ -56,11 +56,12 @@ target_compile_options(cellsim PRIVATE
     #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
 )
 
-# 追加のincludeパス
-target_include_directories(cellsim PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
-)
-
 # 外部ライブラリのインポート
 find_package(OpenCV REQUIRED)
 target_link_libraries(cellsim PRIVATE ${OpenCV_LIBS})
+
+# 追加のincludeパス
+target_include_directories(cellsim PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
+    ${OpenCV_INCLUDE_DIRS}
+)
