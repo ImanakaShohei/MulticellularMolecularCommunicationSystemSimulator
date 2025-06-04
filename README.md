@@ -65,11 +65,11 @@ $ ./build-linux.sh
 パラメータをオーバーライドします。
 ここでは、細胞の初期数をオーバーライドしています。
 ```sh
-./cellsim -b -p cell.CellCount=1000
+./cellsim -b -p cell.cellCount=1000
 ```
 複数のパラメータをオーバーライドすることもできます。
 ```sh
-./cellsim -b -p cell.CellCount=3000 -p cellAlgorithm.useClusterModel=true
+./cellsim -b -p cell.cellCount=3000 -p cellAlgorithm.useClusterModel=true
 ```
 ### `-s` `--setting`
 使用する設定ファイルのパスを指定します。
