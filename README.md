@@ -53,7 +53,7 @@ $ ./build-linux.sh
 ./cellsim -i
 ```
 ### `-o` `--output`
-実行結果の出力パスを指定します。
+実行結果の出力ディレクトリを指定します。
 ```sh
 ./cellsim -b -i -o "./my-output-path"
 ```
@@ -64,11 +64,11 @@ $ ./build-linux.sh
 パラメータをオーバーライドします。
 ここでは、細胞の初期数をオーバーライドしています。
 ```sh
-./cellsim -p cell.CellCount=1000
+./cellsim -b -p cell.CellCount=1000
 ```
 複数のパラメータをオーバーライドすることもできます。
 ```sh
-./cellsim -p cell.CellCount=3000 -p cellAlgorithm.useClusterModel=true
+./cellsim -b -p cell.CellCount=3000 -p cellAlgorithm.useClusterModel=true
 ```
 ### `-s` `--setting`
 使用する設定ファイルのパスを指定します。
