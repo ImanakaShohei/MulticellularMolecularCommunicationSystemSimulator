@@ -95,7 +95,7 @@ $ ./build-linux.sh
 ### `--create-video`
 出力したcsvファイル、binファイル、画像ファイルから動画を作成します。
 このオプションは`-o` `--output`のみと併用可能です。
-指定しない場合は`out.mp4`になります。
+指定しない場合は`./result/out.mp4`になります。
 ```sh
 ./cellsim --create-image "./my-imagepath" -o "./my-video-path/my-video-name.mp4"
 ```
