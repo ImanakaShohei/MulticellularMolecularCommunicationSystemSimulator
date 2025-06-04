@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "cellsim config",
+    "$defs": {
+        "description": {
+            "type": "object",
+            "properties": {
+                "language": { "type": "string", "examples": [ "en-us", "ja-jp" ] },
+                "text": { "type": "string" }
+            },
+            "required": [
+                "language",
+                "text"
+            ]
+        },
+        "descriptions": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/description"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    },
+    "properties": {
+        "cell": {
+            "type": "object",
+            "title": "cell congfig",
+            "properties": {
+                "behaviorType": {
+                    "type": "string",
+                    "enum": [ "normal", "user" ]
+                },
+                "cellCount": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                },
+                "enableGrowth": { "type": "boolean" },
+                "growthRate": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "radius": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                }
+            },
+            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "radius" ]
+        },
+        "cellAlgorithm": {
+            "type": "object",
+            "title": "cellAlgorithm config",
+            "properties": {
+                "algorithmType": {
+                    "type": "string",
+                    "enum": [ "BarnesHut", "CellList", "Naive", "Null", "ParticleMesh", "User" ]
+                },
+                "useClusterModel": { "type": "boolean" }
+            },
+            "required": [ "algorithmType", "useClusterModel" ]
+        }
+    },
+    "required": [
+        "cell",
+        "cellAlgorithm"
+    ]
+}

@@ -100,6 +100,7 @@ namespace CellSim
 {
     enum class PeformanceType;
     class Simulation;
+    struct SimulationOption;
 }
 
 /// @brief 高速化アルゴリズム
@@ -133,10 +134,19 @@ namespace CellSim::Cells
     class NormalCellBehavior;
 }
 
+/// @brief コマンドライン処理
+namespace CellSim::Cli
+{
+    class CliMain;
+    class ConfigFilePathOption;
+    class HelpOption;
+    class ParameterOption;
+}
+
 /// @brief 画像処理
 namespace CellSim::Imaging
 {
-
+    class ImageCreater;
 }
 
 /// @brief 追加の入出力機能
@@ -186,13 +196,6 @@ namespace CellSim::Settings
 {
     class Config;
     class SettingLoader;
-}
-
-/// @brief コマンドライン処理
-namespace CellSim::Settings::Cli
-{
-    class CliMain;
-    class CliOptions;
 }
 
 /// @brief 並列処理とコルーチン

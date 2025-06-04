@@ -1,9 +1,9 @@
-﻿#ifndef CELLSIM_SETTINGS_CLI_CLIMAIN_HPP
-#define CELLSIM_SETTINGS_CLI_CLIMAIN_HPP
+﻿#ifndef CELLSIM_CLI_CLIMAIN_HPP
+#define CELLSIM_CLI_CLIMAIN_HPP
 
 #include "base.hpp"
 
-namespace CellSim::Settings::Cli
+namespace CellSim::Cli
 {
     class CliMain final {
         public:
@@ -14,4 +14,4 @@ namespace CellSim::Settings::Cli
     };
 }
 
-#endif //!CELLSIM_SETTINGS_CLI_CLIMAIN_HPP
+#endif //!CELLSIM_CLI_CLIMAIN_HPP

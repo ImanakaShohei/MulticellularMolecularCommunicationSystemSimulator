@@ -1,5 +1,5 @@
-﻿#include "impl/CellSim.Settings.Cli.CliMain.hpp"
-using namespace CellSim::Settings::Cli;
+﻿#include "impl/CellSim.Cli.CliMain.hpp"
+using namespace CellSim::Cli;
 
 int main(int argc, char** argv)
 {

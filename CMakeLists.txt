@@ -24,6 +24,9 @@ set(SOURCES
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
     src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
+    src/cpp/impl/CellSim.Cli.CliMain.cpp
+    src/cpp/impl/CellSim.Cli.ParameterOption.cpp
+    src/cpp/impl/CellSim.Imaging.ImageCreater.cpp
     src/cpp/impl/CellSim.Model.CellGrowthModel.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
     src/cpp/impl/CellSim.Model.ClusterFormationModel.cpp
@@ -31,7 +34,6 @@ set(SOURCES
     src/cpp/impl/CellSim.Model.ClusterSproutingModel.cpp
     src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
     src/cpp/impl/CellSim.Model.WavePropagationModel.cpp
-    src/cpp/impl/CellSim.Settings.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
