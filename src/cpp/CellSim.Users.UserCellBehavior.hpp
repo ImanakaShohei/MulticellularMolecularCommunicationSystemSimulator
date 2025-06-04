@@ -12,7 +12,7 @@ namespace CellSim::Users
 
         UserCellBehavior() = default;
 
-        Cells::CellGrowthResult ComputeGrowth(Cell const& cell) const override;
+        Cells::CellGrowthResult ComputeGrowth(Cells::Cell const& cell) const override;
         CellBehavior* CreateClone() const override;
         
         bool HasState() const noexcept override;

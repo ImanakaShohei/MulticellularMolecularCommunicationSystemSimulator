@@ -17,6 +17,8 @@ namespace CellSim::Cells
         Numerics::Vector3 PreviusForce;
         double Radius;
         CellType Type;
+
+        CellInfo() = default;
         
         constexpr CellInfo(
             double mass,

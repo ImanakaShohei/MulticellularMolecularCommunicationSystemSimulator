@@ -98,6 +98,8 @@ namespace CellSim::Numerics
         X += right.X;
         Y += right.Y;
         Z += right.Z;
+
+        return *this;
     }
 
     template <::std::floating_point TFloat>
@@ -106,6 +108,8 @@ namespace CellSim::Numerics
         X -= right.X;
         Y -= right.Y;
         Z -= right.Z;
+
+        return *this;
     }
 
     template <::std::floating_point TFloat>

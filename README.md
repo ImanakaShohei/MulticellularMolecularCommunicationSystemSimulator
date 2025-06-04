@@ -7,7 +7,7 @@
 # 動作要件
 - C++20をサポートするコンパイラ
 - CMake (version 3.11以降)
-- Windows or mac OS or Linux
+- Windows or macOS or Linux
 
 # ビルド方法
 

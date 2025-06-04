@@ -1,7 +1,7 @@
 ﻿#include "CellSim.Threading.ThreadPool.hpp"
 
 #if CELLSIM_ENV_WINDOWS
-    #include <threadpoolapiset.h>
+    #include <Windows.h>
 #endif
 
 namespace CellSim::Threading
@@ -104,8 +104,8 @@ namespace CellSim::Threading
 
 #if CELLSIM_ENV_WINDOWS
         for (auto& args : list) {
-            PTP_WORK work = args.work;
-            ::WaitForThreadpoolWorkCallbacks(args.work, FALSE);
+            ::PTP_WORK work = args.work;
+            ::WaitForThreadpoolWorkCallbacks(work, FALSE);
             ::CloseThreadpoolWork(work);
         }
 #else

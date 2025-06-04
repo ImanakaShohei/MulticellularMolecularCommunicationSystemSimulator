@@ -15,7 +15,7 @@ namespace CellSim::CellAlgorithms
     }
 
     void CellList::BeforeAdvanceStep(
-        [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
+        [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     )
     {
@@ -23,8 +23,8 @@ namespace CellSim::CellAlgorithms
     }
 
     ::std::vector<Cells::CellInfo> CellList::GetAffectableCellInfos(
-        [[maybe_ununsed]] Cells::Cell const& target,
-        [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
+        [[maybe_unused]] Cells::Cell const& target,
+        [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     ) const
     {
@@ -33,8 +33,8 @@ namespace CellSim::CellAlgorithms
     }
 
     Threading::Generator<Cells::CellInfo> CellList::IterateAffectableCellInfos(
-        [[maybe_ununsed]] Cells::Cell const& target,
-        [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
+        [[maybe_unused]] Cells::Cell const& target,
+        [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     ) const
     {
@@ -43,7 +43,7 @@ namespace CellSim::CellAlgorithms
     }
 
     void CellList::OnAdvanceStep(
-        [[maybe_ununsed]] ::std::vector<Cells::Cell> const& cells,
+        [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
         ::std::vector<Model::Molecule::MoleculeDiffusion> const&
     )
     {

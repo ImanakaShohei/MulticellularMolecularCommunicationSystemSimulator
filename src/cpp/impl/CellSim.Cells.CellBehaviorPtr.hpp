@@ -98,7 +98,7 @@ namespace CellSim::Cells
         return *this;
     }
 
-    inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr&& right)
+    inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr&& right) noexcept
     {
         m_delete();
         

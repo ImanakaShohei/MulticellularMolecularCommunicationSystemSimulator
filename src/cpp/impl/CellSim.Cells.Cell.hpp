@@ -222,7 +222,7 @@ namespace CellSim::Cells
         return false;
     }
 
-    void Cell::ResetForce() noexcept
+    constexpr void Cell::ResetForce() noexcept
     {
         m_force = Numerics::Vector3::Zero();
     }

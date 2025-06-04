@@ -30,8 +30,8 @@ namespace CellSim::Users
     Numerics::Vector3 UserSimulationModel::ComputeForceOnCell(
         [[maybe_unused]] Cell const& target,
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& moleculeSpaces,
-        [[maybe_unused]] CellAlgorithm const& cellAlgorithm
+        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules,
+        [[maybe_unused]] const CellAlgorithm* pCellAlgorithm
     ) const
     {
         // TODO: ここに処理を追加します

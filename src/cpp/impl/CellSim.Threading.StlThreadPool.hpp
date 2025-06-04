@@ -73,7 +73,7 @@ namespace CellSim::Threading
         /// @param args パラメータ
         void AppendTask(TaskEntryPoint entryPoint, void* args);
 
-        [[nodiscard]] uint32_t CurrentTasks() const noexcept { return m_currentTasks.load(); }
+        [[nodiscard]] uint32_t CurrentTasks() const noexcept;
 
         /// @brief ワーカースレッド数
         [[nodiscard]] constexpr uint32_t ThreadCount() const noexcept;

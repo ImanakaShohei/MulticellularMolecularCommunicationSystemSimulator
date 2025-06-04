@@ -56,12 +56,32 @@ target_compile_options(cellsim PRIVATE
     #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
 )
 
-# 外部ライブラリのインポート
-find_package(OpenCV REQUIRED)
-target_link_libraries(cellsim PRIVATE ${OpenCV_LIBS})
+# OpenCVの取得に使う
+include(FetchContent)
+
+# OpenCVのURLからデータを取得
+FetchContent_Declare(
+    opencv
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+    GIT_TAG        "4.11.0"
+)
+
+# 明示的にビルドオプションを設定（不要ならコメントアウトしてもOK）
+# Chat-GPTのコピペだよ
+set(BUILD_LIST core,imgproc,highgui,imgcodecs CACHE STRING "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(BUILD_PERF_TESTS OFF CACHE BOOL "" FORCE)
+
+# よくわからんやつ
+FetchContent_MakeAvailable(opencv)
+
+# OpenCVライブラリとリンク
+# Chat-GPTのコピペだよ
+target_link_libraries(cellsim PRIVATE opencv_core opencv_highgui opencv_imgcodecs opencv_imgproc)
 
 # 追加のincludeパス
 target_include_directories(cellsim PRIVATE
     ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
-    ${OpenCV_INCLUDE_DIRS}
 )
