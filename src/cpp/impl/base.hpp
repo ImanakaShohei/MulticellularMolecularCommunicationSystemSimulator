@@ -139,8 +139,15 @@ namespace CellSim::Cli
 {
     class CliMain;
     class ConfigFilePathOption;
+    class CreateImageOption;
+    class CreateVideoOption;
+    class CsvOption;
     class HelpOption;
+    class ImageOption;
+    class OutputOption;
     class ParameterOption;
+    class SettingOption;
+    class VideoOption;
 }
 
 /// @brief 画像処理

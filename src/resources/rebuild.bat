@@ -1,5 +1,5 @@
 @echo off
-cmake ..
+cmake ..\..
 cmake --build . --config Release
 
 pause

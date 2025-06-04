@@ -10,15 +10,17 @@ namespace CellSim
     /// @brief コマンドラインで指定したシミュレーションで使用するオプション
     struct SimulationOption {
         /// @brief データをバイナリファイルとして出力するかどうか
-        bool OutputBinary;
+        bool IsOutputBinary;
 
         /// @brief データをcsvファイルとして出力するかどうか
-        bool OutputCsv;
+        bool IsOutputCsv;
 
         /// @brief データを画像として出力するかどうか
-        bool OutputImage;
+        bool IsOutputImage;
 
+        ::std::string OutputPath;
 
+        
     };
 }
 

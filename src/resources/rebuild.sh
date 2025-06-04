@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cmake ..
+cmake ../..
 cmake --build . --config Release
