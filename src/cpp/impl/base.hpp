@@ -179,6 +179,7 @@ namespace CellSim::Model
 /// @brief 分子拡散など
 namespace CellSim::Molecular
 {
+    class Molecule;
     class MoleculeDiffusion;
     class MoleculeDiffusionBehavior;
     enum class MoleculeKind;
