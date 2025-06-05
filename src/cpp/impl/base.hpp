@@ -180,8 +180,9 @@ namespace CellSim::Model
 namespace CellSim::Molecular
 {
     class Molecule;
-    class MoleculeDiffusion;
+    //class MoleculeDiffusion;
     class MoleculeDiffusionBehavior;
+    class MoleculeField;
     enum class MoleculeKind;
     class NoMoleculeDiffusion;
     //class SimpleMoleculeDiffusion;

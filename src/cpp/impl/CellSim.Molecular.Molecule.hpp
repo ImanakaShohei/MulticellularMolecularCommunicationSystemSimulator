@@ -6,6 +6,7 @@
 
 namespace CellSim::Molecular
 {
+    /// @brief 分子クラス
     class Molecule {
         private:
 
