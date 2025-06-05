@@ -102,3 +102,23 @@ $ ./build-linux.sh
 ```sh
 ./cellsim --create-image "./my-imagepath/" -o "./my-video-path/my-video-name.mp4"
 ```
+### `--named-pipe-in` 
+GUIツールと通信するための、読み取り用の名前付きパイプの名前を指定します。
+シミュレータは指定したパイプから情報を読み取ります。
+このオプションは`--named-pipe-out`と併用する必要があります。
+```sh
+./cellsim --named-pipe-in "my-pipe-in" --named-pipe-out "my-pipe-out"
+```
+### `--named-pipe-out`
+GUIツールと通信するための、書き込み用の名前付きパイプの名前を指定します。
+シミュレータは指定したパイプに情報を書き込みます。
+このオプションは`--named-pipe-in`と併用する必要があります。
+```sh
+./cellsim --named-pipe-in "my-pipe-in" --named-pipe-out "my-pipe-out"
+```
+### `--param-sweep`
+パラメータ範囲を順番に実行します。
+以下の例では細胞数を1000個から2000個まで100刻みで実行します。
+```sh
+./cellsim -b --param-sweep cell.cellCount=1000:2000:100
+```

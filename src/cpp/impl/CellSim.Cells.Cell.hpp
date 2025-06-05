@@ -122,6 +122,9 @@ namespace CellSim::Cells
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
     };
+
+    [[nodiscard]] constexpr bool operator==(Cell const& left, Cell const& right) noexcept;
+    [[nodiscard]] constexpr bool operator!=(Cell const& left, Cell const& right) noexcept;
 }
 
 namespace CellSim::Cells
@@ -225,6 +228,16 @@ namespace CellSim::Cells
     constexpr void Cell::ResetForce() noexcept
     {
         m_force = Numerics::Vector3::Zero();
+    }
+
+    constexpr bool operator==(Cell const& left, Cell const& right) noexcept
+    {
+        return left.Id() == right.Id();
+    }
+
+    constexpr bool operator!=(Cell const& left, Cell const& right) noexcept
+    {
+        return left.Id() != right.Id();
     }
 }
 
