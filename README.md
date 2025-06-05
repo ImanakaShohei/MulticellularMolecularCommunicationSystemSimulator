@@ -43,7 +43,7 @@ $ ./build-linux.sh
 ./cellsim -c
 ```
 ### `-h` `--help`
-ヘルプを表示します。
+ヘルプを表示します。  
 **注意:** このオプションはほかのオプションと併用できません。
 ```sh
 ./cellsim -h
@@ -54,7 +54,7 @@ $ ./build-linux.sh
 ./cellsim -i
 ```
 ### `-o` `--output`
-実行結果の出力ディレクトリを指定します。
+実行結果の出力ディレクトリを指定します。  
 **注意:** 指定しない場合は`./result/`になります。
 ```sh
 ./cellsim -b -i -o "./my-output-path"
@@ -73,7 +73,7 @@ $ ./build-linux.sh
 ./cellsim -b -p cell.cellCount=3000 -p cellAlgorithm.useClusterModel=true
 ```
 ### `-s` `--setting`
-使用する設定ファイルのパスを指定します。
+使用する設定ファイルのパスを指定します。  
 **注意:** 指定しない場合は`./config.json`が使われます。
 ```sh
 ./cellsim -b -s "./my-config.json"
@@ -85,7 +85,7 @@ $ ./build-linux.sh
 ```
 ### `--create-image`
 出力したcsvファイルまたはbinファイルから画像を作成します。
-このオプションは`-o` `--output`のみと併用可能です。
+このオプションは`-o` `--output`のみと併用可能です。  
 **注意:** 指定しない場合は`./result/images/`になります。
 ```sh
 ./cellsim --create-image "./my-csvpath" -o "./my-image-path"
@@ -95,7 +95,7 @@ $ ./build-linux.sh
 ```
 ### `--create-video`
 出力したcsvファイル、binファイル、画像ファイルから動画を作成します。
-このオプションは`-o` `--output`のみと併用可能です。
+このオプションは`-o` `--output`のみと併用可能です。  
 **注意:** 指定しない場合は`./result/out.mp4`になります。
 ```sh
 ./cellsim --create-image "./my-imagepath" -o "./my-video-path/my-video-name.mp4"
@@ -105,14 +105,14 @@ $ ./build-linux.sh
 ```
 ### `--named-pipe-in` 
 GUIツールと通信するための、読み取り用の名前付きパイプの名前を指定します。
-シミュレータは指定したパイプから情報を読み取ります。
+シミュレータは指定したパイプから情報を読み取ります。  
 **注意:** このオプションは`--named-pipe-out`と併用する必要があります。
 ```sh
 ./cellsim --named-pipe-in "my-pipe-in" --named-pipe-out "my-pipe-out"
 ```
 ### `--named-pipe-out`
 GUIツールと通信するための、書き込み用の名前付きパイプの名前を指定します。
-シミュレータは指定したパイプに情報を書き込みます。
+シミュレータは指定したパイプに情報を書き込みます。  
 **注意:** このオプションは`--named-pipe-in`と併用する必要があります。
 ```sh
 ./cellsim --named-pipe-in "my-pipe-in" --named-pipe-out "my-pipe-out"
