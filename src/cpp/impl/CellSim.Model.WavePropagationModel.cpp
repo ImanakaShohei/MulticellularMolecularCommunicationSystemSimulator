@@ -5,7 +5,7 @@ namespace CellSim::Model
 {
     void WavePropagationModel::BeforeAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecule::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
     )
     {
         // TODO: ここに処理を追加します
@@ -14,7 +14,7 @@ namespace CellSim::Model
     Numerics::Vector3 WavePropagationModel::ComputeForceOnCell(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecule::MoleculeDiffusion> const& moleculeSpaces,
+        ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces,
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
@@ -30,7 +30,7 @@ namespace CellSim::Model
 
     void WavePropagationModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecule::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
     )
     {
         // TODO: ここに処理を追加します

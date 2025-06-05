@@ -19,24 +19,24 @@ namespace CellSim::CellAlgorithms
 
         void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) const override;
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) override;
     };
 }

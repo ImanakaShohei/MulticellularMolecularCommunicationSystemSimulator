@@ -7,7 +7,7 @@ namespace CellSim::CellAlgorithms
     ::std::vector<Cells::CellInfo> NaiveAlgorithm::GetAffectableCellInfos(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     ) const
     {
         ::std::vector<Cells::CellInfo> vec;
@@ -24,7 +24,7 @@ namespace CellSim::CellAlgorithms
     Threading::Generator<Cells::CellInfo> NaiveAlgorithm::IterateAffectableCellInfos(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     ) const
     {
         const Cells::Cell* pTarget = &target;

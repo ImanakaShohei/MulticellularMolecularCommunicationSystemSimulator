@@ -31,20 +31,18 @@ namespace CellSim
         if (m_overrideForceComputation) {
             // ここでm_pCellAlgorithmはnullptrではありません
             Threading::ThreadPool::ParallelFor(
-                0,
-                m_cells.size(),
-                [this] (size_t i) {
-                    Cells::Cell& cell = m_cells[i];
+                m_cells.begin(),
+                m_cells.end(),
+                [this] (Cells::Cell& cell) {
                     cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
                 }
             );
         }
         else {
             Threading::ThreadPool::ParallelFor(
-                0,
-                m_cells.size(),
-                [this] (size_t i) {
-                    Cells::Cell& cell = m_cells[i];
+                m_cells.begin(),
+                m_cells.end(),
+                [this] (Cells::Cell& cell) {
                     cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
                 }
             );

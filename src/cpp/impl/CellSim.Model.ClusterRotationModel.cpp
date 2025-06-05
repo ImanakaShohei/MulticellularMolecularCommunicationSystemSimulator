@@ -30,7 +30,7 @@ namespace CellSim::Model
 
     void ClusterRotationModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecule::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
     )
     {
         // TODO: ここに処理を追加します

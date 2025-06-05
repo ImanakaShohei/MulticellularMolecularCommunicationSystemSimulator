@@ -21,7 +21,7 @@ namespace CellSim::Model
         /// @param molecules 分子空間リスト
         virtual void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) = 0;
 
         /// @brief ターゲットの細胞かける力を計算
@@ -33,7 +33,7 @@ namespace CellSim::Model
         [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces,
+            ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces,
             const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const = 0;
 
@@ -46,7 +46,7 @@ namespace CellSim::Model
         /// @param molecules 分子空間リスト
         virtual void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) = 0;
 
         /// @brief モデルでCellAlgorithmを使うかどうか

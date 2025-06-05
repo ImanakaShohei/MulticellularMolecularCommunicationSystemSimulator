@@ -5,7 +5,9 @@
 
 #include "base.hpp"
 
-#if !CELLSIM_ENV_WINDOWS
+#if CELLSIM_ENV_WINDOWS
+    #include <Windows.h>
+#else
     #include "CellSim.Threading.StlThreadPool.hpp"
 #endif
 
@@ -33,14 +35,17 @@ namespace CellSim::Threading
         /// @param begin 範囲のはじめの要素
         /// @param end 範囲の最後の次の要素
         /// @param f 実行する関数
-        static void ParallelFor(size_t begin, size_t end, ::std::function<void(size_t)> const& f);
+
+        template <class TIterator, class TFunction>
+        static void ParallelFor(TIterator begin, TIterator end, TFunction f);
 
         /// @brief 範囲を並列処理
         /// @param threadCount スレッド数を指定
         /// @param begin 範囲のはじめの要素
         /// @param end 範囲の最後の次の要素
         /// @param f 実行する関数
-        static void ParallelFor(uint32_t threadCount, size_t begin, size_t end, ::std::function<void(size_t)> const& f);
+        template <class TIterator, class TFunction>
+        static void ParallelFor(uint32_t threadCount, TIterator begin, TIterator end, TFunction f);
 
 
     };
@@ -48,9 +53,126 @@ namespace CellSim::Threading
 
 namespace CellSim::Threading
 {
-    void ThreadPool::ParallelFor(size_t begin, size_t end, ::std::function<void(size_t)> const& f)
+    template <class TIterator, class TFunction>
+    void ThreadPool::ParallelFor(TIterator begin, TIterator end, TFunction f)
     {
         ParallelFor(::std::thread::hardware_concurrency(), begin, end, f);
+    }
+
+    template <class TIterator, class TFunction>
+    void ThreadPool::ParallelFor(uint32_t threadCount, TIterator begin, TIterator end, TFunction f)
+    {
+        struct fArgs {
+            TIterator b;
+            TIterator e;
+            TFunction f;
+#if CELLSIM_ENV_WINDOWS
+            ::PTP_WORK work;
+#endif
+        };
+#if CELLSIM_ENV_WINDOWS
+        void(*func)(::PTP_CALLBACK_INSTANCE, ::PVOID, ::PTP_WORK) = [](::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK) {
+            fArgs& fargs = *static_cast<fArgs*>(context);
+            while (fargs.b != fargs.e) {
+                if constexpr (::std::random_access_iterator<TIterator>) {
+                    fargs.f(*fargs.b);
+                }
+                else {
+                    fargs.f(fargs.b);
+                }
+                
+                ++fargs.b;
+            }
+        };
+    #else
+        void(*func)(void*) = [](void* args) {
+            fArgs& fargs = *static_cast<fArgs*>(args);
+            while (fargs.b != fargs.e) {
+                if constexpr (::std::random_access_iterator<TIterator>) {
+                    fargs.f(*fargs.b);
+                }
+                else {
+                    fargs.f(fargs.b);
+                }
+
+                ++fargs.b;
+            }
+        };
+    #endif
+        auto count = end - begin;
+
+        if (count == 0) [[unlikely]] return;
+
+        decltype(count) listCapacity;
+
+        if (threadCount > count) listCapacity = count;
+        else listCapacity = threadCount;
+
+        ::std::vector<fArgs> list;
+
+        if (list.capacity() < listCapacity) {
+            list.reserve(listCapacity);
+        }
+
+        decltype(count) c = count % listCapacity;
+        decltype(count) d = count / listCapacity;
+
+        if (c == 0) {
+            for (size_t i = begin; i != end;) {
+                list.emplace_back(fArgs{ i, i += d, f });
+#if CELLSIM_ENV_WINDOWS
+                auto& back = list.back();
+                ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
+                ::SubmitThreadpoolWork(work);
+                
+                back.work = work;
+#else
+                s_pool.AppendTask(func, &list.back());
+#endif
+            }
+        }
+        else {
+            size_t n = d * (listCapacity * (d + 1) - count);
+            size_t i = 0;
+
+            while (i != n) {
+                list.emplace_back(fArgs{ i, i += d, f });
+#if CELLSIM_ENV_WINDOWS
+                auto& back = list.back();
+                ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
+                ::SubmitThreadpoolWork(work);
+                
+                back.work = work;
+#else
+                s_pool.AppendTask(func, &list.back());
+#endif
+            }
+
+            d++;
+
+            while (i != count) {
+                list.emplace_back(fArgs{ i, i += d, f });
+#if CELLSIM_ENV_WINDOWS
+                auto& back = list.back();
+                ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
+                ::SubmitThreadpoolWork(work);
+                
+                back.work = work;
+#else
+                s_pool.AppendTask(func, &list.back());
+#endif
+            }
+        }
+
+#if CELLSIM_ENV_WINDOWS
+        for (auto& args : list) {
+            ::PTP_WORK work = args.work;
+            ::WaitForThreadpoolWorkCallbacks(work, FALSE);
+            ::CloseThreadpoolWork(work);
+        }
+#else
+        s_pool.WaitAll();
+#endif
     }
 }
 

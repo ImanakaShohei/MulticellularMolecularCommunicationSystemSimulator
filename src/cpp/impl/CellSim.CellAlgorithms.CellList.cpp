@@ -16,7 +16,7 @@ namespace CellSim::CellAlgorithms
 
     void CellList::BeforeAdvanceStep(
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     )
     {
         // TODO: ここに処理を追加します
@@ -25,7 +25,7 @@ namespace CellSim::CellAlgorithms
     ::std::vector<Cells::CellInfo> CellList::GetAffectableCellInfos(
         [[maybe_unused]] Cells::Cell const& target,
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     ) const
     {
         //: ここに処理を追加します
@@ -35,7 +35,7 @@ namespace CellSim::CellAlgorithms
     Threading::Generator<Cells::CellInfo> CellList::IterateAffectableCellInfos(
         [[maybe_unused]] Cells::Cell const& target,
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     ) const
     {
         //: ここに処理を追加します
@@ -44,7 +44,7 @@ namespace CellSim::CellAlgorithms
 
     void CellList::OnAdvanceStep(
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     )
     {
         // TODO: ここに処理を追加します

@@ -5,7 +5,7 @@ using namespace CellSim;
 using namespace CellSim::CellAlgorithms;
 using namespace CellSim::Cells;
 using namespace CellSim::Model;
-using namespace CellSim::Model::Molecule;
+using namespace CellSim::Molecular;
 
 namespace CellSim::Users
 {

@@ -69,7 +69,7 @@ namespace CellSim::Model
 
     void ClusterFormationModel::BeforeAdvanceStep(
         ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     )
     {
     }
@@ -77,7 +77,7 @@ namespace CellSim::Model
     Numerics::Vector3 ClusterFormationModel::ComputeForceOnCell(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecule::MoleculeDiffusion> const& molecules,
+        ::std::vector<Molecular::MoleculeDiffusion> const& molecules,
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
@@ -121,7 +121,7 @@ namespace CellSim::Model
 
     void ClusterFormationModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecule::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeDiffusion> const&
     )
     {
     }

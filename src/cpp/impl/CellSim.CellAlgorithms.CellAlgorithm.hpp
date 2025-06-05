@@ -40,7 +40,7 @@ namespace CellSim::CellAlgorithms
         /// @param molecules 分子空間リスト
         virtual void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) = 0;
 
         /// @brief ターゲットの細胞かける力を計算
@@ -53,19 +53,19 @@ namespace CellSim::CellAlgorithms
         [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces
+            ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces
         ) const;
 
         virtual ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) const = 0;
 
         virtual Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) const = 0;
 
         /// @brief 後処理
@@ -73,7 +73,7 @@ namespace CellSim::CellAlgorithms
         /// @param molecules 分子空間リスト
         virtual void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Model::Molecule::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
         ) = 0;
 
         /// @brief アルゴリズム側で力の計算をすることを強制するフラグ
@@ -87,7 +87,7 @@ namespace CellSim::CellAlgorithms
     Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Model::Molecule::MoleculeDiffusion> const& moleculeSpaces
+        ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces
     ) const
     {
         return Numerics::Vector3();
