@@ -34,6 +34,9 @@ namespace CellSim::Cells
         /// @brief 細胞の質量
         double m_mass;
 
+        /// @brief 極性ベクトル
+        [[maybe_unused]] Numerics::Vector3 m_polarity;
+
         /// @brief 細胞の位置
         Numerics::Vector3 m_position;
 

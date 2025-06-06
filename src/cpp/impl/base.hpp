@@ -206,7 +206,10 @@ namespace CellSim::Memory
 /// @brief 数値関連
 namespace CellSim::Numerics
 {
-    template <::std::floating_point TFloat>
+    template <class T>
+    concept NumberType = (::std::integral<T> || ::std::floating_point<T>) && (::std::same_as<T, bool> == false);
+
+    template <NumberType TNum>
     struct Vector3T;
 }
 
@@ -252,6 +255,7 @@ namespace CellSim::Containers
 
 namespace CellSim::Numerics
 {
+    using GridPosition3 = Vector3T<size_t>;
     using Vector3F = Vector3T<float>;
     using Vector3 = Vector3T<double>;
     using Vector3L = Vector3T<long double>;
