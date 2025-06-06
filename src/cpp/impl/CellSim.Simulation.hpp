@@ -3,7 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Cells.Cell.hpp"
-#include "CellSim.Molecular.MoleculeDiffusion.hpp"
+#include "CellSim.Molecular.MoleculeField.hpp"
 #include <vector>
 
 namespace CellSim
@@ -21,7 +21,7 @@ namespace CellSim
         ::std::vector<Cells::Cell> m_cells;
 
         /// @brief 分子空間リスト
-        ::std::vector<Molecular::MoleculeDiffusion> m_molecules;
+        ::std::vector<Molecular::MoleculeField> m_molecules;
 
         /// @brief アルゴリズム側で力を計算するかどうか
         bool m_overrideForceComputation;
@@ -65,7 +65,7 @@ namespace CellSim
         [[nodiscard]] constexpr const CellAlgorithms::CellList* CellListPtr() const noexcept;
         [[nodiscard]] constexpr const Model::CellSimulationModel* CellSimulationModelPtr() const noexcept;
         [[nodiscard]] constexpr ::std::vector<Cells::Cell> const& Cells() const noexcept;
-        [[nodiscard]] constexpr ::std::vector<Molecular::MoleculeDiffusion> const& Molecules() const noexcept;
+        [[nodiscard]] constexpr ::std::vector<Molecular::MoleculeField> const& Molecules() const noexcept;
 
         // メソッド
 
@@ -101,7 +101,7 @@ namespace CellSim
         return m_cells;
     }
 
-    constexpr ::std::vector<Molecular::MoleculeDiffusion> const& Simulation::Molecules() const noexcept
+    constexpr ::std::vector<Molecular::MoleculeField> const& Simulation::Molecules() const noexcept
     {
         return m_molecules;
     }

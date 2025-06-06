@@ -47,7 +47,7 @@ namespace CellSim::Model
 
     void NetworkFormationModel::BeforeAdvanceStep(
         ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
     }
@@ -55,7 +55,7 @@ namespace CellSim::Model
     Numerics::Vector3 NetworkFormationModel::ComputeForceOnCell(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeDiffusion> const& molecules,
+        ::std::vector<Molecular::MoleculeField> const& molecules,
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
@@ -111,7 +111,7 @@ namespace CellSim::Model
 
     void NetworkFormationModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeField> const& molecules
     )
     {
         for (Cells::Cell& cell : cells) {

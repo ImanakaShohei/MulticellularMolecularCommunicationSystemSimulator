@@ -150,6 +150,15 @@ namespace CellSim::Cli
     class VideoOption;
 }
 
+namespace CellSim::Containers
+{
+    template <class T>
+    class Span2;
+
+    template <class T>
+    class Span3;
+}
+
 /// @brief 画像処理
 namespace CellSim::Imaging
 {
@@ -231,6 +240,16 @@ namespace CellSim::Users
 }
 
 // エイリアス定義
+
+namespace CellSim::Containers
+{
+    template <class T>
+    using ReadOnlySpan2 = Span2<const T>;
+
+    template <class T>
+    using ReadOnlySpan3 = Span3<const T>;
+}
+
 namespace CellSim::Numerics
 {
     using Vector3F = Vector3T<float>;

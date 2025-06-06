@@ -24,7 +24,7 @@ namespace CellSim::Users
 
     void UserCellAlgorithm::BeforeAdvanceStep(
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します
@@ -33,7 +33,7 @@ namespace CellSim::Users
     ::std::vector<CellInfo> UserCellAlgorithm::GetAffectableCellInfos(
         [[maybe_unused]] Cell const& target,
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     ) const
     {
         //: ここに処理を追加します
@@ -43,7 +43,7 @@ namespace CellSim::Users
     Generator<CellInfo> UserCellAlgorithm::IterateAffectableCellInfos(
         [[maybe_unused]] Cell const& target,
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     ) const
     {
         //: ここに処理を追加します
@@ -52,7 +52,7 @@ namespace CellSim::Users
 
     void UserCellAlgorithm::OnAdvanceStep(
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します

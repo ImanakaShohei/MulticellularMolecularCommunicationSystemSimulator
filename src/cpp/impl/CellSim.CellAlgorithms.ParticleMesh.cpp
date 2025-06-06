@@ -16,7 +16,7 @@ namespace CellSim::CellAlgorithms
 
     void ParticleMesh::BeforeAdvanceStep(
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        [[maybe_unused]] ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します
@@ -25,7 +25,7 @@ namespace CellSim::CellAlgorithms
     ::std::vector<Cells::CellInfo> ParticleMesh::GetAffectableCellInfos(
         [[maybe_unused]] Cells::Cell const& target,
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        [[maybe_unused]] ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& molecules
     ) const
     {
         //: ここに処理を追加します
@@ -35,7 +35,7 @@ namespace CellSim::CellAlgorithms
     Threading::Generator<Cells::CellInfo> ParticleMesh::IterateAffectableCellInfos(
         [[maybe_unused]] Cells::Cell const& target,
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        [[maybe_unused]] ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& molecules
     ) const
     {
         //: ここに処理を追加します
@@ -44,7 +44,7 @@ namespace CellSim::CellAlgorithms
 
     void ParticleMesh::OnAdvanceStep(
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,
-        [[maybe_unused]] ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します

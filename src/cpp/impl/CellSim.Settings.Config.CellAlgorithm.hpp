@@ -17,6 +17,8 @@ namespace CellSim::Settings
 
         public:
 
+        class CellList;
+
         CELLSIM_STATIC_CLASS(CellAlgorithm);
 
         /// @brief 使用するアルゴリズム

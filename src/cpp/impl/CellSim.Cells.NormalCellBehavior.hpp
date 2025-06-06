@@ -9,7 +9,8 @@ namespace CellSim::Cells
     class NormalCellBehavior : public CellBehavior {
         public:
 
-        CellGrowthResult ComputeGrowth(Cell const& cell) const override;
+        CellGrowthResult ComputeGrowth(Cell const& cell) override;
+        double ComputeMoleculeEmitAmount(Cell const& cell, Molecular::MoleculeField const& field) override;
         CellBehavior* CreateClone() const override;
         constexpr bool HasState() const noexcept override;
     };

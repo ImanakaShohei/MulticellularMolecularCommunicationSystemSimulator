@@ -35,10 +35,11 @@ set(SOURCES
     src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
     src/cpp/impl/CellSim.Model.WavePropagationModel.cpp
     src/cpp/impl/CellSim.Molecular.Molecule.cpp
-    src/cpp/impl/CellSim.Molecular.MoleculeDiffusion.cpp
+    src/cpp/impl/CellSim.Molecular.MoleculeField.cpp
     src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
+    src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.CellList.cpp
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.Simulation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.cpp

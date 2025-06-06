@@ -11,13 +11,13 @@ namespace CellSim::Model
 
         void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
 
         Numerics::Vector3 ComputeForceOnCell(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces,
+            ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
             const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const override;
 
@@ -25,7 +25,7 @@ namespace CellSim::Model
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
 
         constexpr bool UseCellAlgorithm() const noexcept override;

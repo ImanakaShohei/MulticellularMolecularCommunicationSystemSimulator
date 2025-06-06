@@ -109,6 +109,14 @@ namespace CellSim::Cells
 
         void Combine(Cell& c);
 
+        /// @brief 分子空間に分子を放出
+        /// @param field 分子空間
+        void EmitMolecule(Molecular::MoleculeField& field);
+
+        /// @brief 分子空間に分子を放出
+        /// @param fields 分子空間リスト
+        void EmitMolecule(::std::vector<Molecular::MoleculeField>& fields);
+
         /// @brief 細胞が成長
         void Grow();
 
@@ -212,6 +220,13 @@ namespace CellSim::Cells
     constexpr void Cell::ClearAttachedCells() noexcept
     {
         m_attachedCells.clear();
+    }
+
+    inline void Cell::EmitMolecule(::std::vector<Molecular::MoleculeField>& fields)
+    {
+        for (Molecular::MoleculeField& field : fields) {
+            EmitMolecule(field);
+        }
     }
 
     inline bool Cell::IsAdheringTo(Cell const& cell) const noexcept

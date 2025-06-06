@@ -5,7 +5,7 @@ namespace CellSim::Model
 {
     void CellGrowthModel::BeforeAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します
@@ -14,7 +14,7 @@ namespace CellSim::Model
     Numerics::Vector3 CellGrowthModel::ComputeForceOnCell(
         Cells::Cell const& target,
         ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces,
+        ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
@@ -30,7 +30,7 @@ namespace CellSim::Model
 
     void CellGrowthModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+        ::std::vector<Molecular::MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します

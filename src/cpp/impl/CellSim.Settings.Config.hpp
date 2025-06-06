@@ -22,6 +22,8 @@ namespace CellSim::Settings
         class SimulationModel;
         class UserSettings;
 
+        CELLSIM_STATIC_CLASS(Config);
+
         static void Load();
         static void Load(const char* filePath);
         static void Load(::std::string const& filePath);

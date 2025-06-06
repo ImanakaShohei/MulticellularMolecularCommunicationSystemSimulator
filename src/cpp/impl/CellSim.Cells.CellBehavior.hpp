@@ -21,7 +21,9 @@ namespace CellSim::Cells
         /// @brief 細胞の成長度合いを計算
         /// @param cell ターゲットの細胞
         /// @return 計算結果
-        [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) const = 0;
+        [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) = 0;
+
+        [[nodiscard]] virtual double ComputeMoleculeEmitAmount(Cell const& cell, Molecular::MoleculeField const& field) = 0;
 
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
 

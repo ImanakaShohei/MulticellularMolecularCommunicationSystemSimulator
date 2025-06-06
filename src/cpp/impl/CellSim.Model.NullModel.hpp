@@ -13,13 +13,13 @@ namespace CellSim::Model
 
         constexpr void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
 
         constexpr Numerics::Vector3 ComputeForceOnCell(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& moleculeSpaces,
+            ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
             const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const override;
 
@@ -27,7 +27,7 @@ namespace CellSim::Model
 
         constexpr void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
 
         constexpr bool UseCellAlgorithm() const noexcept override;
@@ -38,7 +38,7 @@ namespace CellSim::Model
 {
     constexpr void NullModel::BeforeAdvanceStep(
         ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
     }
@@ -46,7 +46,7 @@ namespace CellSim::Model
     constexpr Numerics::Vector3 NullModel::ComputeForceOnCell(
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeDiffusion> const& ,
+        ::std::vector<Molecular::MoleculeField> const& ,
         const CellAlgorithms::CellAlgorithm*
     ) const
     {
@@ -59,7 +59,7 @@ namespace CellSim::Model
 
     constexpr void NullModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
     }

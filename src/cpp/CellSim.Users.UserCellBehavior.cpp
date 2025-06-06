@@ -3,10 +3,11 @@
 
 using namespace CellSim;
 using namespace CellSim::Cells;
+using namespace CellSim::Molecular;
 
 namespace CellSim::Users
 {
-    CellGrowthResult UserCellBehavior::ComputeGrowth(Cell const& cell) const
+    CellGrowthResult UserCellBehavior::ComputeGrowth([[maybe_unused]] Cell const& cell)
     {
         CellGrowthResult result;
 
@@ -15,10 +16,19 @@ namespace CellSim::Users
         return result;
     }
 
+    double UserCellBehavior::ComputeMoleculeEmitAmount(
+        [[maybe_unused]] Cell const& cell,
+        [[maybe_unused]] MoleculeField const& field
+    )
+    {
+        // TODO: 放出量を計算します
+        return 0.0;
+    }
+
     CellBehavior* UserCellBehavior::CreateClone() const
     {
         // ここはいじらない
-        return new UserCellBehavior(*this);
+        return new UserCellBehavior();
     }
 
     bool UserCellBehavior::HasState() const noexcept

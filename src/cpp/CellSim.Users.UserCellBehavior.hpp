@@ -12,7 +12,8 @@ namespace CellSim::Users
 
         UserCellBehavior() = default;
 
-        Cells::CellGrowthResult ComputeGrowth(Cells::Cell const& cell) const override;
+        Cells::CellGrowthResult ComputeGrowth(Cells::Cell const& cell) override;
+        double ComputeMoleculeEmitAmount(Cells::Cell const& cell, Molecular::MoleculeField const& field) override;
         CellBehavior* CreateClone() const override;
         
         bool HasState() const noexcept override;

@@ -14,24 +14,24 @@ namespace CellSim::CellAlgorithms
 
         constexpr void BeforeAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) const override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) const override;
 
         constexpr void OnAdvanceStep(
             ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeDiffusion> const& molecules
+            ::std::vector<Molecular::MoleculeField> const& molecules
         ) override;
     };
 }
@@ -40,7 +40,7 @@ namespace CellSim::CellAlgorithms
 {
     constexpr void NullAlgorithm::BeforeAdvanceStep(
         ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
     }
@@ -48,7 +48,7 @@ namespace CellSim::CellAlgorithms
     inline ::std::vector<Cells::CellInfo> NullAlgorithm::GetAffectableCellInfos(
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     ) const
     {
         return {};
@@ -57,7 +57,7 @@ namespace CellSim::CellAlgorithms
     inline Threading::Generator<Cells::CellInfo> NullAlgorithm::IterateAffectableCellInfos(
         Cells::Cell const&,
         ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     ) const
     {
         co_return;
@@ -65,7 +65,7 @@ namespace CellSim::CellAlgorithms
 
     constexpr void NullAlgorithm::OnAdvanceStep(
         ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeDiffusion> const&
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
     }
