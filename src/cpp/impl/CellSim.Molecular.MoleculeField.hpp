@@ -66,6 +66,10 @@ namespace CellSim::Molecular
         [[nodiscard]] constexpr size_t GridCountY() const noexcept;
         [[nodiscard]] constexpr size_t GridCountZ() const noexcept;
 
+        [[nodiscard]] constexpr size_t GridLengthX() const noexcept;
+        [[nodiscard]] constexpr size_t GridLengthY() const noexcept;
+        [[nodiscard]] constexpr size_t GridLengthZ() const noexcept;
+
         void OnAdvanceStep(::std::vector<Cells::Cell> const& cells);
 
         [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
@@ -98,6 +102,21 @@ namespace CellSim::Molecular
     constexpr size_t MoleculeField::GridCountZ() const noexcept
     {
         return m_gridCountZ;
+    }
+
+    constexpr size_t MoleculeField::GridLengthX() const noexcept
+    {
+        return m_gridLengthX;
+    }
+
+    constexpr size_t MoleculeField::GridLengthY() const noexcept
+    {
+        return m_gridLengthY;
+    }
+
+    constexpr size_t MoleculeField::GridLengthZ() const noexcept
+    {
+        return m_gridLengthZ;
     }
 
     inline Numerics::GridPosition3 MoleculeField::ToGridPosition3(Cells::Cell const& cell) const noexcept

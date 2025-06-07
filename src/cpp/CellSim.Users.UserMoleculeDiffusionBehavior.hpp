@@ -14,6 +14,7 @@ namespace CellSim::Users
         public:
 
         UserMoleculeDiffusionBehavior();
+        UserMoleculeDiffusionBehavior(Molecular::BoundaryCondition boundaryCondition);
         ~UserMoleculeDiffusionBehavior();
 
         void BeforeAdvanceStep(
@@ -22,6 +23,12 @@ namespace CellSim::Users
         ) override;
 
         void Diffuse(
+            Containers::Span3<double> concentrations,
+            Molecular::MoleculeField const& field
+        ) override;
+
+        void InitializeMolecules(
+            Molecular::InitialMoleculeDistribution initialMoleculeDistribution,
             Containers::Span3<double> concentrations,
             Molecular::MoleculeField const& field
         ) override;

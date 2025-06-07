@@ -37,6 +37,15 @@ namespace CellSim::Users
         // TODO: ここに処理を追加します
     }
 
+    void UserMoleculeDiffusionBehavior::InitializeMolecules(
+        [[maybe_unused]] InitialMoleculeDistribution initialMoleculeDistribution,
+        [[maybe_unused]] Span3<double> concentrations,
+        [[maybe_unused]] MoleculeField const& field
+    )
+    {
+        // TODO: ここに処理を追加します
+    }
+
     void UserMoleculeDiffusionBehavior::OnAdvanceStep(
         [[maybe_unused]] ::std::vector<Cell> const& cells,
         [[maybe_unused]] MoleculeField const& field

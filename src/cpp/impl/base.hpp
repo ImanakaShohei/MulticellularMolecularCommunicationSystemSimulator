@@ -189,6 +189,8 @@ namespace CellSim::Model
 /// @brief 分子拡散など
 namespace CellSim::Molecular
 {
+    enum class BoundaryCondition;
+    enum class InitialMoleculeDistribution;
     class Molecule;
     //class MoleculeDiffusion;
     class MoleculeDiffusionBehavior;
