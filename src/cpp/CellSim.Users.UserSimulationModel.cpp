@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Users.UserSimulationModel.hpp"
+#include "impl/CellSim.Molecular.MoleculeField.hpp"
 #include "impl/CellSim.Numerics.Vector3T.hpp"
 
 using namespace CellSim;
@@ -21,7 +22,7 @@ namespace CellSim::Users
 
     void UserSimulationModel::BeforeAdvanceStep(
         [[maybe_unused]] ::std::vector<Cell>& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します
@@ -30,7 +31,7 @@ namespace CellSim::Users
     Numerics::Vector3 UserSimulationModel::ComputeForceOnCell(
         [[maybe_unused]] Cell const& target,
         [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules,
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules,
         [[maybe_unused]] const CellAlgorithm* pCellAlgorithm
     ) const
     {
@@ -46,7 +47,7 @@ namespace CellSim::Users
 
     void UserSimulationModel::OnAdvanceStep(
         [[maybe_unused]] ::std::vector<Cell>& cells,
-        [[maybe_unused]] ::std::vector<MoleculeDiffusion> const& molecules
+        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
     )
     {
         // TODO: ここに処理を追加します

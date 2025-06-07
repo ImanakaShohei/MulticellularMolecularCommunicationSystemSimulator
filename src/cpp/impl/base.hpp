@@ -192,11 +192,11 @@ namespace CellSim::Molecular
     class Molecule;
     //class MoleculeDiffusion;
     class MoleculeDiffusionBehavior;
+    enum class MoleculeDiffusionBehaviorKind;
     class MoleculeField;
     enum class MoleculeKind;
-    class NoMoleculeDiffusion;
-    //class SimpleMoleculeDiffusion;
-    class SignalMoleculeDiffusion;
+    class NormalMoleculeDiffusionBehavior;
+    class NullMoleculeDiffusionBehavior;
 }
 
 namespace CellSim::Memory

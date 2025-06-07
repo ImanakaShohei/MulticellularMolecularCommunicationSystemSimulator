@@ -14,6 +14,7 @@ set(SOURCES
     src/cpp/main.cpp
     src/cpp/CellSim.Users.UserCellAlgorithm.cpp
     src/cpp/CellSim.Users.UserCellBehavior.cpp
+    src/cpp/CellSim.Users.UserMoleculeDiffusionBehavior.cpp
     src/cpp/CellSim.Settings.Config.UserSettings.cpp
     src/cpp/CellSim.Users.UserSimulationModel.cpp
     src/cpp/impl/CellSim.Simulation.cpp
@@ -37,6 +38,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Molecular.Molecule.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeDiffusionBehavior.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeField.cpp
+    src/cpp/impl/CellSim.Molecular.NormalMoleculeDiffusionBehavior.cpp
     src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp

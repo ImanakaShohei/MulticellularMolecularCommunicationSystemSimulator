@@ -4,6 +4,8 @@
 #include "impl/base.hpp"
 #include "impl/CellSim.Settings.Config.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     /// @brief ユーザー独自の設定
@@ -17,6 +19,8 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(UserSettings);
 
         // TODO: ここにゲッターを追加します
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 
