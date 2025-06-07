@@ -56,10 +56,11 @@ namespace CellSim::Model
     ) const
     {
         Numerics::Vector3 force;
+        Numerics::Vector3 forceCenter;
         Numerics::Vector3 forceCont;
         Cells::CellInfo info{ target };
 
-        force -= info.Position * (m_centralForceFactor / info.Position.Length());
+        forceCenter = info.Position * (-m_centralForceFactor / info.Position.Length());
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
@@ -72,16 +73,16 @@ namespace CellSim::Model
                 double dist = diff.Length();
 
                 if (dist < m_repulsionMaxDistance) {
-                    force += diff * (m_repulsionFactor * (m_repulsionMaxDistance - dist) / (m_repulsionMaxDistance * dist));
+                    force += diff * ((m_repulsionMaxDistance - dist) / (m_repulsionMaxDistance * dist));
                 }
 
                 if (dist < m_adhesionDistanceThreshold) {
-                    forceCont += m_adhesionForceFactor * cellInfo.PreviusForce;
+                    forceCont += cellInfo.PreviusForce;
                 }
             }
         )
 
-        return force + forceCont;
+        return m_repulsionFactor * force + m_adhesionForceFactor * forceCont + forceCenter;
     }
 
     void ClusterRotationModel::OnAdvanceStep(

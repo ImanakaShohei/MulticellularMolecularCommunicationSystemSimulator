@@ -34,9 +34,8 @@ namespace CellSim::Model
         if (dist < sumRadius) {
 
             double tmp = 1.0 - dist / sumRadius;
-            tmp = m_adhesiveRepulsionFactor * (tmp * tmp);
 
-            return diff * tmp;
+            return diff * (tmp * tmp);
         }
 
         return Numerics::Vector3();
@@ -99,7 +98,7 @@ namespace CellSim::Model
                 }
             )
 
-            return m_remoteForceFactor * vec1.Normalize() + vec2;
+            return m_remoteForceFactor * vec1.Normalize() + m_adhesiveRepulsionFactor * vec2;
         }
         
         Numerics::Vector3 vec;
@@ -115,7 +114,7 @@ namespace CellSim::Model
             }
         )
 
-        return vec;
+        return m_adhesiveRepulsionFactor * vec;
     }
 
     void ClusterFormationModel::OnAdvanceStep(

@@ -59,7 +59,9 @@ namespace CellSim::Model
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
-        Numerics::Vector3 force;
+        Numerics::Vector3 force1;
+        Numerics::Vector3 force2;
+        Numerics::Vector3 force3;
 
         Cells::CellInfo info{ target };
         const Cells::Cell* pTarget = &target;
@@ -74,13 +76,13 @@ namespace CellSim::Model
                 double v = dist - m_minAttractionDistance;
 
                 if (v > 0.0) {
-                    force -= (v * m_attractionFactor / dist) * diff;
+                    force1 -= (v / dist) * diff;
                 }
                 else {
                     v = m_maxRepulsionDistance;
 
                     if (v > 0.0) {
-                        force += (v * m_adhesiveRepulsionFactor / (m_maxRepulsionDistance * dist)) * diff;
+                        force2 += (v / (m_maxRepulsionDistance * dist)) * diff;
                     }
                 }
             }
@@ -98,15 +100,14 @@ namespace CellSim::Model
                 const Numerics::Vector3 diff = info.Position - cellInfo.Position;
                 const double mass            = info.Mass * cellInfo.Mass;
 
-                force += (
+                force3 += (
                     -mass *
-                    m_remoteForceFactor *
                     ::exp(-m_reverseLambda)
                 ) * diff;
             }
         )
 
-        return force;
+        return m_attractionFactor * force1 + m_adhesiveRepulsionFactor * force2 + m_remoteForceFactor * force3;
     }
 
     void NetworkFormationModel::OnAdvanceStep(

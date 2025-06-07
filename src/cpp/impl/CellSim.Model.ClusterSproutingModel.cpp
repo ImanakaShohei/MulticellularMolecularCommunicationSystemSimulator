@@ -101,7 +101,10 @@ namespace CellSim::Model
         const CellAlgorithms::CellAlgorithm* pCellAlgorithm
     ) const
     {
-        Numerics::Vector3 force;
+        Numerics::Vector3 force1;
+        Numerics::Vector3 force2;
+        Numerics::Vector3 force3;
+        Numerics::Vector3 force4;
         Cells::CellInfo info{ target };
 
         for (Cells::Cell const& cell : cells) {
@@ -112,20 +115,20 @@ namespace CellSim::Model
 
                 if (target.AttachedCellCount() <= m_adhesionThreshold) {
                     // 接着している細胞から離れようとする
-                    force += diff * ((m_leaderRepulsionMaxDistance - dist) * m_leaderRepulsionFactor / (m_leaderRepulsionMaxDistance * dist));
+                    force1 += diff * ((m_leaderRepulsionMaxDistance - dist) / (m_leaderRepulsionMaxDistance * dist));
                 }
                 else {
                     double v = dist - m_leaderRepulsionMinDistance;
 
                     // 近すぎると何も起こらない
                     if (v > 0.0) {
-                        force -= diff * (v * m_followerAttractionFactor / (dist * m_leaderRepulsionRange));
+                        force2 -= diff * (v / (dist * m_leaderRepulsionRange));
                     }
                 }
 
                 // 近すぎると反発力が発生
                 if (dist < m_contactDistance) {
-                    force += diff * ((m_contactDistance - dist) * m_coefficientCd / (m_contactDistance * dist));
+                    force3 += diff * ((m_contactDistance - dist) / (m_contactDistance * dist));
                 }
             }
 
@@ -143,11 +146,11 @@ namespace CellSim::Model
                 double dist = diff.Length();
 
                 // すべての細胞に働く力
-                force -= diff * (::exp(-dist / m_lambda) * m_globalAttractionFactor / dist);
+                force4 -= diff * (::exp(-dist / m_lambda) / dist);
             }
         )
 
-        return force;
+        return m_leaderRepulsionFactor * force1 + m_followerAttractionFactor * force2 + m_coefficientCd * force3 + m_globalAttractionFactor * force4;
     }
 
     void ClusterSproutingModel::OnAdvanceStep(
