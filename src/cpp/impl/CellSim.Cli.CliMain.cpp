@@ -7,10 +7,11 @@ namespace CellSim::Cli
     int CliMain::Run(int argc, char** argv) noexcept
     {
         printf(
-            "CellSim %d.%d.%d RC\n",
+            "CellSim %d.%d.%d %s\n",
             CELLSIM_VERSION_MAJOR,
             CELLSIM_VERSION_MINOR,
-            CELLSIM_VERSION_PATCH
+            CELLSIM_VERSION_PATCH,
+            CELLSIM_VERSION_EXTENSION
         );
         try {
 

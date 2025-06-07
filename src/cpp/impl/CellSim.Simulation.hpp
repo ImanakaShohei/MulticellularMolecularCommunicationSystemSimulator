@@ -20,6 +20,9 @@ namespace CellSim
         /// @brief 細胞リスト
         ::std::vector<Cells::Cell> m_cells;
 
+        /// @brief 複数スレッドによる処理をするかどうか
+        bool m_enableMultithreading;
+
         /// @brief 分子空間リスト
         ::std::vector<Molecular::MoleculeField> m_molecules;
 
@@ -35,6 +38,9 @@ namespace CellSim
 
         /// @brief シミュレーションモデルインスタンスへのポインター
         Model::CellSimulationModel* m_pCellSimulationModel;
+
+        /// @brief 力を計算
+        void m_addForce();
 
         /// @brief 1step進める
         void m_advanceStep();

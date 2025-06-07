@@ -62,6 +62,9 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Molecular::MoleculeField> const& molecules
         ) const = 0;
 
+        /// @brief このアルゴリズムが複数スレッドによる処理をサポートしているかどうか
+        virtual bool HasMultithreadingSupport() const noexcept = 0;
+
         virtual Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,

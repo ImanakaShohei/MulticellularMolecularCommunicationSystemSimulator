@@ -2,8 +2,10 @@
 #define CELLSIM_MOLECULE_MOLECULEFILED_HPP
 
 #include "base.hpp"
+#include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Containers.Span3.hpp"
 #include "CellSim.Molecular.MoleculeKind.hpp"
+#include "CellSim.Numerics.Vector3T.hpp"
 
 #include <vector>
 
@@ -22,11 +24,19 @@ namespace CellSim::Molecular
         size_t m_gridCountY;
         size_t m_gridCountZ;
 
+        double m_gridLengthX;
+        double m_gridLengthY;
+        double m_gridLengthZ;
+
         /// @brief 分子の種類
         MoleculeKind m_kind;
 
         /// @brief ふるまい定義
         MoleculeDiffusionBehavior* m_pBehavior;
+
+        double m_reverseGridLengthX;
+        double m_reverseGridLengthY;
+        double m_reverseGridLengthZ;
 
         public:
 
@@ -44,9 +54,7 @@ namespace CellSim::Molecular
 
         MoleculeField& operator=(MoleculeField const&) = delete;
 
-        void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells
-        );
+        void BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells);
 
         [[nodiscard]] constexpr Containers::Span3<double> Concentrations() noexcept;
         [[nodiscard]] constexpr Containers::ReadOnlySpan3<double> Concentrations() const noexcept;
@@ -58,9 +66,10 @@ namespace CellSim::Molecular
         [[nodiscard]] constexpr size_t GridCountY() const noexcept;
         [[nodiscard]] constexpr size_t GridCountZ() const noexcept;
 
-        void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells
-        );
+        void OnAdvanceStep(::std::vector<Cells::Cell> const& cells);
+
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Numerics::Vector3 position) const noexcept;
     };
 }
 
@@ -89,6 +98,11 @@ namespace CellSim::Molecular
     constexpr size_t MoleculeField::GridCountZ() const noexcept
     {
         return m_gridCountZ;
+    }
+
+    inline Numerics::GridPosition3 MoleculeField::ToGridPosition3(Cells::Cell const& cell) const noexcept
+    {
+        return ToGridPosition3(cell.Position());
     }
 }
 

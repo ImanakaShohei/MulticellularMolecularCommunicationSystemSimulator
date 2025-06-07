@@ -28,6 +28,8 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Molecular::MoleculeField> const& molecules
         ) const override;
 
+        bool HasMultithreadingSupport() const noexcept override;
+
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,

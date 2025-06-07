@@ -8,6 +8,44 @@
 
 namespace CellSim
 {
+    void Simulation::m_addForce()
+    {
+        // 力を加える
+        if (m_overrideForceComputation) {
+            // ここでm_pCellAlgorithmはnullptrではありません
+            if (m_enableMultithreading) {
+                Threading::ThreadPool::ParallelFor(
+                    m_cells.begin(),
+                    m_cells.end(),
+                    [this] (Cells::Cell& cell) {
+                        cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                    }
+                );
+            }
+            else {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                }
+            }
+        }
+        else {
+            if (m_enableMultithreading) {
+                Threading::ThreadPool::ParallelFor(
+                    m_cells.begin(),
+                    m_cells.end(),
+                    [this] (Cells::Cell& cell) {
+                        cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                    }
+                );
+            }
+            else {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                }
+            }
+        }
+    }
+
     void Simulation::m_advanceStep()
     {
         // 前処理
@@ -27,26 +65,7 @@ namespace CellSim
             }
         }
 
-        // 力を加える
-        if (m_overrideForceComputation) {
-            // ここでm_pCellAlgorithmはnullptrではありません
-            Threading::ThreadPool::ParallelFor(
-                m_cells.begin(),
-                m_cells.end(),
-                [this] (Cells::Cell& cell) {
-                    cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
-                }
-            );
-        }
-        else {
-            Threading::ThreadPool::ParallelFor(
-                m_cells.begin(),
-                m_cells.end(),
-                [this] (Cells::Cell& cell) {
-                    cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
-                }
-            );
-        }
+        m_addForce();
         
         // 移動
         for (Cells::Cell& cell : m_cells) {
@@ -90,10 +109,15 @@ namespace CellSim
                 m_pCellList = new CellAlgorithms::CellList();
             }
         }
+
+        if (m_pCellAlgorithm != nullptr) {
+            m_enableMultithreading = m_pCellAlgorithm->HasMultithreadingSupport();
+        }
     }
 
     Simulation::Simulation()
     : m_cells()
+    , m_enableMultithreading(true)
     , m_molecules()
     , m_overrideForceComputation(false)
     , m_pCellAlgorithm(nullptr)

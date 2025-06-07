@@ -32,6 +32,12 @@ namespace CellSim::CellAlgorithms
         return {};
     }
 
+    bool ParticleMesh::HasMultithreadingSupport() const noexcept
+    {
+        // TODO: 複数スレッドによる処理ができない場合は'false'にします
+        return true;
+    }
+
     Threading::Generator<Cells::CellInfo> ParticleMesh::IterateAffectableCellInfos(
         [[maybe_unused]] Cells::Cell const& target,
         [[maybe_unused]] ::std::vector<Cells::Cell> const& cells,

@@ -40,6 +40,12 @@ namespace CellSim::Users
         return {};
     }
 
+    bool UserCellAlgorithm::HasMultithreadingSupport() const noexcept
+    {
+        // TODO: 複数スレッドによる処理ができない場合は'false'にします
+        return true;
+    }
+
     Generator<CellInfo> UserCellAlgorithm::IterateAffectableCellInfos(
         [[maybe_unused]] Cell const& target,
         [[maybe_unused]] ::std::vector<Cell> const& cells,

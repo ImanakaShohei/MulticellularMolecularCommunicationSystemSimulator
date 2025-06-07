@@ -65,6 +65,8 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Molecular::MoleculeField> const& molecules
         ) const override;
 
+        constexpr bool HasMultithreadingSupport() const noexcept override;
+
         /// @brief 2津の細胞間の距離がSearchRadius()以内であるかを判定
         /// @param cell1 
         /// @param cell2 
@@ -94,6 +96,11 @@ namespace CellSim::CellAlgorithms
 
 namespace CellSim::CellAlgorithms
 {
+    constexpr bool CellList::HasMultithreadingSupport() const noexcept
+    {
+        return true;
+    }
+
     constexpr bool CellList::IsWithinSearchRadius(Cells::Cell const& cell1, Cells::Cell const& cell2) const noexcept
     {
         return IsWithinSearchRadius(cell1.Position(), cell2.Position());

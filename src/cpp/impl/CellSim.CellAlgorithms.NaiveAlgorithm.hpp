@@ -20,6 +20,8 @@ namespace CellSim::CellAlgorithms
             ::std::vector<Molecular::MoleculeField> const& molecules
         ) const override;
 
+        constexpr bool HasMultithreadingSupport() const noexcept override;
+
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             Cells::Cell const& target,
             ::std::vector<Cells::Cell> const& cells,
@@ -40,6 +42,11 @@ namespace CellSim::CellAlgorithms
         ::std::vector<Molecular::MoleculeField> const&
     )
     {
+    }
+
+    constexpr bool NaiveAlgorithm::HasMultithreadingSupport() const noexcept
+    {
+        return true;
     }
 
     constexpr void NaiveAlgorithm::OnAdvanceStep(
