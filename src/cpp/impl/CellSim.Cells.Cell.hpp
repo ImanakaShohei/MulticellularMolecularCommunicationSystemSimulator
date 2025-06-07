@@ -61,6 +61,9 @@ namespace CellSim::Cells
         /// @brief 接着している細胞のリスト
         [[nodiscard]] constexpr ::std::vector<const Cell*> const& AttachedCells() const noexcept;
 
+        /// @brief 接着している細胞の数
+        [[nodiscard]] constexpr size_t AttachedCellCount() const noexcept;
+
         /// @brief 細胞が受けた力
         [[nodiscard]] constexpr Numerics::Vector3 Force() const noexcept;
 
@@ -143,6 +146,11 @@ namespace CellSim::Cells
     constexpr ::std::vector<const Cell*> const& Cell::AttachedCells() const noexcept
     {
         return m_attachedCells;
+    }
+
+    constexpr size_t Cell::AttachedCellCount() const noexcept
+    {
+        return m_attachedCells.size();
     }
 
     constexpr Numerics::Vector3 Cell::Force() const noexcept

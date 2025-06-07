@@ -2,7 +2,6 @@
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
-#include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.ClusterRotation.hpp"
 
 #include <stdexcept>
@@ -82,7 +81,7 @@ namespace CellSim::Model
             }
         )
 
-        return (force + forceCont) * Settings::Config::Simulation::DeltaTime();
+        return force + forceCont;
     }
 
     void ClusterRotationModel::OnAdvanceStep(

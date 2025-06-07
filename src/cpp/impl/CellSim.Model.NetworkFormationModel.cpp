@@ -111,7 +111,7 @@ namespace CellSim::Model
 
     void NetworkFormationModel::OnAdvanceStep(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules
+        ::std::vector<Molecular::MoleculeField> const&
     )
     {
         for (Cells::Cell& cell : cells) {

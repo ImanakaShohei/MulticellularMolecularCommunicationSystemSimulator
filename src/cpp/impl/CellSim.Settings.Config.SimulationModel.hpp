@@ -18,6 +18,7 @@ namespace CellSim::Settings
 
         class ClusterFormation;
         class ClusterRotation;
+        class ClusterSprouting;
         class NetworkFormation;
 
         CELLSIM_STATIC_CLASS(SimulationModel);
