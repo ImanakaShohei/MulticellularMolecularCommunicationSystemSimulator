@@ -2,7 +2,9 @@
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellList.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
+#include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "CellSim.Threading.ThreadPool.hpp"
 
@@ -65,7 +67,28 @@ namespace CellSim
             }
         }
 
+        for (Molecular::MoleculeField& field : m_molecules) {
+            field.BeforeAdvanceStep(m_cells);
+        }
+
         m_addForce();
+
+        if (Settings::Config::Cell::IsSensitiveToMolecules()) {
+            Threading::ThreadPool::ParallelFor(
+                m_cells.begin(),
+                m_cells.end(),
+                [this] (Cells::Cell& cell) {
+                    for (Molecular::MoleculeField const& field : m_molecules) {
+                        cell.SenseMolecules(field);
+                    }
+                }
+            );
+
+            // 状態を変更する可能性があるのでシングルスレッドで動かす
+            for (Cells::Cell& cell : m_cells) {
+                cell.EmitMolecule(m_molecules);
+            }
+        }
         
         // 移動
         for (Cells::Cell& cell : m_cells) {
@@ -75,15 +98,42 @@ namespace CellSim
         m_pCellSimulationModel->OnAdvanceStep(m_cells, m_molecules);
         if (m_pCellSimulationModel->UseCellAlgorithm()) m_pCellAlgorithm->OnAdvanceStep(m_cells, m_molecules);
         
+        for (Molecular::MoleculeField& field : m_molecules) {
+            field.OnAdvanceStep(m_cells);
+        }
     }
 
     void Simulation::m_beforeAdvanceStep()
     {
-        for (Cells::Cell& cell : m_cells) {
-            cell.ResetForce();
+        if (Settings::Config::Cell::EnableGrowth()) {
+            if (Settings::Config::Cell::IsSensitiveToMolecules()) {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.ResetForce();
+                    cell.Grow();
+                    cell.Metabolize();
+                }
+            }
+            else {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.ResetForce();
+                    cell.Grow();
+                }
+            }
         }
-
-        // TODO: ここに細胞の成長や分子の代謝の処理を追加
+        else {
+            if (Settings::Config::Cell::IsSensitiveToMolecules()) {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.ResetForce();
+                    cell.Metabolize();
+                }
+            }
+            else {
+                for (Cells::Cell& cell : m_cells) {
+                    cell.ResetForce();
+                }
+            }
+        }
+        
     }
 
     void Simulation::m_initializeCellAlgorithm()
@@ -115,7 +165,26 @@ namespace CellSim
         }
     }
 
-    Simulation::Simulation()
+    void Simulation::m_save(uint64_t step) const
+    {
+        if (m_option.IsOutputBinary()) {
+
+        }
+
+        if (m_option.IsOutputCsv()) {
+
+        }
+
+        if (m_option.IsOutputImage()) {
+
+        }
+
+        if (m_option.IsOutputVideo()) {
+
+        }
+    }
+
+    Simulation::Simulation(SimulationOption option)
     : m_cells()
     , m_enableMultithreading(true)
     , m_molecules()
@@ -123,6 +192,7 @@ namespace CellSim
     , m_pCellAlgorithm(nullptr)
     , m_pCellList(nullptr)
     , m_pCellSimulationModel(Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType()))
+    , m_option(::std::move(option))
     {
         s_current = this;
 
@@ -144,5 +214,15 @@ namespace CellSim
     void Simulation::Run()
     {
         s_current = this;
+
+        uint64_t totalStep = Settings::Config::Simulation::TotalSteps();
+
+        for (uint64_t step = 0; step != totalStep; ++step) {
+
+            m_beforeAdvanceStep();
+            m_advanceStep();
+            
+
+        }
     }
 }

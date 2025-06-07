@@ -45,6 +45,7 @@
                     "type": "integer",
                     "minimum": 0
                 },
+                "isSensitiveToMolecules": { "type": "boolean" },
                 "mass": {
                     "type": "number",
                     "exclusiveMinimum": 0
@@ -58,7 +59,7 @@
                     "enum": [ "Normal" ]
                 }
             },
-            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "mass", "radius", "type" ]
+            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
         },
         "cellAlgorithm": {
             "type": "object",

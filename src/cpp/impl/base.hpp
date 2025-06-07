@@ -101,7 +101,7 @@ namespace CellSim
 {
     enum class PeformanceType;
     class Simulation;
-    struct SimulationOption;
+    class SimulationOption;
 }
 
 /// @brief 高速化アルゴリズム

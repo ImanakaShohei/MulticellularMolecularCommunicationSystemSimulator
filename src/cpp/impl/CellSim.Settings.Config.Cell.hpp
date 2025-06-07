@@ -19,6 +19,7 @@ namespace CellSim::Settings
         static inline bool s_enableGrowth;
         static inline double s_growthRate;
         static inline double s_initialPlacementRadius;
+        static inline bool s_isSensitiveToMolecules;
         static inline uint32_t s_initialPlacementSeed;
         static inline double s_mass;
         static inline double s_radius;
@@ -47,6 +48,9 @@ namespace CellSim::Settings
 
         /// @brief 細胞の初期配置を決めるシード値
         [[nodiscard]] static uint32_t InitialPlacementSeed() noexcept;
+
+        /// @brief 細胞が周囲の分子の影響を受けるかどうか
+        [[nodiscard]] static bool IsSensitiveToMolecules() noexcept;
 
         /// @brief 細胞の初期質量
         [[nodiscard]] static double Mass() noexcept;
@@ -93,6 +97,11 @@ namespace CellSim::Settings
     inline uint32_t Config::Cell::InitialPlacementSeed() noexcept
     {
         return s_initialPlacementSeed;
+    }
+
+    inline bool Config::Cell::IsSensitiveToMolecules() noexcept
+    {
+        return s_isSensitiveToMolecules;
     }
 
     inline double Config::Cell::Mass() noexcept

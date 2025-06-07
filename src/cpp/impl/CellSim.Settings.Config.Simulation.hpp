@@ -17,6 +17,7 @@ namespace CellSim::Settings
         static inline double s_fieldRadiusX;
         static inline double s_fieldRadiusY;
         static inline double s_fieldRadiusZ;
+        static inline uint64_t s_totalSteps;
 
         public:
 
@@ -34,6 +35,9 @@ namespace CellSim::Settings
 
         /// @brief フィールドのZ方向の半径
         [[nodiscard]] static double FieldRadiusZ() noexcept;
+
+        /// @brief 総ステップ数
+        [[nodiscard]] static uint64_t TotalSteps() noexcept;
 
         static void Load(::nlohmann::json const& config);
     };
@@ -64,6 +68,11 @@ namespace CellSim::Settings
     inline double Config::Simulation::FieldRadiusZ() noexcept
     {
         return s_fieldRadiusZ;
+    }
+
+    inline uint64_t Config::Simulation::TotalSteps() noexcept
+    {
+        return s_totalSteps;
     }
 }
 

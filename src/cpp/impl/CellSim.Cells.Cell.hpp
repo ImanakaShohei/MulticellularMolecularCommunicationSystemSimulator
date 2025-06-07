@@ -5,6 +5,8 @@
 #include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
+
+#include <string>
 #include <vector>
 
 namespace CellSim::Cells
@@ -143,6 +145,8 @@ namespace CellSim::Cells
 
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
+
+        void SenseMolecules(Molecular::MoleculeField const& field);
     };
 
     [[nodiscard]] constexpr bool operator==(Cell const& left, Cell const& right) noexcept;
@@ -261,6 +265,7 @@ namespace CellSim::Cells
 
     constexpr void Cell::ResetForce() noexcept
     {
+        m_previusForce = m_force;
         m_force = Numerics::Vector3::Zero();
     }
 

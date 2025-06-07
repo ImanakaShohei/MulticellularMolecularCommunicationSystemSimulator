@@ -6,6 +6,7 @@
         "enableGrowth": true,
         "growthRate": 0.03,
         "initialPlacementSeed": 0,
+        "isSensitiveToMolecules": false,
         "mass": 1.0,
         "radius": 10.0,
         "type": "Normal"
