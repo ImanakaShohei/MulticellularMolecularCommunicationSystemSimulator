@@ -16,6 +16,12 @@ namespace CellSim::Users
         // TODO: ここに処理を追加します
     }
 
+    UserMoleculeDiffusionBehavior::UserMoleculeDiffusionBehavior(Molecular::BoundaryCondition boundaryCondition)
+        : MoleculeDiffusionBehavior(boundaryCondition)
+    {
+        // TODO: ここに処理を追加します
+    }
+
     UserMoleculeDiffusionBehavior::~UserMoleculeDiffusionBehavior()
     {
         // TODO: ここに処理を追加します

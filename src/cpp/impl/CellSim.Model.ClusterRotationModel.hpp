@@ -6,8 +6,26 @@
 
 namespace CellSim::Model
 {
+    /// @brief クラスタ回転モデル
     class ClusterRotationModel : public CellSimulationModel {
+        private:
+
+        double m_adhesionDistanceThreshold; // 細胞同士がこの値より近いと接着力が働く
+        double m_adhesionForceFactor; // 接着力にかける係数
+        double m_centralForceFactor; // 中心力にかける係数
+        double m_repulsionFactor; // 反発力の係数
+        double m_repulsionMaxDistance; // 細胞同士がこの値より近いと反発する
+
         public:
+
+        ClusterRotationModel();
+        ClusterRotationModel(
+            double adhesionDistanceThreshold,
+            double adhesionForceFactor,
+            double centralForceFactor,
+            double repulsionFactor,
+            double repulsionMaxDistance
+        );
 
         void BeforeAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
@@ -20,8 +38,6 @@ namespace CellSim::Model
             ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
             const CellAlgorithms::CellAlgorithm* pCellAlgorithm
         ) const override;
-
-        void InitializeCells(::std::vector<Cells::Cell>& cells) override;
 
         void OnAdvanceStep(
             ::std::vector<Cells::Cell>& cells,
