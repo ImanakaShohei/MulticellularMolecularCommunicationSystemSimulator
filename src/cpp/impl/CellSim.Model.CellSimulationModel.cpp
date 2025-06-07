@@ -5,9 +5,14 @@
 #include "CellSim.Model.ClusterSproutingModel.hpp"
 #include "CellSim.Model.NetworkFormationModel.hpp"
 #include "CellSim.Model.NullModel.hpp"
+#include "CellSim.Cells.Cell.hpp"
+#include "CellSim.Settings.Config.Cell.hpp"
+#include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "../CellSim.Users.UserSimulationModel.hpp"
 
+#include <numbers>
+#include <random>
 #include <stdexcept>
 
 namespace CellSim::Model
@@ -31,6 +36,53 @@ namespace CellSim::Model
 
     void CellSimulationModel::InitializeCells(::std::vector<Cells::Cell>& cells)
     {
-        
+        ::std::mt19937 mt{ Settings::Config::Cell::InitialPlacementSeed() }; //乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
+
+        std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
+        std::uniform_real_distribution<double> rand_r(0, 1.0);
+
+        Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(Settings::Config::Cell::BehaviorType());
+        Cells::CellType type = Settings::Config::Cell::Type();
+        size_t cellCount = Settings::Config::Cell::CellCount();
+        double mass = Settings::Config::Cell::Mass();
+        double radius = Settings::Config::Cell::Radius();
+        double initialPlacementRadius = Settings::Config::Cell::InitialPlacementRadius();
+
+        if (Settings::Config::Simulation::Enable2DMode()) {
+            for (size_t i = 0; i != cellCount; i++) {
+                double r = ::sqrt(rand_r(mt)) * initialPlacementRadius;
+                double theta = rand_theta(mt);
+                double x = r * ::cos(theta);
+                double y = r * ::sin(theta);
+
+                cells.emplace_back(
+                    type,
+                    pBehavior,
+                    mass,
+                    radius,
+                    Numerics::Vector3(x, y, 0)
+                );
+            }
+        }
+        else {
+            for (size_t i = 0; i != cellCount; i++) {
+                double v = rand_r(mt);
+
+                double theta = rand_theta(mt);
+                double phi = ::acos(1.0 - 2.0 * v);
+
+                double x = ::sin(phi) * ::cos(theta);
+                double y = ::sin(phi) * ::sin(theta);
+                double z = ::cos(phi);
+
+                cells.emplace_back(
+                    type,
+                    pBehavior,
+                    mass,
+                    radius,
+                    Numerics::Vector3(x, y, z)
+                );
+            }
+        }
     }
 }

@@ -40,9 +40,10 @@ namespace CellSim::Users
         return Numerics::Vector3();
     }
 
-    void UserSimulationModel::InitializeCells([[maybe_unused]] ::std::vector<Cell>& cells)
+    void UserSimulationModel::InitializeCells(::std::vector<Cell>& cells)
     {
-        // TODO: ここに処理を追加します
+        // TODO: ユーザー定義の処理に変更します
+        CellSimulationModel::InitializeCells(cells);
     }
 
     void UserSimulationModel::OnAdvanceStep(

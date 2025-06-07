@@ -17,7 +17,6 @@ namespace CellSim::Settings
         static inline double s_contactDistance; //細胞同士がこの値より近づくと反発力が発生
         static inline double s_followerAttractionFactor; //接着している細胞の数がadhesion_thresholdより多い時に受ける引力にかける係数
         static inline double s_globalAttractionFactor; //すべての細胞間にかかる力の係数
-        static inline double s_initialRadius; //初期半径
         static inline double s_lambda; //力の届く範囲を決める値
         static inline double s_leaderRepulsionFactor; //接着している細胞の数がadhesion_thresholdの時に受ける反発力にかける係数
         static inline double s_leaderRepulsionMaxDistance; //リーダーに届く反発力の最大距離
@@ -41,9 +40,6 @@ namespace CellSim::Settings
 
         /// @brief すべての細胞間にかかる力の係数
         [[nodiscard]] static double GlobalAttractionFactor() noexcept;
-
-        /// @brief 初期半径
-        [[nodiscard]] static double InitialRadius() noexcept;
 
         /// @brief 力の届く範囲を決める値
         [[nodiscard]] static double Lambda() noexcept;
@@ -87,11 +83,6 @@ namespace CellSim::Settings
     inline double Config::SimulationModel::ClusterSprouting::GlobalAttractionFactor() noexcept
     {
         return s_globalAttractionFactor;
-    }
-
-    inline double Config::SimulationModel::ClusterSprouting::InitialRadius() noexcept
-    {
-        return s_initialRadius;
     }
 
     inline double Config::SimulationModel::ClusterSprouting::Lambda() noexcept

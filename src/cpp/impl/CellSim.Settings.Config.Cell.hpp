@@ -18,6 +18,7 @@ namespace CellSim::Settings
         static inline size_t s_cellCount;
         static inline bool s_enableGrowth;
         static inline double s_growthRate;
+        static inline double s_initialPlacementRadius;
         static inline uint32_t s_initialPlacementSeed;
         static inline double s_mass;
         static inline double s_radius;
@@ -40,6 +41,9 @@ namespace CellSim::Settings
 
         /// @brief 細胞の成長速度
         [[nodiscard]] static double GrowthRate() noexcept;
+
+        /// @brief 細胞が配置される円・球の半径
+        [[nodiscard]] static double InitialPlacementRadius() noexcept;
 
         /// @brief 細胞の初期配置を決めるシード値
         [[nodiscard]] static uint32_t InitialPlacementSeed() noexcept;
@@ -79,6 +83,11 @@ namespace CellSim::Settings
     inline double Config::Cell::GrowthRate() noexcept
     {
         return s_growthRate;
+    }
+
+    inline double Config::Cell::InitialPlacementRadius() noexcept
+    {
+        return s_initialPlacementRadius;
     }
 
     inline uint32_t Config::Cell::InitialPlacementSeed() noexcept

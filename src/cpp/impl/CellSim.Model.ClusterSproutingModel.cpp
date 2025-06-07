@@ -21,7 +21,6 @@ namespace CellSim::Model
             Settings::Config::SimulationModel::ClusterSprouting::ContactDistance(),
             Settings::Config::SimulationModel::ClusterSprouting::FollowerAttractionFactor(),
             Settings::Config::SimulationModel::ClusterSprouting::GlobalAttractionFactor(),
-            Settings::Config::SimulationModel::ClusterSprouting::InitialRadius(),
             Settings::Config::SimulationModel::ClusterSprouting::Lambda(),
             Settings::Config::SimulationModel::ClusterSprouting::LeaderRepulsionFactor(),
             Settings::Config::SimulationModel::ClusterSprouting::LeaderRepulsionMaxDistance(),
@@ -36,7 +35,6 @@ namespace CellSim::Model
         double contactDistance,
         double followerAttractionFactor,
         double globalAttractionFactor,
-        double initialRadius,
         double lambda,
         double leaderRepulsionFactor,
         double leaderRepulsionMaxDistance,
@@ -47,7 +45,6 @@ namespace CellSim::Model
         , m_contactDistance(contactDistance)
         , m_followerAttractionFactor(followerAttractionFactor)
         , m_globalAttractionFactor(globalAttractionFactor)
-        , m_initialRadius(initialRadius)
         , m_lambda(lambda)
         , m_leaderRepulsionFactor(leaderRepulsionFactor)
         , m_leaderRepulsionMaxDistance(leaderRepulsionMaxDistance)
@@ -59,7 +56,6 @@ namespace CellSim::Model
         if (contactDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'contactDistance' must be greater than or equal to zero.");
         if (followerAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'followerAttractionFactor' must be greater than or equal to zero.");
         if (globalAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'globalAttractionFactor' must be greater than or equal to zero.");
-        if (initialRadius <= 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'initialRadius' must be greater than zero.");
         if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'lambda' must be non-zero.");
         if (leaderRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionFactor' must be greater than or equal to zero.");
         if (leaderRepulsionMaxDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMaxDistance' must be greater than or equal to zero.");
@@ -152,60 +148,6 @@ namespace CellSim::Model
         )
 
         return force;
-    }
-
-    void ClusterSproutingModel::InitializeCells(::std::vector<Cells::Cell>& cells)
-    {
-        ::std::mt19937 mt{ Settings::Config::Cell::InitialPlacementSeed() }; //乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
-
-        std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
-        std::uniform_real_distribution<double> rand_r(0, 1.0);
-
-        Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(Settings::Config::Cell::BehaviorType());
-        Cells::CellType type = Settings::Config::Cell::Type();
-        size_t cellCount = Settings::Config::Cell::CellCount();
-        double mass = Settings::Config::Cell::Mass();
-        double radius = Settings::Config::Cell::Radius();
-
-        if (Settings::Config::Simulation::Enable2DMode()) {
-            for (size_t i = 0; i != cellCount; i++) {
-                double r = ::sqrt(rand_r(mt)) * m_initialRadius;
-                double theta = rand_theta(mt);
-                double x = r * ::cos(theta);
-                double y = r * ::sin(theta);
-
-                cells.emplace_back(
-                    type,
-                    pBehavior,
-                    mass,
-                    radius,
-                    Numerics::Vector3(x, y, 0)
-                );
-            }
-        }
-        else {
-            for (size_t i = 0; i != cellCount; i++) {
-                double v = rand_r(mt);
-
-                double theta = rand_theta(mt);
-                double phi = ::acos(1.0 - 2.0 * v);
-
-                double x = ::sin(phi) * ::cos(theta);
-                double y = ::sin(phi) * ::sin(theta);
-                double z = ::cos(phi);
-
-                cells.emplace_back(
-                    type,
-                    pBehavior,
-                    mass,
-                    radius,
-                    Numerics::Vector3(x, y, z)
-                );
-            }
-        }
-
-        
-        // TODO: ここに処理を追加します
     }
 
     void ClusterSproutingModel::OnAdvanceStep(
