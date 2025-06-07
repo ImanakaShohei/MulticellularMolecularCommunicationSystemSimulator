@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Cells.CellBehaviorType.hpp"
+#include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Settings.Config.hpp"
 
 #include <nlohmann/json_fwd.hpp>
@@ -17,7 +18,10 @@ namespace CellSim::Settings
         static inline size_t s_cellCount;
         static inline bool s_enableGrowth;
         static inline double s_growthRate;
+        static inline uint32_t s_initialPlacementSeed;
+        static inline double s_mass;
         static inline double s_radius;
+        static inline Cells::CellType s_type;
 
         public:
 
@@ -37,8 +41,17 @@ namespace CellSim::Settings
         /// @brief 細胞の成長速度
         [[nodiscard]] static double GrowthRate() noexcept;
 
+        /// @brief 細胞の初期配置を決めるシード値
+        [[nodiscard]] static uint32_t InitialPlacementSeed() noexcept;
+
+        /// @brief 細胞の初期質量
+        [[nodiscard]] static double Mass() noexcept;
+
         /// @brief 細胞の初期半径
         [[nodiscard]] static double Radius() noexcept;
+
+        /// @brief 細胞の種類
+        [[nodiscard]] static Cells::CellType Type() noexcept;
 
         // メソッド
 
@@ -68,9 +81,24 @@ namespace CellSim::Settings
         return s_growthRate;
     }
 
+    inline uint32_t Config::Cell::InitialPlacementSeed() noexcept
+    {
+        return s_initialPlacementSeed;
+    }
+
+    inline double Config::Cell::Mass() noexcept
+    {
+        return s_mass;
+    }
+
     inline double Config::Cell::Radius() noexcept
     {
         return s_radius;
+    }
+
+    inline Cells::CellType Config::Cell::Type() noexcept
+    {
+        return s_type;
     }
 }
 

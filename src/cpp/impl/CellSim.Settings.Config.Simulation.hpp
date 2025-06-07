@@ -13,6 +13,7 @@ namespace CellSim::Settings
         private:
 
         static inline double s_deltaTime;
+        static inline bool s_enable2DMode;
         static inline double s_fieldRadiusX;
         static inline double s_fieldRadiusY;
         static inline double s_fieldRadiusZ;
@@ -21,6 +22,9 @@ namespace CellSim::Settings
 
         /// @brief 1ステップあたりのシミュレーション内時間
         [[nodiscard]] static double DeltaTime() noexcept;
+
+        /// @brief 2Dとしてシミュレーションするかどうか
+        [[nodiscard]] static bool Enable2DMode() noexcept;
 
         /// @brief フィールドのX方向の半径
         [[nodiscard]] static double FieldRadiusX() noexcept;
@@ -40,6 +44,11 @@ namespace CellSim::Settings
     inline double Config::Simulation::DeltaTime() noexcept
     {
         return s_deltaTime;
+    }
+
+    inline bool Config::Simulation::Enable2DMode() noexcept
+    {
+        return s_enable2DMode;
     }
 
     inline double Config::Simulation::FieldRadiusX() noexcept

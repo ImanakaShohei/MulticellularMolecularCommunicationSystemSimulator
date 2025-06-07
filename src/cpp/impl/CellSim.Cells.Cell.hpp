@@ -51,6 +51,14 @@ namespace CellSim::Cells
         
         public:
 
+        Cell(
+            CellType type,
+            CellBehaviorPtr const& pBehavior,
+            double mass,
+            double radius,
+            Numerics::Vector3 position
+        );
+
         Cell(Cell const&) = delete;
         Cell(Cell&&) = default;
 

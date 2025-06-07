@@ -41,12 +41,24 @@
                     "type": "number",
                     "exclusiveMinimum": 0
                 },
+                "initialPlacementSeed": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "mass": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
                 "radius": {
                     "type": "number",
                     "exclusiveMinimum": 0
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [ "Normal" ]
                 }
             },
-            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "radius" ]
+            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "mass", "radius", "type" ]
         },
         "cellAlgorithm": {
             "type": "object",
