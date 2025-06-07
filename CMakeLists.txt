@@ -34,7 +34,6 @@ set(SOURCES
     src/cpp/impl/CellSim.Model.ClusterRotationModel.cpp
     src/cpp/impl/CellSim.Model.ClusterSproutingModel.cpp
     src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
-    src/cpp/impl/CellSim.Model.WavePropagationModel.cpp
     src/cpp/impl/CellSim.Molecular.Molecule.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeDiffusionBehavior.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeField.cpp

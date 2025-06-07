@@ -14,7 +14,6 @@ namespace CellSim::Model
         NetworkFormation,
         Null,
         User,
-        WavePropagation,
     };
 }
 

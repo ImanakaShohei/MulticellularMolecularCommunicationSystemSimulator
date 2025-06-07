@@ -183,7 +183,6 @@ namespace CellSim::Model
     class ClusterSproutingModel;
     class NetworkFormationModel;
     class NullModel;
-    class WavePropagationModel;
 }
 
 /// @brief 分子拡散など

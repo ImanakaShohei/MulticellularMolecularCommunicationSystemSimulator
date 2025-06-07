@@ -5,7 +5,6 @@
 #include "CellSim.Model.ClusterSproutingModel.hpp"
 #include "CellSim.Model.NetworkFormationModel.hpp"
 #include "CellSim.Model.NullModel.hpp"
-#include "CellSim.Model.WavePropagationModel.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "../CellSim.Users.UserSimulationModel.hpp"
 
@@ -23,7 +22,6 @@ namespace CellSim::Model
             case CellSimulationType::NetworkFormation: return new NetworkFormationModel();
             case CellSimulationType::Null:             return new NullModel();
             case CellSimulationType::User:             return new Users::UserSimulationModel();
-            case CellSimulationType::WavePropagation:  return new WavePropagationModel();
             default: [[unlikely]]
             {
                 throw ::std::invalid_argument("Invalid CellSim::Model::CellSimulationType argument.");
