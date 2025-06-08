@@ -23,6 +23,7 @@ namespace CellSim
         void m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
+        void m_saveImages(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
 
         public:
 
