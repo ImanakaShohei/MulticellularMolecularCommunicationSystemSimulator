@@ -6,7 +6,7 @@
 
 namespace CellSim::Cells
 {
-    constinit int32_t Cell::s_id = 0;
+    constinit uint32_t Cell::s_id = 0;
 
     Cell::Cell(
         CellType type,

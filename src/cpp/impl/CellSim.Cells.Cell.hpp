@@ -17,7 +17,7 @@ namespace CellSim::Cells
         private:
 
         /// @brief 各細胞に割り振るID
-        static int32_t s_id;
+        static uint32_t s_id;
 
         /// @brief 接着している細胞のリスト
         ::std::vector<const Cell*> m_attachedCells;
@@ -29,7 +29,7 @@ namespace CellSim::Cells
         Numerics::Vector3 m_force;
 
         /// @brief 識別子
-        int32_t m_id;
+        uint32_t m_id;
 
         /// @brief 細胞内の分子の種類とその量
         ::std::vector<Molecular::Molecule> m_internalMolecules;
@@ -82,7 +82,7 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr Numerics::Vector3 Force() const noexcept;
 
         /// @brief 識別子
-        [[nodiscard]] constexpr int32_t Id() const noexcept;
+        [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         /// @brief 細胞内の分子の種類とその量
         [[nodiscard]] constexpr ::std::vector<Molecular::Molecule> const& InternalMolecules() const noexcept;
@@ -178,7 +178,7 @@ namespace CellSim::Cells
         return m_force;
     }
 
-    constexpr int32_t Cell::Id() const noexcept
+    constexpr uint32_t Cell::Id() const noexcept
     {
         return m_id;
     }

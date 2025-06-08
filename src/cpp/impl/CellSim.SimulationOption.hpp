@@ -25,7 +25,11 @@ namespace CellSim
 
         ::std::string m_outputPath;
         ::std::string m_outputBinaryPath;
+        ::std::string m_outputBinaryCellPath;
+        ::std::string m_outputBinaryMoleculePath;
         ::std::string m_outputCsvPath;
+        ::std::string m_outputCsvCellPath;
+        ::std::string m_outputCsvMoleculePath;
         ::std::string m_outputImagePath;
 
         public:
@@ -52,7 +56,11 @@ namespace CellSim
 
         [[nodiscard]] constexpr ::std::string const& OutputPath() const noexcept;
         [[nodiscard]] constexpr ::std::string const& OutputBinaryPath() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& OutputBinaryCellPath() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& OutputBinaryMoleculePath() const noexcept;
         [[nodiscard]] constexpr ::std::string const& OutputCsvPath() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& OutputCsvCellPath() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& OutputCsvMoleculePath() const noexcept;
         [[nodiscard]] constexpr ::std::string const& OutputImagePath() const noexcept;
 
         void InitializeDirectories() const;
@@ -91,9 +99,29 @@ namespace CellSim
         return m_outputBinaryPath;
     }
 
+    constexpr ::std::string const& SimulationOption::OutputBinaryCellPath() const noexcept
+    {
+        return m_outputBinaryCellPath;
+    }
+
+    constexpr ::std::string const& SimulationOption::OutputBinaryMoleculePath() const noexcept
+    {
+        return m_outputBinaryMoleculePath;
+    }
+
     constexpr ::std::string const& SimulationOption::OutputCsvPath() const noexcept
     {
         return m_outputCsvPath;
+    }
+
+    constexpr ::std::string const& SimulationOption::OutputCsvCellPath() const noexcept
+    {
+        return m_outputCsvCellPath;
+    }
+
+    constexpr ::std::string const& SimulationOption::OutputCsvMoleculePath() const noexcept
+    {
+        return m_outputCsvMoleculePath;
     }
 
     constexpr ::std::string const& SimulationOption::OutputImagePath() const noexcept

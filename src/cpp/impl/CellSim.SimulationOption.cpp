@@ -17,7 +17,11 @@ namespace CellSim
         , m_isOutputVideo(isOutputVideo)
         , m_outputPath(::std::move(outputPath))
         , m_outputBinaryPath()
+        , m_outputBinaryCellPath()
+        , m_outputBinaryMoleculePath()
         , m_outputCsvPath()
+        , m_outputCsvCellPath()
+        , m_outputCsvMoleculePath()
         , m_outputImagePath()
     {
         constexpr char pathSeparator = (char)::std::filesystem::path::preferred_separator;
@@ -26,17 +30,23 @@ namespace CellSim
             m_outputPath.push_back(pathSeparator);
         }
 
-        ::std::string binPath = "bin";
-        ::std::string csvPath = "csv";
-        ::std::string imgPath = "images";
+        m_outputBinaryPath = m_outputPath + "bin";
+        m_outputCsvPath = m_outputPath + "csv";
+        m_outputImagePath = m_outputPath + "images";
 
-        binPath.push_back(pathSeparator);
-        csvPath.push_back(pathSeparator);
-        imgPath.push_back(pathSeparator);
+        m_outputBinaryPath.push_back(pathSeparator);
+        m_outputCsvPath.push_back(pathSeparator);
+        m_outputImagePath.push_back(pathSeparator);
 
-        m_outputBinaryPath = m_outputBinaryPath + binPath;
-        m_outputCsvPath = m_outputBinaryPath + csvPath;
-        m_outputImagePath = m_outputBinaryPath + imgPath;
+        m_outputBinaryCellPath = m_outputBinaryPath + "cells";
+        m_outputBinaryMoleculePath = m_outputBinaryMoleculePath + "molecules";
+        m_outputCsvCellPath = m_outputCsvPath + "cells";
+        m_outputCsvMoleculePath = m_outputCsvMoleculePath + "molecules";
+
+        m_outputBinaryCellPath.push_back(pathSeparator);
+        m_outputBinaryMoleculePath.push_back(pathSeparator);
+        m_outputCsvCellPath.push_back(pathSeparator);
+        m_outputCsvMoleculePath.push_back(pathSeparator);
     }
 
     void SimulationOption::InitializeDirectories() const
@@ -52,7 +62,11 @@ namespace CellSim
 
         f(m_outputPath, true);
         f(m_outputBinaryPath, m_isOutputBinary);
+        f(m_outputBinaryCellPath, m_isOutputBinary);
+        f(m_outputBinaryMoleculePath, m_isOutputBinary);
         f(m_outputCsvPath, m_isOutputCsv);
+        f(m_outputCsvCellPath, m_isOutputCsv);
+        f(m_outputCsvMoleculePath, m_isOutputCsv);
         f(m_outputImagePath, m_isOutputImage);
     }
 
