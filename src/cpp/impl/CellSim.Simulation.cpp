@@ -3,6 +3,7 @@
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellList.hpp"
+#include "CellSim.CellAlgorithms.ClusterModel.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
@@ -97,6 +98,23 @@ namespace CellSim
         // 移動
         for (Cells::Cell& cell : m_cells) {
             cell.Move();
+        }
+
+        if (Settings::Config::CellAlgorithm::UseClusterModel()) {
+            CellAlgorithms::ClusterModel::Combine(m_cells, m_molecules, m_pCellList);
+
+            // 無効になったオブジェクトを削除
+            auto itr = m_cells.begin();
+            auto end = m_cells.end();
+
+            while (itr != end) {
+                if (itr->Type() == Cells::CellType::Invalid) {
+                    itr = m_cells.erase(itr);
+                    end = m_cells.end();
+                    continue;
+                }
+                ++itr;
+            }
         }
 
         m_pCellSimulationModel->OnAdvanceStep(this, { &m_cells, &m_molecules });

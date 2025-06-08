@@ -9,19 +9,22 @@
 #include "CellSim.Threading.Generator.hpp"
 #include <vector>
 
-#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(cellInfo, cellAlgorithm, target, cells, molecules, func)                        \
-    switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                               \
-        case ::CellSim::PeformanceType::Fast:                                                                                        \
-        for (::CellSim::Cells::CellInfo& cellInfo : (cellAlgorithm).GetAffectableCellInfos(this, { target, cells, molecules })) {    \
-            func                                                                                                                     \
-        }                                                                                                                            \
-        break;                                                                                                                       \
-        case ::CellSim::PeformanceType::LowMemory:                                                                                   \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(this, { target, cells, molecules })) { \
-            func                                                                                                                     \
-        }                                                                                                                            \
-        break;                                                                                                                       \
+#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(cellInfo, cellAlgorithm, sender, target, cells, molecules, func)               \
+    switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                                 \
+        case ::CellSim::PeformanceType::Fast:                                                                                          \
+        for (::CellSim::Cells::CellInfo& cellInfo : (cellAlgorithm).GetAffectableCellInfos(sender, { target, cells, molecules })) {    \
+            func                                                                                                                       \
+        }                                                                                                                              \
+        break;                                                                                                                         \
+        case ::CellSim::PeformanceType::LowMemory:                                                                                     \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(sender, { target, cells, molecules })) { \
+            func                                                                                                                       \
+        }                                                                                                                              \
+        break;                                                                                                                         \
     }
+
+#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(cellInfo, cellAlgorithm, target, cells, molecules, func)     \
+    CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(cellInfo, cellAlgorithm, this, target, cells, molecules, func)
 
 namespace CellSim::CellAlgorithms
 {
