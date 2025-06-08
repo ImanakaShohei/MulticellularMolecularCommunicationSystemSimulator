@@ -33,6 +33,15 @@ namespace CellSim::Cells
         ++s_id;
     }
 
+    void Cell::Combine(Cell& c) noexcept
+    {
+        m_radius = ::cbrt(m_radius * m_radius * m_radius + c.m_radius * c.m_radius * c.m_radius);
+        m_position = (m_position * m_mass + c.m_position * c.m_mass) / (m_mass + c.m_mass);
+        m_mass += c.m_mass;
+
+        c.m_type = CellType::Invalid;
+    }
+
     void Cell::EmitMolecule(Molecular::MoleculeField& field)
     {
         Numerics::GridPosition3 position3 = field.ToGridPosition3(m_position);

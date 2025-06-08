@@ -130,7 +130,10 @@ namespace CellSim::Cells
         /// @brief すべての細胞の接着を解除
         constexpr void ClearAttachedCells() noexcept;
 
-        void Combine(Cell& c);
+        /// @brief 結合
+        /// @param c 結合する細胞
+        /// @note 結合すると引数に与えたcは無効になります
+        void Combine(Cell& c) noexcept;
 
         /// @brief 分子空間に分子を放出
         /// @param field 分子空間

@@ -23,6 +23,7 @@ set(SOURCES
     src/cpp/impl/CellSim.CellAlgorithms.BarnesHut.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellAlgorithm.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellList.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.ClusterModel.cpp
     src/cpp/impl/CellSim.CellAlgorithms.NaiveAlgorithm.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
