@@ -2,7 +2,7 @@
 #define CELLSIM_SIMULATION_HPP
 
 #include "base.hpp"
-#include "CellSim.SimulationOption.hpp"
+#include "CellSim.SimulationResultWriter.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Molecular.MoleculeField.hpp"
 #include <vector>
@@ -40,11 +40,11 @@ namespace CellSim
         /// @brief シミュレーションモデルインスタンスへのポインター
         Model::CellSimulationModel* m_pCellSimulationModel;
 
-        /// @brief オプション
-        SimulationOption m_option;
+        /// @brief 結果を出力するクラス
+        SimulationResultWriter m_writer;
 
         /// @brief 力を計算
-        void m_addForce();
+        void m_applyForce();
 
         /// @brief 1step進める
         void m_advanceStep();
@@ -54,9 +54,6 @@ namespace CellSim
 
         /// @brief 高速化アルゴリズムインスタンスの初期化
         void m_initializeCellAlgorithm();
-
-        /// @brief 
-        void m_save(uint64_t step) const;
 
         public:
 

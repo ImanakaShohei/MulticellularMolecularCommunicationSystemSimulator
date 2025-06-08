@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 
 namespace CellSim::CellAlgorithms
 {
@@ -10,27 +11,25 @@ namespace CellSim::CellAlgorithms
         public:
 
         constexpr void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
     };
 }
@@ -38,8 +37,8 @@ namespace CellSim::CellAlgorithms
 namespace CellSim::CellAlgorithms
 {
     constexpr void NaiveAlgorithm::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+            const Simulation*,
+            CellAlgorithmStepArgs
     )
     {
     }
@@ -50,8 +49,8 @@ namespace CellSim::CellAlgorithms
     }
 
     constexpr void NaiveAlgorithm::OnAdvanceStep(
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+            const Simulation*,
+            CellAlgorithmStepArgs
     )
     {
     }

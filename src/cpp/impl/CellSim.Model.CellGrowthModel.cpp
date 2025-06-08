@@ -1,21 +1,21 @@
 ﻿#include "CellSim.Model.CellGrowthModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 
 namespace CellSim::Model
 {
     void CellGrowthModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelStepArgs args
     )
     {
         // TODO: ここに処理を追加します
     }
 
     Numerics::Vector3 CellGrowthModel::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
-        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelForceComputationArgs args
     ) const
     {
         // TODO: ここに処理を追加します
@@ -23,14 +23,17 @@ namespace CellSim::Model
         return Numerics::Vector3();
     }
 
-    void CellGrowthModel::InitializeCells(::std::vector<Cells::Cell>& cells)
+    void CellGrowthModel::InitializeCells(
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] ::std::vector<Cells::Cell>& cells
+    )
     {
         // TODO: ここに処理を追加します
     }
 
     void CellGrowthModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelStepArgs args
     )
     {
         // TODO: ここに処理を追加します

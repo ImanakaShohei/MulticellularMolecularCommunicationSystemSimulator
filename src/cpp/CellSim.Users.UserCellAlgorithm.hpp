@@ -19,27 +19,25 @@ namespace CellSim::Users
         ~UserCellAlgorithm();
 
         void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithms::CellAlgorithmStepArgs args
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithms::CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithms::CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithms::CellAlgorithmStepArgs args
         ) override;
     };
 }

@@ -1,5 +1,8 @@
 ﻿#include "CellSim.Model.NetworkFormationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
@@ -46,54 +49,47 @@ namespace CellSim::Model
     }
 
     void NetworkFormationModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }
 
     Numerics::Vector3 NetworkFormationModel::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules,
-        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+        const Simulation*,
+        SimulationModelForceComputationArgs args
     ) const
     {
         Numerics::Vector3 force1;
         Numerics::Vector3 force2;
         Numerics::Vector3 force3;
 
-        Cells::CellInfo info{ target };
-        const Cells::Cell* pTarget = &target;
+        Cells::CellInfo info{ *args.Target };
 
-        for (Cells::Cell const& cell : cells) {
-            if (&cell == pTarget) continue;
+        for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
+            Numerics::Vector3 diff = info.Position - pCell->Position();
+            double dist = diff.Length();
 
-            if (target.IsAdheringTo(cell)) {
-                Numerics::Vector3 diff = target.Position() - cell.Position();
-                double dist = diff.Length();
+            double v = dist - m_minAttractionDistance;
 
-                double v = dist - m_minAttractionDistance;
+            if (v > 0.0) {
+                force1 -= (v / dist) * diff;
+            }
+            else {
+                v = m_maxRepulsionDistance;
 
                 if (v > 0.0) {
-                    force1 -= (v / dist) * diff;
-                }
-                else {
-                    v = m_maxRepulsionDistance;
-
-                    if (v > 0.0) {
-                        force2 += (v / (m_maxRepulsionDistance * dist)) * diff;
-                    }
+                    force2 += (v / (m_maxRepulsionDistance * dist)) * diff;
                 }
             }
         }
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
-            *pCellAlgorithm,
-            target,
-            cells,
-            molecules,
+            *args.CellAlgorithm,
+            args.Target,
+            args.Cells,
+            args.Fields,
             {
                 if (!cellInfo.IsAlive) continue;
 
@@ -111,15 +107,15 @@ namespace CellSim::Model
     }
 
     void NetworkFormationModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs args
     )
     {
-        for (Cells::Cell& cell : cells) {
+        for (Cells::Cell& cell : *args.Cells) {
             cell.ClearAttachedCells();
         }
 
-        for (auto itr = cells.begin(), end = cells.end(); itr != end; ++itr) {
+        for (auto itr = args.Cells->begin(), end = args.Cells->end(); itr != end; ++itr) {
             Cells::Cell& cell1 = *itr;
 
             if (!cell1.IsAlive()) continue;

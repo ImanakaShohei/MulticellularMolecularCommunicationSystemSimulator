@@ -19,6 +19,7 @@ set(SOURCES
     src/cpp/CellSim.Users.UserSimulationModel.cpp
     src/cpp/impl/CellSim.Simulation.cpp
     src/cpp/impl/CellSim.SimulationOption.cpp
+    src/cpp/impl/Cellsim.SimulationResultWriter.cpp
     src/cpp/impl/CellSim.CellAlgorithms.BarnesHut.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellAlgorithm.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellList.cpp

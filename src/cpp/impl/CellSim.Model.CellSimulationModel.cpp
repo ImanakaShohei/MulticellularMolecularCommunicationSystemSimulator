@@ -34,7 +34,10 @@ namespace CellSim::Model
         }
     }
 
-    void CellSimulationModel::InitializeCells(::std::vector<Cells::Cell>& cells)
+    void CellSimulationModel::InitializeCells(
+        const Simulation*,
+        ::std::vector<Cells::Cell>& cells
+    )
     {
         ::std::mt19937 mt{ Settings::Config::Cell::InitialPlacementSeed() }; //乱数生成器(生成器はとりあえずメルセンヌ・ツイスタ)
 

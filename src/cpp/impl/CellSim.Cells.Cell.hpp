@@ -4,6 +4,7 @@
 #include "base.hpp"
 #include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellType.hpp"
+#include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 
 #include <string>
@@ -29,6 +30,9 @@ namespace CellSim::Cells
 
         /// @brief 識別子
         int32_t m_id;
+
+        /// @brief 細胞内の分子の種類とその量
+        ::std::vector<Molecular::Molecule> m_internalMolecules;
 
         /// @brief この細胞が生きているかどうか
         bool m_isAlive;
@@ -80,6 +84,9 @@ namespace CellSim::Cells
         /// @brief 識別子
         [[nodiscard]] constexpr int32_t Id() const noexcept;
 
+        /// @brief 細胞内の分子の種類とその量
+        [[nodiscard]] constexpr ::std::vector<Molecular::Molecule> const& InternalMolecules() const noexcept;
+
         [[nodiscard]] constexpr bool IsAlive() const noexcept;
 
         /// @brief 細胞の質量
@@ -116,7 +123,7 @@ namespace CellSim::Cells
 
         /// @brief 細胞に力を加える
         /// @param force 加える力
-        constexpr void AddForce(Numerics::Vector3 force) noexcept;
+        constexpr void ApplyForce(Numerics::Vector3 force) noexcept;
 
         void Adhere(Cell const& cell);
 
@@ -141,7 +148,8 @@ namespace CellSim::Cells
         /// @brief 代謝
         void Metabolize();
 
-        void Move() noexcept;
+        /// @brief 細胞が移動
+        constexpr void Move() noexcept;
 
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
@@ -173,6 +181,11 @@ namespace CellSim::Cells
     constexpr int32_t Cell::Id() const noexcept
     {
         return m_id;
+    }
+
+    constexpr ::std::vector<Molecular::Molecule> const& Cell::InternalMolecules() const noexcept
+    {
+        return m_internalMolecules;
     }
 
     constexpr bool Cell::IsAlive() const noexcept
@@ -230,7 +243,7 @@ namespace CellSim::Cells
         return m_force / m_mass;
     }
 
-    constexpr void Cell::AddForce(Numerics::Vector3 force) noexcept
+    constexpr void Cell::ApplyForce(Numerics::Vector3 force) noexcept
     {
         m_force += force;
     }
@@ -261,6 +274,11 @@ namespace CellSim::Cells
         }
 
         return false;
+    }
+
+    constexpr void Cell::Move() noexcept
+    {
+        m_position += m_force / m_mass;
     }
 
     constexpr void Cell::ResetForce() noexcept

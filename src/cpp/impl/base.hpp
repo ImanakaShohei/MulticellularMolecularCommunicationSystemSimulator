@@ -102,6 +102,7 @@ namespace CellSim
     enum class PeformanceType;
     class Simulation;
     class SimulationOption;
+    class SimulationResultWriter;
 }
 
 /// @brief 高速化アルゴリズム
@@ -109,6 +110,9 @@ namespace CellSim::CellAlgorithms
 {
     class BarnesHut;
     class CellAlgorithm;
+    struct CellAlgorithmAffectableCellQueryArgs;
+    struct CellAlgorithmForceComputationArgs;
+    struct CellAlgorithmStepArgs;
     enum class CellAlgorithmType;
     class CellList;
     class ClusterModel;
@@ -183,6 +187,8 @@ namespace CellSim::Model
     class ClusterSproutingModel;
     class NetworkFormationModel;
     class NullModel;
+    struct SimulationModelForceComputationArgs;
+    struct SimulationModelStepArgs;
 }
 
 /// @brief 分子拡散など
@@ -191,6 +197,7 @@ namespace CellSim::Molecular
     enum class BoundaryCondition;
     enum class InitialMoleculeDistribution;
     class Molecule;
+    struct MoleculeInfo;
     //class MoleculeDiffusion;
     class MoleculeDiffusionBehavior;
     enum class MoleculeDiffusionBehaviorKind;

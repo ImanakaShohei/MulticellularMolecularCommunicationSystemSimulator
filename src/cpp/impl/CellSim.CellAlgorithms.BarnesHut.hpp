@@ -18,27 +18,25 @@ namespace CellSim::CellAlgorithms
         ~BarnesHut();
 
         void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
     };
 }

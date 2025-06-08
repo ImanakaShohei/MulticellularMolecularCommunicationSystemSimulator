@@ -3,6 +3,8 @@
 
 #include "base.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 
 namespace CellSim::Model
@@ -12,22 +14,23 @@ namespace CellSim::Model
         public:
 
         constexpr void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            SimulationModelStepArgs args
         ) override;
 
         constexpr Numerics::Vector3 ComputeForceOnCell(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
-            const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+            const Simulation* sender,
+            SimulationModelForceComputationArgs args
         ) const override;
 
-        constexpr void InitializeCells(::std::vector<Cells::Cell>& cells) override;
+        constexpr void InitializeCells(
+            const Simulation* sender,
+            ::std::vector<Cells::Cell>& cells
+        ) override;
 
         constexpr void OnAdvanceStep(
-            ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            SimulationModelStepArgs args
         ) override;
 
         constexpr bool UseCellAlgorithm() const noexcept override;
@@ -37,29 +40,30 @@ namespace CellSim::Model
 namespace CellSim::Model
 {
     constexpr void NullModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }
 
     constexpr Numerics::Vector3 NullModel::ComputeForceOnCell(
-        Cells::Cell const&,
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const& ,
-        const CellAlgorithms::CellAlgorithm*
+        const Simulation*,
+        SimulationModelForceComputationArgs
     ) const
     {
         return Numerics::Vector3();
     }
 
-    constexpr void NullModel::InitializeCells(::std::vector<Cells::Cell>&)
+    constexpr void NullModel::InitializeCells(
+        const Simulation*,
+        ::std::vector<Cells::Cell>&
+    )
     {
     }
 
     constexpr void NullModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }

@@ -2,24 +2,25 @@
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_HPP
 
 #include "base.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.Optimization.hpp"
 #include "CellSim.Threading.Generator.hpp"
 #include <vector>
 
-#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(cellInfo, cellAlgorithm, target, cells, molecules, func)              \
-    switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                     \
-        case ::CellSim::PeformanceType::Fast:                                                                              \
-        for (::CellSim::Cells::CellInfo& cellInfo : (cellAlgorithm).GetAffectableCellInfos(target, cells, molecules)) {    \
-            func                                                                                                           \
-        }                                                                                                                  \
-        break;                                                                                                             \
-        case ::CellSim::PeformanceType::LowMemory:                                                                         \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(target, cells, molecules)) { \
-            func                                                                                                           \
-        }                                                                                                                  \
-        break;                                                                                                             \
+#define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(cellInfo, cellAlgorithm, target, cells, molecules, func)                        \
+    switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                               \
+        case ::CellSim::PeformanceType::Fast:                                                                                        \
+        for (::CellSim::Cells::CellInfo& cellInfo : (cellAlgorithm).GetAffectableCellInfos(this, { target, cells, molecules })) {    \
+            func                                                                                                                     \
+        }                                                                                                                            \
+        break;                                                                                                                       \
+        case ::CellSim::PeformanceType::LowMemory:                                                                                   \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(this, { target, cells, molecules })) { \
+            func                                                                                                                     \
+        }                                                                                                                            \
+        break;                                                                                                                       \
     }
 
 namespace CellSim::CellAlgorithms
@@ -39,8 +40,8 @@ namespace CellSim::CellAlgorithms
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
         virtual void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) = 0;
 
         /// @brief ターゲットの細胞かける力を計算
@@ -51,32 +52,29 @@ namespace CellSim::CellAlgorithms
         /// @return 計算結果
         /// @note この関数はOverrideForceComputation()が'true'のときに呼ばれます
         [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmForceComputationArgs args
         ) const;
 
         virtual ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const = 0;
 
         /// @brief このアルゴリズムが複数スレッドによる処理をサポートしているかどうか
         virtual bool HasMultithreadingSupport() const noexcept = 0;
 
         virtual Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const = 0;
 
         /// @brief 後処理
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
         virtual void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) = 0;
 
         /// @brief アルゴリズム側で力の計算をすることを強制するフラグ
@@ -88,9 +86,8 @@ namespace CellSim::CellAlgorithms
 namespace CellSim::CellAlgorithms
 {
     Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& moleculeSpaces
+        const Simulation* sender,
+        CellAlgorithmForceComputationArgs args
     ) const
     {
         return Numerics::Vector3();

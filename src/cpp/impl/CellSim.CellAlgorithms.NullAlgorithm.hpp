@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.Threading.Generator.hpp"
 
 namespace CellSim::CellAlgorithms
@@ -13,27 +15,25 @@ namespace CellSim::CellAlgorithms
         public:
 
         constexpr void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
     };
 }
@@ -41,16 +41,15 @@ namespace CellSim::CellAlgorithms
 namespace CellSim::CellAlgorithms
 {
     constexpr void NullAlgorithm::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+            const Simulation*,
+            CellAlgorithmStepArgs
     )
     {
     }
 
     inline ::std::vector<Cells::CellInfo> NullAlgorithm::GetAffectableCellInfos(
-        Cells::Cell const&,
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Model::CellSimulationModel*,
+        CellAlgorithmAffectableCellQueryArgs
     ) const
     {
         return {};
@@ -62,17 +61,16 @@ namespace CellSim::CellAlgorithms
     }
 
     inline Threading::Generator<Cells::CellInfo> NullAlgorithm::IterateAffectableCellInfos(
-        Cells::Cell const&,
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Model::CellSimulationModel*,
+        CellAlgorithmAffectableCellQueryArgs
     ) const
     {
         co_return;
     }
 
     constexpr void NullAlgorithm::OnAdvanceStep(
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+            const Simulation*,
+            CellAlgorithmStepArgs
     )
     {
     }

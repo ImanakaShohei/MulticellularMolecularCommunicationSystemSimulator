@@ -20,8 +20,8 @@ namespace CellSim::Model
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
         virtual void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            SimulationModelStepArgs args
         ) = 0;
 
         /// @brief ターゲットの細胞かける力を計算
@@ -31,22 +31,23 @@ namespace CellSim::Model
         /// @param cellAlgorithm 高速化アルゴリズム
         /// @return 計算結果
         [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& moleculeSpaces,
-            const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+            const Simulation* sender,
+            SimulationModelForceComputationArgs args
         ) const = 0;
 
         /// @brief リストに細胞を格納
         /// @param cells リスト
-        virtual void InitializeCells(::std::vector<Cells::Cell>& cells);
+        virtual void InitializeCells(
+            const Simulation* sender,
+            ::std::vector<Cells::Cell>& cells
+        );
 
         /// @brief 後処理
         /// @param cells 細胞リスト
         /// @param molecules 分子空間リスト
         virtual void OnAdvanceStep(
-            ::std::vector<Cells::Cell>& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            SimulationModelStepArgs args
         ) = 0;
 
         /// @brief モデルでCellAlgorithmを使うかどうか

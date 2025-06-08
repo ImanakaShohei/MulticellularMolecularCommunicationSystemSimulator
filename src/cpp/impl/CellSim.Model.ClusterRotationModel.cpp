@@ -1,5 +1,8 @@
 ﻿#include "CellSim.Model.ClusterRotationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.SimulationModel.ClusterRotation.hpp"
@@ -42,32 +45,30 @@ namespace CellSim::Model
     }
 
     void ClusterRotationModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }
 
     Numerics::Vector3 ClusterRotationModel::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules,
-        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+        const Simulation*,
+        SimulationModelForceComputationArgs args
     ) const
     {
         Numerics::Vector3 force;
         Numerics::Vector3 forceCenter;
         Numerics::Vector3 forceCont;
-        Cells::CellInfo info{ target };
+        Cells::CellInfo info{ *args.Target };
 
         forceCenter = info.Position * (-m_centralForceFactor / info.Position.Length());
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
-            *pCellAlgorithm,
-            target,
-            cells,
-            molecules,
+            *args.CellAlgorithm,
+            args.Target,
+            args.Cells,
+            args.Fields,
             {
                 Numerics::Vector3 diff = info.Position - cellInfo.Position;
                 double dist = diff.Length();
@@ -86,8 +87,8 @@ namespace CellSim::Model
     }
 
     void ClusterRotationModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }

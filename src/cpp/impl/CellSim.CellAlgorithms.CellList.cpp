@@ -1,4 +1,6 @@
 ﻿#include "CellSim.CellAlgorithms.CellList.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.CellList.hpp"
@@ -49,11 +51,11 @@ namespace CellSim::CellAlgorithms
     }
 
     void CellList::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        CellAlgorithmStepArgs args
     )
     {
-        for (Cells::Cell const& cell : cells) {
+        for (Cells::Cell const& cell : *args.Cells) {
             Numerics::Vector3 position = cell.Position();
 
             double x = position.X + Settings::Config::Simulation::FieldRadiusX();
@@ -73,12 +75,11 @@ namespace CellSim::CellAlgorithms
     }
 
     ::std::vector<Cells::CellInfo> CellList::GetAffectableCellInfos(
-        [[maybe_unused]] Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Model::CellSimulationModel*,
+        CellAlgorithmAffectableCellQueryArgs args
     ) const
     {
-        Numerics::Vector3 position = target.Position();
+        Numerics::Vector3 position = args.Target->Position();
         Numerics::GridPosition3 gridPosition = ToGridPosition3(position);
         
         ::std::vector<Cells::CellInfo> result;
@@ -118,12 +119,11 @@ namespace CellSim::CellAlgorithms
     }
 
     Threading::Generator<Cells::CellInfo> CellList::IterateAffectableCellInfos(
-        [[maybe_unused]] Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Model::CellSimulationModel*,
+        CellAlgorithmAffectableCellQueryArgs args
     ) const
     {
-        Numerics::Vector3 position = target.Position();
+        Numerics::Vector3 position = args.Target->Position();
         Numerics::GridPosition3 gridPosition = ToGridPosition3(position);
         
 
@@ -162,8 +162,8 @@ namespace CellSim::CellAlgorithms
     }
 
     void CellList::OnAdvanceStep(
-        ::std::vector<Cells::Cell> const&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        CellAlgorithmStepArgs
     )
     {
         for (auto& vec : m_cellField) {

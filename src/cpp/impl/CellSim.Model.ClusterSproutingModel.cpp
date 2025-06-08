@@ -1,5 +1,8 @@
 ﻿#include "CellSim.Model.ClusterSproutingModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
@@ -66,15 +69,15 @@ namespace CellSim::Model
     }
 
     void ClusterSproutingModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs args
     )
     {
-        for (Cells::Cell& cell : cells) {
+        for (Cells::Cell& cell : *args.Cells) {
             cell.ClearAttachedCells();
         }
 
-        for (auto itr = cells.begin(), end = cells.end(); itr != end; ++itr) {
+        for (auto itr = args.Cells->begin(), end = args.Cells->end(); itr != end; ++itr) {
             Cells::Cell& cell1 = *itr;
 
             if (!cell1.IsAlive()) continue;
@@ -95,52 +98,45 @@ namespace CellSim::Model
     }
 
     Numerics::Vector3 ClusterSproutingModel::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules,
-        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+        const Simulation*,
+        SimulationModelForceComputationArgs args
     ) const
     {
         Numerics::Vector3 force1;
         Numerics::Vector3 force2;
         Numerics::Vector3 force3;
         Numerics::Vector3 force4;
-        Cells::CellInfo info{ target };
+        Cells::CellInfo info{ *args.Target };
 
-        for (Cells::Cell const& cell : cells) {
-            
-            if (target.IsAdheringTo(cell)) {
-                Numerics::Vector3 diff = info.Position - cell.Position();
-                double dist = diff.Length();
+        for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
+            Numerics::Vector3 diff = info.Position - pCell->Position();
+            double dist = diff.Length();
 
-                if (target.AttachedCellCount() <= m_adhesionThreshold) {
-                    // 接着している細胞から離れようとする
-                    force1 += diff * ((m_leaderRepulsionMaxDistance - dist) / (m_leaderRepulsionMaxDistance * dist));
-                }
-                else {
-                    double v = dist - m_leaderRepulsionMinDistance;
+            if (args.Target->AttachedCellCount() <= m_adhesionThreshold) {
+                // 接着している細胞から離れようとする
+                force1 += diff * ((m_leaderRepulsionMaxDistance - dist) / (m_leaderRepulsionMaxDistance * dist));
+            }
+            else {
+                double v = dist - m_leaderRepulsionMinDistance;
 
-                    // 近すぎると何も起こらない
-                    if (v > 0.0) {
-                        force2 -= diff * (v / (dist * m_leaderRepulsionRange));
-                    }
-                }
-
-                // 近すぎると反発力が発生
-                if (dist < m_contactDistance) {
-                    force3 += diff * ((m_contactDistance - dist) / (m_contactDistance * dist));
+                // 近すぎると何も起こらない
+                if (v > 0.0) {
+                    force2 -= diff * (v / (dist * m_leaderRepulsionRange));
                 }
             }
 
-            
+            // 近すぎると反発力が発生
+            if (dist < m_contactDistance) {
+                force3 += diff * ((m_contactDistance - dist) / (m_contactDistance * dist));
+            }
         }
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
-            *pCellAlgorithm,
-            target,
-            cells,
-            molecules,
+            *args.CellAlgorithm,
+            args.Target,
+            args.Cells,
+            args.Fields,
             {
                 Numerics::Vector3 diff = info.Position - cellInfo.Position;
                 double dist = diff.Length();
@@ -154,8 +150,8 @@ namespace CellSim::Model
     }
 
     void ClusterSproutingModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }

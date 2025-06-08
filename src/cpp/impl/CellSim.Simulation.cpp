@@ -10,7 +10,7 @@
 
 namespace CellSim
 {
-    void Simulation::m_addForce()
+    void Simulation::m_applyForce()
     {
         // 力を加える
         if (m_overrideForceComputation) {
@@ -20,13 +20,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.AddForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
                 }
             }
         }
@@ -36,13 +36,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.AddForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace CellSim
             field.BeforeAdvanceStep(m_cells);
         }
 
-        m_addForce();
+        m_applyForce();
 
         if (Settings::Config::Cell::IsSensitiveToMolecules()) {
             Threading::ThreadPool::ParallelFor(
@@ -105,6 +105,7 @@ namespace CellSim
 
     void Simulation::m_beforeAdvanceStep()
     {
+        // 無駄な最適化
         if (Settings::Config::Cell::EnableGrowth()) {
             if (Settings::Config::Cell::IsSensitiveToMolecules()) {
                 for (Cells::Cell& cell : m_cells) {
@@ -165,25 +166,6 @@ namespace CellSim
         }
     }
 
-    void Simulation::m_save(uint64_t step) const
-    {
-        if (m_option.IsOutputBinary()) {
-
-        }
-
-        if (m_option.IsOutputCsv()) {
-
-        }
-
-        if (m_option.IsOutputImage()) {
-
-        }
-
-        if (m_option.IsOutputVideo()) {
-
-        }
-    }
-
     Simulation::Simulation(SimulationOption option)
     : m_cells()
     , m_enableMultithreading(true)
@@ -192,7 +174,7 @@ namespace CellSim
     , m_pCellAlgorithm(nullptr)
     , m_pCellList(nullptr)
     , m_pCellSimulationModel(Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType()))
-    , m_option(::std::move(option))
+    , m_writer(::std::move(option))
     {
         s_current = this;
 

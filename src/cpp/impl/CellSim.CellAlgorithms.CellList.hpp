@@ -55,14 +55,13 @@ namespace CellSim::CellAlgorithms
         CellList& operator=(CellList const&) = delete;
 
         void BeforeAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
 
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         constexpr bool HasMultithreadingSupport() const noexcept override;
@@ -77,14 +76,13 @@ namespace CellSim::CellAlgorithms
         [[nodiscard]] constexpr bool IsWithinSearchRadius(Numerics::Vector3 position1, Numerics::Vector3 position2) const noexcept;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
-            Cells::Cell const& target,
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Model::CellSimulationModel* sender,
+            CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
         void OnAdvanceStep(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& molecules
+            const Simulation* sender,
+            CellAlgorithmStepArgs args
         ) override;
 
         [[nodiscard]] constexpr double SearchRadius() const noexcept;

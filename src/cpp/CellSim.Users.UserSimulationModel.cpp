@@ -1,4 +1,7 @@
 ﻿#include "CellSim.Users.UserSimulationModel.hpp"
+#include "impl/CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "impl/CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "impl/CellSim.Model.SimulationModelStepArgs.hpp"
 #include "impl/CellSim.Molecular.MoleculeField.hpp"
 #include "impl/CellSim.Numerics.Vector3T.hpp"
 
@@ -21,18 +24,16 @@ namespace CellSim::Users
     }
 
     void UserSimulationModel::BeforeAdvanceStep(
-        [[maybe_unused]] ::std::vector<Cell>& cells,
-        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelStepArgs args
     )
     {
         // TODO: ここに処理を追加します
     }
 
     Numerics::Vector3 UserSimulationModel::ComputeForceOnCell(
-        [[maybe_unused]] Cell const& target,
-        [[maybe_unused]] ::std::vector<Cell> const& cells,
-        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules,
-        [[maybe_unused]] const CellAlgorithm* pCellAlgorithm
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelForceComputationArgs args
     ) const
     {
         // TODO: ここに処理を追加します
@@ -40,15 +41,18 @@ namespace CellSim::Users
         return Numerics::Vector3();
     }
 
-    void UserSimulationModel::InitializeCells(::std::vector<Cell>& cells)
+    void UserSimulationModel::InitializeCells(
+        const Simulation* sender,
+        ::std::vector<Cells::Cell>& cells
+    )
     {
         // TODO: ユーザー定義の処理に変更します
-        CellSimulationModel::InitializeCells(cells);
+        CellSimulationModel::InitializeCells(sender, cells);
     }
 
     void UserSimulationModel::OnAdvanceStep(
-        [[maybe_unused]] ::std::vector<Cell>& cells,
-        [[maybe_unused]] ::std::vector<MoleculeField> const& molecules
+        [[maybe_unused]] const Simulation* sender,
+        [[maybe_unused]] SimulationModelStepArgs args
     )
     {
         // TODO: ここに処理を追加します

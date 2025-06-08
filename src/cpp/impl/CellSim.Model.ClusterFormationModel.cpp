@@ -1,5 +1,8 @@
 ﻿#include "CellSim.Model.ClusterFormationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.SimulationModel.ClusterFormation.hpp"
@@ -66,30 +69,28 @@ namespace CellSim::Model
     }
 
     void ClusterFormationModel::BeforeAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }
 
     Numerics::Vector3 ClusterFormationModel::ComputeForceOnCell(
-        Cells::Cell const& target,
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& molecules,
-        const CellAlgorithms::CellAlgorithm* pCellAlgorithm
+        const Simulation*,
+        SimulationModelForceComputationArgs args
     ) const
     {
-        Cells::CellInfo info{ target };
+        Cells::CellInfo info{ *args.Target };
 
         if (info.IsAlive) {
             Numerics::Vector3 vec1;
             Numerics::Vector3 vec2;
             CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
                 cellInfo,
-                *pCellAlgorithm,
-                target,
-                cells,
-                molecules,
+                *args.CellAlgorithm,
+                args.Target,
+                args.Cells,
+                args.Fields,
                 {
                     if (cellInfo.IsAlive) {
                         vec1 += m_computeRemoteForce(info, cellInfo);
@@ -105,10 +106,10 @@ namespace CellSim::Model
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
-            *pCellAlgorithm,
-            target,
-            cells,
-            molecules,
+            *args.CellAlgorithm,
+            args.Target,
+            args.Cells,
+            args.Fields,
             {
                 vec += m_computeVolumeExclusion(info, cellInfo);
             }
@@ -118,8 +119,8 @@ namespace CellSim::Model
     }
 
     void ClusterFormationModel::OnAdvanceStep(
-        ::std::vector<Cells::Cell>&,
-        ::std::vector<Molecular::MoleculeField> const&
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
     }
