@@ -1,7 +1,11 @@
 ﻿#include "CellSim.Simulation.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellList.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
+#include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -20,13 +24,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules }));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(cell, m_cells, m_molecules));
+                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules }));
                 }
             }
         }
@@ -36,13 +40,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellAlgorithm }));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(cell, m_cells, m_molecules, m_pCellAlgorithm));
+                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellAlgorithm }));
                 }
             }
         }
@@ -52,18 +56,18 @@ namespace CellSim
     {
         // 前処理
         m_beforeAdvanceStep();
-        m_pCellSimulationModel->BeforeAdvanceStep(m_cells, m_molecules);
+        m_pCellSimulationModel->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
 
         if (m_pCellSimulationModel->UseCellAlgorithm()) {
-            m_pCellAlgorithm->BeforeAdvanceStep(m_cells, m_molecules);
+            m_pCellAlgorithm->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
 
             if (Settings::Config::CellAlgorithm::UseClusterModel() && Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList) {
-                m_pCellList->BeforeAdvanceStep(m_cells, m_molecules);
+                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
             }
         }
         else {
             if (Settings::Config::CellAlgorithm::UseClusterModel()) {
-                m_pCellList->BeforeAdvanceStep(m_cells, m_molecules);
+                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
             }
         }
 
@@ -95,8 +99,8 @@ namespace CellSim
             cell.Move();
         }
 
-        m_pCellSimulationModel->OnAdvanceStep(m_cells, m_molecules);
-        if (m_pCellSimulationModel->UseCellAlgorithm()) m_pCellAlgorithm->OnAdvanceStep(m_cells, m_molecules);
+        m_pCellSimulationModel->OnAdvanceStep(this, { &m_cells, &m_molecules });
+        if (m_pCellSimulationModel->UseCellAlgorithm()) m_pCellAlgorithm->OnAdvanceStep(this, { &m_cells, &m_molecules });
         
         for (Molecular::MoleculeField& field : m_molecules) {
             field.OnAdvanceStep(m_cells);
@@ -180,7 +184,7 @@ namespace CellSim
 
         m_initializeCellAlgorithm();
         
-        m_pCellSimulationModel->InitializeCells(m_cells);
+        m_pCellSimulationModel->InitializeCells(this, m_cells);
     }
 
     Simulation::~Simulation()
