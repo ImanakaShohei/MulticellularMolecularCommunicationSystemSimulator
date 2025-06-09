@@ -12,11 +12,17 @@ namespace CellSim::Users
 
         UserCellBehavior() = default;
 
+        CellDivisionResult ComputeDivisionOutcome(const Cells::Cell* sender) override;
         Cells::CellGrowthResult ComputeGrowth(Cells::Cell const& cell) override;
+        
+        double ComputeMetabolicChange(const Cells::Cell* sender, Molecular::MoleculeInfo args) override;
         double ComputeMoleculeEmitAmount(Cells::Cell const& cell, Molecular::MoleculeField const& field) override;
+        
         CellBehavior* CreateClone() const override;
         
         bool HasState() const noexcept override;
+
+        bool ShouldDivideThisStep() noexcept override;
     };
 }
 

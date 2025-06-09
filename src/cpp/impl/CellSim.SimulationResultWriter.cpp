@@ -102,14 +102,72 @@ namespace CellSim
         delete[] filePath;
     }
 
+    ::cv::Mat SimulationResultWriter::m_createImage(
+        ::std::vector<Cells::Cell> const& cells,
+        ::std::vector<Molecular::MoleculeField> const& fields
+    ) const
+    {
+        int radiusY = (int)(Settings::Config::Simulation::FieldRadiusY());
+        int radiusX = (int)(Settings::Config::Simulation::FieldRadiusX());
+
+        int height = (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0);
+        int width = (int)(Settings::Config::Simulation::FieldRadiusX() * 2.0);
+
+        ::cv::Mat image{ height, width, CV_8UC3, ::cv::Scalar(0, 0, 0) };
+
+        ::cv::circle(
+            image,
+            { Settings::Config::Simulation::FieldRadiusY(), Settings::Config::Simulation::FieldRadiusX() },
+            radiusX < radiusY ? radiusX : radiusY,
+            ::cv::Scalar(255, 255, 255),
+            1
+        );
+
+        ::cv::line(
+            image,
+            { Settings::Config::Simulation::FieldRadiusY(), 0 },
+            { Settings::Config::Simulation::FieldRadiusY(), Settings::Config::Simulation::FieldRadiusX() * 2.0 },
+            ::cv::Scalar(255, 255, 255),
+            1
+        );
+
+        ::cv::line(
+            image,
+            { 0, Settings::Config::Simulation::FieldRadiusX() },
+            { Settings::Config::Simulation::FieldRadiusY() * 2.0, Settings::Config::Simulation::FieldRadiusX() },
+            ::cv::Scalar(255, 255, 255),
+            1
+        );
+
+        for (Cells::Cell const& cell : cells) {
+            ::cv::circle(
+                image,
+                { cell.PositionY(), cell.PositionX() },
+                (int)cell.Radius(),
+                ::cv::Scalar(0, 255, 255),
+                1
+            );
+        }
+
+        return image;
+    }
+
     SimulationResultWriter::SimulationResultWriter(SimulationOption option)
         : m_option(::std::move(option))
         , m_digits(s_log10(Settings::Config::Simulation::TotalSteps()))
+        , m_videoWriter()
     {
         m_initialize();
     }
 
-    void SimulationResultWriter::Save(Simulation const& simulation, uint64_t step) const
+    SimulationResultWriter::~SimulationResultWriter()
+    {
+        if (m_videoWriter.isOpened()) {
+            m_videoWriter.release();
+        }
+    }
+
+    void SimulationResultWriter::Save(Simulation const& simulation, uint64_t step)
     {
         if (m_option.IsOutputBinary()) {
             m_saveBinaryCells(simulation.Cells(), step);
@@ -122,11 +180,18 @@ namespace CellSim
         }
 
         if (m_option.IsOutputImage()) {
+            ::cv::Mat image = m_createImage(simulation.Cells(), simulation.Molecules());
+            m_saveImage(image);
 
+            if (m_option.IsOutputVideo()) {
+                m_videoWriter.write(image);
+            }
+
+            return;
         }
 
         if (m_option.IsOutputVideo()) {
-
+            m_videoWriter.write(m_createImage(simulation.Cells(), simulation.Molecules()));
         }
     }
 }

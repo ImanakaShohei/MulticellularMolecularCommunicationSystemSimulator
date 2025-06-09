@@ -157,6 +157,13 @@ namespace CellSim
             }
         }
         
+        for (size_t i = 0; i != m_cells.size(); i++) {
+            Cells::Cell& cell = m_cells[i];
+
+            if (cell.ShouldDivideThisStep()) {
+                m_cells.push_back(cell.Divide());
+            }
+        }
     }
 
     void Simulation::m_initializeCellAlgorithm()

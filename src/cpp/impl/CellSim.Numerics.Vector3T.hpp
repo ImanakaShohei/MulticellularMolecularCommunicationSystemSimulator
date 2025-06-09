@@ -25,6 +25,8 @@ namespace CellSim::Numerics
 
         constexpr Vector3T& operator+=(Vector3T right) noexcept;
         constexpr Vector3T& operator-=(Vector3T right) noexcept;
+        constexpr Vector3T& operator*=(TNum right) noexcept;
+        constexpr Vector3T& operator/=(TNum right) noexcept;
 
         [[nodiscard]] TNum Length() const noexcept;
 
@@ -114,6 +116,26 @@ namespace CellSim::Numerics
         X -= right.X;
         Y -= right.Y;
         Z -= right.Z;
+
+        return *this;
+    }
+
+    template <NumberType TNum>
+    constexpr Vector3T<TNum>& Vector3T<TNum>::operator*=(TNum right) noexcept
+    {
+        X *= right;
+        Y *= right;
+        Z *= right;
+
+        return *this;
+    }
+
+    template <NumberType TNum>
+    constexpr Vector3T<TNum>& Vector3T<TNum>::operator/=(TNum right) noexcept
+    {
+        X /= right;
+        Y /= right;
+        Z /= right;
 
         return *this;
     }

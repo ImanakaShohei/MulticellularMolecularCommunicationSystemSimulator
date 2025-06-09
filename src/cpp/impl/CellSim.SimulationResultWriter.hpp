@@ -5,6 +5,7 @@
 #include "CellSim.SimulationOption.hpp"
 
 #include <vector>
+#include <opencv2/opencv.hpp>
 
 namespace CellSim
 {
@@ -17,19 +18,31 @@ namespace CellSim
         /// @brief ステップ数の桁数
         uint32_t m_digits;
 
+        ::cv::VideoWriter m_videoWriter;
+
         void m_initialize();
 
         void m_saveBinaryCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
         void m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
-        void m_saveImages(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
+        void m_saveImage(::cv::Mat const& image) const;
+
+        ::cv::Mat m_createImage(
+            ::std::vector<Cells::Cell> const& cells,
+            ::std::vector<Molecular::MoleculeField> const& fields
+        ) const;
 
         public:
 
         SimulationResultWriter(SimulationOption option);
+        SimulationResultWriter(SimulationResultWriter const&) = delete;
 
-        void Save(Simulation const& simulation, uint64_t step) const;
+        ~SimulationResultWriter();
+
+        SimulationResultWriter& operator=(SimulationResultWriter const&) = delete;
+
+        void Save(Simulation const& simulation, uint64_t step);
     };
 }
 
@@ -52,6 +65,12 @@ namespace CellSim
     inline void SimulationResultWriter::m_initialize()
     {
         m_option.InitializeDirectories();
+
+        if(m_option.IsOutputVideo()) {
+            int fourcc = ::cv::VideoWriter::fourcc('m', 'p', '4', 'v');
+
+            m_videoWriter = cv::VideoWriter(m_option.OutputPath() + "out.mp4", fourcc, 20, cv::Size((int)(Settings::Config::Simulation::FieldRadiusX() * 2.0), (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0)));
+        }
     }
 }
 

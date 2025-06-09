@@ -23,9 +23,9 @@ namespace CellSim::Cells
         /// @return 計算結果
         [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) = 0;
 
-        /// @brief 
-        /// @param sender 
-        /// @param args 
+        /// @brief 細胞内の分子の変化量を計算
+        /// @param sender この関数を呼んだ細胞インスタンス
+        /// @param args 処理に必要な情報
         /// @return 分子の変化量
         [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args) = 0;
 
@@ -41,6 +41,8 @@ namespace CellSim::Cells
         [[nodiscard]] virtual bool HasState() const noexcept = 0;
 
         constexpr void RemoveOwner() noexcept;
+
+        [[nodiscard]] virtual bool ShouldDivideThisStep() noexcept = 0;
     };
 }
 

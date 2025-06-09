@@ -36,6 +36,11 @@ namespace CellSim::Cells
         ++s_id;
     }
 
+    bool Cell::ShouldDivideThisStep() const noexcept
+    {
+        return m_behaviorPtr->ShouldDivideThisStep();
+    }
+
     void Cell::Combine(Cell& c) noexcept
     {
         m_radius = ::cbrt(m_radius * m_radius * m_radius + c.m_radius * c.m_radius * c.m_radius);

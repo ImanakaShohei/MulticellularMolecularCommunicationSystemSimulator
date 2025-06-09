@@ -1,12 +1,17 @@
 ﻿#include "CellSim.Cells.NormalCellBehavior.hpp"
 #include "CellSim.Cells.Cell.hpp"
+#include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
+#include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 
+#include <numbers>
+#include <random>
+
 namespace CellSim::Cells
 {
-    CellGrowthResult NormalCellBehavior::ComputeGrowth(Cell const& cell) const
+    CellGrowthResult NormalCellBehavior::ComputeGrowth(Cell const& cell)
     {
         double oldRadius = cell.Radius();
         double newRadius = oldRadius + Settings::Config::Cell::GrowthRate() * Settings::Config::Simulation::DeltaTime();
@@ -16,5 +21,59 @@ namespace CellSim::Cells
         double newMass = tmp * tmp * tmp * cell.Mass();
 
         return CellGrowthResult{ newMass, newRadius };
+    }
+
+    double NormalCellBehavior::ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args)
+    {
+        return 0;
+    }
+
+    CellDivisionResult NormalCellBehavior::ComputeDivisionOutcome(const Cell* sender)
+    {
+        CellDivisionResult result;
+
+        double newRadius = sender->Radius() * ::cbrt(0.5);
+        double newMass = sender->Mass() * 0.5;
+
+        Numerics::Vector3 originalPosition = sender->Position();
+        Numerics::Vector3 direction;
+
+        // staticローカル変数はスレッドセーフ(らしい)
+        static ::std::mt19937 mt{ Settings::Config::Cell::InitialPlacementSeed() };
+
+        if (Settings::Config::Simulation::Enable2DMode()) {
+            ::std::uniform_real_distribution<double> urd(0, ::std::numbers::pi * 2.0);
+            double theta = urd(mt);
+            direction.X = ::cos(theta);
+            direction.Y = ::sin(theta);
+        }
+        else {
+            ::std::uniform_real_distribution<double> urd(0, 1);
+            double theta = urd(mt) * (::std::numbers::pi * 2.0);
+            double phi = ::acos(1.0 - 2.0 * urd(mt));
+
+            double sinPhi = ::sin(phi);
+
+            direction.X = sinPhi * ::cos(theta);
+            direction.Y = sinPhi * ::sin(theta);
+            direction.Z = ::cos(phi);
+        }
+
+        direction *= newRadius;
+
+        result.NewDaughter.NewMass = newMass;
+        result.NewDaughter.NewRadius = newRadius;
+        result.NewDaughter.NewPosition = originalPosition + direction;
+
+        result.OriginalDaughter.NewRadius = newRadius;
+        result.OriginalDaughter.NewMass = newMass;
+        result.OriginalDaughter.NewPosition = originalPosition - direction;
+
+        return result;
+    }
+
+    bool NormalCellBehavior::ShouldDivideThisStep() noexcept
+    {
+        return false;
     }
 }

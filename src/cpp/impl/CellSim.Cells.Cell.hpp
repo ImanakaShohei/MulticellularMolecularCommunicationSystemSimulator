@@ -41,7 +41,7 @@ namespace CellSim::Cells
         double m_mass;
 
         /// @brief 極性ベクトル
-        [[maybe_unused]] Numerics::Vector3 m_polarity;
+        Numerics::Vector3 m_polarity;
 
         /// @brief 細胞の位置
         Numerics::Vector3 m_position;
@@ -92,6 +92,9 @@ namespace CellSim::Cells
         /// @brief 細胞の質量
         [[nodiscard]] constexpr double Mass() const noexcept;
 
+        /// @brief 極性ベクトル
+        [[nodiscard]] constexpr Numerics::Vector3 Polarity() const noexcept;
+
         /// @brief 細胞の位置
         [[nodiscard]] constexpr Numerics::Vector3 Position() const noexcept;
 
@@ -112,6 +115,8 @@ namespace CellSim::Cells
 
         /// @brief 細胞の半径
         [[nodiscard]] constexpr double Radius() const noexcept;
+
+        [[nodiscard]] bool ShouldDivideThisStep() const noexcept;
 
         /// @brief 細胞の種類
         [[nodiscard]] constexpr CellType Type() const noexcept;
@@ -137,9 +142,12 @@ namespace CellSim::Cells
         /// @note 結合すると引数に与えたcは無効になります
         void Combine(Cell& c) noexcept;
 
+        /// @brief 細胞死
+        constexpr void Die() noexcept;
+
         /// @brief 分裂
         /// @return 分裂したもう1つの細胞
-        Cell Divide();
+        [[nodiscard]] Cell Divide();
 
         /// @brief 分子空間に分子を放出
         /// @param field 分子空間
@@ -207,6 +215,11 @@ namespace CellSim::Cells
         return m_mass;
     }
 
+    constexpr Numerics::Vector3 Cell::Polarity() const noexcept
+    {
+        return m_polarity;
+    }
+
     constexpr Numerics::Vector3 Cell::Position() const noexcept
     {
         return m_position;
@@ -265,6 +278,11 @@ namespace CellSim::Cells
     constexpr void Cell::ClearAttachedCells() noexcept
     {
         m_attachedCells.clear();
+    }
+
+    constexpr void Cell::Die() noexcept
+    {
+        m_isAlive = false;
     }
 
     inline void Cell::EmitMolecule(::std::vector<Molecular::MoleculeField>& fields)

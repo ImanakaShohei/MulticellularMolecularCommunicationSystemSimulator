@@ -78,7 +78,7 @@ FetchContent_Declare(
 
 # 明示的にビルドオプションを設定（不要ならコメントアウトしてもOK）
 # Chat-GPTのコピペだよ
-set(BUILD_LIST core,imgproc,highgui,imgcodecs CACHE STRING "" FORCE)
+set(BUILD_LIST core,imgproc,highgui,imgcodecs,videoio CACHE STRING "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -89,7 +89,7 @@ FetchContent_MakeAvailable(opencv)
 
 # OpenCVライブラリとリンク
 # Chat-GPTのコピペだよ
-target_link_libraries(cellsim PRIVATE opencv_core opencv_highgui opencv_imgcodecs opencv_imgproc)
+target_link_libraries(cellsim PRIVATE opencv_core opencv_highgui opencv_imgcodecs opencv_imgproc opencv_videoio)
 
 # 追加のincludeパス
 target_include_directories(cellsim PRIVATE
