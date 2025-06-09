@@ -1,5 +1,8 @@
 ﻿#include "CellSim.Cells.Cell.hpp"
+#include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
+#include "CellSim.Molecular.Molecule.hpp"
+#include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Molecular.MoleculeField.hpp"
 
 #include <stdexcept>
@@ -42,6 +45,23 @@ namespace CellSim::Cells
         c.m_type = CellType::Invalid;
     }
 
+    Cell Cell::Divide()
+    {
+        CellDivisionResult result = m_behaviorPtr->ComputeDivisionOutcome(this);
+
+        m_mass = result.OriginalDaughter.NewMass;
+        m_position = result.OriginalDaughter.NewPosition;
+        m_radius = result.OriginalDaughter.NewRadius;
+
+        return Cell(
+            m_type,
+            m_behaviorPtr,
+            result.NewDaughter.NewMass,
+            result.NewDaughter.NewRadius,
+            result.NewDaughter.NewPosition
+        );
+    }
+
     void Cell::EmitMolecule(Molecular::MoleculeField& field)
     {
         Numerics::GridPosition3 position3 = field.ToGridPosition3(m_position);
@@ -55,5 +75,12 @@ namespace CellSim::Cells
 
         m_radius = result.NewRadius;
         m_mass = result.NewMass;
+    }
+
+    void Cell::Metabolize()
+    {
+        for (Molecular::Molecule& molecule : m_internalMolecules) {
+            molecule.Amount(molecule.Amount() + m_behaviorPtr->ComputeMetabolicChange(this, { molecule.Amount(), molecule.Kind() }));
+        }
     }
 }

@@ -133,9 +133,11 @@ namespace CellSim::Cells
     class CellBehavior;
     class CellBehaviorPtr;
     enum class CellBehaviorType;
+    struct CellDivisionResult;
     struct CellGrowthResult;
     struct CellInfo;
     enum class CellType;
+    struct DaughterCellInfo;
     class NormalCellBehavior;
 }
 

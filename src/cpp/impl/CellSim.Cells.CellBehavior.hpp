@@ -23,9 +23,17 @@ namespace CellSim::Cells
         /// @return 計算結果
         [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) = 0;
 
+        /// @brief 
+        /// @param sender 
+        /// @param args 
+        /// @return 分子の変化量
+        [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args) = 0;
+
         [[nodiscard]] virtual double ComputeMoleculeEmitAmount(Cell const& cell, Molecular::MoleculeField const& field) = 0;
 
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
+
+        [[nodiscard]] virtual CellDivisionResult ComputeDivisionOutcome(const Cell* sender) = 0;
 
         [[nodiscard]] constexpr bool HasOwner() const noexcept;
 

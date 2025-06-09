@@ -125,6 +125,8 @@ namespace CellSim::Cells
         /// @param force 加える力
         constexpr void ApplyForce(Numerics::Vector3 force) noexcept;
 
+        /// @brief 接着
+        /// @param cell 接着する細胞
         void Adhere(Cell const& cell);
 
         /// @brief すべての細胞の接着を解除
@@ -134,6 +136,10 @@ namespace CellSim::Cells
         /// @param c 結合する細胞
         /// @note 結合すると引数に与えたcは無効になります
         void Combine(Cell& c) noexcept;
+
+        /// @brief 分裂
+        /// @return 分裂したもう1つの細胞
+        Cell Divide();
 
         /// @brief 分子空間に分子を放出
         /// @param field 分子空間
