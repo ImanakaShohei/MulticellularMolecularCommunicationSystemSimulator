@@ -5,7 +5,7 @@
 
 namespace CellSim::Cli
 {
-    class ParameterOption final {
+    class ParamOption final {
         public:
     };
 }

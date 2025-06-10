@@ -153,7 +153,7 @@ namespace CellSim::Cli
     class HelpOption;
     class ImageOption;
     class OutputOption;
-    class ParameterOption;
+    class ParamOption;
     class SettingOption;
     class VideoOption;
 }

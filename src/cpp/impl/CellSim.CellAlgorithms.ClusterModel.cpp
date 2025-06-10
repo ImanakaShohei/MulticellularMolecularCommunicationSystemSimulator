@@ -11,6 +11,7 @@ namespace CellSim::CellAlgorithms
     {
         auto f = [] (Cells::Cell& cell, Cells::CellInfo info, Cells::CellInfo cellInfo) {
             if (cellInfo.Type == Cells::CellType::Invalid) return;
+            if (cellInfo.Type != info.Type) return;
 
             double radius = info.Radius + cellInfo.Radius;
 
