@@ -9,21 +9,25 @@
 
 namespace CellSim
 {
+    /// @brief 画面に表示するメッセージ
     class Messages final {
         private:
 
         static bool s_loaded;
         static ::std::map<::std::string, ::std::string> s_map;
         
-        static void s_getLanguage(char(&arr)[6]);
+        static void s_getLanguage(char(&arr)[3]);
 
         static void s_loadMessages(::std::string const& folderPath, ::std::string_view fileName);
-        static void s_loadSingleMessage(::std::string const& folderPath, ::std::string_view fileName, ::std::string_view messageName);
+        static void s_loadSingleMessage(::std::string const& folderPath, ::std::string_view fileName, ::std::string messageName);
 
         static void s_setMessage(::std::string_view languageName);
 
         public:
 
+        /// @brief メッセージを取得
+        /// @param name メッセージ名
+        /// @return メッセージ
         static ::std::string const& Get(::std::string const& name);
 
         static bool Initialize();

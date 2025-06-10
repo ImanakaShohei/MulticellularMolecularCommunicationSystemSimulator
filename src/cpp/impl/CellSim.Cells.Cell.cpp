@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
+#include "CellSim.Messages.hpp"
 #include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Molecular.MoleculeField.hpp"
@@ -30,8 +31,8 @@ namespace CellSim::Cells
         , m_radius(radius)
         , m_type(type)
     {
-        if (mass <= 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'mass' must be greater than zero.");
-        if (radius <= 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'radius' must be greater than zero.");
+        if (mass <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.mass"));
+        if (radius <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.radius"));
 
         ++s_id;
     }

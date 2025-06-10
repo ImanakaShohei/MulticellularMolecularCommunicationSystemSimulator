@@ -2,6 +2,7 @@
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.Messages.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.CellList.hpp"
 #include "CellSim.Threading.Generator.hpp"
@@ -43,11 +44,11 @@ namespace CellSim::CellAlgorithms
         , m_span(gridCountX, gridCountY, gridCountZ, m_cellField.data())
         , m_squareSeachRadius(searchRadius * searchRadius)
     {
-        if (gridCountX == 0) [[unlikely]] throw ::std::invalid_argument("The parameter 'gridCountX' must be non-zero.");
-        if (gridCountY == 0) [[unlikely]] throw ::std::invalid_argument("The parameter 'gridCountY' must be non-zero.");
-        if (gridCountZ == 0) [[unlikely]] throw ::std::invalid_argument("The parameter 'gridCountZ' must be non-zero.");
+        if (gridCountX == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountX"));
+        if (gridCountY == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountY"));
+        if (gridCountZ == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountZ"));
 
-        if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'searchRadius' must be greater than or equal to zero.");
+        if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
     }
 
     void CellList::BeforeAdvanceStep(

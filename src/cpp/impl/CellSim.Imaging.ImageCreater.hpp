@@ -15,7 +15,7 @@ namespace CellSim::Imaging
 
         static void SaveAs(Simulation const& simulation, const char* filePath);
         static void SaveAs(::std::vector<Cells::Cell> const& cells);
-        static void SaveAs(::std::vector<Cells::Cell> const& cells, ::std::vector<Molecular::MoleculeDiffusion> const& molecules);
+        static void SaveAs(::std::vector<Cells::Cell> const& cells, ::std::vector<Molecular::MoleculeField> const& molecules);
     };
 }
 

@@ -5,6 +5,7 @@
 #include "CellSim.Model.ClusterSproutingModel.hpp"
 #include "CellSim.Model.NetworkFormationModel.hpp"
 #include "CellSim.Model.NullModel.hpp"
+#include "CellSim.Messages.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -29,7 +30,7 @@ namespace CellSim::Model
             case CellSimulationType::User:             return new Users::UserSimulationModel();
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument("Invalid CellSim::Model::CellSimulationType argument.");
+                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.FromType.Error"));
             }
         }
     }

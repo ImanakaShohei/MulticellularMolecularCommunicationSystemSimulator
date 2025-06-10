@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellBehaviorType.hpp"
 #include "CellSim.Cells.NormalCellBehavior.hpp"
+#include "CellSim.Messages.hpp"
 #include "../CellSim.Users.UserCellBehavior.hpp"
 #include <stdexcept>
 
@@ -14,14 +15,14 @@ namespace CellSim::Cells
 
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument("Invalid CellSim::Cells::CellBehaviorType value.");
+                throw ::std::invalid_argument(Messages::Get("Cells.CellBehaviorPtr.FromType.Error"));
             }
         }
     }
 
     CellBehaviorPtr CellBehaviorPtr::FromPointer(CellBehavior* ptr)
     {
-        if (ptr == nullptr) [[unlikely]] throw ::std::invalid_argument("CellBehavior* is nullptr.");
+        if (ptr == nullptr) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.CellBehaviorPtr.FromPointer.Error"));
 
         return CellBehaviorPtr(ptr);
     }

@@ -5,6 +5,7 @@
 #include "CellSim.CellAlgorithms.NaiveAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.NullAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.ParticleMesh.hpp"
+#include "CellSim.Messages.hpp"
 #include "../CellSim.Users.UserCellAlgorithm.hpp"
 
 #include <stdexcept>
@@ -23,7 +24,7 @@ namespace CellSim::CellAlgorithms
 
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument("Invalid CellSim::CellAlgorithms::CellAlgorithmType value.");
+                throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellAlgorithm.FromType.Error"));
             }
         }
     }

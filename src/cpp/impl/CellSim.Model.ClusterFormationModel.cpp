@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Model.ClusterFormationModel.hpp"
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
+#include "CellSim.Messages.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
@@ -63,9 +64,9 @@ namespace CellSim::Model
         , m_reverseLambda(1.0 / lambda)
         , m_remoteForceFactor(remoteForceFactor)
     {
-        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.");
-        if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'lambda' must be non-zero.");
-        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'remoteForceFactor' must be greater than or equal to zero.");
+        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor"));
+        if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.ClusterFormationModel.ClusterFormationModel.Error.lambda"));
+        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.ClusterFormationModel.ClusterFormationModel.Error.remoteForceFactor"));
     }
 
     void ClusterFormationModel::BeforeAdvanceStep(
