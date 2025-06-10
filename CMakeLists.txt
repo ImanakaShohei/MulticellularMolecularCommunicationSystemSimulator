@@ -17,6 +17,7 @@ set(SOURCES
     src/cpp/CellSim.Users.UserMoleculeDiffusionBehavior.cpp
     src/cpp/CellSim.Settings.Config.UserSettings.cpp
     src/cpp/CellSim.Users.UserSimulationModel.cpp
+    src/cpp/impl/CellSim.Messages.cpp
     src/cpp/impl/CellSim.Simulation.cpp
     src/cpp/impl/CellSim.SimulationOption.cpp
     src/cpp/impl/CellSim.SimulationResultWriter.cpp

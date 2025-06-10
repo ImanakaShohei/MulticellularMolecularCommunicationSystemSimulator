@@ -72,10 +72,42 @@
                 "useClusterModel": { "type": "boolean" }
             },
             "required": [ "algorithmType", "useClusterModel" ]
+        },
+        "simulation": {
+            "type": "object",
+            "title": "simulation setting",
+            "properties": {
+                "deltaTime": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "enable2DMode": { "type": "boolean" },
+                "fieldRadiusX": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "examples": [ 512, 1024, 2048 ]
+                },
+                "fieldRadiusY": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "examples": [ 512, 1024, 2048 ]
+                },
+                "fieldRadiusZ": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "examples": [ 512, 1024, 2048 ]
+                },
+                "totalSteps": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                }
+            },
+            "required": [ "deltaTime", "fieldRadiusX", "fieldRadiusY", "fieldRadiusZ", "totalSteps" ]
         }
     },
     "required": [
         "cell",
-        "cellAlgorithm"
+        "cellAlgorithm",
+        "simulation"
     ]
 }
