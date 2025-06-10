@@ -16,7 +16,7 @@
         "enable2DMode": true,
         "fieldRadiusX": 1024,
         "fieldRadiusY": 1024,
-        "fieldRadiusZ": 1024,
+        "fieldRadiusZ": 0,
         "totalSteps": 1000
     },
     "cellAlgorithm": {

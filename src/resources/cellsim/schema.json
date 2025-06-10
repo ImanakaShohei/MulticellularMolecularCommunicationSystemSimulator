@@ -107,17 +107,17 @@
                 "enable2DMode": { "type": "boolean" },
                 "fieldRadiusX": {
                     "type": "number",
-                    "exclusiveMinimum": 0,
+                    "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
                 },
                 "fieldRadiusY": {
                     "type": "number",
-                    "exclusiveMinimum": 0,
+                    "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
                 },
                 "fieldRadiusZ": {
                     "type": "number",
-                    "exclusiveMinimum": 0,
+                    "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
                 },
                 "totalSteps": {
