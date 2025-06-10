@@ -17,7 +17,12 @@ namespace CellSim::Settings
 
         public:
 
+        class BarnesHut;
         class CellList;
+        class Naive;
+        class Null;
+        class ParticleMesh;
+        class User;
 
         CELLSIM_STATIC_CLASS(CellAlgorithm);
 

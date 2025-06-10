@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Cli.CliMain.hpp"
+#include "CellSim.Messages.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -14,10 +15,10 @@ namespace CellSim::Cli
             CELLSIM_VERSION_EXTENSION
         );
         try {
-
+            Messages::Initialize();
         }
         catch (::std::exception& e) {
-            
+            fprintf(stderr, "%s\n", e.what());
             return 1;
         }
     }

@@ -31,6 +31,7 @@ namespace CellSim
         static ::std::string const& Get(::std::string const& name);
 
         static bool Initialize();
+        [[nodiscard]] static bool IsInitialized() noexcept;
     };
 }
 
@@ -39,6 +40,11 @@ namespace CellSim
     inline ::std::string const& Messages::Get(::std::string const& name)
     {
         return s_map[name];
+    }
+
+    inline bool Messages::IsInitialized() noexcept
+    {
+        return s_loaded;
     }
 }
 

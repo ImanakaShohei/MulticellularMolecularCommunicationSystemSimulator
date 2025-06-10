@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
 
+#include <nlohmann/json_fwd.hpp>
+
 namespace CellSim::Settings
 {
     class Config::CellAlgorithm::CellList final {
@@ -24,6 +26,8 @@ namespace CellSim::Settings
 
         /// @brief 探索範囲
         [[nodiscard]] static double SearchRadius() noexcept;
+
+        static void Load(::nlohmann::json const& config);
     };
 }
 

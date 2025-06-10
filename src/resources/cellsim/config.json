@@ -11,8 +11,23 @@
         "radius": 10.0,
         "type": "Normal"
     },
+    "simulation": {
+        "deltaTime": 10,
+        "enable2DMode": true,
+        "fieldRadiusX": 1024,
+        "fieldRadiusY": 1024,
+        "fieldRadiusZ": 1024,
+        "totalSteps": 1000
+    },
     "cellAlgorithm": {
         "algorithmType": "CellList",
-        "useClusterModel": false
+        "useClusterModel": false,
+
+        "cellList": {
+            "gridCountX": 32,
+            "gridCountY": 32,
+            "gridCountZ": 1,
+            "searchRadius": 64
+        }
     }
 }

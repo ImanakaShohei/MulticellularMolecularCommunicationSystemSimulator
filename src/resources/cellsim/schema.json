@@ -69,7 +69,30 @@
                     "type": "string",
                     "enum": [ "BarnesHut", "CellList", "Naive", "Null", "ParticleMesh", "User" ]
                 },
-                "useClusterModel": { "type": "boolean" }
+                "useClusterModel": { "type": "boolean" },
+                "barnesHut": { "type": "object" },
+                "cellList": {
+                    "properties": {
+                        "gridCountX": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        },
+                        "gridCountY": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        },
+                        "gridCountZ": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        },
+                        "searchRadius": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "gridCountX", "gridCountY", "gridCountZ", "searchRadius" ]
+                },
+                "particleMesh": { "type": "object" }
             },
             "required": [ "algorithmType", "useClusterModel" ]
         },

@@ -13,6 +13,9 @@
 
 namespace CellSim
 {
+    constinit bool Messages::s_loaded = false;
+    ::std::map<::std::string, ::std::string> Messages::s_map;
+
     void Messages::s_getLanguage(char(&arr)[3])
     {
 #if CELLSIM_ENV_WINDOWS

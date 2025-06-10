@@ -1,1 +1,29 @@
-﻿
+﻿#include "CellSim.Settings.Config.Simulation.hpp"
+#include "CellSim.Messages.hpp"
+#include <nlohmann/json.hpp>
+#include <stdexcept>
+
+namespace CellSim::Settings
+{
+    void Config::Simulation::Load(::nlohmann::json const& config)
+    {
+        try {
+            s_deltaTime = config["deltaTime"].get<double>();
+            s_enable2DMode = config["enable2DMode"].get<bool>();
+            s_fieldRadiusX = config["fieldRadiusX"].get<double>();
+            s_fieldRadiusY = config["fieldRadiusY"].get<double>();
+            s_fieldRadiusZ = config["fieldRadiusZ"].get<double>();
+            s_totalSteps = config["totalSteps"].get<uint64_t>();
+        }
+        catch (...) {
+            throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));
+        }
+        
+
+        if (s_deltaTime <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.deltaTime"));
+        if (s_fieldRadiusX <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusX"));
+        if (s_fieldRadiusY <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusY"));
+        if (s_fieldRadiusZ <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusZ"));
+        if (s_totalSteps == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps"));
+    }
+}
