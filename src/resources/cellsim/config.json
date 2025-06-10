@@ -11,6 +11,12 @@
         "radius": 10.0,
         "type": "Normal"
     },
+    "cellBehavior": {
+        "behaviorType": "Normal",
+        "normal": {
+            
+        }
+    },
     "simulation": {
         "deltaTime": 10,
         "enable2DMode": true,

@@ -15,6 +15,8 @@ namespace CellSim::Settings
 
         public:
 
+        CELLSIM_STATIC_CLASS(BarnesHut);
+
         // TODO: ここにゲッターを追加します
 
         static void Load(::nlohmann::json const& config);

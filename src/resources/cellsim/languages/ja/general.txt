@@ -27,6 +27,9 @@ Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius=configファイ�
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=configファイルの'cellAlgorithm.algorithmType'値が無効です。
 Settings.Config.CellAlgorithm.Load.Error.JsonError=configファイルの'cellAlgorithm'パラメータの形式が正しくありません。
 
+Settings.Config.CellBehavior.Load.Error.behaviorType=configファイルの'cellBehavior.behaviorType'値が無効です。
+Settings.Config.CellBehavior.Load.Error.JsonError=configファイルの'cellBehavior'パラメータの形式が正しくありません。
+
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusX=configファイルの'simulation.fieldRadiusX'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusY=configファイルの'simulation.fieldRadiusY'に負の値が指定されました。

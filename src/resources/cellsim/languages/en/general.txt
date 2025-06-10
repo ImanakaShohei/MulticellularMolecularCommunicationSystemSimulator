@@ -28,6 +28,9 @@ Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius='cellAlgorithms.c
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=The value of 'cellAlgorithm.algorithmType' in the config file is invalid.
 Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgorithm' parameter in the config file is invalid.
 
+Settings.Config.CellBehavior.Load.Error.behaviorType=The value of 'cellBehavior.behaviorType' in the config file is invalid.
+Settings.Config.CellBehavior.Load.Error.JsonError=The format of the 'cellBehavior' parameter in the config file is invalid.
+
 Settings.Config.Simulation.Load.Error.deltaTime='simulation.deltaTime' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.fieldRadiusX='simulation.fieldRadiusX' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.fieldRadiusY='simulation.fieldRadiusY' in the config file must be a positive value.

@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Settings.Config.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
+#include "CellSim.Settings.Config.CellBehavior.hpp"
 #include "CellSim.Settings.Config.Optimization.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
@@ -42,9 +43,10 @@ namespace CellSim::Settings
     void Config::Load(::nlohmann::json const& config)
     {
         Cell::Load(config["cell"]);
-        CellAlgorithm::Load(config["cell_algorithm"]);
+        CellAlgorithm::Load(config["cellAlgorithm"]);
+        CellBehavior::Load(config["cellBeahvior"]);
         Optimization::Load(config["optimization"]);
         Simulation::Load(config["simulation"]);
-        SimulationModel::Load(config["simulation_model"]);
+        SimulationModel::Load(config["simulationModel"]);
     }
 }

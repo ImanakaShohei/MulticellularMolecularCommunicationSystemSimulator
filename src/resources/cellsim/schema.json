@@ -92,9 +92,22 @@
                     },
                     "required": [ "gridCountX", "gridCountY", "gridCountZ", "searchRadius" ]
                 },
-                "particleMesh": { "type": "object" }
+                "particleMesh": { "type": "object" },
+                "user": { "type": "object" }
             },
             "required": [ "algorithmType", "useClusterModel" ]
+        },
+        "cellBehavior": {
+            "type": "object",
+            "properties": {
+                "behaviorType": {
+                    "type": "string",
+                    "enum": [ "Normal", "User" ]
+                },
+                "normal": { "type": "object" },
+                "user": { "type": "object" }
+            },
+            "required": [ "behaviorType" ]
         },
         "simulation": {
             "type": "object",
@@ -131,6 +144,7 @@
     "required": [
         "cell",
         "cellAlgorithm",
+        "cellBehavior",
         "simulation"
     ]
 }

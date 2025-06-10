@@ -17,6 +17,7 @@ namespace CellSim::Settings
 
         class Cell;
         class CellAlgorithm;
+        class CellBehavior;
         class Molecular;
         class Optimization;
         class Simulation;
