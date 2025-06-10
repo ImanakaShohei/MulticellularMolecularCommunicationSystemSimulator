@@ -56,7 +56,9 @@ namespace CellSim
         while (::std::getline(ifs, line)) {
             // name=value
             size_t index = line.find('=');
-            if (index == ::std::string::npos) [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
+            if (index == ::std::string::npos) {
+                if (line.size() != 0) [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
+            }
             if (index == line.size()) [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
 
             s_map.emplace(line.substr(0, index), line.substr(index + 1));
