@@ -139,12 +139,40 @@
                 }
             },
             "required": [ "deltaTime", "fieldRadiusX", "fieldRadiusY", "fieldRadiusZ", "totalSteps" ]
+        },
+        "simulationModel": {
+            "type": "object",
+            "properties": {
+                "simulationType": {
+                    "type": "string",
+                    "enum": [ "CellGrowth", "ClusterFormation", "ClusterRotation", "ClusterSprouting", "NetworkFormation", "Null", "User" ]
+                },
+                "clusterFormation": {
+                    "type": "object",
+                    "properties": {
+                        "adhesiveRepulsionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lambda": {
+                            "type": "number"
+                        },
+                        "remoteForceFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "adhesiveRepulsionFactor", "lambda", "remoteForceFactor" ]
+                }
+            },
+            "required": [ "simulationType" ]
         }
     },
     "required": [
         "cell",
         "cellAlgorithm",
         "cellBehavior",
-        "simulation"
+        "simulation",
+        "simulationModel"
     ]
 }

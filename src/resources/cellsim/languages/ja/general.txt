@@ -36,3 +36,11 @@ Settings.Config.Simulation.Load.Error.fieldRadiusY=configファイルの'simulat
 Settings.Config.Simulation.Load.Error.fieldRadiusZ=configファイルの'simulation.fieldRadiusZ'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.JsonError=configファイルの'simulation'パラメータの形式が正しくありません。
 Settings.Config.Simulation.Load.Error.totalSteps=configファイルの'simulation.totalSteps'にゼロが指定されました。
+
+Settings.Config.SimulationModel.Load.Error.JsonError=configファイルの'simulationModel'パラメータの形式が正しくありません。
+Settings.Config.SimulationModel.Load.Error.simulationType=configファイルの'simulationModel.simulationType'値が無効です。
+
+Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=configファイルの'simulationModel.clusterFormation'パラメータの形式が正しくありません。
+Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.clusterFormation.adhesiveRepulsionFactor'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda=configファイルの'simulationModel.clusterFormation.lambda'にゼロが指定されました。
+Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor=configファイルの'simulationModel.clusterFormation.remoteForceFactor'に負の値が指定されました。

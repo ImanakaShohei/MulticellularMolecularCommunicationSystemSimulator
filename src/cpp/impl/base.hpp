@@ -146,6 +146,8 @@ namespace CellSim::Cells
 namespace CellSim::Cli
 {
     class CliMain;
+    class CliOption;
+    enum class CliOptionType;
     class ConfigFilePathOption;
     class CreateImageOption;
     class CreateVideoOption;

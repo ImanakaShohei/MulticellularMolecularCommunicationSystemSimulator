@@ -13,9 +13,7 @@
     },
     "cellBehavior": {
         "behaviorType": "Normal",
-        "normal": {
-            
-        }
+        "normal": {}
     },
     "simulation": {
         "deltaTime": 10,
@@ -24,6 +22,15 @@
         "fieldRadiusY": 1024,
         "fieldRadiusZ": 0,
         "totalSteps": 1000
+    },
+    "simulationModel": {
+        "simulationType": "ClusterFormation",
+        
+        "clusterFormation": {
+            "adhesiveRepulsionFactor": 1.0,
+            "lambda": 20.0,
+            "remoteForceFactor": 1.0
+        }
     },
     "cellAlgorithm": {
         "algorithmType": "CellList",
