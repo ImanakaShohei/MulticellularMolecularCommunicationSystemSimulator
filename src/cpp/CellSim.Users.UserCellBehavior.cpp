@@ -1,6 +1,8 @@
 ﻿#include "CellSim.Users.UserCellBehavior.hpp"
 #include "impl/CellSim.Cells.CellDivisionResult.hpp"
 #include "impl/CellSim.Cells.CellGrowthResult.hpp"
+#include "impl/CellSim.Cells.CellMetabolicArgs.hpp"
+#include "impl/CellSim.Cells.CellMoleculeEmissionArgs.hpp"
 #include "impl/CellSim.Molecular.MoleculeInfo.hpp"
 
 using namespace CellSim;
@@ -18,7 +20,7 @@ namespace CellSim::Users
         return result;
     }
 
-    CellGrowthResult UserCellBehavior::ComputeGrowth([[maybe_unused]] Cell const& cell)
+    CellGrowthResult UserCellBehavior::ComputeGrowth([[maybe_unused]] const Cell* sender)
     {
         CellGrowthResult result;
 
@@ -28,8 +30,8 @@ namespace CellSim::Users
     }
 
     double UserCellBehavior::ComputeMetabolicChange(
-        [[maybe_unused]] const Cells::Cell* sender,
-        [[maybe_unused]] Molecular::MoleculeInfo args
+        [[maybe_unused]] const Cell* sender,
+        [[maybe_unused]] CellMetabolicArgs args
     )
     {
         // TODO: ここに処理を追加します
@@ -37,8 +39,8 @@ namespace CellSim::Users
     }
 
     double UserCellBehavior::ComputeMoleculeEmitAmount(
-        [[maybe_unused]] Cell const& cell,
-        [[maybe_unused]] MoleculeField const& field
+        [[maybe_unused]] const Cell* sender,
+        [[maybe_unused]] CellMoleculeEmissionArgs args
     )
     {
         // TODO: 放出量を計算します

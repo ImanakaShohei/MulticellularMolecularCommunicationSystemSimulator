@@ -10,9 +10,9 @@ namespace CellSim::Cells
         public:
 
         CellDivisionResult ComputeDivisionOutcome(const Cell* sender) override;
-        CellGrowthResult ComputeGrowth(Cell const& cell) override;
-        double ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args) override;
-        double ComputeMoleculeEmitAmount(Cell const& cell, Molecular::MoleculeField const& field) override;
+        CellGrowthResult ComputeGrowth(const Cell* sender) override;
+        double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) override;
+        double ComputeMoleculeEmitAmount(const Cell* sender, CellMoleculeEmissionArgs args) override;
         
         CellBehavior* CreateClone() const override;
         

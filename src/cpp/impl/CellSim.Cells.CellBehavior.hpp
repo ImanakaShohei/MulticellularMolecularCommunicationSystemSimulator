@@ -21,15 +21,15 @@ namespace CellSim::Cells
         /// @brief 細胞の成長度合いを計算
         /// @param cell ターゲットの細胞
         /// @return 計算結果
-        [[nodiscard]] virtual CellGrowthResult ComputeGrowth(Cell const& cell) = 0;
+        [[nodiscard]] virtual CellGrowthResult ComputeGrowth(const Cell* sender) = 0;
 
         /// @brief 細胞内の分子の変化量を計算
         /// @param sender この関数を呼んだ細胞インスタンス
         /// @param args 処理に必要な情報
         /// @return 分子の変化量
-        [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args) = 0;
+        [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) = 0;
 
-        [[nodiscard]] virtual double ComputeMoleculeEmitAmount(Cell const& cell, Molecular::MoleculeField const& field) = 0;
+        [[nodiscard]] virtual double ComputeMoleculeEmitAmount(const Cell* sender, CellMoleculeEmissionArgs args) = 0;
 
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
 

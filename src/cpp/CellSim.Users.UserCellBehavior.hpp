@@ -13,10 +13,10 @@ namespace CellSim::Users
         UserCellBehavior() = default;
 
         Cells::CellDivisionResult ComputeDivisionOutcome(const Cells::Cell* sender) override;
-        Cells::CellGrowthResult ComputeGrowth(Cells::Cell const& cell) override;
+        Cells::CellGrowthResult ComputeGrowth(const Cells::Cell* sender) override;
         
-        double ComputeMetabolicChange(const Cells::Cell* sender, Molecular::MoleculeInfo args) override;
-        double ComputeMoleculeEmitAmount(Cells::Cell const& cell, Molecular::MoleculeField const& field) override;
+        double ComputeMetabolicChange(const Cells::Cell* sender, Cells::CellMetabolicArgs args) override;
+        double ComputeMoleculeEmitAmount(const Cells::Cell* sender, Cells::CellMoleculeEmissionArgs args) override;
         
         CellBehavior* CreateClone() const override;
         

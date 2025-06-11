@@ -2,6 +2,7 @@
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
+#include "CellSim.Cells.CellMetabolicArgs.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -11,19 +12,19 @@
 
 namespace CellSim::Cells
 {
-    CellGrowthResult NormalCellBehavior::ComputeGrowth(Cell const& cell)
+    CellGrowthResult NormalCellBehavior::ComputeGrowth(const Cell* sender)
     {
-        double oldRadius = cell.Radius();
+        double oldRadius = sender->Radius();
         double newRadius = oldRadius + Settings::Config::Cell::GrowthRate() * Settings::Config::Simulation::DeltaTime();
 
         double tmp = newRadius / oldRadius;
 
-        double newMass = tmp * tmp * tmp * cell.Mass();
+        double newMass = tmp * tmp * tmp * sender->Mass();
 
         return CellGrowthResult{ newMass, newRadius };
     }
 
-    double NormalCellBehavior::ComputeMetabolicChange(const Cell* sender, Molecular::MoleculeInfo args)
+    double NormalCellBehavior::ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args)
     {
         return 0;
     }

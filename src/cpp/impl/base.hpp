@@ -136,6 +136,8 @@ namespace CellSim::Cells
     enum class CellBehaviorType;
     struct CellDivisionResult;
     struct CellGrowthResult;
+    struct CellMetabolicArgs;
+    struct CellMoleculeEmissionArgs;
     struct CellInfo;
     enum class CellType;
     struct DaughterCellInfo;

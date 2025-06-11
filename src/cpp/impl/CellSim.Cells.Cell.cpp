@@ -1,6 +1,8 @@
 ﻿#include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
+#include "CellSim.Cells.CellMetabolicArgs.hpp"
+#include "CellSim.Cells.CellMoleculeEmissionArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
@@ -72,7 +74,7 @@ namespace CellSim::Cells
     {
         Numerics::GridPosition3 position3 = field.ToGridPosition3(m_position);
 
-        field.Concentrations().At(position3.X, position3.Y, position3.Z) += m_behaviorPtr->ComputeMoleculeEmitAmount(*this, field);
+        field.Concentrations().At(position3.X, position3.Y, position3.Z) += m_behaviorPtr->ComputeMoleculeEmitAmount(this, { &field });
     }
 
     void Cell::Grow()
@@ -86,7 +88,7 @@ namespace CellSim::Cells
     void Cell::Metabolize()
     {
         for (Molecular::Molecule& molecule : m_internalMolecules) {
-            molecule.Amount(molecule.Amount() + m_behaviorPtr->ComputeMetabolicChange(this, { molecule.Amount(), molecule.Kind() }));
+            molecule.Amount(molecule.Amount() + m_behaviorPtr->ComputeMetabolicChange(this, { { molecule.Amount(), molecule.Kind() } }));
         }
     }
 }
