@@ -13,6 +13,8 @@ Cells.CellBehaviorPtr.FromPointer.Error=The argument 'ptr' was nullptr.
 
 Model.CellSimulationModel.FromType.Error=Invalid CellSim::Model::CellSimulationType value.
 
+Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.
+
 Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor=The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.
 Model.ClusterFormationModel.ClusterFormationModel.Error.lambda=The parameter 'lambda' must be non-zero.
 Model.ClusterFormationModel.ClusterFormationModel.Error.remoteForceFactor=The parameter 'remoteForceFactor' must be greater than or equal to zero.
@@ -40,6 +42,9 @@ Settings.Config.Simulation.Load.Error.totalSteps='simulation.totalSteps' in the 
 
 Settings.Config.SimulationModel.Load.Error.JsonError=The format of the 'simulationModel' parameter in the config file is invalid.
 Settings.Config.SimulationModel.Load.Error.simulationType=The value of 'simulationModel.simulationType' in the config file is invalid.
+
+Settings.Config.SimulationModel.CellGrowth.Load.Error.JsonError=The format of the 'simulationModel.cellGrowthModel' parameter in the config file is invalid.
+Settings.Config.SimulationModel.CellGrowth.Load.Error.adhesiveRepulsionFactor='simulationModel.cellGrowthModel.adhesiveRepulsionFactor' in the config file must be greater than or equal to zero.
 
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=The format of the 'simulationModel.clusterFormation' parameter in the config file is invalid.
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor='simulationModel.clusterFormation.adhesiveRepulsionFactor' in the config file must be greater than or equal to zero.

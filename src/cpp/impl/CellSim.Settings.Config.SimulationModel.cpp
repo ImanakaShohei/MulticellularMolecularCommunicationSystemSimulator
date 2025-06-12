@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Settings.Config.SimulationModel.hpp"
+#include "CellSim.Settings.Config.SimulationModel.CellGrowth.hpp"
 #include "CellSim.Settings.Config.SimulationModel.ClusterFormation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
 #include "CellSim.Messages.hpp"
@@ -29,7 +30,7 @@ namespace CellSim::Settings
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.simulationType"));
 
         switch (s_simulationType) {
-            case Model::CellSimulationType::CellGrowth: break;
+            case Model::CellSimulationType::CellGrowth: CellGrowth::Load(config["cellGrowthModel"]); break;
             case Model::CellSimulationType::ClusterFormation: ClusterFormation::Load(config["clusterFormation"]); break;
             case Model::CellSimulationType::ClusterRotation: break;
             case Model::CellSimulationType::ClusterSprouting: break;

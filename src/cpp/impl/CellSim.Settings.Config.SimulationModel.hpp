@@ -16,6 +16,7 @@ namespace CellSim::Settings
 
         public:
 
+        class CellGrowth;
         class ClusterFormation;
         class ClusterRotation;
         class ClusterSprouting;

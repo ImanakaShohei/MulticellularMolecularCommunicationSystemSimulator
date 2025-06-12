@@ -79,7 +79,7 @@ namespace CellSim::Cells
 
     void Cell::Grow()
     {
-        CellGrowthResult result = m_behaviorPtr->ComputeGrowth(*this);
+        CellGrowthResult result = m_behaviorPtr->ComputeGrowth(this);
 
         m_radius = result.NewRadius;
         m_mass = result.NewMass;

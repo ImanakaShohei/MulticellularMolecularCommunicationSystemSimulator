@@ -2,40 +2,70 @@
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
+#include "CellSim.Messages.hpp"
+#include "CellSim.Settings.Config.SimulationModel.CellGrowth.hpp"
+#include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+
+#include <stdexcept>
 
 namespace CellSim::Model
 {
+    CellGrowthModel::CellGrowthModel()
+        : CellGrowthModel(Settings::Config::SimulationModel::CellGrowth::AdhesiveRepulsionFactor())
+    {
+    }
+
+    CellGrowthModel::CellGrowthModel(double adhesiveRepulsionFactor)
+        : m_adhesiveRepulsionFactor(adhesiveRepulsionFactor)
+    {
+        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor"));
+    }
+
     void CellGrowthModel::BeforeAdvanceStep(
-        [[maybe_unused]] const Simulation* sender,
-        [[maybe_unused]] SimulationModelStepArgs args
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
-        // TODO: ここに処理を追加します
     }
 
     Numerics::Vector3 CellGrowthModel::ComputeForceOnCell(
-        [[maybe_unused]] const Simulation* sender,
-        [[maybe_unused]] SimulationModelForceComputationArgs args
+        const Simulation*,
+        SimulationModelForceComputationArgs args
     ) const
     {
-        // TODO: ここに処理を追加します
+        Cells::CellInfo info{ *args.Target };
 
-        return Numerics::Vector3();
-    }
+        Numerics::Vector3 vec;
 
-    void CellGrowthModel::InitializeCells(
-        [[maybe_unused]] const Simulation* sender,
-        [[maybe_unused]] ::std::vector<Cells::Cell>& cells
-    )
-    {
-        // TODO: ここに処理を追加します
+        CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
+            cellInfo,
+            *args.CellAlgorithm,
+            args.Target,
+            args.Cells,
+            args.Fields,
+            {
+                const Numerics::Vector3 diff   = info.Position - cellInfo.Position;
+                const double dist = diff.Length();
+                const double sumRadius = info.Radius + cellInfo.Radius;
+
+                if (dist < sumRadius) {
+
+                    double tmp = 1.0 - dist / sumRadius;
+
+                    vec += diff * (tmp * tmp);
+                }
+            }
+        )
+
+        return m_adhesiveRepulsionFactor * vec;
     }
 
     void CellGrowthModel::OnAdvanceStep(
-        [[maybe_unused]] const Simulation* sender,
-        [[maybe_unused]] SimulationModelStepArgs args
+        const Simulation*,
+        SimulationModelStepArgs
     )
     {
-        // TODO: ここに処理を追加します
     }
 }

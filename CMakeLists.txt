@@ -56,6 +56,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.Simulation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.cpp
+    src/cpp/impl/CellSim.Settings.Config.SimulationModel.CellGrowthModel.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterFormation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterRotation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterSprouting.cpp

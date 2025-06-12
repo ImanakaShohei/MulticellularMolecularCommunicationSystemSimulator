@@ -40,6 +40,9 @@ Settings.Config.Simulation.Load.Error.totalSteps=configファイルの'simulatio
 Settings.Config.SimulationModel.Load.Error.JsonError=configファイルの'simulationModel'パラメータの形式が正しくありません。
 Settings.Config.SimulationModel.Load.Error.simulationType=configファイルの'simulationModel.simulationType'値が無効です。
 
+Settings.Config.SimulationModel.CellGrowthModel.Load.Error.JsonError=configファイルの'simulationModel.cellGrowthModel'パラメータの形式が正しくありません。
+Settings.Config.SimulationModel.CellGrowthModel.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.cellGrowthModel.adhesiveRepulsionFactor'に負の値が指定されました。
+
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=configファイルの'simulationModel.clusterFormation'パラメータの形式が正しくありません。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.clusterFormation.adhesiveRepulsionFactor'に負の値が指定されました。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda=configファイルの'simulationModel.clusterFormation.lambda'にゼロが指定されました。

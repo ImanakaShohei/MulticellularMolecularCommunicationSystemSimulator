@@ -7,7 +7,15 @@
 namespace CellSim::Model
 {
     class CellGrowthModel : public CellSimulationModel {
+        private:
+
+        double m_adhesiveRepulsionFactor;
+
         public:
+
+        CellGrowthModel();
+
+        CellGrowthModel(double adhesiveRepulsionFactor);
 
         void BeforeAdvanceStep(
             const Simulation* sender,
@@ -18,11 +26,6 @@ namespace CellSim::Model
             const Simulation* sender,
             SimulationModelForceComputationArgs args
         ) const override;
-
-        void InitializeCells(
-            const Simulation* sender,
-            ::std::vector<Cells::Cell>& cells
-        ) override;
 
         void OnAdvanceStep(
             const Simulation* sender,
