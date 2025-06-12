@@ -8,6 +8,11 @@
 
 namespace CellSim::Molecular
 {
+    MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind)
+    {
+        return FromKind(kind, Settings::Config::Molecular::BoundaryCondition());
+    }
+
     MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind, ::CellSim::Molecular::BoundaryCondition condition)
     {
         switch (kind) {
