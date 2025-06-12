@@ -33,6 +33,9 @@ Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgori
 Settings.Config.CellBehavior.Load.Error.behaviorType=The value of 'cellBehavior.behaviorType' in the config file is invalid.
 Settings.Config.CellBehavior.Load.Error.JsonError=The format of the 'cellBehavior' parameter in the config file is invalid.
 
+Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius='cellBehavior.normal.cellDivisionRadius' in the config file must be a positive value.
+Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cellBehavior.normal' parameter in the config file is invalid.
+
 Settings.Config.Simulation.Load.Error.deltaTime='simulation.deltaTime' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.fieldRadiusX='simulation.fieldRadiusX' in the config file must be greater than or equal to zero.
 Settings.Config.Simulation.Load.Error.fieldRadiusY='simulation.fieldRadiusY' in the config file must be greater than or equal to zero.

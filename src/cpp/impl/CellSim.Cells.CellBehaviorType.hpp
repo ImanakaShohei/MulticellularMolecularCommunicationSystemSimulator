@@ -7,6 +7,7 @@ namespace CellSim::Cells
 {
     /// @brief CellBehaviorの種類
     enum class CellBehaviorType {
+        MoleculeAware,
         Normal,
         User
     };

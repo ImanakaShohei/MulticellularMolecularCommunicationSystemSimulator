@@ -141,6 +141,7 @@ namespace CellSim::Cells
     struct CellInfo;
     enum class CellType;
     struct DaughterCellInfo;
+    class MoleculeAwareCellBehavior;
     class NormalCellBehavior;
 }
 

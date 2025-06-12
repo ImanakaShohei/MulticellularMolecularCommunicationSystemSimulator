@@ -12,6 +12,9 @@ Cells.CellBehaviorPtr.FromType.Error=無効なCellSim::Cells::CellBehaviorType�
 Cells.CellBehaviorPtr.FromPointer.Error=引数'ptr'がnullptrでした。
 
 Model.CellSimulationModel.FromType.Error=無効なCellSim::Model::CellSimulationType値です。
+
+Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
+
 Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
 Model.ClusterFormationModel.ClusterFormationModel.Error.lambda=引数'lambda'にゼロが指定されました。
 Model.ClusterFormationModel.ClusterFormationModel.Error.remoteForceFactor=引数'remoteForceFactor'に負の値が指定されました。
@@ -29,6 +32,9 @@ Settings.Config.CellAlgorithm.Load.Error.JsonError=configファイルの'cellAlg
 
 Settings.Config.CellBehavior.Load.Error.behaviorType=configファイルの'cellBehavior.behaviorType'値が無効です。
 Settings.Config.CellBehavior.Load.Error.JsonError=configファイルの'cellBehavior'パラメータの形式が正しくありません。
+
+Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.normal.cellDivisionRadius'にゼロ以下の値が指定されました。
+Settings.Config.CellBehavior.Normal.Load.Error.JsonError=configファイルの'cellBehavior.normal'パラメータの形式が正しくありません。
 
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusX=configファイルの'simulation.fieldRadiusX'に負の値が指定されました。

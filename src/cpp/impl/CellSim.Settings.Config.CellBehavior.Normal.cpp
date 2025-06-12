@@ -7,8 +7,15 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellBehavior::Normal::Load(::nlohmann::json const&)
+    void Config::CellBehavior::Normal::Load(::nlohmann::json const& config)
     {
-        // 今のところ何もしない
+        try {
+            s_cellDivisionRadius = config["behaviorType"].get<double>();
+        }
+        catch (...) {
+            throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.JsonError"));
+        }
+
+        if (s_cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius"));
     }
 }

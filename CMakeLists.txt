@@ -30,6 +30,7 @@ set(SOURCES
     src/cpp/impl/CellSim.CellAlgorithms.NaiveAlgorithm.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
+    src/cpp/impl/CellSim.Cells.MoleculeAwareCellBehavior.cpp
     src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
     src/cpp/impl/CellSim.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Cli.CliOption.cpp

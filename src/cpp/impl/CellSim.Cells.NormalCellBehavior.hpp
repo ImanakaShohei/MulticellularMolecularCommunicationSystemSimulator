@@ -17,7 +17,7 @@ namespace CellSim::Cells
         CellBehavior* CreateClone() const override;
         
         constexpr bool HasState() const noexcept override;
-        bool ShouldDivideThisStep() noexcept override;
+        bool ShouldDivideThisStep(const Cell* sender) noexcept override;
     };
 }
 

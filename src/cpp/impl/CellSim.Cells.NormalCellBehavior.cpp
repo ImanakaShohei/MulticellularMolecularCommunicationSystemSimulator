@@ -6,6 +6,7 @@
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
+#include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
 
 #include <numbers>
 #include <random>
@@ -73,8 +74,8 @@ namespace CellSim::Cells
         return result;
     }
 
-    bool NormalCellBehavior::ShouldDivideThisStep() noexcept
+    bool NormalCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
     {
-        return false;
+        return sender->Radius() > Settings::Config::CellBehavior::Normal::CellDivisionRadius();
     }
 }

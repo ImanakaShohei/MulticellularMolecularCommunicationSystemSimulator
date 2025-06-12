@@ -147,6 +147,16 @@
                     "type": "string",
                     "enum": [ "CellGrowth", "ClusterFormation", "ClusterRotation", "ClusterSprouting", "NetworkFormation", "Null", "User" ]
                 },
+                "cellGrowth": {
+                    "type": "object",
+                    "properties": {
+                        "adhesiveRepulsionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "adhesiveRepulsionFactor" ]
+                },
                 "clusterFormation": {
                     "type": "object",
                     "properties": {

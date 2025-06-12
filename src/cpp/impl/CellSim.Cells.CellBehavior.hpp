@@ -42,7 +42,7 @@ namespace CellSim::Cells
 
         constexpr void RemoveOwner() noexcept;
 
-        [[nodiscard]] virtual bool ShouldDivideThisStep() noexcept = 0;
+        [[nodiscard]] virtual bool ShouldDivideThisStep(const Cell* sender) noexcept = 0;
     };
 }
 
