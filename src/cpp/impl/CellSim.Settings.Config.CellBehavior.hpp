@@ -16,6 +16,7 @@ namespace CellSim::Settings
 
         public:
 
+        class MoleculeAware;
         class Normal;
         class User;
 

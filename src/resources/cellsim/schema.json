@@ -28,10 +28,6 @@
             "type": "object",
             "title": "cell congfig",
             "properties": {
-                "behaviorType": {
-                    "type": "string",
-                    "enum": [ "normal", "user" ]
-                },
                 "cellCount": {
                     "type": "integer",
                     "exclusiveMinimum": 0
@@ -59,7 +55,7 @@
                     "enum": [ "Normal" ]
                 }
             },
-            "required": [ "behaviorType", "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
+            "required": [ "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
         },
         "cellAlgorithm": {
             "type": "object",
@@ -102,9 +98,36 @@
             "properties": {
                 "behaviorType": {
                     "type": "string",
-                    "enum": [ "Normal", "User" ]
+                    "enum": [ "MoleculeAware", "Normal", "User" ]
                 },
-                "normal": { "type": "object" },
+                "moleculeAware": {
+                    "type": "object",
+                    "properties": {
+                        "cellDivisionRadius": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "degradationRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "synthesisRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "cellDivisionRadius", "degradationRate", "synthesisRate" ]
+                },
+                "normal": {
+                    "type": "object",
+                    "properties": {
+                        "cellDivisionRadius": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "cellDivisionRadius" ]
+                },
                 "user": { "type": "object" }
             },
             "required": [ "behaviorType" ]

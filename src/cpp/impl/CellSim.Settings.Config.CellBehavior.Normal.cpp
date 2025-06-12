@@ -10,7 +10,7 @@ namespace CellSim::Settings
     void Config::CellBehavior::Normal::Load(::nlohmann::json const& config)
     {
         try {
-            s_cellDivisionRadius = config["behaviorType"].get<double>();
+            s_cellDivisionRadius = config["cellDivisionRadius"].get<double>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.JsonError"));

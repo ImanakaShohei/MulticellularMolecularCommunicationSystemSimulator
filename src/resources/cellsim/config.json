@@ -1,7 +1,6 @@
 {
     "$schema": "./schema.json",
     "cell": {
-        "behaviorType": "normal",
         "cellCount": 1000,
         "enableGrowth": true,
         "growthRate": 0.03,
@@ -13,7 +12,9 @@
     },
     "cellBehavior": {
         "behaviorType": "Normal",
-        "normal": {}
+        "normal": {
+            "cellDivisionRadius": 18
+        }
     },
     "simulation": {
         "deltaTime": 10,

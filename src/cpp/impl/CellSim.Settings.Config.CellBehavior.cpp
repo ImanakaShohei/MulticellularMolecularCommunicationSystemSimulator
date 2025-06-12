@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Settings.Config.CellBehavior.hpp"
+#include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
 #include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
 #include "../CellSim.Settings.Config.CellBehavior.User.hpp"
 
@@ -25,6 +26,7 @@ namespace CellSim::Settings
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.behaviorType"));
 
         switch (s_behaviorType) {
+            case Cells::CellBehaviorType::MoleculeAware: MoleculeAware::Load(config["normal"]); break;
             case Cells::CellBehaviorType::Normal: Normal::Load(config["normal"]); break;
             case Cells::CellBehaviorType::User: User::Load(config["user"]); break;
         }

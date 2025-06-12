@@ -13,8 +13,7 @@ namespace CellSim::Settings
     /// @brief 細胞設定
     class Config::Cell final {
         private:
-
-        static inline Cells::CellBehaviorType s_behaviorType;
+        
         static inline size_t s_cellCount;
         static inline bool s_enableGrowth;
         static inline double s_growthRate;
@@ -30,9 +29,6 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(Cell);
 
         // プロパティ
-
-        /// @brief 細胞のふるまい
-        [[nodiscard]] static Cells::CellBehaviorType BehaviorType() noexcept;
 
         /// @brief 細胞の初期数
         [[nodiscard]] static size_t CellCount() noexcept;
@@ -69,10 +65,6 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
-    inline Cells::CellBehaviorType Config::Cell::BehaviorType() noexcept
-    {
-        return s_behaviorType;
-    }
 
     inline size_t Config::Cell::CellCount() noexcept
     {

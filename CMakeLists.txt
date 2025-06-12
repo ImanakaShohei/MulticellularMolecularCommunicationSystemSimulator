@@ -53,6 +53,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.CellList.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.ParticleMesh.cpp
     src/cpp/impl/CellSim.Settings.Config.CellBehavior.cpp
+    src/cpp/impl/CellSim.Settings.Config.CellBehavior.MoleculeAware.cpp
     src/cpp/impl/CellSim.Settings.Config.CellBehavior.Normal.cpp
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.Simulation.cpp

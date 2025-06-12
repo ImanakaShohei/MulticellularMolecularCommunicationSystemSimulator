@@ -8,6 +8,7 @@
 #include "CellSim.Messages.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
+#include "CellSim.Settings.Config.CellBehavior.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "../CellSim.Users.UserSimulationModel.hpp"
@@ -45,7 +46,7 @@ namespace CellSim::Model
         std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
         std::uniform_real_distribution<double> rand_r(0, 1.0);
 
-        Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(Settings::Config::Cell::BehaviorType());
+        Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(Settings::Config::CellBehavior::BehaviorType());
         Cells::CellType type = Settings::Config::Cell::Type();
         size_t cellCount = Settings::Config::Cell::CellCount();
         double mass = Settings::Config::Cell::Mass();

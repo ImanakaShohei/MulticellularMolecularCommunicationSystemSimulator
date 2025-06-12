@@ -19,7 +19,6 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(Normal);
 
         /// @brief 細胞の半径がこの値を超えると分裂する
-        /// @return 
         [[nodiscard]] static double CellDivisionRadius() noexcept;
 
         static void Load(::nlohmann::json const& config);
@@ -28,7 +27,7 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
-    double Config::CellBehavior::Normal::CellDivisionRadius() noexcept
+    inline double Config::CellBehavior::Normal::CellDivisionRadius() noexcept
     {
         return s_cellDivisionRadius;
     }

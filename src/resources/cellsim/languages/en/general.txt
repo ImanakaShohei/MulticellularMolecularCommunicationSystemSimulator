@@ -11,6 +11,10 @@ Cells.Cell.Cell.Error.radius=The parameter 'radius' must be a positive value.
 Cells.CellBehaviorPtr.FromType.Error=Invalid CellSim::Cells::CellBehaviorType value.
 Cells.CellBehaviorPtr.FromPointer.Error=The argument 'ptr' was nullptr.
 
+Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius=The parameter 'cellDivisionRadius' must be a positive value.
+Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate=The parameter 'synthesisRate' must be a positive value.
+Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate=The parameter 'degradationRate' must be a positive value.
+
 Model.CellSimulationModel.FromType.Error=Invalid CellSim::Model::CellSimulationType value.
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.
@@ -32,6 +36,11 @@ Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgori
 
 Settings.Config.CellBehavior.Load.Error.behaviorType=The value of 'cellBehavior.behaviorType' in the config file is invalid.
 Settings.Config.CellBehavior.Load.Error.JsonError=The format of the 'cellBehavior' parameter in the config file is invalid.
+
+Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius='cellBehavior.moleculeAware.cellDivisionRadius' in the config file must be a positive value.
+Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate='cellBehavior.moleculeAware.degradationRate' in the config file must be a positive value.
+Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate='cellBehavior.moleculeAware.synthesisRate' in the config file must be a positive value.
+Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError=The format of the 'cellBehavior.moleculeAware' parameter in the config file is invalid.
 
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius='cellBehavior.normal.cellDivisionRadius' in the config file must be a positive value.
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cellBehavior.normal' parameter in the config file is invalid.
