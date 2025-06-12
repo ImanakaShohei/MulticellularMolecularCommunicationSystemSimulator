@@ -1,5 +1,5 @@
-﻿#ifndef CELLSIM_MOLECULE_MOLECULE_HPP
-#define CELLSIM_MOLECULE_MOLECULE_HPP
+﻿#ifndef CELLSIM_MOLECULAR_MOLECULE_HPP
+#define CELLSIM_MOLECULAR_MOLECULE_HPP
 
 #include "base.hpp"
 #include "CellSim.Molecular.MoleculeKind.hpp"
@@ -76,4 +76,4 @@ namespace CellSim::Molecular
     }
 }
 
-#endif //!CELLSIM_MOLECULE_MOLECULE_HPP
+#endif //!CELLSIM_MOLECULAR_MOLECULE_HPP

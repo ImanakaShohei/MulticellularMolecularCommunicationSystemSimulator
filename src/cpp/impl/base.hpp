@@ -206,13 +206,15 @@ namespace CellSim::Molecular
     enum class InitialMoleculeDistribution;
     class Molecule;
     struct MoleculeInfo;
-    //class MoleculeDiffusion;
-    class MoleculeDiffusionBehavior;
-    enum class MoleculeDiffusionBehaviorKind;
+    class MoleculeBehavior;
+    enum class MoleculeBehaviorKind;
+    struct MoleculeBehaviorStepArgs;
+    struct MoleculeDiffusionArgs;
     class MoleculeField;
+    struct MoleculeInitializationArgs;
     enum class MoleculeKind;
-    class NormalMoleculeDiffusionBehavior;
-    class NullMoleculeDiffusionBehavior;
+    class NormalMoleculeBehavior;
+    class NullMoleculeBehavior;
 }
 
 namespace CellSim::Memory

@@ -5,7 +5,7 @@
 
 namespace CellSim::Molecular
 {
-    enum class MoleculeDiffusionBehaviorKind {
+    enum class MoleculeBehaviorKind {
         Normal,
         Null,
         User

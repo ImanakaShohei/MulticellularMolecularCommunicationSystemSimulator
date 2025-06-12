@@ -1,5 +1,5 @@
-﻿#ifndef CELLSIM_MOLECULE_MOLECULEFILED_HPP
-#define CELLSIM_MOLECULE_MOLECULEFILED_HPP
+﻿#ifndef CELLSIM_MOLECULAR_MOLECULEFILED_HPP
+#define CELLSIM_MOLECULAR_MOLECULEFILED_HPP
 
 #include "base.hpp"
 #include "CellSim.Cells.Cell.hpp"
@@ -32,7 +32,7 @@ namespace CellSim::Molecular
         MoleculeKind m_kind;
 
         /// @brief ふるまい定義
-        MoleculeDiffusionBehavior* m_pBehavior;
+        MoleculeBehavior* m_pBehavior;
 
         double m_reverseGridLengthX;
         double m_reverseGridLengthY;
@@ -45,7 +45,7 @@ namespace CellSim::Molecular
             size_t gridCountY,
             size_t gridCountZ,
             MoleculeKind kind,
-            MoleculeDiffusionBehavior* pBehavior
+            MoleculeBehavior* pBehavior
         );
 
         MoleculeField(MoleculeField const&) = delete;
@@ -125,4 +125,4 @@ namespace CellSim::Molecular
     }
 }
 
-#endif //!CELLSIM_MOLECULE_MOLECULEFILED_HPP
+#endif //!CELLSIM_MOLECULAR_MOLECULEFILED_HPP

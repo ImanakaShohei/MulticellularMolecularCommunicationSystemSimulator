@@ -1,5 +1,5 @@
 ﻿#include "CellSim.Molecular.MoleculeField.hpp"
-#include "CellSim.Molecular.MoleculeDiffusionBehavior.hpp"
+#include "CellSim.Molecular.MoleculeBehavior.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 
 #include <stdexcept>
@@ -11,7 +11,7 @@ namespace CellSim::Molecular
         size_t gridCountY,
         size_t gridCountZ,
         MoleculeKind kind,
-        MoleculeDiffusionBehavior* pBehavior
+        MoleculeBehavior* pBehavior
     )
         : m_concentrations()
         , m_pConcentration(new double[gridCountX * gridCountY * gridCountZ])
@@ -29,7 +29,7 @@ namespace CellSim::Molecular
     {
         m_concentrations = Containers::Span3<double>(gridCountX, gridCountY, gridCountZ, m_pConcentration);
 
-        if (pBehavior == nullptr) [[unlikely]] throw ::std::invalid_argument("MoleculeDiffusionBehavior* is nullptr.");
+        if (pBehavior == nullptr) [[unlikely]] throw ::std::invalid_argument("MoleculeBehavior* is nullptr.");
     }
 
     MoleculeField::~MoleculeField()
