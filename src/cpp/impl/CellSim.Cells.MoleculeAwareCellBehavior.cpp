@@ -33,7 +33,7 @@ namespace CellSim::Cells
 
     double MoleculeAwareCellBehavior::ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args)
     {
-        return (m_synthesisRate + m_degradationRate * args.MoleculeInfo.Amount) * Settings::Config::Simulation::DeltaTime();
+        return (m_synthesisRate - m_degradationRate * args.MoleculeInfo.Amount) * Settings::Config::Simulation::DeltaTime();
     }
 
     bool MoleculeAwareCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
