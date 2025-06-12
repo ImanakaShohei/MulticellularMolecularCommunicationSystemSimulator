@@ -29,10 +29,17 @@ namespace CellSim::Cells
         /// @return 分子の変化量
         [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) = 0;
 
+        /// @brief 分子空間に放出する分子の量を計算
+        /// @param sender この関数を呼び出した細胞インスタンス
+        /// @param args 処理に必要な情報
+        /// @return 計算結果
         [[nodiscard]] virtual double ComputeMoleculeEmitAmount(const Cell* sender, CellMoleculeEmissionArgs args) = 0;
 
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
 
+        /// @brief 細胞分裂後の細胞の状態を定義
+        /// @param sender この関数を呼び出した細胞インスタンス
+        /// @return 分裂後の2つの細胞の状態
         [[nodiscard]] virtual CellDivisionResult ComputeDivisionOutcome(const Cell* sender) = 0;
 
         [[nodiscard]] constexpr bool HasOwner() const noexcept;
@@ -40,8 +47,17 @@ namespace CellSim::Cells
         /// @brief インスタンスが状態を持つかどうか
         [[nodiscard]] virtual bool HasState() const noexcept = 0;
 
+        /// @brief Cell.SenseMolecules()から呼ばれる関数
+        /// @param sender この関数を呼び出した細胞インスタンス
+        /// @param args 処理に必要な情報
+        /// @return 分子から受ける力
+        virtual Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) = 0;
+
         constexpr void RemoveOwner() noexcept;
 
+        /// @brief このステップで細胞が分裂するかを定義
+        /// @param sender この関数を呼び出した細胞インスタンス
+        /// @return 細胞が分裂するかどうか
         [[nodiscard]] virtual bool ShouldDivideThisStep(const Cell* sender) noexcept = 0;
     };
 }

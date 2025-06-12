@@ -126,6 +126,17 @@ namespace CellSim::Cells
 
         // メソッド
 
+        /// @brief 分子を追加
+        /// @param kind 分子の種類
+        /// @return 分子を追加したかどうか
+        /// @note 初期状態では分子の数はゼロ
+        bool AppendMolecule(Molecular::MoleculeKind kind);
+
+        /// @brief 分子を追加
+        /// @param kind 分子の種類
+        /// @note 初期状態では分子の数はゼロ
+        void AppendMoleculeUnsafe(Molecular::MoleculeKind kind);
+
         /// @brief 細胞に力を加える
         /// @param force 加える力
         constexpr void ApplyForce(Numerics::Vector3 force) noexcept;
@@ -172,6 +183,7 @@ namespace CellSim::Cells
         constexpr void ResetForce() noexcept;
 
         void SenseMolecules(Molecular::MoleculeField const& field);
+        void SenseMolecules(::std::vector<Molecular::MoleculeField> const& fields);
     };
 
     [[nodiscard]] constexpr bool operator==(Cell const& left, Cell const& right) noexcept;
@@ -263,6 +275,11 @@ namespace CellSim::Cells
     constexpr Numerics::Vector3 Cell::Velocity() const noexcept
     {
         return m_force / m_mass;
+    }
+
+    inline void Cell::AppendMoleculeUnsafe(Molecular::MoleculeKind kind)
+    {
+        m_internalMolecules.push_back(Molecular::Molecule(kind));
     }
 
     constexpr void Cell::ApplyForce(Numerics::Vector3 force) noexcept

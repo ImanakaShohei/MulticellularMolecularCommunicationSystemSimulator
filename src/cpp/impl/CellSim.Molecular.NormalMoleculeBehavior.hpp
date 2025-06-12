@@ -18,6 +18,7 @@ namespace CellSim::Molecular
             size_t z
         ) const noexcept;
 
+        ::CellSim::Molecular::BoundaryCondition m_boundaryCondition;
         double m_diffusionFactor;
 
         public:

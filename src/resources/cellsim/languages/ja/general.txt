@@ -7,6 +7,7 @@ CellAlgorithms.CellList.CellList.Error.searchRadius='searchRadius'に負の値�
 
 Cells.Cell.Cell.Error.mass=引数'mass'にゼロ以下の値が指定されました。
 Cells.Cell.Cell.Error.radius=引数'radius'にゼロ以下の値が指定されました。
+Cells.Cell.AppendMolecule.Error=
 
 Cells.CellBehaviorPtr.FromType.Error=無効なCellSim::Cells::CellBehaviorType値です。
 Cells.CellBehaviorPtr.FromPointer.Error=引数'ptr'がnullptrでした。

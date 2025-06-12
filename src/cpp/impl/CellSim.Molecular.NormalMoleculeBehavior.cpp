@@ -42,15 +42,41 @@ namespace CellSim::Molecular
         double co = sender->GridLengthX() * sender->GridCountY() * sender->GridCountZ();
         double reverseCo = 1.0 / co;
 
-
+        switch (m_boundaryCondition) {
+            case ::CellSim::Molecular::BoundaryCondition::Absorbing:
+            {
+                break;
+            }
+            case ::CellSim::Molecular::BoundaryCondition::Periodic:
+            {
+                break;
+            }
+            case ::CellSim::Molecular::BoundaryCondition::Reflective:
+            {
+                break;
+            }
+        }
     }
 
     void NormalMoleculeBehavior::InitializeMolecules(
         [[maybe_unused]] const MoleculeField* sender,
-        [[maybe_unused]] MoleculeInitializationArgs args
+        MoleculeInitializationArgs args
     )
     {
-        // TODO: ここに処理を追加します
+        switch (args.DistributionType) {
+            case InitialMoleculeDistribution::Centered:
+            {
+                break;
+            }
+            case InitialMoleculeDistribution::Gaussian:
+            {
+                break;
+            }
+            case InitialMoleculeDistribution::Uniform:
+            {
+                break;
+            }
+        }
     }
 
     void NormalMoleculeBehavior::OnAdvanceStep(

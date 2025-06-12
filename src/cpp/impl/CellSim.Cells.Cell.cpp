@@ -3,6 +3,7 @@
 #include "CellSim.Cells.CellGrowthResult.hpp"
 #include "CellSim.Cells.CellMetabolicArgs.hpp"
 #include "CellSim.Cells.CellMoleculeEmissionArgs.hpp"
+#include "CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
@@ -41,7 +42,18 @@ namespace CellSim::Cells
 
     bool Cell::ShouldDivideThisStep() const noexcept
     {
-        return m_behaviorPtr->ShouldDivideThisStep();
+        return m_behaviorPtr->ShouldDivideThisStep(this);
+    }
+
+    bool Cell::AppendMolecule(Molecular::MoleculeKind kind)
+    {
+        for (Molecular::Molecule& molecule : m_internalMolecules) {
+            if (molecule.Kind() == kind) [[unlikely]] return false;
+        }
+
+        AppendMoleculeUnsafe(kind);
+
+        return true;
     }
 
     void Cell::Combine(Cell& c) noexcept
@@ -61,13 +73,19 @@ namespace CellSim::Cells
         m_position = result.OriginalDaughter.NewPosition;
         m_radius = result.OriginalDaughter.NewRadius;
 
-        return Cell(
+        Cell newDaughter(
             m_type,
             m_behaviorPtr,
             result.NewDaughter.NewMass,
             result.NewDaughter.NewRadius,
             result.NewDaughter.NewPosition
         );
+
+        for (Molecular::Molecule& molecule : m_internalMolecules) {
+            newDaughter.AppendMoleculeUnsafe(molecule.Kind());
+        }
+
+        return newDaughter;
     }
 
     void Cell::EmitMolecule(Molecular::MoleculeField& field)
@@ -89,6 +107,18 @@ namespace CellSim::Cells
     {
         for (Molecular::Molecule& molecule : m_internalMolecules) {
             molecule.Amount(molecule.Amount() + m_behaviorPtr->ComputeMetabolicChange(this, { { molecule.Amount(), molecule.Kind() } }));
+        }
+    }
+
+    void Cell::SenseMolecules(Molecular::MoleculeField const& field)
+    {
+        m_force += m_behaviorPtr->OnSenseMolecules(this, { &field });
+    }
+
+    void Cell::SenseMolecules(::std::vector<Molecular::MoleculeField> const& fields)
+    {
+        for (Molecular::MoleculeField const& field : fields) {
+            SenseMolecules(field);
         }
     }
 }
