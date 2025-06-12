@@ -59,7 +59,7 @@ namespace CellSim::Users
         return false;
     }
 
-    bool UserCellBehavior::ShouldDivideThisStep() noexcept
+    bool UserCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
     {
         // TODO: ここに処理を追加します
         return false;

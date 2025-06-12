@@ -45,6 +45,9 @@ Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError=configファイ�
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.normal.cellDivisionRadius'にゼロ以下の値が指定されました。
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=configファイルの'cellBehavior.normal'パラメータの形式が正しくありません。
 
+Settings.Config.Optimization.Load.Error.JsonError=configファイルの'optimization'パラメータの形式が正しくありません。
+Settings.Config.Optimization.Load.Error.peformance=configファイルの'optimization.peformance'値が無効です。
+
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusX=configファイルの'simulation.fieldRadiusX'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusY=configファイルの'simulation.fieldRadiusY'に負の値が指定されました。

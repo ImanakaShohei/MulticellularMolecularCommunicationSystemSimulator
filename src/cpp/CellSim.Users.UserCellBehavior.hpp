@@ -22,7 +22,7 @@ namespace CellSim::Users
         
         bool HasState() const noexcept override;
 
-        bool ShouldDivideThisStep() noexcept override;
+        bool ShouldDivideThisStep(const Cells::Cell* sender) noexcept override;
     };
 }
 
