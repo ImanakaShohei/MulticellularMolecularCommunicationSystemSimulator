@@ -2,6 +2,7 @@
 #define CELLSIM_CLI_CLIOPTION_HPP
 
 #include "base.hpp"
+#include "CellSim.Cli.CliOptionType.hpp"
 #include <string_view>
 
 namespace CellSim::Cli
@@ -17,16 +18,31 @@ namespace CellSim::Cli
 
         public:
 
+        virtual ~CliOption() = default;
+
+        /// @brief HasValue()が`true`の時に値を追加する
+        /// @param value 追加する値
+        virtual void AddValue(::std::string_view value) = 0;
+
+        /// @brief このオプションが値を持つかどうか
+        [[nodiscard]] virtual bool HasValue() const noexcept = 0;
+
         /// @brief このオプションが有効かどうか
         [[nodiscard]] constexpr bool IsEnabled() const noexcept;
+
+        /// @brief このオプションを複数回指定できるかどうか
+        [[nodiscard]] virtual bool IsRepeatable() const noexcept = 0;
 
         /// @brief 
         /// @param optionName 
         /// @return 
         virtual bool IsMatch(::std::string_view optionName) const noexcept = 0;
 
-        static CliOptionType Parse(::std::nullptr_t) = delete;
-        [[nodiscard]] static CliOptionType Parse(::std::string_view view);
+        /// @brief オプションが有効な時に呼ばれる関数
+        virtual void OnActive() = 0;
+
+        /// @brief このオプションの種類
+        [[nodiscard]] virtual CliOptionType OptionType() const noexcept = 0;
         
     };
 }
@@ -41,6 +57,11 @@ namespace CellSim::Cli
     constexpr CliOption::CliOption(bool isEnabled) noexcept
         : m_isEnabled(isEnabled)
     {
+    }
+
+    constexpr bool CliOption::IsEnabled() const noexcept
+    {
+        return m_isEnabled;
     }
 }
 

@@ -6,7 +6,13 @@
 namespace CellSim::Cli
 {
     enum class CliOptionType {
+        Binary,
+        Csv,
         Help,
+        Image,
+        Output,
+        Param,
+        Video,
     };
 }
 

@@ -17,12 +17,25 @@ namespace CellSim::Cli
 
         public:
 
+        constexpr bool HasValue() const noexcept override;
+        constexpr bool IsRepeatable() const noexcept override;
+
         [[nodiscard]] ::std::vector<::std::string> const& Values() const noexcept;
     };
 }
 
 namespace CellSim::Cli
 {
+    constexpr bool RepeatedValueOption::HasValue() const noexcept
+    {
+        return true;
+    }
+
+    constexpr bool RepeatedValueOption::IsRepeatable() const noexcept
+    {
+        return true;
+    }
+
     ::std::vector<::std::string> const& RepeatedValueOption::Values() const noexcept
     {
         return m_values;

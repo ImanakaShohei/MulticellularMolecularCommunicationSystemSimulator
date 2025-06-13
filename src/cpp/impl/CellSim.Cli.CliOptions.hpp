@@ -2,15 +2,16 @@
 #define CELLSIM_CLI_CLIOPTIONS_HPP
 
 #include "base.hpp"
+#include "CellSim.Cli.CliOptionType.hpp"
 
-#include <vector>
+#include <map>
 
 namespace CellSim::Cli
 {
     struct CliOptions {
         private:
 
-        ::std::vector<CliOption*> m_options;
+        ::std::map<CliOptionType, CliOption*> m_options;
 
         public:
 

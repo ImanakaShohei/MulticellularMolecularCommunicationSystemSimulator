@@ -15,6 +15,8 @@ Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadi
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate=The parameter 'synthesisRate' must be a positive value.
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate=The parameter 'degradationRate' must be a positive value.
 
+Cli.FlagOption.AddValue.Error=Attempted to assign a value to an option that does not accept one.
+
 Model.CellSimulationModel.FromType.Error=Invalid CellSim::Model::CellSimulationType value.
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.

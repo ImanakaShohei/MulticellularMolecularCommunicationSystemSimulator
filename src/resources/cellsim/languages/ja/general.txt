@@ -16,6 +16,8 @@ Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadi
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate=引数'synthesisRate'にゼロ以下の値が指定されました。
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate=引数'degradationRate'にゼロ以下の値が指定されました。
 
+Cli.FlagOption.AddValue.Error=値を持たないオプションに値を追加しようとしました。
+
 Model.CellSimulationModel.FromType.Error=無効なCellSim::Model::CellSimulationType値です。
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。

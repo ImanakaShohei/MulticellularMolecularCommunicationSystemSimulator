@@ -157,6 +157,7 @@ namespace CellSim::Cli
     class CreateImageOption;
     class CreateVideoOption;
     class CsvOption;
+    class FlagOption;
     class HelpOption;
     class ImageOption;
     class OutputOption;
