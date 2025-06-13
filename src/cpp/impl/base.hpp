@@ -151,6 +151,7 @@ namespace CellSim::Cli
 {
     class CliMain;
     class CliOption;
+    struct CliOptions;
     enum class CliOptionType;
     class ConfigFilePathOption;
     class CreateImageOption;
@@ -160,7 +161,9 @@ namespace CellSim::Cli
     class ImageOption;
     class OutputOption;
     class ParamOption;
+    class RepeatedValueOption;
     class SettingOption;
+    class ValueOption;
     class VideoOption;
 }
 
