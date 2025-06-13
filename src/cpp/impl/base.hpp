@@ -149,8 +149,10 @@ namespace CellSim::Cells
 /// @brief コマンドライン処理
 namespace CellSim::Cli
 {
+    class BinaryOption;
     class CliMain;
     class CliOption;
+    struct CliOptionActivationArgs;
     struct CliOptions;
     enum class CliOptionType;
     class ConfigFilePathOption;
@@ -242,6 +244,12 @@ namespace CellSim::Settings
 {
     class Config;
     class SettingLoader;
+}
+
+/// @brief 文字列関連
+namespace CellSim::Text
+{
+    class CString;
 }
 
 /// @brief 並列処理とコルーチン

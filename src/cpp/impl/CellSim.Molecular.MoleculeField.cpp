@@ -1,5 +1,7 @@
 ﻿#include "CellSim.Molecular.MoleculeField.hpp"
 #include "CellSim.Molecular.MoleculeBehavior.hpp"
+#include "CellSim.Molecular.MoleculeBehaviorStepArgs.hpp"
+#include "CellSim.Molecular.MoleculeDiffusionArgs.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 
 #include <stdexcept>
@@ -42,17 +44,17 @@ namespace CellSim::Molecular
 
     void MoleculeField::BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells)
     {
-        m_pBehavior->BeforeAdvanceStep(cells, *this);
+        m_pBehavior->BeforeAdvanceStep(this, { &cells });
     }
 
     void MoleculeField::Diffuse()
     {
-        m_pBehavior->Diffuse(m_concentrations, *this);
+        m_pBehavior->Diffuse(this, { m_concentrations });
     }
 
     void MoleculeField::OnAdvanceStep(::std::vector<Cells::Cell> const& cells)
     {
-        m_pBehavior->OnAdvanceStep(cells, *this);
+        m_pBehavior->OnAdvanceStep(this, { &cells });
     }
 
     Numerics::GridPosition3 MoleculeField::ToGridPosition3(Numerics::Vector3 position) const noexcept

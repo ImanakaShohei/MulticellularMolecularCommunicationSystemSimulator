@@ -95,6 +95,13 @@ namespace CellSim::Cells
         field.Concentrations().At(position3.X, position3.Y, position3.Z) += m_behaviorPtr->ComputeMoleculeEmitAmount(this, { &field });
     }
 
+    void Cell::EmitMolecule(::std::vector<Molecular::MoleculeField>& fields)
+    {
+        for (Molecular::MoleculeField& field : fields) {
+            EmitMolecule(field);
+        }
+    }
+
     void Cell::Grow()
     {
         CellGrowthResult result = m_behaviorPtr->ComputeGrowth(this);

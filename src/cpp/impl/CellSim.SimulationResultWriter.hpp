@@ -43,6 +43,14 @@ namespace CellSim
         SimulationResultWriter& operator=(SimulationResultWriter const&) = delete;
 
         void Save(Simulation const& simulation, uint64_t step);
+
+        void SaveConfig(
+            uint64_t totalStep,
+            size_t initialCellCount,
+            double totalMilliseconds,
+            Model::CellSimulationType simulationType,
+            CellAlgorithms::CellAlgorithmType algorithmType
+        );
     };
 }
 
@@ -60,17 +68,6 @@ namespace CellSim
         }
 
         return result;
-    }
-
-    inline void SimulationResultWriter::m_initialize()
-    {
-        m_option.InitializeDirectories();
-
-        if(m_option.IsOutputVideo()) {
-            int fourcc = ::cv::VideoWriter::fourcc('m', 'p', '4', 'v');
-
-            m_videoWriter = cv::VideoWriter(m_option.OutputPath() + "out.mp4", fourcc, 20, cv::Size((int)(Settings::Config::Simulation::FieldRadiusX() * 2.0), (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0)));
-        }
     }
 }
 

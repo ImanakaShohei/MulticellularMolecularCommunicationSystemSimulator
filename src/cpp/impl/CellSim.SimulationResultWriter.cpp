@@ -1,7 +1,10 @@
 ﻿#include "Cellsim.SimulationResultWriter.hpp"
 #include "CellSim.Simulation.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmType.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.Model.CellSimulationType.hpp"
+#include "CellSim.Settings.Config.CellAlgorithm.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 
 #include <fstream>
@@ -10,6 +13,17 @@
 
 namespace CellSim
 {
+    void SimulationResultWriter::m_initialize()
+    {
+        m_option.InitializeDirectories();
+
+        if(m_option.IsOutputVideo()) {
+            int fourcc = ::cv::VideoWriter::fourcc('m', 'p', '4', 'v');
+
+            m_videoWriter = cv::VideoWriter(m_option.OutputPath() + "out.mp4", fourcc, 20, cv::Size((int)(Settings::Config::Simulation::FieldRadiusX() * 2.0), (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0)));
+        }
+    }
+
     void SimulationResultWriter::m_saveBinaryCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
     {
         size_t filePathLength = m_option.OutputBinaryCellPath().size() + m_digits + 4; // ".bin"
@@ -117,7 +131,7 @@ namespace CellSim
 
         ::cv::circle(
             image,
-            { Settings::Config::Simulation::FieldRadiusY(), Settings::Config::Simulation::FieldRadiusX() },
+            ::cv::Point{ (int)Settings::Config::Simulation::FieldRadiusY(), (int)Settings::Config::Simulation::FieldRadiusX() },
             radiusX < radiusY ? radiusX : radiusY,
             ::cv::Scalar(255, 255, 255),
             1
@@ -125,16 +139,16 @@ namespace CellSim
 
         ::cv::line(
             image,
-            { Settings::Config::Simulation::FieldRadiusY(), 0 },
-            { Settings::Config::Simulation::FieldRadiusY(), Settings::Config::Simulation::FieldRadiusX() * 2.0 },
+            ::cv::Point{ (int)Settings::Config::Simulation::FieldRadiusY(), 0 },
+            ::cv::Point{ (int)Settings::Config::Simulation::FieldRadiusY(), (int)(Settings::Config::Simulation::FieldRadiusX() * 2.0) },
             ::cv::Scalar(255, 255, 255),
             1
         );
 
         ::cv::line(
             image,
-            { 0, Settings::Config::Simulation::FieldRadiusX() },
-            { Settings::Config::Simulation::FieldRadiusY() * 2.0, Settings::Config::Simulation::FieldRadiusX() },
+            ::cv::Point{ 0, (int)Settings::Config::Simulation::FieldRadiusX() },
+            ::cv::Point{ (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0), (int)Settings::Config::Simulation::FieldRadiusX() },
             ::cv::Scalar(255, 255, 255),
             1
         );
@@ -142,7 +156,7 @@ namespace CellSim
         for (Cells::Cell const& cell : cells) {
             ::cv::circle(
                 image,
-                { cell.PositionY(), cell.PositionX() },
+                ::cv::Point{ (int)cell.PositionY(), (int)cell.PositionX() },
                 (int)cell.Radius(),
                 ::cv::Scalar(0, 255, 255),
                 1
@@ -193,5 +207,49 @@ namespace CellSim
         if (m_option.IsOutputVideo()) {
             m_videoWriter.write(m_createImage(simulation.Cells(), simulation.Molecules()));
         }
+    }
+
+    void SimulationResultWriter::SaveConfig(
+        uint64_t totalStep,
+        size_t initialCellCount,
+        double totalMilliseconds,
+        Model::CellSimulationType simulationType,
+        CellAlgorithms::CellAlgorithmType algorithmType
+    )
+    {
+        ::std::ofstream ofs(m_option.OutputPath() + "config.txt");
+
+        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.txt file");
+
+        ofs << "Initial cell count      : " << initialCellCount << ::std::endl;
+        ofs << "Average processing time : " << (totalMilliseconds / totalStep) << ::std::endl;
+        ofs << "Simulation model        : ";
+
+        switch (simulationType) {
+            case Model::CellSimulationType::CellGrowth:       ofs << "CellGrowth";       break;
+            case Model::CellSimulationType::ClusterFormation: ofs << "ClusterFormation"; break;
+            case Model::CellSimulationType::ClusterRotation:  ofs << "ClusterRotation";  break;
+            case Model::CellSimulationType::ClusterSprouting: ofs << "ClusterSprouting"; break;
+            case Model::CellSimulationType::NetworkFormation: ofs << "NetworkFormation"; break;
+            case Model::CellSimulationType::Null:             ofs << "Null";             break;
+            case Model::CellSimulationType::User:             ofs << "User";             break;
+        }
+
+        ofs << ::std::endl;
+
+        ofs << "Algorithm               : ";
+
+        switch (algorithmType) {
+            case CellAlgorithms::CellAlgorithmType::BarnesHut: ofs << "BarnesHut"; break;
+            case CellAlgorithms::CellAlgorithmType::CellList: ofs << "CellList"; break;
+            case CellAlgorithms::CellAlgorithmType::Naive: ofs << "Naive"; break;
+            case CellAlgorithms::CellAlgorithmType::Null: ofs << "Null"; break;
+            case CellAlgorithms::CellAlgorithmType::ParticleMesh: ofs << "ParticleMesh"; break;
+            case CellAlgorithms::CellAlgorithmType::User: ofs << "User"; break;
+        }
+
+        if (Settings::Config::CellAlgorithm::UseClusterModel()) ofs << "+Cluster";
+        
+        ofs << ::std::endl;
     }
 }

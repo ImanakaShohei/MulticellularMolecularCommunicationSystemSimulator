@@ -14,7 +14,7 @@ set(SOURCES
     src/cpp/main.cpp
     src/cpp/CellSim.Users.UserCellAlgorithm.cpp
     src/cpp/CellSim.Users.UserCellBehavior.cpp
-    src/cpp/CellSim.Users.UserMoleculeDiffusionBehavior.cpp
+    src/cpp/CellSim.Users.UserMoleculeBehavior.cpp
     src/cpp/CellSim.Settings.Config.CellAlgorithm.User.cpp
     src/cpp/CellSim.Settings.Config.CellBehavior.User.cpp
     src/cpp/CellSim.Settings.Config.UserSettings.cpp
@@ -32,11 +32,16 @@ set(SOURCES
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
     src/cpp/impl/CellSim.Cells.MoleculeAwareCellBehavior.cpp
     src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
+    src/cpp/impl/CellSim.Cli.BinaryOption.cpp
     src/cpp/impl/CellSim.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Cli.CliOption.cpp
     src/cpp/impl/CellSim.Cli.CliOptions.cpp
+    src/cpp/impl/CellSim.Cli.CsvOption.cpp
     src/cpp/impl/CellSim.Cli.FlagOption.cpp
-    src/cpp/impl/CellSim.Cli.ParameterOption.cpp
+    src/cpp/impl/CellSim.Cli.ImageOption.cpp
+    src/cpp/impl/CellSim.Cli.OutputOption.cpp
+    src/cpp/impl/CellSim.Cli.ParamOption.cpp
+    src/cpp/impl/CellSim.Cli.VideoOption.cpp
     src/cpp/impl/CellSim.Imaging.ImageCreater.cpp
     src/cpp/impl/CellSim.Model.CellGrowthModel.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
@@ -45,9 +50,9 @@ set(SOURCES
     src/cpp/impl/CellSim.Model.ClusterSproutingModel.cpp
     src/cpp/impl/CellSim.Model.NetworkFormationModel.cpp
     src/cpp/impl/CellSim.Molecular.Molecule.cpp
-    src/cpp/impl/CellSim.Molecular.MoleculeDiffusionBehavior.cpp
+    src/cpp/impl/CellSim.Molecular.MoleculeBehavior.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeField.cpp
-    src/cpp/impl/CellSim.Molecular.NormalMoleculeDiffusionBehavior.cpp
+    src/cpp/impl/CellSim.Molecular.NormalMoleculeBehavior.cpp
     src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp
     src/cpp/impl/CellSim.Settings.Config.CellAlgorithm.cpp
@@ -60,7 +65,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.Simulation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.cpp
-    src/cpp/impl/CellSim.Settings.Config.SimulationModel.CellGrowthModel.cpp
+    src/cpp/impl/CellSim.Settings.Config.SimulationModel.CellGrowth.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterFormation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterRotation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterSprouting.cpp
@@ -107,4 +112,11 @@ target_link_libraries(cellsim PRIVATE opencv_core opencv_highgui opencv_imgcodec
 # 追加のincludeパス
 target_include_directories(cellsim PRIVATE
     ${CMAKE_SOURCE_DIR}/src/cpp/thirdparty
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/modules/core/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/modules/highgui/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/modules/imgcodecs/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/modules/imgproc/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build/_deps/opencv-src/modules/videoio/include
+    ${CMAKE_SOURCE_DIR}/build-scripts/build
 )

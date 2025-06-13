@@ -24,6 +24,10 @@ namespace CellSim::Cli
         /// @param value 追加する値
         virtual void AddValue(::std::string_view value) = 0;
 
+        void Enable();
+
+        [[nodiscard]] virtual ::std::string_view FullName() const noexcept = 0;
+
         /// @brief このオプションが値を持つかどうか
         [[nodiscard]] virtual bool HasValue() const noexcept = 0;
 
@@ -39,10 +43,21 @@ namespace CellSim::Cli
         virtual bool IsMatch(::std::string_view optionName) const noexcept = 0;
 
         /// @brief オプションが有効な時に呼ばれる関数
-        virtual void OnActive() = 0;
+        virtual void OnActive(
+            const CliOptions* sender,
+            CliOptionActivationArgs args
+        ) = 0;
+        
+        [[nodiscard]] virtual ::std::string_view Names() const noexcept = 0;
 
         /// @brief このオプションの種類
         [[nodiscard]] virtual CliOptionType OptionType() const noexcept = 0;
+
+        /// @brief TakesControl()が'true'のときに実行される
+        virtual void Run(const CliOptions* sender);
+
+        /// @brief 'true'のときはオプション自身が主役となって独自の動作を行う
+        [[nodiscard]] virtual bool TakesControl() const noexcept = 0;
         
     };
 }

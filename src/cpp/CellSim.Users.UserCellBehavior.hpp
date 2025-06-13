@@ -22,6 +22,8 @@ namespace CellSim::Users
         
         bool HasState() const noexcept override;
 
+        Numerics::Vector3 OnSenseMolecules(const Cells::Cell* sender, Cells::CellMoleculeSensingArgs args) override;
+
         bool ShouldDivideThisStep(const Cells::Cell* sender) noexcept override;
     };
 }

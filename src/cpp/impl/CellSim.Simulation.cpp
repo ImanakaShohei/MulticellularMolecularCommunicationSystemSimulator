@@ -13,6 +13,8 @@
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "CellSim.Threading.ThreadPool.hpp"
 
+#include <chrono>
+
 namespace CellSim
 {
     void Simulation::m_applyForce()
@@ -228,12 +230,31 @@ namespace CellSim
 
         uint64_t totalStep = Settings::Config::Simulation::TotalSteps();
 
-        for (uint64_t step = 0; step != totalStep; ++step) {
+        ::clock_t currentClock = ::clock();
+
+        m_writer.Save(*this, 0);
+
+        for (uint64_t step = 1; step <= totalStep; ++step) {
 
             m_beforeAdvanceStep();
             m_advanceStep();
             
+            if (step % Settings::Config::Simulation::OutputInterval() == 0) {
+                m_writer.Save(*this, step);
+            }
 
+            if (::clock() - currentClock >= 1000) {
+                printf("%llu/%llu\n", step, totalStep);
+            }
+            currentClock = ::clock();
         }
+
+        m_writer.SaveConfig(
+            totalStep,
+            Settings::Config::Cell::CellCount(),
+            (double)currentClock,
+            Settings::Config::SimulationModel::SimulationType(),
+            Settings::Config::CellAlgorithm::AlgorithmType()
+        );
     }
 }

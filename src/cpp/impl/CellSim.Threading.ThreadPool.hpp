@@ -5,6 +5,8 @@
 
 #include "base.hpp"
 
+#include <xutility>
+
 #if CELLSIM_ENV_WINDOWS
     #include <Windows.h>
 #else
@@ -105,12 +107,12 @@ namespace CellSim::Threading
 
         decltype(count) listCapacity;
 
-        if (threadCount > count) listCapacity = count;
+        if ((decltype(count))threadCount > count) listCapacity = count;
         else listCapacity = threadCount;
 
         ::std::vector<fArgs> list;
 
-        if (list.capacity() < listCapacity) {
+        if ((decltype(count))list.capacity() < listCapacity) {
             list.reserve(listCapacity);
         }
 
@@ -118,8 +120,8 @@ namespace CellSim::Threading
         decltype(count) d = count / listCapacity;
 
         if (c == 0) {
-            for (size_t i = begin; i != end;) {
-                list.emplace_back(fArgs{ i, i += d, f });
+            for (size_t i = 0; (begin + i) != end;) {
+                list.emplace_back(fArgs{ begin + i, begin + (i += d), f });
 #if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
@@ -136,7 +138,7 @@ namespace CellSim::Threading
             size_t i = 0;
 
             while (i != n) {
-                list.emplace_back(fArgs{ i, i += d, f });
+                list.emplace_back(fArgs{ begin + i, begin + (i += d), f });
 #if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);
@@ -151,7 +153,7 @@ namespace CellSim::Threading
             d++;
 
             while (i != count) {
-                list.emplace_back(fArgs{ i, i += d, f });
+                list.emplace_back(fArgs{ begin + i, begin + (i += d), f });
 #if CELLSIM_ENV_WINDOWS
                 auto& back = list.back();
                 ::PTP_WORK work = ::CreateThreadpoolWork(func, &back, nullptr);

@@ -17,6 +17,7 @@ namespace CellSim::Settings
         static inline double s_fieldRadiusX;
         static inline double s_fieldRadiusY;
         static inline double s_fieldRadiusZ;
+        static inline int32_t s_outputInterval;
         static inline uint64_t s_totalSteps;
 
         public:
@@ -35,6 +36,9 @@ namespace CellSim::Settings
 
         /// @brief フィールドのZ方向の半径
         [[nodiscard]] static double FieldRadiusZ() noexcept;
+
+        /// @brief 出力間隔
+        [[nodiscard]] static int32_t OutputInterval() noexcept;
 
         /// @brief 総ステップ数
         [[nodiscard]] static uint64_t TotalSteps() noexcept;
@@ -68,6 +72,11 @@ namespace CellSim::Settings
     inline double Config::Simulation::FieldRadiusZ() noexcept
     {
         return s_fieldRadiusZ;
+    }
+
+    inline int32_t Config::Simulation::OutputInterval() noexcept
+    {
+        return s_outputInterval;
     }
 
     inline uint64_t Config::Simulation::TotalSteps() noexcept

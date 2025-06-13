@@ -15,6 +15,12 @@ Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadi
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate=The parameter 'synthesisRate' must be a positive value.
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate=The parameter 'degradationRate' must be a positive value.
 
+Cli.CliOption.Enable.Error= option cannot be used more than once.
+
+Cli.CliOptions.m_enableOption.Error.TakesControlError=The options '%s' and '%s' cannot be used together.
+Cli.CliOptions.m_enableOption.Error.ValueError= optionexpects a value.
+Cli.CliOptions.m_enableOption.Error.MatchError='%s' is an invalid option.
+
 Cli.FlagOption.AddValue.Error=Attempted to assign a value to an option that does not accept one.
 
 Model.CellSimulationModel.FromType.Error=Invalid CellSim::Model::CellSimulationType value.
@@ -50,11 +56,12 @@ Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cell
 Settings.Config.Optimization.Load.Error.JsonError=The format of the 'optimization' parameter in the config file is invalid.
 Settings.Config.Optimization.Load.Error.peformance=The value of 'optimization.peformance' in the config file is invalid.
 
+Settings.Config.Simulation.Load.Error.JsonError=The format of the 'simulation' parameter in the config file is invalid.
 Settings.Config.Simulation.Load.Error.deltaTime='simulation.deltaTime' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.fieldRadiusX='simulation.fieldRadiusX' in the config file must be greater than or equal to zero.
 Settings.Config.Simulation.Load.Error.fieldRadiusY='simulation.fieldRadiusY' in the config file must be greater than or equal to zero.
 Settings.Config.Simulation.Load.Error.fieldRadiusZ='simulation.fieldRadiusZ' in the config file must be greater than or equal to zero.
-Settings.Config.Simulation.Load.Error.JsonError=The format of the 'simulation' parameter in the config file is invalid.
+Settings.Config.Simulation.Load.Error.outputInterval='simulation.outputInterval' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.totalSteps='simulation.totalSteps' in the config file must be non-zero.
 
 Settings.Config.SimulationModel.Load.Error.JsonError=The format of the 'simulationModel' parameter in the config file is invalid.

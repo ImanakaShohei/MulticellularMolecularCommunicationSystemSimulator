@@ -3,6 +3,7 @@
 #include "impl/CellSim.Cells.CellGrowthResult.hpp"
 #include "impl/CellSim.Cells.CellMetabolicArgs.hpp"
 #include "impl/CellSim.Cells.CellMoleculeEmissionArgs.hpp"
+#include "impl/CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "impl/CellSim.Molecular.MoleculeInfo.hpp"
 
 using namespace CellSim;
@@ -59,7 +60,16 @@ namespace CellSim::Users
         return false;
     }
 
-    bool UserCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
+    Numerics::Vector3 UserCellBehavior::OnSenseMolecules(
+        [[maybe_unused]] const Cells::Cell* sender,
+        [[maybe_unused]] Cells::CellMoleculeSensingArgs args
+    )
+    {
+        // TODO: ここに処理を追加します
+        return Numerics::Vector3();
+    }
+
+    bool UserCellBehavior::ShouldDivideThisStep([[maybe_unused]] const Cell* sender) noexcept
     {
         // TODO: ここに処理を追加します
         return false;

@@ -1,20 +1,20 @@
-#ifndef CELLSIM_CLI_CSVOPTION_HPP
-#define CELLSIM_CLI_CSVOPTION_HPP
+﻿#ifndef CELLSIM_CLI_VIDEOOPTION_HPP
+#define CELLSIM_CLI_VIDEOOPTION_HPP
 
 #include "base.hpp"
 #include "CellSim.Cli.FlagOption.hpp"
 
 namespace CellSim::Cli
 {
-    class CsvOption final : public FlagOption {
+    class VideoOption final : public FlagOption {
         private:
 
-        static constexpr ::std::string_view s_fullName = "--csv";
-        static constexpr ::std::string_view s_names = "-c, --csv";
+        static constexpr ::std::string_view s_fullName = "--video";
+        static constexpr ::std::string_view s_names = "-v, --video";
 
         public:
 
-        CsvOption() = default;
+        VideoOption() = default;
 
         constexpr ::std::string_view FullName() const noexcept override;
 
@@ -32,31 +32,31 @@ namespace CellSim::Cli
 
 namespace CellSim::Cli
 {
-    constexpr ::std::string_view CsvOption::FullName() const noexcept
+    constexpr ::std::string_view VideoOption::FullName() const noexcept
     {
         return s_fullName;
     }
 
-    constexpr bool CsvOption::IsMatch(::std::string_view optionName) const noexcept
+    constexpr bool VideoOption::IsMatch(::std::string_view optionName) const noexcept
     {
         using namespace std;
         return optionName == "-c"sv || optionName == "--csv"sv;
     }
 
-    constexpr ::std::string_view CsvOption::Names() const noexcept
+    constexpr ::std::string_view VideoOption::Names() const noexcept
     {
         return s_names;
     }
 
-    constexpr CliOptionType CsvOption::OptionType() const noexcept
+    constexpr CliOptionType VideoOption::OptionType() const noexcept
     {
-        return CliOptionType::Csv;
+        return CliOptionType::Video;
     }
 
-    constexpr bool CsvOption::TakesControl() const noexcept
+    constexpr bool VideoOption::TakesControl() const noexcept
     {
         return false;
     }
 }
 
-#endif //!CELLSIM_CLI_CSVOPTION_HPP
+#endif //!CELLSIM_CLI_VIDEOOPTION_HPP

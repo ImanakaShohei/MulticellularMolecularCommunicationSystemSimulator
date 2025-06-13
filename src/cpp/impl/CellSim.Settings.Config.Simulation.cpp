@@ -13,6 +13,7 @@ namespace CellSim::Settings
             s_fieldRadiusX = config["fieldRadiusX"].get<double>();
             s_fieldRadiusY = config["fieldRadiusY"].get<double>();
             s_fieldRadiusZ = config["fieldRadiusZ"].get<double>();
+            s_outputInterval = config["outputInterval"].get<int32_t>();
             s_totalSteps = config["totalSteps"].get<uint64_t>();
         }
         catch (...) {
@@ -24,6 +25,7 @@ namespace CellSim::Settings
         if (s_fieldRadiusX <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusX"));
         if (s_fieldRadiusY <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusY"));
         if (s_fieldRadiusZ <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusZ"));
+        if (s_outputInterval <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.outputInterval"));
         if (s_totalSteps == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps"));
     }
 }

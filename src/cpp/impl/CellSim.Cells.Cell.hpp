@@ -69,6 +69,7 @@ namespace CellSim::Cells
         Cell(Cell&&) = default;
 
         Cell& operator=(Cell const&) = delete;
+        Cell& operator=(Cell&&) = default;
 
         // プロパティ
 
@@ -300,13 +301,6 @@ namespace CellSim::Cells
     constexpr void Cell::Die() noexcept
     {
         m_isAlive = false;
-    }
-
-    inline void Cell::EmitMolecule(::std::vector<Molecular::MoleculeField>& fields)
-    {
-        for (Molecular::MoleculeField& field : fields) {
-            EmitMolecule(field);
-        }
     }
 
     inline bool Cell::IsAdheringTo(Cell const& cell) const noexcept

@@ -3,6 +3,7 @@
 #include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
 #include "CellSim.Cells.CellMetabolicArgs.hpp"
+#include "CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -72,6 +73,11 @@ namespace CellSim::Cells
         result.OriginalDaughter.NewPosition = originalPosition - direction;
 
         return result;
+    }
+
+    Numerics::Vector3 NormalCellBehavior::OnSenseMolecules(const Cell*, CellMoleculeSensingArgs)
+    {
+        return Numerics::Vector3();
     }
 
     bool NormalCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept

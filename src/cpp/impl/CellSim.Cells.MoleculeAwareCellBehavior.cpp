@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellMetabolicArgs.hpp"
+#include "CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -34,6 +35,12 @@ namespace CellSim::Cells
     double MoleculeAwareCellBehavior::ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args)
     {
         return (m_synthesisRate - m_degradationRate * args.MoleculeInfo.Amount) * Settings::Config::Simulation::DeltaTime();
+    }
+
+    Numerics::Vector3 MoleculeAwareCellBehavior::OnSenseMolecules(const Cell*, CellMoleculeSensingArgs)
+    {
+        // TODO: ここに処理を追加します
+        return Numerics::Vector3();
     }
 
     bool MoleculeAwareCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept

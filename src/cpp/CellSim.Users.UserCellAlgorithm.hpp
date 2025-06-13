@@ -28,7 +28,7 @@ namespace CellSim::Users
             CellAlgorithms::CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
-        constexpr bool HasMultithreadingSupport() const noexcept override;
+        bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             const Model::CellSimulationModel* sender,

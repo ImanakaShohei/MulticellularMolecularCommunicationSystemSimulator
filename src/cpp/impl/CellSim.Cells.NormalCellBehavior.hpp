@@ -17,6 +17,7 @@ namespace CellSim::Cells
         CellBehavior* CreateClone() const override;
         
         constexpr bool HasState() const noexcept override;
+        Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) override;
         bool ShouldDivideThisStep(const Cell* sender) noexcept override;
     };
 }

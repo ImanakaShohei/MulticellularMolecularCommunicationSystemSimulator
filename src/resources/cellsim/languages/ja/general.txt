@@ -7,7 +7,6 @@ CellAlgorithms.CellList.CellList.Error.searchRadius='searchRadius'に負の値�
 
 Cells.Cell.Cell.Error.mass=引数'mass'にゼロ以下の値が指定されました。
 Cells.Cell.Cell.Error.radius=引数'radius'にゼロ以下の値が指定されました。
-Cells.Cell.AppendMolecule.Error=
 
 Cells.CellBehaviorPtr.FromType.Error=無効なCellSim::Cells::CellBehaviorType値です。
 Cells.CellBehaviorPtr.FromPointer.Error=引数'ptr'がnullptrでした。
@@ -15,6 +14,12 @@ Cells.CellBehaviorPtr.FromPointer.Error=引数'ptr'がnullptrでした。
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius=引数'cellDivisionRadius'にゼロ以下の値が指定されました。
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate=引数'synthesisRate'にゼロ以下の値が指定されました。
 Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate=引数'degradationRate'にゼロ以下の値が指定されました。
+
+Cli.CliOption.Enable.Error= オプションは複数回指定できません。
+
+Cli.CliOptions.m_enableOption.Error.TakesControlError='%s'と'%s'は併用できません。
+Cli.CliOptions.m_enableOption.Error.ValueError= オプションには値が必要です。
+Cli.CliOptions.m_enableOption.Error.MatchError='%s' 無効なオプションです。
 
 Cli.FlagOption.AddValue.Error=値を持たないオプションに値を追加しようとしました。
 
@@ -51,11 +56,12 @@ Settings.Config.CellBehavior.Normal.Load.Error.JsonError=configファイルの'c
 Settings.Config.Optimization.Load.Error.JsonError=configファイルの'optimization'パラメータの形式が正しくありません。
 Settings.Config.Optimization.Load.Error.peformance=configファイルの'optimization.peformance'値が無効です。
 
+Settings.Config.Simulation.Load.Error.JsonError=configファイルの'simulation'パラメータの形式が正しくありません。
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusX=configファイルの'simulation.fieldRadiusX'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusY=configファイルの'simulation.fieldRadiusY'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadiusZ=configファイルの'simulation.fieldRadiusZ'に負の値が指定されました。
-Settings.Config.Simulation.Load.Error.JsonError=configファイルの'simulation'パラメータの形式が正しくありません。
+Settings.Config.Simulation.Load.Error.outputInterval=configファイルの'simulation.toutputInterval'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.totalSteps=configファイルの'simulation.totalSteps'にゼロが指定されました。
 
 Settings.Config.SimulationModel.Load.Error.JsonError=configファイルの'simulationModel'パラメータの形式が正しくありません。

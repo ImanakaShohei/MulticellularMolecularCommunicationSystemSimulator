@@ -1,22 +1,126 @@
 ﻿#include "CellSim.Cli.CliOptions.hpp"
+#include "CellSim.Cli.CliOptionActivationArgs.hpp"
+#include "CellSim.Cli.BinaryOption.hpp"
+#include "CellSim.Cli.CsvOption.hpp"
 #include "CellSim.Cli.ImageOption.hpp"
+#include "CellSim.Cli.OutputOption.hpp"
+#include "CellSim.Cli.ParamOption.hpp"
+#include "CellSim.Cli.VideoOption.hpp"
+#include "CellSim.Messages.hpp"
+#include "CellSim.Simulation.hpp"
+#include "CellSim.SimulationOption.hpp"
+#include "CellSim.Text.CString.hpp"
+
+#include <stdexcept>
 
 namespace CellSim::Cli
 {
-    CliOptions::CliOptions()
-        : m_options()
+    void CliOptions::m_activeOption()
     {
-        // ここで、オプションを処理する順番を決めます
+        for (auto pair : m_options) {
+            if (pair.second->IsEnabled()) {
+                pair.second->OnActive(this, { &m_options });
+            }
+        }
+    }
 
+    void CliOptions::m_enableOption(int argc, char** argv)
+    {
+        for (int i = 0; i != argc; ++i) {
+            ::std::string_view arg = argv[i];
+            bool isMatch = false;
+            for (auto pair : m_options) {
+                if (pair.second->IsMatch(arg)) {
+                    isMatch = true;
+                    if (pair.second->TakesControl()) {
+                        if (m_controllerOption != nullptr) [[unlikely]] {
+                            throw ::std::runtime_error(
+                                Text::CString::Format(
+                                    Messages::Get("Cli.CliOptions.m_enableOption.Error.TakesControlError").c_str(),
+                                    m_controllerOption->Names().data(),
+                                    pair.second->Names().data()
+                                )
+                            );
+                        }
+                        m_controllerOption = pair.second;
+                    }
+                    pair.second->Enable();
+                    if (pair.second->HasValue()) {
+                        ++i;
+
+                        if (i == argc) [[unlikely]] {
+                            ::std::string s;
+                            s.push_back('\'');
+                            s.append(pair.second->FullName());
+                            s.push_back('\'');
+
+                            s.append(Messages::Get("Cli.CliOptions.m_enableOption.Error.ValueError"));
+
+                            throw ::std::runtime_error(s);
+                        }
+
+                        pair.second->AddValue(arg);
+                    }
+                }
+            }
+
+            if (!isMatch) [[unlikely]] {
+                throw ::std::runtime_error(
+                    Text::CString::Format(
+                        Messages::Get("Cli.CliOptions.m_enableOption.Error.MatchError").c_str(),
+                        argv[i]
+                    )
+                );
+            }
+        }
+    }
+
+    CliOptions::CliOptions(int argc, char** argv)
+        : m_options()
+        , m_controllerOption(nullptr)
+    {
         auto addOption = [this] (CliOption* option) {
             m_options.emplace(option->OptionType(), option);
         };
+
+        // ここで、オプションを処理する順番を決めます
+
+        addOption(new BinaryOption());
+        addOption(new CsvOption());
+        addOption(new ImageOption());
+        addOption(new OutputOption());
+        addOption(new VideoOption());
+
+        m_enableOption(argc, argv);
     }
 
     CliOptions::~CliOptions()
     {
         for (auto pair : m_options) {
             delete pair.second;
+        }
+    }
+
+    SimulationOption CliOptions::CreateSimulationOption() const
+    {
+        return SimulationOption(
+            m_options.at(CliOptionType::Binary)->IsEnabled(),
+            m_options.at(CliOptionType::Csv)->IsEnabled(),
+            m_options.at(CliOptionType::Image)->IsEnabled(),
+            m_options.at(CliOptionType::Video)->IsEnabled(),
+            static_cast<OutputOption*>(m_options.at(CliOptionType::Output))->Value()
+        );
+    }
+
+    void CliOptions::Run()
+    {
+        if (m_controllerOption != nullptr) {
+            m_controllerOption->Run(this);
+        }
+        else {
+            Simulation sim(CreateSimulationOption());
+
+            sim.Run();
         }
     }
 }

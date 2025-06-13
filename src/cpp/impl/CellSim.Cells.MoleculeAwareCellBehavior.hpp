@@ -32,6 +32,7 @@ namespace CellSim::Cells
         double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) override;
         CellBehavior* CreateClone() const override;
         constexpr bool HasState() const noexcept override;
+        Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) override;
         bool ShouldDivideThisStep(const Cell* sender) noexcept override;
     };
 }

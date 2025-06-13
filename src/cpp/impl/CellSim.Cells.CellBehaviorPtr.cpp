@@ -1,5 +1,6 @@
 ﻿#include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellBehaviorType.hpp"
+#include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
 #include "CellSim.Cells.NormalCellBehavior.hpp"
 #include "CellSim.Messages.hpp"
 #include "../CellSim.Users.UserCellBehavior.hpp"
@@ -10,6 +11,7 @@ namespace CellSim::Cells
     CellBehaviorPtr CellBehaviorPtr::FromType(CellBehaviorType type)
     {
         switch (type) {
+            case CellBehaviorType::MoleculeAware: return CellBehaviorPtr(new MoleculeAwareCellBehavior());
             case CellBehaviorType::Normal: return CellBehaviorPtr(new NormalCellBehavior());
             case CellBehaviorType::User: return CellBehaviorPtr(new Users::UserCellBehavior());
 

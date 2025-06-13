@@ -8,7 +8,7 @@
 namespace CellSim
 {
     /// @brief コマンドラインで指定したシミュレーションで使用するオプション
-    struct SimulationOption {
+    class SimulationOption {
         private:
 
         /// @brief データをバイナリファイルとして出力するかどうか
