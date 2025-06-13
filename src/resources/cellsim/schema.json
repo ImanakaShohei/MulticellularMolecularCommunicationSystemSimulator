@@ -156,12 +156,16 @@
                     "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
                 },
+                "outputInterval": {
+                    "type": "integer",
+                    "minimum": 1
+                },
                 "totalSteps": {
                     "type": "integer",
                     "exclusiveMinimum": 0
                 }
             },
-            "required": [ "deltaTime", "fieldRadiusX", "fieldRadiusY", "fieldRadiusZ", "totalSteps" ]
+            "required": [ "deltaTime", "fieldRadiusX", "fieldRadiusY", "fieldRadiusZ", "outputInterval", "totalSteps" ]
         },
         "simulationModel": {
             "type": "object",

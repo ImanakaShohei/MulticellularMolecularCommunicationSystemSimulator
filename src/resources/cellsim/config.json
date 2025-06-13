@@ -22,6 +22,7 @@
         "fieldRadiusX": 1024,
         "fieldRadiusY": 1024,
         "fieldRadiusZ": 0,
+        "outputInterval": 5,
         "totalSteps": 1000
     },
     "simulationModel": {
