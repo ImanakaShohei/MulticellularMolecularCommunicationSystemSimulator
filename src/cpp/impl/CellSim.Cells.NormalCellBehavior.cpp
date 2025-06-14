@@ -3,6 +3,7 @@
 #include "CellSim.Cells.CellDivisionResult.hpp"
 #include "CellSim.Cells.CellGrowthResult.hpp"
 #include "CellSim.Cells.CellMetabolicArgs.hpp"
+#include "CellSim.Cells.CellMoleculeEmissionArgs.hpp"
 #include "CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
@@ -26,9 +27,14 @@ namespace CellSim::Cells
         return CellGrowthResult{ newMass, newRadius };
     }
 
-    double NormalCellBehavior::ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args)
+    double NormalCellBehavior::ComputeMetabolicChange(const Cell*, CellMetabolicArgs)
     {
         return 0;
+    }
+
+    double NormalCellBehavior::ComputeMoleculeEmitAmount(const Cell*, CellMoleculeEmissionArgs)
+    {
+        return 0.0;
     }
 
     CellDivisionResult NormalCellBehavior::ComputeDivisionOutcome(const Cell* sender)

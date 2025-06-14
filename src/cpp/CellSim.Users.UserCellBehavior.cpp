@@ -12,7 +12,7 @@ using namespace CellSim::Molecular;
 
 namespace CellSim::Users
 {
-    CellDivisionResult ComputeDivisionOutcome([[maybe_unused]] const Cell* sender)
+    CellDivisionResult UserCellBehavior::ComputeDivisionOutcome([[maybe_unused]] const Cell* sender)
     {
         CellDivisionResult result;
 

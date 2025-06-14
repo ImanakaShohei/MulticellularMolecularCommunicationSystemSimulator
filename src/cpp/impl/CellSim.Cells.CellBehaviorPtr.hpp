@@ -46,7 +46,7 @@ namespace CellSim::Cells
 namespace CellSim::Cells
 {
 
-    void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
+    inline void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
     {
         if (right.m_ptr->HasState()) {
             m_ptr = right.m_ptr;
@@ -57,7 +57,7 @@ namespace CellSim::Cells
         m_ptr = right.m_ptr->CreateClone();
     }
 
-    void CellBehaviorPtr::m_delete() noexcept
+    inline void CellBehaviorPtr::m_delete() noexcept
     {
         m_ptr->RemoveOwner();
 

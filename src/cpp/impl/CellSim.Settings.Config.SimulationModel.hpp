@@ -33,7 +33,7 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
-    Model::CellSimulationType Config::SimulationModel::SimulationType() noexcept
+    inline Model::CellSimulationType Config::SimulationModel::SimulationType() noexcept
     {
         return s_simulationType;
     }

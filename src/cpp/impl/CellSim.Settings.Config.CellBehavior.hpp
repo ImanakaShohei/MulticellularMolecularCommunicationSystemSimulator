@@ -31,7 +31,7 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
-    Cells::CellBehaviorType Config::CellBehavior::BehaviorType() noexcept
+    inline Cells::CellBehaviorType Config::CellBehavior::BehaviorType() noexcept
     {
         return s_behaviorType;
     }

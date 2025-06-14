@@ -21,6 +21,12 @@ namespace CellSim::Text
 
             return s;
         }
+
+        template <class... Args>
+        [[nodiscard]] static ::std::string Format(::std::string const& format, Args&&... args)
+        {
+            return Format(format.c_str(), ::std::forward<Args>(args)...);
+        }
     };
 }
 

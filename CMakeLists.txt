@@ -28,6 +28,7 @@ set(SOURCES
     src/cpp/impl/CellSim.CellAlgorithms.CellList.cpp
     src/cpp/impl/CellSim.CellAlgorithms.ClusterModel.cpp
     src/cpp/impl/CellSim.CellAlgorithms.NaiveAlgorithm.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.ParticleMesh.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
     src/cpp/impl/CellSim.Cells.MoleculeAwareCellBehavior.cpp
@@ -82,6 +83,19 @@ target_compile_options(cellsim PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8> # MSVCはデフォルトでANSIになるのでUTF-8に変更
     #$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/O2>
     #$<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<CONFIG:Release>>:-O2>
+)
+
+# ビルド後に必要なファイルをコピー
+add_custom_command(TARGET cellsim POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_SOURCE_DIR}/src/resources/cellsim/config.json
+            $<TARGET_FILE_DIR:cellsim>/config.json
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_SOURCE_DIR}/src/resources/cellsim/schema.json
+            $<TARGET_FILE_DIR:cellsim>/schema.json
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/src/resources/cellsim/languages
+            $<TARGET_FILE_DIR:cellsim>/languages
 )
 
 # OpenCVの取得に使う

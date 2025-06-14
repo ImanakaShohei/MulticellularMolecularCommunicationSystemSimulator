@@ -106,7 +106,7 @@ namespace CellSim
         languagePath.push_back((char)::std::filesystem::path::preferred_separator);
 
         s_loadMessages(languagePath, "general.txt");
-        s_loadSingleMessage(languagePath, "help.txt", "");
+        //s_loadSingleMessage(languagePath, "help.txt", "");
     }
 
     bool Messages::Initialize()

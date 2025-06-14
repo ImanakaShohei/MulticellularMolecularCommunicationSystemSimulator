@@ -5,6 +5,9 @@
 #include "CellSim.Molecular.MoleculeBehaviorStepArgs.hpp"
 #include "CellSim.Molecular.MoleculeDiffusionArgs.hpp"
 #include "CellSim.Molecular.MoleculeInitializationArgs.hpp"
+#include "CellSim.Messages.hpp"
+#include "CellSim.Text.CString.hpp"
+#include <stdexcept>
 
 namespace CellSim::Molecular
 {
@@ -24,6 +27,49 @@ namespace CellSim::Molecular
             ) /
             reverseCo
         ;
+    }
+
+    NormalMoleculeBehavior::NormalMoleculeBehavior()
+    {
+        throw ::std::runtime_error(
+            Text::CString::Format(
+                Messages::Get("NotImplemented"),
+                "NormalMoleculeBehavior::NormalMoleculeBehavior()"
+            )
+        );
+    }
+
+    NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition)
+    {
+        throw ::std::runtime_error(
+            Text::CString::Format(
+                Messages::Get("NotImplemented"),
+                "NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition)"
+            )
+        );
+    }
+
+    NormalMoleculeBehavior::NormalMoleculeBehavior(double)
+    {
+        throw ::std::runtime_error(
+            Text::CString::Format(
+                Messages::Get("NotImplemented"),
+                "NormalMoleculeBehavior::NormalMoleculeBehavior(double)"
+            )
+        );
+    }
+
+    NormalMoleculeBehavior::NormalMoleculeBehavior(
+        ::CellSim::Molecular::BoundaryCondition,
+        double
+    )
+    {
+        throw ::std::runtime_error(
+            Text::CString::Format(
+                Messages::Get("NotImplemented"),
+                "NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition, double)"
+            )
+        );
     }
 
     void NormalMoleculeBehavior::BeforeAdvanceStep(

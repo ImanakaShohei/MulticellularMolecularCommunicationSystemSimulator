@@ -71,6 +71,16 @@ namespace CellSim
         ::fclose(fp);
     }
 
+    void SimulationResultWriter::m_saveBinaryMolecules([[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& cells, [[maybe_unused]] uint64_t step) const
+    {
+        // TODO: ここに処理を追加します
+    }
+
+    void SimulationResultWriter::m_saveCsvMolecules([[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& cells, [[maybe_unused]] uint64_t step) const
+    {
+        // TODO: ここに処理を追加します
+    }
+
     void SimulationResultWriter::m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
     {
         size_t filePathLength = m_option.OutputCsvCellPath().size() + m_digits + 4; // ".csv"
@@ -166,6 +176,25 @@ namespace CellSim
         return image;
     }
 
+    void SimulationResultWriter::m_saveImage(::cv::Mat const& image, uint64_t step) const
+    {
+        size_t filePathLength = m_option.OutputBinaryCellPath().size() + m_digits + 4; // ".png"
+        size_t filePathCapacity = filePathLength + 1;
+
+        // "%s%020llu.png"
+        char optionStr[14];
+        
+        ::snprintf(optionStr, 14, "%%s0%%%lu.png", m_digits);
+        
+        char* filePath = new char[filePathCapacity];
+
+        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputCsvCellPath().c_str(), step);
+
+        ::cv::imwrite(filePath, image);
+
+        delete[] filePath;
+    }
+
     SimulationResultWriter::SimulationResultWriter(SimulationOption option)
         : m_option(::std::move(option))
         , m_digits(s_log10(Settings::Config::Simulation::TotalSteps()))
@@ -195,7 +224,7 @@ namespace CellSim
 
         if (m_option.IsOutputImage()) {
             ::cv::Mat image = m_createImage(simulation.Cells(), simulation.Molecules());
-            m_saveImage(image);
+            m_saveImage(image, step);
 
             if (m_option.IsOutputVideo()) {
                 m_videoWriter.write(image);

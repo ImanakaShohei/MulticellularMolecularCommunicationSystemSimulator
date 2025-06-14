@@ -18,7 +18,7 @@ namespace CellSim::Cli
 
         constexpr ::std::string_view FullName() const noexcept override;
 
-        bool IsMatch(::std::string_view optionName) const noexcept override;
+        constexpr bool IsMatch(::std::string_view optionName) const noexcept override;
 
         constexpr ::std::string_view Names() const noexcept override;
 
@@ -37,7 +37,7 @@ namespace CellSim::Cli
         return s_fullName;
     }
 
-    bool BinaryOption::IsMatch(::std::string_view optionName) const noexcept
+    constexpr bool BinaryOption::IsMatch(::std::string_view optionName) const noexcept
     {
         using namespace std;
         return optionName == "-b"sv || optionName == "--binary"sv;

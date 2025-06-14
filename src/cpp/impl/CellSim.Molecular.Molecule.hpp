@@ -55,6 +55,11 @@ namespace CellSim::Molecular
     {
     }
 
+    constexpr double Molecule::Amount() const noexcept
+    {
+        return m_amount;
+    }
+
     constexpr MoleculeKind Molecule::Kind() const noexcept
     {
         return m_kind;

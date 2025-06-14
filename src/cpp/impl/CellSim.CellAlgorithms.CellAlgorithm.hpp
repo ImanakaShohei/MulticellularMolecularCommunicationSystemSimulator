@@ -88,7 +88,7 @@ namespace CellSim::CellAlgorithms
 
 namespace CellSim::CellAlgorithms
 {
-    Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
+    inline Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
         const Simulation* sender,
         CellAlgorithmForceComputationArgs args
     ) const
