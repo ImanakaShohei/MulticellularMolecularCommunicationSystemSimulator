@@ -30,8 +30,7 @@ namespace CellSim
                 ),
                 true
             );
-
-            puts(v ? "true" : "false");
+            
         }
     }
 
@@ -60,7 +59,7 @@ namespace CellSim
             Numerics::Vector3 position = cell.Position();
             ::fwrite(&position, sizeof(position), 1, fp);
 
-            Numerics::Vector3 velocity = cell.PreviusVelocity();
+            Numerics::Vector3 velocity = cell.Velocity();
             ::fwrite(&velocity, sizeof(position), 1, fp);
 
             double radius = cell.Radius();
@@ -114,7 +113,7 @@ namespace CellSim
         ofs << "ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,AttachedCellCount," << ::std::endl;
 
         for (Cells::Cell const& cell : cells) {
-            Numerics::Vector3 velocity = cell.PreviusVelocity();
+            Numerics::Vector3 velocity = cell.Velocity();
             ofs << cell.Id() << ',';
             ofs << (int)cell.Type() << ',';
             ofs << cell.PositionX() << ',';

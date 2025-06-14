@@ -39,9 +39,9 @@ namespace CellSim
         m_outputImagePath.push_back(pathSeparator);
 
         m_outputBinaryCellPath = m_outputBinaryPath + "cells";
-        m_outputBinaryMoleculePath = m_outputBinaryMoleculePath + "molecules";
+        m_outputBinaryMoleculePath = m_outputBinaryPath + "molecules";
         m_outputCsvCellPath = m_outputCsvPath + "cells";
-        m_outputCsvMoleculePath = m_outputCsvMoleculePath + "molecules";
+        m_outputCsvMoleculePath = m_outputCsvPath + "molecules";
 
         m_outputBinaryCellPath.push_back(pathSeparator);
         m_outputBinaryMoleculePath.push_back(pathSeparator);
