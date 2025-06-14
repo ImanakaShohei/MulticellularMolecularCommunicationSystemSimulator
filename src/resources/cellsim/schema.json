@@ -197,6 +197,56 @@
                     },
                     "required": [ "adhesiveRepulsionFactor", "lambda", "remoteForceFactor" ]
                 },
+                "clusterSprouting": {
+                    "type": "object",
+                    "properties": {
+                        "adhesionThreshold": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "coefficientCd": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "contactDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "followerAttractionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "globalAttractionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lambda": {
+                            "type": "number"
+                        },
+                        "leaderRepulsionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "leaderRepulsionMaxDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },"leaderRepulsionMinDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "adhesionThreshold",
+                        "coefficientCd",
+                        "contactDistance",
+                        "followerAttractionFactor",
+                        "globalAttractionFactor",
+                        "lambda",
+                        "leaderRepulsionFactor",
+                        "leaderRepulsionMaxDistance",
+                        "leaderRepulsionMinDistance"
+                    ]
+                },
                 "networkFormation": {
                     "type": "object",
                     "properties": {

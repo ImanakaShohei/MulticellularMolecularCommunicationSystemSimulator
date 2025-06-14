@@ -91,6 +91,17 @@ Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFac
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda='simulationModel.clusterFormation.lambda' in the config file must be non-zero.
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor='simulationModel.clusterFormation.remoteForceFactor' in the config file must be greater than or equal to zero.
 
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.JsonError=The format of the 'simulationModel.clusterSprouting' parameter in the config file is invalid.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.coefficientCd='simulationModel.clusterSprouting.coefficientCd' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance='simulationModel.clusterSprouting.contactDistance' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.followerAttractionFactor='simulationModel.clusterSprouting.followerAttractionFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.globalAttractionFactor='simulationModel.clusterSprouting.globalAttractionFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.lambda='simulationModel.clusterSprouting.lambda' in the config file must be non-zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionFactor='simulationModel.clusterSprouting.leaderRepulsionFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMaxDistance='simulationModel.clusterSprouting.leaderRepulsionMaxDistance' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMinDistance='simulationModel.clusterSprouting.leaderRepulsionMinDistance' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance-leaderRepulsionMinDistance='simulationModel.clusterSprouting.contactDistance' must be less than 'simulationModel.clusterSprouting.leaderRepulsionMinDistance'.
+
 Settings.Config.SimulationModel.NetworkFormation.Load.Error.JsonError=The format of the 'simulationModel.networkFormation' parameter in the config file is invalid.
 Settings.Config.SimulationModel.NetworkFormation.Load.Error.adhesiveRepulsionFactor='simulationModel.networkFormation.adhesiveRepulsionFactor' in the config file must be greater than or equal to zero.
 Settings.Config.SimulationModel.NetworkFormation.Load.Error.attractionFactor='simulationModel.networkFormation.attractionFactor' in the config file must be greater than or equal to zero.

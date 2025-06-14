@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "CellSim.Settings.Config.SimulationModel.CellGrowth.hpp"
 #include "CellSim.Settings.Config.SimulationModel.ClusterFormation.hpp"
+#include "CellSim.Settings.Config.SimulationModel.ClusterSprouting.hpp"
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
 #include "CellSim.Messages.hpp"
 
@@ -33,7 +34,7 @@ namespace CellSim::Settings
             case Model::CellSimulationType::CellGrowth: CellGrowth::Load(config["cellGrowthModel"]); break;
             case Model::CellSimulationType::ClusterFormation: ClusterFormation::Load(config["clusterFormation"]); break;
             case Model::CellSimulationType::ClusterRotation: break;
-            case Model::CellSimulationType::ClusterSprouting: break;
+            case Model::CellSimulationType::ClusterSprouting: ClusterSprouting::Load(config["clusterSprouting"]); break;
             case Model::CellSimulationType::NetworkFormation: NetworkFormation::Load(config["networkFormation"]); break;
             case Model::CellSimulationType::Null: break;
             case Model::CellSimulationType::User: break;

@@ -54,9 +54,7 @@ Settings.Config.Cell.Load.Error.radius=configファイルの'cell.radius'にゼ�
 Settings.Config.Cell.Load.Error.type=configファイルの'cell.type'値が無効です。
 
 Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=configファイルの'cellAlgorithm.cellList'パラメータの形式が正しくありません。
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountX=configファイルの'cellAlgorithms.cellList.gridCountX'にゼロが指定されました。
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountY=configファイルの'cellAlgorithms.cellList.gridCountY'にゼロが指定されました。
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountZ=configファイルの'cellAlgorithms.cellList.gridCountZ'にゼロが指定されました。
+Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount=configファイルの'cellAlgorithms.cellList.gridCount'にゼロが指定されました。
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius=configファイルの'cellAlgorithms.cellList.searchRadius'にゼロ以下の値が指定されました。
 
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=configファイルの'cellAlgorithm.algorithmType'値が無効です。
@@ -78,9 +76,7 @@ Settings.Config.Optimization.Load.Error.peformance=configファイルの'optimiz
 
 Settings.Config.Simulation.Load.Error.JsonError=configファイルの'simulation'パラメータの形式が正しくありません。
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
-Settings.Config.Simulation.Load.Error.fieldRadiusX=configファイルの'simulation.fieldRadiusX'に負の値が指定されました。
-Settings.Config.Simulation.Load.Error.fieldRadiusY=configファイルの'simulation.fieldRadiusY'に負の値が指定されました。
-Settings.Config.Simulation.Load.Error.fieldRadiusZ=configファイルの'simulation.fieldRadiusZ'に負の値が指定されました。
+Settings.Config.Simulation.Load.Error.fieldRadius=configファイルの'simulation.fieldRadius'に負の値が指定されました。
 Settings.Config.Simulation.Load.Error.outputInterval=configファイルの'simulation.toutputInterval'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.totalSteps=configファイルの'simulation.totalSteps'にゼロが指定されました。
 
@@ -94,6 +90,17 @@ Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=configフ�
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.clusterFormation.adhesiveRepulsionFactor'に負の値が指定されました。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda=configファイルの'simulationModel.clusterFormation.lambda'にゼロが指定されました。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor=configファイルの'simulationModel.clusterFormation.remoteForceFactor'に負の値が指定されました。
+
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.JsonError=configファイルの'simulationModel.clusterSprouting'パラメータの形式が正しくありません。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.coefficientCd=configファイルの'simulationModel.clusterSprouting.coefficientCd'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance=configファイルの'simulationModel.clusterSprouting.contactDistance'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.followerAttractionFactor=configファイルの'simulationModel.clusterSprouting.followerAttractionFactor'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.globalAttractionFactor=configファイルの'simulationModel.clusterSprouting.globalAttractionFactor'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.lambda=configファイルの'simulationModel.clusterSprouting.lambda'にゼロが指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionFactor=configファイルの'simulationModel.clusterSprouting.leaderRepulsionFactor'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMaxDistance=configファイルの'simulationModel.clusterSprouting.leaderRepulsionMaxDistance'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMinDistance=configファイルの'simulationModel.clusterSprouting.leaderRepulsionMinDistance'に負の値が指定されました。
+Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance-leaderRepulsionMinDistance=configファイルの'simulationModel.clusterSprouting.contactDistance'は'simulationModel.clusterSprouting.leaderRepulsionMinDistance'よりも小さい値にする必要があります。
 
 Settings.Config.SimulationModel.NetworkFormation.Load.Error.JsonError=configファイルの'simulationModel.networkFormation'パラメータの形式が正しくありません。
 Settings.Config.SimulationModel.NetworkFormation.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.networkFormation.adhesiveRepulsionFactor'に負の値が指定されました。

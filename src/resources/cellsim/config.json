@@ -40,6 +40,18 @@
             "remoteForceFactor": 1.0
         },
 
+        "clusterSprouting": {
+            "adhesionThreshold": 3,
+            "coefficientCd": 10.0,
+            "contactDistance": 20.0,
+            "followerAttractionFactor": 2.0,
+            "globalAttractionFactor": 0.05,
+            "lambda": 20.0,
+            "leaderRepulsionFactor": 2.0,
+            "leaderRepulsionMaxDistance": 150.0,
+            "leaderRepulsionMinDistance": 80.0
+        },
+
         "networkFormation": {
             "adhesiveRepulsionFactor": 200,
             "attractionFactor": 0.3,
