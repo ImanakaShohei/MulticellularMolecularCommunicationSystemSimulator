@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Simulation.hpp"
+#include "CellSim.Messages.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
@@ -209,6 +210,8 @@ namespace CellSim
     {
         s_current = this;
 
+        ::puts(Messages::Get("Simulation.Simulation.Initializing").c_str());
+
         m_initializeCellAlgorithm();
         
         m_pCellSimulationModel->InitializeCells(this, m_cells);
@@ -228,6 +231,8 @@ namespace CellSim
     {
         s_current = this;
 
+        ::puts(Messages::Get("Simulation.Run.Running").c_str());
+
         uint64_t totalStep = Settings::Config::Simulation::TotalSteps();
 
         ::std::chrono::system_clock::time_point beginClock  = std::chrono::system_clock::now();
@@ -245,13 +250,14 @@ namespace CellSim
             }
 
             if (::std::chrono::duration_cast<::std::chrono::milliseconds>(::std::chrono::system_clock::now() - currentClock).count() >= 250) {
-                printf("%llu/%llu\n", step, totalStep);
+                ::printf("%llu/%llu\n", step, totalStep);
                 currentClock = ::std::chrono::system_clock::now();
             }
             
         }
 
         currentClock = ::std::chrono::system_clock::now();
+        ::printf("%llu/%llu\n", totalStep, totalStep);
 
         m_writer.SaveConfig(
             totalStep,
@@ -260,5 +266,7 @@ namespace CellSim
             Settings::Config::SimulationModel::SimulationType(),
             Settings::Config::CellAlgorithm::AlgorithmType()
         );
+
+        ::puts(Messages::Get("Simulation.Run.Completed").c_str());
     }
 }

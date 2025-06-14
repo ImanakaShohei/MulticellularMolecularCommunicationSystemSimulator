@@ -84,3 +84,7 @@ Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=The format
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor='simulationModel.clusterFormation.adhesiveRepulsionFactor' in the config file must be greater than or equal to zero.
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda='simulationModel.clusterFormation.lambda' in the config file must be non-zero.
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor='simulationModel.clusterFormation.remoteForceFactor' in the config file must be greater than or equal to zero.
+
+Simulation.Run.Completed=Completed.
+Simulation.Run.Running=Running Simulation...
+Simulation.Simulation.Initializing=Initializing...

@@ -84,3 +84,7 @@ Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError=configフ�
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFactor=configファイルの'simulationModel.clusterFormation.adhesiveRepulsionFactor'に負の値が指定されました。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda=configファイルの'simulationModel.clusterFormation.lambda'にゼロが指定されました。
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor=configファイルの'simulationModel.clusterFormation.remoteForceFactor'に負の値が指定されました。
+
+Simulation.Run.Completed=完了。
+Simulation.Run.Running=シミュレーションを実行中...
+Simulation.Simulation.Initializing=初期化中...
