@@ -23,9 +23,7 @@
     "simulation": {
         "deltaTime": 0.1,
         "enable2DMode": true,
-        "fieldRadiusX": 512,
-        "fieldRadiusY": 512,
-        "fieldRadiusZ": 0,
+        "fieldRadius": 512,
         "outputInterval": 5,
         "totalSteps": 1000
     },
@@ -57,9 +55,7 @@
         "useClusterModel": false,
 
         "cellList": {
-            "gridCountX": 32,
-            "gridCountY": 32,
-            "gridCountZ": 1,
+            "gridCount": 32,
             "searchRadius": 64
         }
     }

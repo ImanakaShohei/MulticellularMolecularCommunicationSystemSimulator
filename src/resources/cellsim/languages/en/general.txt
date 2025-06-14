@@ -54,9 +54,7 @@ Settings.Config.Cell.Load.Error.radius='cell.radius' in the config file must be 
 Settings.Config.Cell.Load.Error.type=The value of 'cell.type' in the config file is invalid.
 
 Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=The format of the 'cellAlgorithm.cellList' parameter in the config file is invalid.
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountX='cellAlgorithms.cellList.gridCountX' in the config file must be non-zero.
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountY='cellAlgorithms.cellList.gridCountY' in the config file must be non-zero.
-Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountZ='cellAlgorithms.cellList.gridCountZ' in the config file must be non-zero.
+Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount='cellAlgorithms.cellList.gridCount' in the config file must be non-zero.
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius='cellAlgorithms.cellList.searchRadius' in the config file must be a positive value.
 
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=The value of 'cellAlgorithm.algorithmType' in the config file is invalid.
@@ -78,9 +76,7 @@ Settings.Config.Optimization.Load.Error.peformance=The value of 'optimization.pe
 
 Settings.Config.Simulation.Load.Error.JsonError=The format of the 'simulation' parameter in the config file is invalid.
 Settings.Config.Simulation.Load.Error.deltaTime='simulation.deltaTime' in the config file must be a positive value.
-Settings.Config.Simulation.Load.Error.fieldRadiusX='simulation.fieldRadiusX' in the config file must be greater than or equal to zero.
-Settings.Config.Simulation.Load.Error.fieldRadiusY='simulation.fieldRadiusY' in the config file must be greater than or equal to zero.
-Settings.Config.Simulation.Load.Error.fieldRadiusZ='simulation.fieldRadiusZ' in the config file must be greater than or equal to zero.
+Settings.Config.Simulation.Load.Error.fieldRadius='simulation.fieldRadius' in the config file must be greater than or equal to zero.
 Settings.Config.Simulation.Load.Error.outputInterval='simulation.outputInterval' in the config file must be a positive value.
 Settings.Config.Simulation.Load.Error.totalSteps='simulation.totalSteps' in the config file must be non-zero.
 

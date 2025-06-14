@@ -10,9 +10,7 @@ namespace CellSim::Settings
         try {
             s_deltaTime = config.at("deltaTime").get<double>();
             s_enable2DMode = config.at("enable2DMode").get<bool>();
-            s_fieldRadiusX = config.at("fieldRadiusX").get<double>();
-            s_fieldRadiusY = config.at("fieldRadiusY").get<double>();
-            s_fieldRadiusZ = config.at("fieldRadiusZ").get<double>();
+            s_fieldRadiusX = config.at("fieldRadius").get<double>();
             s_outputInterval = config.at("outputInterval").get<int32_t>();
             s_totalSteps = config.at("totalSteps").get<uint64_t>();
         }
@@ -22,10 +20,11 @@ namespace CellSim::Settings
         
 
         if (s_deltaTime <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.deltaTime"));
-        if (s_fieldRadiusX < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusX"));
-        if (s_fieldRadiusY < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusY"));
-        if (s_fieldRadiusZ < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusZ"));
+        if (s_fieldRadiusX < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadius"));
         if (s_outputInterval <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.outputInterval"));
         if (s_totalSteps == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps"));
+
+        s_fieldRadiusY = s_fieldRadiusX;
+        s_fieldRadiusZ = s_enable2DMode ? 0.0 : s_fieldRadiusX;
     }
 }

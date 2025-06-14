@@ -31,6 +31,10 @@ $ chmod +x build-linux.sh
 $ ./build-linux.sh
 ```
 
+### 実行ファイルの場所
+`./build-scripts/build/bin/`に作られます。
+MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
+
 # コマンドラインオプション
 ### `-b` `--binary`
 実行結果を`.bin`ファイルとして出力します。

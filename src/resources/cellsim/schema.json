@@ -73,15 +73,7 @@
                 "barnesHut": { "type": "object" },
                 "cellList": {
                     "properties": {
-                        "gridCountX": {
-                            "type": "integer",
-                            "exclusiveMinimum": 0
-                        },
-                        "gridCountY": {
-                            "type": "integer",
-                            "exclusiveMinimum": 0
-                        },
-                        "gridCountZ": {
+                        "gridCount": {
                             "type": "integer",
                             "exclusiveMinimum": 0
                         },
@@ -90,7 +82,7 @@
                             "exclusiveMinimum": 0
                         }
                     },
-                    "required": [ "gridCountX", "gridCountY", "gridCountZ", "searchRadius" ]
+                    "required": [ "gridCount", "searchRadius" ]
                 },
                 "particleMesh": { "type": "object" },
                 "user": { "type": "object" }
@@ -155,17 +147,7 @@
                     "exclusiveMinimum": 0
                 },
                 "enable2DMode": { "type": "boolean" },
-                "fieldRadiusX": {
-                    "type": "number",
-                    "minimum": 0,
-                    "examples": [ 512, 1024, 2048 ]
-                },
-                "fieldRadiusY": {
-                    "type": "number",
-                    "minimum": 0,
-                    "examples": [ 512, 1024, 2048 ]
-                },
-                "fieldRadiusZ": {
+                "fieldRadius": {
                     "type": "number",
                     "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
@@ -179,7 +161,7 @@
                     "exclusiveMinimum": 0
                 }
             },
-            "required": [ "deltaTime", "fieldRadiusX", "fieldRadiusY", "fieldRadiusZ", "outputInterval", "totalSteps" ]
+            "required": [ "deltaTime", "fieldRadius", "outputInterval", "totalSteps" ]
         },
         "simulationModel": {
             "type": "object",

@@ -9,9 +9,7 @@ namespace CellSim::Settings
     void Config::CellAlgorithm::CellList::Load(::nlohmann::json const& config)
     {
         try {
-            s_gridCountX = config.at("gridCountX").get<size_t>();
-            s_gridCountY = config.at("gridCountY").get<size_t>();
-            s_gridCountZ = config.at("gridCountZ").get<size_t>();
+            s_gridCountX = config.at("gridCount").get<size_t>();
             s_searchRadius = config.at("searchRadius").get<double>();
         }
         catch (...) {
@@ -19,8 +17,9 @@ namespace CellSim::Settings
         }
         
         if (s_gridCountX == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountX"));
-        if (s_gridCountY == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountY"));
-        if (s_gridCountZ == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCountZ"));
         if (s_searchRadius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius"));
+
+        s_gridCountY = s_gridCountX;
+        s_gridCountZ = s_gridCountX;
     }
 }
