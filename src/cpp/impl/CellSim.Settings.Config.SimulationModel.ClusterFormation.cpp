@@ -9,9 +9,9 @@ namespace CellSim::Settings
     void Config::SimulationModel::ClusterFormation::Load(::nlohmann::json const& config)
     {
         try {
-            s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].get<double>();
-            s_lambda = config["lambda"].get<double>();
-            s_remoteForceFactor = config["remoteForceFactor"].get<double>();
+            s_adhesiveRepulsionFactor = config.at("adhesiveRepulsionFactor").get<double>();
+            s_lambda = config.at("lambda").get<double>();
+            s_remoteForceFactor = config.at("remoteForceFactor").get<double>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.ClusterFormation.Load.Error.JsonError"));

@@ -11,15 +11,15 @@ namespace CellSim::Settings
         ::std::string s;
 
         try {
-            s_cellCount = config["cellCount"].get<size_t>();
-            s_enableGrowth = config["enableGrowth"].get<bool>();
-            s_growthRate = config["growthRate"].get<double>();
-            s_initialPlacementRadius = config["initialPlacementRadius"].get<double>();
-            s_isSensitiveToMolecules = config["isSensitiveToMolecules"].get<bool>();
-            s_initialPlacementSeed = config["initialPlacementSeed"].get<uint32_t>();
-            s_mass = config["mass"].get<double>();
-            s_radius = config["radius"].get<double>();
-            s = config["type"].get<::std::string>();
+            s_cellCount = config.at("cellCount").get<size_t>();
+            s_enableGrowth = config.at("enableGrowth").get<bool>();
+            s_growthRate = config.at("growthRate").get<double>();
+            s_initialPlacementRadius = config.at("initialPlacementRadius").get<double>();
+            s_isSensitiveToMolecules = config.at("isSensitiveToMolecules").get<bool>();
+            s_initialPlacementSeed = config.at("initialPlacementSeed").get<uint32_t>();
+            s_mass = config.at("mass").get<double>();
+            s_radius = config.at("radius").get<double>();
+            s = config.at("type").get<::std::string>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));

@@ -9,10 +9,10 @@ namespace CellSim::Settings
     void Config::CellAlgorithm::CellList::Load(::nlohmann::json const& config)
     {
         try {
-            s_gridCountX = config["gridCountX"].get<size_t>();
-            s_gridCountY = config["gridCountY"].get<size_t>();
-            s_gridCountZ = config["gridCountZ"].get<size_t>();
-            s_searchRadius = config["searchRadius"].get<double>();
+            s_gridCountX = config.at("gridCountX").get<size_t>();
+            s_gridCountY = config.at("gridCountY").get<size_t>();
+            s_gridCountZ = config.at("gridCountZ").get<size_t>();
+            s_searchRadius = config.at("searchRadius").get<double>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError"));

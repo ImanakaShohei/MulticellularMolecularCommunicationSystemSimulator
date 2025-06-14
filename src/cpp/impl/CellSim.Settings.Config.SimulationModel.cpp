@@ -14,7 +14,7 @@ namespace CellSim::Settings
         ::std::string s;
 
         try {
-            s = config["simulationType"].get<::std::string>();
+            s = config.at("simulationType").get<::std::string>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.JsonError"));

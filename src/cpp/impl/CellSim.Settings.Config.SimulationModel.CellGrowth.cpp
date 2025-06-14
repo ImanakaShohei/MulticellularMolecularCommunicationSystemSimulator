@@ -9,7 +9,7 @@ namespace CellSim::Settings
     void Config::SimulationModel::CellGrowth::Load(::nlohmann::json const& config)
     {
         try {
-            s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].get<double>();
+            s_adhesiveRepulsionFactor = config.at("adhesiveRepulsionFactor").get<double>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.CellGrowth.Load.Error.JsonError"));

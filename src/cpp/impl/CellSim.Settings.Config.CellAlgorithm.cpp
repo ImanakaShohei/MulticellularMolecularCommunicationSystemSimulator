@@ -14,8 +14,8 @@ namespace CellSim::Settings
     {
         ::std::string s;
         try {
-            s_useClusterModel = config["useClusterModel"].get<bool>();
-            s = config["algorithmType"].get<::std::string>();
+            s_useClusterModel = config.at("useClusterModel").get<bool>();
+            s = config.at("algorithmType").get<::std::string>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.Load.Error.JsonError"));

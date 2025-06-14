@@ -11,7 +11,7 @@ namespace CellSim::Settings
     {
         ::std::string s;
         try {
-            s = config["peformance"].get<::std::string>();
+            s = config.at("peformance").get<::std::string>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.JsonError"));

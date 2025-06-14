@@ -8,13 +8,13 @@ namespace CellSim::Settings
     void Config::Simulation::Load(::nlohmann::json const& config)
     {
         try {
-            s_deltaTime = config["deltaTime"].get<double>();
-            s_enable2DMode = config["enable2DMode"].get<bool>();
-            s_fieldRadiusX = config["fieldRadiusX"].get<double>();
-            s_fieldRadiusY = config["fieldRadiusY"].get<double>();
-            s_fieldRadiusZ = config["fieldRadiusZ"].get<double>();
-            s_outputInterval = config["outputInterval"].get<int32_t>();
-            s_totalSteps = config["totalSteps"].get<uint64_t>();
+            s_deltaTime = config.at("deltaTime").get<double>();
+            s_enable2DMode = config.at("enable2DMode").get<bool>();
+            s_fieldRadiusX = config.at("fieldRadiusX").get<double>();
+            s_fieldRadiusY = config.at("fieldRadiusY").get<double>();
+            s_fieldRadiusZ = config.at("fieldRadiusZ").get<double>();
+            s_outputInterval = config.at("outputInterval").get<int32_t>();
+            s_totalSteps = config.at("totalSteps").get<uint64_t>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));

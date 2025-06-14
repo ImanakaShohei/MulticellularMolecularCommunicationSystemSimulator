@@ -15,7 +15,7 @@ namespace CellSim::Settings
         ::std::string s;
 
         try {
-            s = config["behaviorType"].get<::std::string>();
+            s = config.at("behaviorType").get<::std::string>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
