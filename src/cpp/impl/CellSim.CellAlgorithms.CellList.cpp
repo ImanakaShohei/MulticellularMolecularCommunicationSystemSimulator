@@ -50,9 +50,20 @@ namespace CellSim::CellAlgorithms
 
         if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
 
-        if (m_gridLengthX == 0.0) m_searchGridCountX = 0;
-        if (m_gridLengthY == 0.0) m_searchGridCountY = 0;
-        if (m_gridLengthZ == 0.0) m_searchGridCountZ = 0;
+        if (m_gridLengthX == 0.0) {
+            m_searchGridCountX = 0;
+            m_reverseGridLengthX = 0;
+        }
+
+        if (m_gridLengthY == 0.0) {
+            m_searchGridCountY = 0;
+            m_reverseGridLengthY = 0;
+        }
+        
+        if (m_gridLengthZ == 0.0) {
+            m_searchGridCountZ = 0;
+            m_reverseGridLengthZ = 0;
+        }
     }
 
     void CellList::BeforeAdvanceStep(
@@ -75,17 +86,13 @@ namespace CellSim::CellAlgorithms
 
             if (z < 0.0) continue;
 
-            size_t atX = (size_t)(x * m_reverseGridLengthX);
-            size_t atY = (size_t)(y * m_reverseGridLengthY);
-            size_t atZ = (size_t)(z * m_reverseGridLengthZ);
+            int32_t atX = (int32_t)(x * m_reverseGridLengthX);
+            int32_t atY = (int32_t)(y * m_reverseGridLengthY);
+            int32_t atZ = (int32_t)(z * m_reverseGridLengthZ);
 
-            if (m_gridCountX == 0.0) atX = 0;
-            if (m_gridCountY == 0.0) atY = 0;
-            if (m_gridCountZ == 0.0) atZ = 0;
-
-            if (atX >= m_gridCountX) continue;
-            if (atY >= m_gridCountY) continue;
-            if (atZ >= m_gridCountZ) continue;
+            if ((size_t)atX >= m_gridCountX) continue;
+            if ((size_t)atY >= m_gridCountY) continue;
+            if ((size_t)atZ >= m_gridCountZ) continue;
 
             m_span.At(atX, atY, atZ).emplace_back(cell);
         }
@@ -101,20 +108,20 @@ namespace CellSim::CellAlgorithms
         
         ::std::vector<Cells::CellInfo> result;
 
-        int32_t xMin = gridPosition.X - m_searchGridCountX;
-        int32_t yMin = gridPosition.Y - m_searchGridCountY;
-        int32_t zMin = gridPosition.Z - m_searchGridCountZ;
-        int32_t xMax = gridPosition.X + m_searchGridCountX;
-        int32_t yMax = gridPosition.Y + m_searchGridCountY;
-        int32_t zMax = gridPosition.Z + m_searchGridCountZ;
+        int32_t xMin = (int32_t)(gridPosition.X - m_searchGridCountX);
+        int32_t yMin = (int32_t)(gridPosition.Y - m_searchGridCountY);
+        int32_t zMin = (int32_t)(gridPosition.Z - m_searchGridCountZ);
+        int32_t xMax = (int32_t)(gridPosition.X + m_searchGridCountX);
+        int32_t yMax = (int32_t)(gridPosition.Y + m_searchGridCountY);
+        int32_t zMax = (int32_t)(gridPosition.Z + m_searchGridCountZ);
 
         if (xMin < 0) xMin = 0;
         if (yMin < 0) yMin = 0;
         if (zMin < 0) zMin = 0;
 
-        if (xMax >= m_gridCountX) xMax = m_gridCountX - 1;
-        if (yMax >= m_gridCountY) yMax = m_gridCountY - 1;
-        if (zMax >= m_gridCountZ) zMax = m_gridCountZ - 1;
+        if ((size_t)xMax >= m_gridCountX) xMax = (int32_t)(m_gridCountX) - 1;
+        if ((size_t)yMax >= m_gridCountY) yMax = (int32_t)(m_gridCountY) - 1;
+        if ((size_t)zMax >= m_gridCountZ) zMax = (int32_t)(m_gridCountZ) - 1;
 
         for (size_t x = xMin; x <= xMax; x++) {
             auto span2 = m_span[x];
@@ -143,20 +150,20 @@ namespace CellSim::CellAlgorithms
         Numerics::Vector3 position = args.Target->Position();
         Numerics::GridPosition3 gridPosition = ToGridPosition3(position);
         
-        int32_t xMin = gridPosition.X - m_searchGridCountX;
-        int32_t yMin = gridPosition.Y - m_searchGridCountY;
-        int32_t zMin = gridPosition.Z - m_searchGridCountZ;
-        int32_t xMax = gridPosition.X + m_searchGridCountX;
-        int32_t yMax = gridPosition.Y + m_searchGridCountY;
-        int32_t zMax = gridPosition.Z + m_searchGridCountZ;
+        int32_t xMin = (int32_t)(gridPosition.X - m_searchGridCountX);
+        int32_t yMin = (int32_t)(gridPosition.Y - m_searchGridCountY);
+        int32_t zMin = (int32_t)(gridPosition.Z - m_searchGridCountZ);
+        int32_t xMax = (int32_t)(gridPosition.X + m_searchGridCountX);
+        int32_t yMax = (int32_t)(gridPosition.Y + m_searchGridCountY);
+        int32_t zMax = (int32_t)(gridPosition.Z + m_searchGridCountZ);
 
         if (xMin < 0) xMin = 0;
         if (yMin < 0) yMin = 0;
         if (zMin < 0) zMin = 0;
 
-        if (xMax >= m_gridCountX) xMax = m_gridCountX - 1;
-        if (yMax >= m_gridCountY) yMax = m_gridCountY - 1;
-        if (zMax >= m_gridCountZ) zMax = m_gridCountZ - 1;
+        if ((size_t)xMax >= m_gridCountX) xMax = (int32_t)(m_gridCountX) - 1;
+        if ((size_t)yMax >= m_gridCountY) yMax = (int32_t)(m_gridCountY) - 1;
+        if ((size_t)zMax >= m_gridCountZ) zMax = (int32_t)(m_gridCountZ) - 1;
 
         for (size_t x = xMin; x <= xMax; x++) {
             auto span2 = m_span[x];
@@ -196,9 +203,9 @@ namespace CellSim::CellAlgorithms
         double z = position.Z + Settings::Config::Simulation::FieldRadiusZ();
 
         return Numerics::GridPosition3(
-            (size_t)((position.X + Settings::Config::Simulation::FieldRadiusX()) * m_reverseGridLengthX),
-            (size_t)((position.Y + Settings::Config::Simulation::FieldRadiusY()) * m_reverseGridLengthY),
-            (size_t)((position.Z + Settings::Config::Simulation::FieldRadiusZ()) * m_reverseGridLengthZ)
+            (int32_t)((position.X + Settings::Config::Simulation::FieldRadiusX()) * m_reverseGridLengthX),
+            (int32_t)((position.Y + Settings::Config::Simulation::FieldRadiusY()) * m_reverseGridLengthY),
+            (int32_t)((position.Z + Settings::Config::Simulation::FieldRadiusZ()) * m_reverseGridLengthZ)
         );
     }
 
