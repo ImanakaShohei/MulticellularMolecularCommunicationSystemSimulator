@@ -21,6 +21,7 @@ namespace CellSim::Settings
         class ClusterRotation;
         class ClusterSprouting;
         class NetworkFormation;
+        class User;
 
         CELLSIM_STATIC_CLASS(SimulationModel);
 

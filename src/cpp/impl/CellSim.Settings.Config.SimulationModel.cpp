@@ -6,6 +6,8 @@
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
 #include "CellSim.Messages.hpp"
 
+#include "../CellSim.Settings.Config.SimulationModel.User.hpp"
+
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 
@@ -38,7 +40,7 @@ namespace CellSim::Settings
             case Model::CellSimulationType::ClusterSprouting: ClusterSprouting::Load(config["clusterSprouting"]); break;
             case Model::CellSimulationType::NetworkFormation: NetworkFormation::Load(config["networkFormation"]); break;
             case Model::CellSimulationType::Null: break;
-            case Model::CellSimulationType::User: break;
+            case Model::CellSimulationType::User: User::Load(config["user"]); break;
         }
         
     }

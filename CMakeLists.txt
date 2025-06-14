@@ -17,6 +17,7 @@ set(SOURCES
     src/cpp/CellSim.Users.UserMoleculeBehavior.cpp
     src/cpp/CellSim.Settings.Config.CellAlgorithm.User.cpp
     src/cpp/CellSim.Settings.Config.CellBehavior.User.cpp
+    src/cpp/CellSim.Settings.Config.SimulationModel.User.cpp
     src/cpp/CellSim.Settings.Config.UserSettings.cpp
     src/cpp/CellSim.Users.UserSimulationModel.cpp
     src/cpp/impl/CellSim.Messages.cpp
