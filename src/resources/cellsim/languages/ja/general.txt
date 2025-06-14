@@ -1,4 +1,4 @@
-﻿NotImplemented='%s'は未完成です。
+NotImplemented='%s'は未完成です。
 
 CellAlgorithms.CellAlgorithm.FromType.Error=無効なCellSim::CellAlgorithms::CellAlgorithmType値です。
 

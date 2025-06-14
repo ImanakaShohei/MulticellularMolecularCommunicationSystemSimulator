@@ -15,6 +15,8 @@ namespace CellSim::Cli
             CELLSIM_VERSION_PATCH,
             CELLSIM_VERSION_EXTENSION
         );
+        putchar('\n');
+        
         try {
             Messages::Initialize();
 

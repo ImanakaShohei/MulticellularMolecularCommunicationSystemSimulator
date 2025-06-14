@@ -53,16 +53,41 @@ namespace CellSim
 
         ::std::string line;
 
+#if CELLSIM_ENV_WINDOWS
+        ::std::vector<wchar_t> vec;
+#endif
+
         while (::std::getline(ifs, line)) {
+            if (line.size() == 0) continue;
+#if CELLSIM_ENV_WINDOWS
+            // UTF-8 -> UTF-16 -> ACP
+            int wLength = ::MultiByteToWideChar(CP_UTF8, 0, line.c_str(), (int)line.size(), nullptr, 0) + 1;
+            
+            if (wLength == 1) [[unlikely]] throw ::std::runtime_error("Failed to convert codePage");
+
+            if (vec.size() < (size_t)wLength) {
+                vec.resize(wLength);
+            }
+
+            ::MultiByteToWideChar(CP_UTF8, 0, line.c_str(), (int)line.size(), vec.data(), (int)vec.size());
+
+            int cLength = ::WideCharToMultiByte(CP_ACP, 0, vec.data(), wLength - 1, nullptr, 0, nullptr, nullptr) + 1;
+
+            if (cLength == 1) [[unlikely]] throw ::std::runtime_error("Failed to convert codePage");
+
+            line.resize(cLength - 1, '\0');
+            
+            ::WideCharToMultiByte(CP_ACP, 0, vec.data(), wLength - 1, line.data(), (int)(line.size() + 1), nullptr, nullptr);
+#endif
             // name=value
             size_t index = line.find('=');
-            if (index == ::std::string::npos) {
-                if (line.size() != 0) [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
-            }
+            if (index == ::std::string::npos)  [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
+
             if (index == line.size()) [[unlikely]] throw ::std::runtime_error("The format of the language file is invalid.");
 
             s_map.emplace(line.substr(0, index), line.substr(index + 1));
         }
+
     }
 
     void Messages::s_loadSingleMessage(::std::string const& folderPath, ::std::string_view fileName, ::std::string messageName)

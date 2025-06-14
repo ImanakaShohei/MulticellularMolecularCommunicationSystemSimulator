@@ -1,4 +1,4 @@
-﻿NotImplemented='%s' is not yet implemented.
+NotImplemented='%s' is not yet implemented.
 
 CellAlgorithms.CellAlgorithm.FromType.Error=Invalid CellSim::CellAlgorithms::CellAlgorithmType value.
 
