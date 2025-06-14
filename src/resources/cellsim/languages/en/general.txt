@@ -91,6 +91,14 @@ Settings.Config.SimulationModel.ClusterFormation.Load.Error.adhesiveRepulsionFac
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.lambda='simulationModel.clusterFormation.lambda' in the config file must be non-zero.
 Settings.Config.SimulationModel.ClusterFormation.Load.Error.remoteForceFactor='simulationModel.clusterFormation.remoteForceFactor' in the config file must be greater than or equal to zero.
 
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.JsonError=The format of the 'simulationModel.clusterRotation' parameter in the config file is invalid.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.adhesionDistanceThreshold='simulationModel.clusterRotation.adhesionDistanceThreshold' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.adhesionForceFactor='simulationModel.clusterRotation.adhesionForceFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.centralForceFactor='simulationModel.clusterRotation.centralForceFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.repulsionFactor='simulationModel.clusterRotation.repulsionFactor' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.repulsionMaxDistance='simulationModel.clusterRotation.repulsionMaxDistance' in the config file must be greater than or equal to zero.
+Settings.Config.SimulationModel.ClusterRotation.Load.Error.repulsionMaxDistance-adhesionDistanceThreshold='simulationModel.clusterRotation.repulsionMaxDistance' must be less than 'simulationModel.clusterRotation.adhesionDistanceThreshold'.
+
 Settings.Config.SimulationModel.ClusterSprouting.Load.Error.JsonError=The format of the 'simulationModel.clusterSprouting' parameter in the config file is invalid.
 Settings.Config.SimulationModel.ClusterSprouting.Load.Error.coefficientCd='simulationModel.clusterSprouting.coefficientCd' in the config file must be greater than or equal to zero.
 Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance='simulationModel.clusterSprouting.contactDistance' in the config file must be greater than or equal to zero.

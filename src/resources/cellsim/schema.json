@@ -197,6 +197,38 @@
                     },
                     "required": [ "adhesiveRepulsionFactor", "lambda", "remoteForceFactor" ]
                 },
+                "clusterRotation": {
+                    "type": "object",
+                    "properties": {
+                        "adhesionDistanceThreshold": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "adhesionForceFactor": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "centralForceFactor": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "repulsionFactor": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "repulsionMaxDistance": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [
+                        "adhesionDistanceThreshold",
+                        "adhesionForceFactor",
+                        "centralForceFactor",
+                        "repulsionFactor",
+                        "repulsionMaxDistance"
+                    ]
+                },
                 "clusterSprouting": {
                     "type": "object",
                     "properties": {
