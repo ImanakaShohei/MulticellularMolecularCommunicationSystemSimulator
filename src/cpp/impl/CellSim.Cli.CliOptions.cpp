@@ -62,7 +62,7 @@ namespace CellSim::Cli
                             throw ::std::runtime_error(s);
                         }
 
-                        pair.second->AddValue(arg);
+                        pair.second->AddValue(argv[i]);
                     }
                 }
             }
