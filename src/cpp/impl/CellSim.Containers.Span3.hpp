@@ -46,13 +46,13 @@ namespace CellSim::Containers
     template <class T>
     constexpr Span2<T> Span3<T>::operator[](size_t index) const noexcept
     {
-        return Span2(m_lengthY, m_lengthZ, m_ptr);
+        return Span2(m_lengthY, m_lengthZ, m_ptr + (index * m_lengthY * m_lengthZ));
     }
 
     template <class T>
     constexpr T& Span3<T>::At(size_t index1, size_t index2, size_t index3) const noexcept
     {
-        return *(m_ptr + ((index1 * m_lengthX + index2) * m_lengthY + index3));
+        return *(m_ptr + ((index1 * m_lengthY + index2) * m_lengthZ + index3));
     }
 
     template <class T>

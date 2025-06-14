@@ -230,7 +230,8 @@ namespace CellSim
 
         uint64_t totalStep = Settings::Config::Simulation::TotalSteps();
 
-        ::clock_t currentClock = ::clock();
+        ::std::chrono::system_clock::time_point beginClock  = std::chrono::system_clock::now();
+        ::std::chrono::system_clock::time_point currentClock = beginClock;
 
         m_writer.Save(*this, 0);
 
@@ -243,16 +244,19 @@ namespace CellSim
                 m_writer.Save(*this, step);
             }
 
-            if (::clock() - currentClock >= 1000) {
+            if (::std::chrono::duration_cast<::std::chrono::milliseconds>(::std::chrono::system_clock::now() - currentClock).count() >= 250) {
                 printf("%llu/%llu\n", step, totalStep);
+                currentClock = ::std::chrono::system_clock::now();
             }
-            currentClock = ::clock();
+            
         }
+
+        currentClock = ::std::chrono::system_clock::now();
 
         m_writer.SaveConfig(
             totalStep,
             Settings::Config::Cell::CellCount(),
-            (double)currentClock,
+            ::std::chrono::duration_cast<::std::chrono::milliseconds>(currentClock - beginClock).count(),
             Settings::Config::SimulationModel::SimulationType(),
             Settings::Config::CellAlgorithm::AlgorithmType()
         );

@@ -2,8 +2,9 @@
     "$schema": "./schema.json",
     "cell": {
         "cellCount": 1000,
-        "enableGrowth": true,
+        "enableGrowth": false,
         "growthRate": 0.03,
+        "initialPlacementRadius": 512,
         "initialPlacementSeed": 0,
         "isSensitiveToMolecules": false,
         "mass": 1.0,
@@ -16,11 +17,14 @@
             "cellDivisionRadius": 18
         }
     },
+    "optimization": {
+        "peformance": "Fast"
+    },
     "simulation": {
         "deltaTime": 10,
         "enable2DMode": true,
-        "fieldRadiusX": 1024,
-        "fieldRadiusY": 1024,
+        "fieldRadiusX": 512,
+        "fieldRadiusY": 512,
         "fieldRadiusZ": 0,
         "outputInterval": 5,
         "totalSteps": 1000

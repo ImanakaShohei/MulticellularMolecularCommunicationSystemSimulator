@@ -19,6 +19,8 @@ namespace CellSim::Molecular
         MoleculeBehavior() noexcept;
         constexpr MoleculeBehavior(::CellSim::Molecular::BoundaryCondition boundaryCondition) noexcept;
 
+        virtual ~MoleculeBehavior() = default;
+
         /// @brief 種類から作成
         /// @param kind 種類
         /// @return インスタンス

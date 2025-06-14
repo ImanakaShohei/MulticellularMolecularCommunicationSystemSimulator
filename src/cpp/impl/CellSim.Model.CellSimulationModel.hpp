@@ -11,6 +11,8 @@ namespace CellSim::Model
     class CellSimulationModel {
         public:
 
+        virtual ~CellSimulationModel() = default;
+
         /// @brief CellSimulationTypeからインスタンスを作成
         /// @param type 種類
         /// @return インスタンス

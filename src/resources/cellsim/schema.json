@@ -37,6 +37,10 @@
                     "type": "number",
                     "exclusiveMinimum": 0
                 },
+                "initialPlacementRadius": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
                 "initialPlacementSeed": {
                     "type": "integer",
                     "minimum": 0
@@ -55,7 +59,7 @@
                     "enum": [ "Normal" ]
                 }
             },
-            "required": [ "cellCount", "enableGrowth", "growthRate", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
+            "required": [ "cellCount", "enableGrowth", "growthRate", "initialPlacementRadius", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
         },
         "cellAlgorithm": {
             "type": "object",
@@ -131,6 +135,16 @@
                 "user": { "type": "object" }
             },
             "required": [ "behaviorType" ]
+        },
+        "optimization": {
+            "type": "object",
+            "properties": {
+                "peformance": {
+                    "type": "string",
+                    "enum": [ "Fast", "LowMemory" ]
+                }
+            },
+            "required": [ "peformance" ]
         },
         "simulation": {
             "type": "object",
@@ -209,6 +223,7 @@
         "cell",
         "cellAlgorithm",
         "cellBehavior",
+        "optimization",
         "simulation",
         "simulationModel"
     ]

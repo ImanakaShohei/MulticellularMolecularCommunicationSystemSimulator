@@ -15,9 +15,9 @@ namespace CellSim::Text
         {
             int result = ::snprintf(nullptr, 0, format, ::std::forward<Args>(args)...);
 
-            ::std::string s(result - 1, '\0');
+            ::std::string s(result, '\0');
 
-            ::snprintf(s.data(), result, format, ::std::forward<Args>(args)...);
+            ::snprintf(s.data(), result + 1, format, ::std::forward<Args>(args)...);
 
             return s;
         }

@@ -287,7 +287,7 @@ namespace CellSim::Containers
 
 namespace CellSim::Numerics
 {
-    using GridPosition3 = Vector3T<size_t>;
+    using GridPosition3 = Vector3T<int32_t>;
     using Vector3F = Vector3T<float>;
     using Vector3 = Vector3T<double>;
     using Vector3L = Vector3T<long double>;

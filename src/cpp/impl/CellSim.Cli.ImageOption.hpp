@@ -40,7 +40,7 @@ namespace CellSim::Cli
     constexpr bool ImageOption::IsMatch(::std::string_view optionName) const noexcept
     {
         using namespace std;
-        return optionName == "-h"sv || optionName == "--help"sv;
+        return optionName == "-i"sv || optionName == "--image"sv;
     }
 
     constexpr ::std::string_view ImageOption::Names() const noexcept

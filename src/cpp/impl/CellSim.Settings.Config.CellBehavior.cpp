@@ -21,12 +21,13 @@ namespace CellSim::Settings
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
         }
 
-        if (s == "Normal") s_behaviorType = Cells::CellBehaviorType::Normal;
+        if (s == "MoleculeAware") s_behaviorType = Cells::CellBehaviorType::MoleculeAware;
+        else if (s == "Normal") s_behaviorType = Cells::CellBehaviorType::Normal;
         else if (s == "User") s_behaviorType = Cells::CellBehaviorType::User;
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.behaviorType"));
 
         switch (s_behaviorType) {
-            case Cells::CellBehaviorType::MoleculeAware: MoleculeAware::Load(config["normal"]); break;
+            case Cells::CellBehaviorType::MoleculeAware: MoleculeAware::Load(config["moleculeAware"]); break;
             case Cells::CellBehaviorType::Normal: Normal::Load(config["normal"]); break;
             case Cells::CellBehaviorType::User: User::Load(config["user"]); break;
         }

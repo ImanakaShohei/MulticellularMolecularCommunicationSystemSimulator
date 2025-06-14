@@ -47,7 +47,7 @@ namespace CellSim
         void SaveConfig(
             uint64_t totalStep,
             size_t initialCellCount,
-            double totalMilliseconds,
+            int64_t totalMilliSeconds,
             Model::CellSimulationType simulationType,
             CellAlgorithms::CellAlgorithmType algorithmType
         );

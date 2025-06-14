@@ -5,8 +5,6 @@
 
 #include "base.hpp"
 
-#include <xutility>
-
 #if CELLSIM_ENV_WINDOWS
     #include <Windows.h>
 #else

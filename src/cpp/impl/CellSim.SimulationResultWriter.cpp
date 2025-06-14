@@ -1,4 +1,4 @@
-﻿#include "Cellsim.SimulationResultWriter.hpp"
+﻿#include "CellSim.SimulationResultWriter.hpp"
 #include "CellSim.Simulation.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmType.hpp"
 #include "CellSim.Cells.Cell.hpp"
@@ -18,9 +18,20 @@ namespace CellSim
         m_option.InitializeDirectories();
 
         if(m_option.IsOutputVideo()) {
-            int fourcc = ::cv::VideoWriter::fourcc('m', 'p', '4', 'v');
+            int fourcc = ::cv::VideoWriter::fourcc('M', 'J', 'P', 'G');
 
-            m_videoWriter = cv::VideoWriter(m_option.OutputPath() + "out.mp4", fourcc, 20, cv::Size((int)(Settings::Config::Simulation::FieldRadiusX() * 2.0), (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0)));
+            bool v = m_videoWriter.open(
+                m_option.OutputPath() + "out.avi",
+                fourcc,
+                20,
+                cv::Size(
+                    (int)(Settings::Config::Simulation::FieldRadiusX() * 2.0),
+                    (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0)
+                ),
+                true
+            );
+
+            puts(v ? "true" : "false");
         }
     }
 
@@ -32,7 +43,7 @@ namespace CellSim
         // "%s%020llu.bin"
         char optionStr[14];
         
-        ::snprintf(optionStr, 14, "%%s0%%%lu.bin", m_digits);
+        ::snprintf(optionStr, 14, "%%s%%0%lullu.bin", (unsigned long)m_digits);
         
         char* filePath = new char[filePathCapacity];
 
@@ -89,7 +100,7 @@ namespace CellSim
         // "%s%020llu.csv"
         char optionStr[14];
         
-        ::snprintf(optionStr, 14, "%%s0%%%lu.csv", m_digits);
+        ::snprintf(optionStr, 14, "%%s%%0%lullu.csv", (unsigned long)m_digits);
         
         char* filePath = new char[filePathCapacity];
 
@@ -166,9 +177,9 @@ namespace CellSim
         for (Cells::Cell const& cell : cells) {
             ::cv::circle(
                 image,
-                ::cv::Point{ (int)cell.PositionY(), (int)cell.PositionX() },
+                ::cv::Point{ (int)(cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()), (int)(cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) },
                 (int)cell.Radius(),
-                ::cv::Scalar(0, 255, 255),
+                ::cv::Scalar(255, 255, 0),
                 1
             );
         }
@@ -178,17 +189,17 @@ namespace CellSim
 
     void SimulationResultWriter::m_saveImage(::cv::Mat const& image, uint64_t step) const
     {
-        size_t filePathLength = m_option.OutputBinaryCellPath().size() + m_digits + 4; // ".png"
+        size_t filePathLength = m_option.OutputImagePath().size() + m_digits + 4; // ".png"
         size_t filePathCapacity = filePathLength + 1;
 
         // "%s%020llu.png"
         char optionStr[14];
         
-        ::snprintf(optionStr, 14, "%%s0%%%lu.png", m_digits);
+        ::snprintf(optionStr, 14, "%%s%%0%lullu.png", (unsigned long)m_digits);
         
         char* filePath = new char[filePathCapacity];
 
-        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputCsvCellPath().c_str(), step);
+        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputImagePath().c_str(), step);
 
         ::cv::imwrite(filePath, image);
 
@@ -241,7 +252,7 @@ namespace CellSim
     void SimulationResultWriter::SaveConfig(
         uint64_t totalStep,
         size_t initialCellCount,
-        double totalMilliseconds,
+        int64_t totalMilliSeconds,
         Model::CellSimulationType simulationType,
         CellAlgorithms::CellAlgorithmType algorithmType
     )
@@ -251,7 +262,8 @@ namespace CellSim
         if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.txt file");
 
         ofs << "Initial cell count      : " << initialCellCount << ::std::endl;
-        ofs << "Average processing time : " << (totalMilliseconds / totalStep) << ::std::endl;
+        ofs << "Total processing time   : " << totalMilliSeconds << " milliseconds" << ::std::endl;
+        ofs << "Average processing time : " << ((double)totalMilliSeconds / totalStep) << " milliseconds" << ::std::endl;
         ofs << "Simulation model        : ";
 
         switch (simulationType) {

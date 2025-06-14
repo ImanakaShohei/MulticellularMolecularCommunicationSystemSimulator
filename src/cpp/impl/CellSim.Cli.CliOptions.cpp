@@ -7,11 +7,14 @@
 #include "CellSim.Cli.ParamOption.hpp"
 #include "CellSim.Cli.VideoOption.hpp"
 #include "CellSim.Messages.hpp"
+#include "CellSim.Settings.Config.hpp"
 #include "CellSim.Simulation.hpp"
 #include "CellSim.SimulationOption.hpp"
 #include "CellSim.Text.CString.hpp"
 
+#include <fstream>
 #include <stdexcept>
+#include <nlohmann/json.hpp>
 
 namespace CellSim::Cli
 {
@@ -26,7 +29,7 @@ namespace CellSim::Cli
 
     void CliOptions::m_enableOption(int argc, char** argv)
     {
-        for (int i = 0; i != argc; ++i) {
+        for (int i = 1; i != argc; ++i) {
             ::std::string_view arg = argv[i];
             bool isMatch = false;
             for (auto pair : m_options) {
@@ -118,6 +121,9 @@ namespace CellSim::Cli
             m_controllerOption->Run(this);
         }
         else {
+
+            Settings::Config::Load("./config.json");
+
             Simulation sim(CreateSimulationOption());
 
             sim.Run();

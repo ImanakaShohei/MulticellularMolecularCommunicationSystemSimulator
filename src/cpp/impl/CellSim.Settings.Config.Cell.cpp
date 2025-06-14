@@ -9,6 +9,7 @@ namespace CellSim::Settings
     void Config::Cell::Load(::nlohmann::json const& config)
     {
         ::std::string s;
+
         try {
             s_cellCount = config["cellCount"].get<size_t>();
             s_enableGrowth = config["enableGrowth"].get<bool>();

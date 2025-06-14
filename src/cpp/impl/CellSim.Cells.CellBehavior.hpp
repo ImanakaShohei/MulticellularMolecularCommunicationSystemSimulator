@@ -16,6 +16,8 @@ namespace CellSim::Cells
         
         constexpr CellBehavior() noexcept;
 
+        virtual ~CellBehavior() = default;
+
         constexpr void AddOwner() noexcept;
 
         /// @brief 細胞の成長度合いを計算

@@ -44,7 +44,7 @@ namespace CellSim::Settings
     {
         Cell::Load(config["cell"]);
         CellAlgorithm::Load(config["cellAlgorithm"]);
-        CellBehavior::Load(config["cellBeahvior"]);
+        CellBehavior::Load(config["cellBehavior"]);
         Optimization::Load(config["optimization"]);
         Simulation::Load(config["simulation"]);
         SimulationModel::Load(config["simulationModel"]);

@@ -30,6 +30,7 @@ namespace CellSim::Cells
         , m_isAlive(true)
         , m_mass(mass)
         , m_polarity()
+        , m_position(position)
         , m_previusForce()
         , m_radius(radius)
         , m_type(type)

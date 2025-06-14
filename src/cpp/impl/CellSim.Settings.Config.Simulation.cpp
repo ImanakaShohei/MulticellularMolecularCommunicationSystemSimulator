@@ -22,9 +22,9 @@ namespace CellSim::Settings
         
 
         if (s_deltaTime <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.deltaTime"));
-        if (s_fieldRadiusX <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusX"));
-        if (s_fieldRadiusY <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusY"));
-        if (s_fieldRadiusZ <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusZ"));
+        if (s_fieldRadiusX < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusX"));
+        if (s_fieldRadiusY < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusY"));
+        if (s_fieldRadiusZ < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadiusZ"));
         if (s_outputInterval <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.outputInterval"));
         if (s_totalSteps == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps"));
     }

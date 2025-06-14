@@ -40,7 +40,7 @@ namespace CellSim::Cli
     constexpr bool VideoOption::IsMatch(::std::string_view optionName) const noexcept
     {
         using namespace std;
-        return optionName == "-c"sv || optionName == "--csv"sv;
+        return optionName == "-v"sv || optionName == "--video"sv;
     }
 
     constexpr ::std::string_view VideoOption::Names() const noexcept
