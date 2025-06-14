@@ -21,7 +21,7 @@
         "peformance": "Fast"
     },
     "simulation": {
-        "deltaTime": 10,
+        "deltaTime": 0.1,
         "enable2DMode": true,
         "fieldRadiusX": 512,
         "fieldRadiusY": 512,
@@ -31,11 +31,25 @@
     },
     "simulationModel": {
         "simulationType": "ClusterFormation",
+
+        "cellGrowth": {
+            "adhesiveRepulsionFactor": 1
+        },
         
         "clusterFormation": {
             "adhesiveRepulsionFactor": 1.0,
             "lambda": 20.0,
             "remoteForceFactor": 1.0
+        },
+
+        "networkFormation": {
+            "adhesiveRepulsionFactor": 200,
+            "attractionFactor": 0.3,
+            "lambda": 0.01,
+            "maxAttractionDistance": 100,
+            "maxRepulsionDistance": 25,
+            "minAttractionDistance": 80,
+            "remoteForceFactor": 0.01
         }
     },
     "cellAlgorithm": {

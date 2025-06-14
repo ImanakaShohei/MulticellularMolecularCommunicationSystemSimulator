@@ -8,6 +8,7 @@
 #include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Molecular.MoleculeField.hpp"
+#include "CellSim.Settings.Config.Simulation.hpp"
 
 #include <stdexcept>
 
@@ -116,6 +117,11 @@ namespace CellSim::Cells
         for (Molecular::Molecule& molecule : m_internalMolecules) {
             molecule.Amount(molecule.Amount() + m_behaviorPtr->ComputeMetabolicChange(this, { { molecule.Amount(), molecule.Kind() } }));
         }
+    }
+
+    void Cell::Move() noexcept
+    {
+        m_position += m_force * (Settings::Config::Simulation::DeltaTime() / m_mass);
     }
 
     void Cell::SenseMolecules(Molecular::MoleculeField const& field)

@@ -7,6 +7,8 @@
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
 
+#include "CellSim.Messages.hpp"
+
 #include <stdexcept>
 
 namespace CellSim::Model
@@ -43,9 +45,16 @@ namespace CellSim::Model
     , m_reverseLambda(1.0 / lambda)
     , m_squareMaxAttractionDistance(maxAttractionDistance * maxAttractionDistance)
     {
-        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.");
-        if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'lambda' must be non-zero.");
-        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'remoteForceFactor' must be greater than or equal to zero.");
+        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.adhesiveRepulsionFactor"));
+        if (attractionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.attractionFactor"));
+        if (lambda == 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.lambda"));
+        if (maxAttractionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxAttractionDistance"));
+        if (maxRepulsionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance"));
+        if (minAttractionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance"));
+        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.remoteForceFactor"));
+        
+        if (minAttractionDistance >= maxAttractionDistance) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance-maxAttractionDistance"));
+        if (maxRepulsionDistance >= minAttractionDistance) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance-minAttractionDistance"));
     }
 
     void NetworkFormationModel::BeforeAdvanceStep(
@@ -76,7 +85,7 @@ namespace CellSim::Model
                 force1 -= (v / dist) * diff;
             }
             else {
-                v = m_maxRepulsionDistance;
+                v = m_maxRepulsionDistance - dist;
 
                 if (v > 0.0) {
                     force2 += (v / (m_maxRepulsionDistance * dist)) * diff;

@@ -214,6 +214,39 @@
                         }
                     },
                     "required": [ "adhesiveRepulsionFactor", "lambda", "remoteForceFactor" ]
+                },
+                "networkFormation": {
+                    "type": "object",
+                    "properties": {
+                        "adhesiveRepulsionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "attractionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lambda": {
+                            "type": "number"
+                        },
+                        "maxAttractionDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "maxRepulsionDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "minAttractionDistance": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "remoteForceFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "adhesiveRepulsionFactor", "attractionFactor", "lambda", "maxAttractionDistance", "maxRepulsionDistance", "minAttractionDistance", "remoteForceFactor" ]
                 }
             },
             "required": [ "simulationType" ]

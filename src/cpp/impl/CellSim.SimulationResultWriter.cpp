@@ -174,6 +174,9 @@ namespace CellSim
         );
 
         for (Cells::Cell const& cell : cells) {
+            int pointX = (int)(cell.PositionX() + Settings::Config::Simulation::FieldRadiusX());
+            int pointY = (int)(cell.PositionY() + Settings::Config::Simulation::FieldRadiusY());
+
             ::cv::circle(
                 image,
                 ::cv::Point{ (int)(cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()), (int)(cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) },
@@ -181,6 +184,20 @@ namespace CellSim
                 ::cv::Scalar(255, 255, 0),
                 1
             );
+
+            uint32_t id = cell.Id();
+
+            for (const Cells::Cell* pCell : cell.AttachedCells()) {
+                if (pCell->Id() < id) continue;
+
+                ::cv::line(
+                    image,
+                    ::cv::Point{ pointY, pointX },
+                    ::cv::Point{ (int)(pCell->PositionY() + Settings::Config::Simulation::FieldRadiusY()), (int)(pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) },
+                    ::cv::Scalar(0, 255, 255),
+                    1
+                );
+            }
         }
 
         return image;

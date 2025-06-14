@@ -178,7 +178,7 @@ namespace CellSim::Cells
         void Metabolize();
 
         /// @brief 細胞が移動
-        constexpr void Move() noexcept;
+        void Move() noexcept;
 
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
@@ -312,11 +312,6 @@ namespace CellSim::Cells
         }
 
         return false;
-    }
-
-    constexpr void Cell::Move() noexcept
-    {
-        m_position += m_force / m_mass;
     }
 
     constexpr void Cell::ResetForce() noexcept
