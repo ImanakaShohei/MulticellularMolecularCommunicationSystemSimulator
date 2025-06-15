@@ -240,9 +240,6 @@ namespace CellSim
 
         m_writer.Save(*this, 0);
 
-        // 最後のステップでステップ数が２回表示されないようにする
-        bool isFinalStepPrint = false;
-
         for (uint64_t step = 1; step <= totalStep; ++step) {
 
             m_beforeAdvanceStep();
@@ -254,15 +251,12 @@ namespace CellSim
 
             if (::std::chrono::duration_cast<::std::chrono::milliseconds>(::std::chrono::system_clock::now() - currentClock).count() >= 250) {
                 ::printf("%llu/%llu\n", step, totalStep);
-                if (step == totalStep) isFinalStepPrint = true;
                 currentClock = ::std::chrono::system_clock::now();
             }
             
         }
 
         currentClock = ::std::chrono::system_clock::now();
-        
-        if (!isFinalStepPrint) ::printf("%llu/%llu\n", totalStep, totalStep);
 
         m_writer.SaveConfig(
             totalStep,
