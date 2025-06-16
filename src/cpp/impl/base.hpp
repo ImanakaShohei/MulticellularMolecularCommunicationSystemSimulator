@@ -8,7 +8,7 @@
 #define CELLSIM_VERSION_MAJOR 2
 #define CELLSIM_VERSION_MINOR 0
 #define CELLSIM_VERSION_PATCH 0
-#define CELLSIM_VERSION_EXTENSION "Beta 2"
+#define CELLSIM_VERSION_EXTENSION "Beta 3"
 
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1

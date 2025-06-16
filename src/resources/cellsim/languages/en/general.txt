@@ -2,9 +2,7 @@ NotImplemented='%s' is not yet implemented.
 
 CellAlgorithms.CellAlgorithm.FromType.Error=Invalid CellSim::CellAlgorithms::CellAlgorithmType value.
 
-CellAlgorithms.CellList.CellList.Error.gridCountX=The parameter 'gridCountX' must be non-zero.
-CellAlgorithms.CellList.CellList.Error.gridCountY=The parameter 'gridCountY' must be non-zero.
-CellAlgorithms.CellList.CellList.Error.gridCountZ=The parameter 'gridCountZ' must be non-zero.
+CellAlgorithms.CellList.CellList.Error.gridCount=The parameter 'gridCount' must be non-zero.
 CellAlgorithms.CellList.CellList.Error.searchRadius=The parameter 'searchRadius' must be greater than or equal to zero.
 
 Cells.Cell.Cell.Error.mass=The parameter 'mass' must be a positive value.
@@ -53,12 +51,12 @@ Settings.Config.Cell.Load.Error.mass='cell.mass' in the config file must be a po
 Settings.Config.Cell.Load.Error.radius='cell.radius' in the config file must be a positive value.
 Settings.Config.Cell.Load.Error.type=The value of 'cell.type' in the config file is invalid.
 
+Settings.Config.CellAlgorithm.Load.Error.algorithmType=The value of 'cellAlgorithm.algorithmType' in the config file is invalid.
+Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgorithm' parameter in the config file is invalid.
+
 Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=The format of the 'cellAlgorithm.cellList' parameter in the config file is invalid.
 Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount='cellAlgorithms.cellList.gridCount' in the config file must be non-zero.
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius='cellAlgorithms.cellList.searchRadius' in the config file must be a positive value.
-
-Settings.Config.CellAlgorithm.Load.Error.algorithmType=The value of 'cellAlgorithm.algorithmType' in the config file is invalid.
-Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgorithm' parameter in the config file is invalid.
 
 Settings.Config.CellBehavior.Load.Error.behaviorType=The value of 'cellBehavior.behaviorType' in the config file is invalid.
 Settings.Config.CellBehavior.Load.Error.JsonError=The format of the 'cellBehavior' parameter in the config file is invalid.

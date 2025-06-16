@@ -2,9 +2,7 @@ NotImplemented='%s'は未完成です。
 
 CellAlgorithms.CellAlgorithm.FromType.Error=無効なCellSim::CellAlgorithms::CellAlgorithmType値です。
 
-CellAlgorithms.CellList.CellList.Error.gridCountX=引数'gridCountX'にゼロが指定されました。
-CellAlgorithms.CellList.CellList.Error.gridCountY=引数'gridCountY'にゼロが指定されました。
-CellAlgorithms.CellList.CellList.Error.gridCountZ=引数'gridCountZ'にゼロが指定されました。
+CellAlgorithms.CellList.CellList.Error.gridCount=引数'gridCount'にゼロが指定されました。
 CellAlgorithms.CellList.CellList.Error.searchRadius='searchRadius'に負の値が指定されました。
 
 Cells.Cell.Cell.Error.mass=引数'mass'にゼロ以下の値が指定されました。
@@ -53,12 +51,12 @@ Settings.Config.Cell.Load.Error.mass=configファイルの'cell.mass'にゼロ�
 Settings.Config.Cell.Load.Error.radius=configファイルの'cell.radius'にゼロ以下の値が指定されました。
 Settings.Config.Cell.Load.Error.type=configファイルの'cell.type'値が無効です。
 
+Settings.Config.CellAlgorithm.Load.Error.algorithmType=configファイルの'cellAlgorithm.algorithmType'値が無効です。
+Settings.Config.CellAlgorithm.Load.Error.JsonError=configファイルの'cellAlgorithm'パラメータの形式が正しくありません。
+
 Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=configファイルの'cellAlgorithm.cellList'パラメータの形式が正しくありません。
 Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount=configファイルの'cellAlgorithms.cellList.gridCount'にゼロが指定されました。
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius=configファイルの'cellAlgorithms.cellList.searchRadius'にゼロ以下の値が指定されました。
-
-Settings.Config.CellAlgorithm.Load.Error.algorithmType=configファイルの'cellAlgorithm.algorithmType'値が無効です。
-Settings.Config.CellAlgorithm.Load.Error.JsonError=configファイルの'cellAlgorithm'パラメータの形式が正しくありません。
 
 Settings.Config.CellBehavior.Load.Error.behaviorType=configファイルの'cellBehavior.behaviorType'値が無効です。
 Settings.Config.CellBehavior.Load.Error.JsonError=configファイルの'cellBehavior'パラメータの形式が正しくありません。

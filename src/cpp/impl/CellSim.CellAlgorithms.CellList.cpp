@@ -13,27 +13,26 @@ namespace CellSim::CellAlgorithms
 {
     CellList::CellList()
         : CellList(
-            Settings::Config::CellAlgorithm::CellList::GridCountX(),
-            Settings::Config::CellAlgorithm::CellList::GridCountY(),
-            Settings::Config::Simulation::Enable2DMode() ? 1 : Settings::Config::CellAlgorithm::CellList::GridCountZ(),
+            Settings::Config::CellAlgorithm::CellList::GridCount(),
+            Settings::Config::Simulation::Enable2DMode(),
             Settings::Config::CellAlgorithm::CellList::SearchRadius()
         )
     {
     }
 
     CellList::CellList(
-        size_t gridCountX,
-        size_t gridCountY,
-        size_t gridCountZ,
+        size_t gridCount,
+        bool enable2dMode,
         double searchRadius
     )
-        : m_cellField(gridCountX * gridCountY * gridCountZ)
-        , m_gridCountX(gridCountX)
-        , m_gridCountY(gridCountY)
-        , m_gridCountZ(gridCountZ)
-        , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / gridCountX)
-        , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / gridCountY)
-        , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / gridCountZ)
+        : m_cellField(enable2dMode ? (gridCount * gridCount) : (gridCount * gridCount * gridCount))
+        , m_enable2DMode(enable2dMode)
+        , m_gridCountX(gridCount)
+        , m_gridCountY(gridCount)
+        , m_gridCountZ(enable2dMode ? 1 : gridCount)
+        , m_gridLengthX(Settings::Config::Simulation::FieldRadius() * 2.0 / gridCount)
+        , m_gridLengthY(Settings::Config::Simulation::FieldRadius() * 2.0 / gridCount)
+        , m_gridLengthZ(Settings::Config::Simulation::FieldRadius() * 2.0 / m_gridCountZ)
         , m_reverseGridLengthX(1.0 / m_gridLengthX)
         , m_reverseGridLengthY(1.0 / m_gridLengthY)
         , m_reverseGridLengthZ(1.0 / m_gridLengthZ)
@@ -41,24 +40,12 @@ namespace CellSim::CellAlgorithms
         , m_searchGridCountY((size_t)(searchRadius / m_gridLengthY))
         , m_searchGridCountZ((size_t)(searchRadius / m_gridLengthZ))
         , m_searchRadius(searchRadius)
-        , m_span(gridCountX, gridCountY, gridCountZ, m_cellField.data())
+        , m_span(gridCount, gridCount, m_gridCountZ, m_cellField.data())
         , m_squareSeachRadius(searchRadius * searchRadius)
     {
-        if (gridCountX == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountX"));
-        if (gridCountY == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountY"));
-        if (gridCountZ == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCountZ"));
+        if (gridCount == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCount"));
 
         if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
-
-        if (m_gridLengthX == 0.0) {
-            m_searchGridCountX = 0;
-            m_reverseGridLengthX = 0;
-        }
-
-        if (m_gridLengthY == 0.0) {
-            m_searchGridCountY = 0;
-            m_reverseGridLengthY = 0;
-        }
         
         if (m_gridLengthZ == 0.0) {
             m_searchGridCountZ = 0;
@@ -74,18 +61,24 @@ namespace CellSim::CellAlgorithms
         for (Cells::Cell const& cell : *args.Cells) {
             Numerics::Vector3 position = cell.Position();
 
-            double x = position.X + Settings::Config::Simulation::FieldRadiusX();
+            double x = position.X + Settings::Config::Simulation::FieldRadius();
 
             if (x < 0.0) continue;
 
-            double y = position.Y + Settings::Config::Simulation::FieldRadiusY();
+            double y = position.Y + Settings::Config::Simulation::FieldRadius();
 
             if (y < 0.0) continue;
 
-            double z = position.Z + Settings::Config::Simulation::FieldRadiusZ();
+            double z;
 
-            if (z < 0.0) continue;
-
+            if (m_enable2DMode) {
+                z = 0.0;
+            }
+            else {
+                z = position.Z + Settings::Config::Simulation::FieldRadius();
+                if (z < 0.0) continue;
+            }
+            
             int32_t atX = (int32_t)(x * m_reverseGridLengthX);
             int32_t atY = (int32_t)(y * m_reverseGridLengthY);
             int32_t atZ = (int32_t)(z * m_reverseGridLengthZ);
@@ -196,17 +189,27 @@ namespace CellSim::CellAlgorithms
 
     Numerics::GridPosition3 CellList::ToGridPosition3(Numerics::Vector3 position) const noexcept
     {
-        double x = position.X + Settings::Config::Simulation::FieldRadiusX();
+        double x = position.X + Settings::Config::Simulation::FieldRadius();
 
-        double y = position.Y + Settings::Config::Simulation::FieldRadiusY();
+        double y = position.Y + Settings::Config::Simulation::FieldRadius();
+        
+        if (m_enable2DMode) {
+            return Numerics::GridPosition3(
+                (int32_t)(x * m_reverseGridLengthX),
+                (int32_t)(y * m_reverseGridLengthY),
+                0
+            );
+        }
+        else {
+            double z = position.Z + Settings::Config::Simulation::FieldRadius();
 
-        double z = position.Z + Settings::Config::Simulation::FieldRadiusZ();
-
-        return Numerics::GridPosition3(
-            (int32_t)((position.X + Settings::Config::Simulation::FieldRadiusX()) * m_reverseGridLengthX),
-            (int32_t)((position.Y + Settings::Config::Simulation::FieldRadiusY()) * m_reverseGridLengthY),
-            (int32_t)((position.Z + Settings::Config::Simulation::FieldRadiusZ()) * m_reverseGridLengthZ)
-        );
+            return Numerics::GridPosition3(
+                (int32_t)(x * m_reverseGridLengthX),
+                (int32_t)(y * m_reverseGridLengthY),
+                (int32_t)(z * m_reverseGridLengthZ)
+            );
+        }
+        
     }
 
 }

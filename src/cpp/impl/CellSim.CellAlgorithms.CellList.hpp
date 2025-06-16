@@ -17,6 +17,8 @@ namespace CellSim::CellAlgorithms
 
         ::std::vector<::std::vector<Cells::CellInfo>> m_cellField;
 
+        bool m_enable2DMode;
+
         size_t m_gridCountX;
         size_t m_gridCountY;
         size_t m_gridCountZ;
@@ -44,9 +46,8 @@ namespace CellSim::CellAlgorithms
         CellList();
 
         CellList(
-            size_t gridCountX,
-            size_t gridCountY,
-            size_t gridCountZ,
+            size_t gridCount,
+            bool enable2dMode,
             double searchRadius
         );
 

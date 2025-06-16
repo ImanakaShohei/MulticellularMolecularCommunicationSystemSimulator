@@ -14,9 +14,7 @@ namespace CellSim::Settings
 
         static inline double s_deltaTime;
         static inline bool s_enable2DMode;
-        static inline double s_fieldRadiusX;
-        static inline double s_fieldRadiusY;
-        static inline double s_fieldRadiusZ;
+        static inline double s_fieldRadius;
         static inline int32_t s_outputInterval;
         static inline uint64_t s_totalSteps;
 
@@ -29,13 +27,16 @@ namespace CellSim::Settings
         [[nodiscard]] static bool Enable2DMode() noexcept;
 
         /// @brief フィールドのX方向の半径
-        [[nodiscard]] static double FieldRadiusX() noexcept;
+        [[nodiscard]] static double FieldRadius() noexcept;
+
+        /// @brief フィールドのX方向の半径
+        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusX() noexcept;
 
         /// @brief フィールドのY方向の半径
-        [[nodiscard]] static double FieldRadiusY() noexcept;
+        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusY() noexcept;
 
         /// @brief フィールドのZ方向の半径
-        [[nodiscard]] static double FieldRadiusZ() noexcept;
+        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusZ() noexcept;
 
         /// @brief 出力間隔
         [[nodiscard]] static int32_t OutputInterval() noexcept;
@@ -59,19 +60,24 @@ namespace CellSim::Settings
         return s_enable2DMode;
     }
 
+    inline double Config::Simulation::FieldRadius() noexcept
+    {
+        return s_fieldRadius;
+    }
+
     inline double Config::Simulation::FieldRadiusX() noexcept
     {
-        return s_fieldRadiusX;
+        return s_fieldRadius;
     }
 
     inline double Config::Simulation::FieldRadiusY() noexcept
     {
-        return s_fieldRadiusY;
+        return s_fieldRadius;
     }
 
     inline double Config::Simulation::FieldRadiusZ() noexcept
     {
-        return s_fieldRadiusZ;
+        return s_enable2DMode ? 0.0 : s_fieldRadius;
     }
 
     inline int32_t Config::Simulation::OutputInterval() noexcept
