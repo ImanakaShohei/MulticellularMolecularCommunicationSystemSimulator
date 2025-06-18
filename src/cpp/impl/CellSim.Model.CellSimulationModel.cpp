@@ -76,9 +76,9 @@ namespace CellSim::Model
                 double theta = rand_theta(mt);
                 double phi = ::acos(1.0 - 2.0 * v);
 
-                double x = ::sin(phi) * ::cos(theta);
-                double y = ::sin(phi) * ::sin(theta);
-                double z = ::cos(phi);
+                double x = ::sin(phi) * ::cos(theta) * initialPlacementRadius;
+                double y = ::sin(phi) * ::sin(theta) * initialPlacementRadius;
+                double z = ::cos(phi) * initialPlacementRadius;
 
                 cells.emplace_back(
                     type,

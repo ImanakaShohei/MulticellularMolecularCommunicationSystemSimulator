@@ -36,9 +36,9 @@ namespace CellSim::CellAlgorithms
         , m_reverseGridLengthX(1.0 / m_gridLengthX)
         , m_reverseGridLengthY(1.0 / m_gridLengthY)
         , m_reverseGridLengthZ(1.0 / m_gridLengthZ)
-        , m_searchGridCountX((size_t)(searchRadius / m_gridLengthX))
-        , m_searchGridCountY((size_t)(searchRadius / m_gridLengthY))
-        , m_searchGridCountZ((size_t)(searchRadius / m_gridLengthZ))
+        , m_searchGridCountX((size_t)(2.0 * searchRadius / m_gridLengthX))
+        , m_searchGridCountY((size_t)(2.0 * searchRadius / m_gridLengthY))
+        , m_searchGridCountZ((size_t)(2.0 * searchRadius / m_gridLengthZ))
         , m_searchRadius(searchRadius)
         , m_span(gridCount, gridCount, m_gridCountZ, m_cellField.data())
         , m_squareSeachRadius(searchRadius * searchRadius)
@@ -47,7 +47,7 @@ namespace CellSim::CellAlgorithms
 
         if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
         
-        if (m_enable2DMode == 0.0) {
+        if (m_enable2DMode) {
             m_searchGridCountZ = 0;
             m_reverseGridLengthZ = 0;
         }
@@ -58,37 +58,7 @@ namespace CellSim::CellAlgorithms
         CellAlgorithmStepArgs args
     )
     {
-        for (Cells::Cell const& cell : *args.Cells) {
-            Numerics::Vector3 position = cell.Position();
-
-            double x = position.X + Settings::Config::Simulation::FieldRadius();
-
-            if (x < 0.0) continue;
-
-            double y = position.Y + Settings::Config::Simulation::FieldRadius();
-
-            if (y < 0.0) continue;
-
-            double z;
-
-            if (m_enable2DMode) {
-                z = 0.0;
-            }
-            else {
-                z = position.Z + Settings::Config::Simulation::FieldRadius();
-                if (z < 0.0) continue;
-            }
-            
-            int32_t atX = (int32_t)(x * m_reverseGridLengthX);
-            int32_t atY = (int32_t)(y * m_reverseGridLengthY);
-            int32_t atZ = (int32_t)(z * m_reverseGridLengthZ);
-
-            if ((size_t)atX >= m_gridCountX) continue;
-            if ((size_t)atY >= m_gridCountY) continue;
-            if ((size_t)atZ >= m_gridCountZ) continue;
-
-            m_span.At(atX, atY, atZ).emplace_back(cell);
-        }
+        SetCells(*args.Cells);
     }
 
     ::std::vector<Cells::CellInfo> CellList::GetAffectableCellInfos(
@@ -182,8 +152,48 @@ namespace CellSim::CellAlgorithms
         CellAlgorithmStepArgs
     )
     {
+        ResetCells();
+    }
+
+    void CellList::ResetCells() noexcept
+    {
         for (auto& vec : m_cellField) {
             vec.clear();
+        }
+    }
+
+    void CellList::SetCells(::std::vector<Cells::Cell> const& cells) noexcept
+    {
+        for (Cells::Cell const& cell : cells) {
+            Numerics::Vector3 position = cell.Position();
+
+            double x = position.X + Settings::Config::Simulation::FieldRadius();
+
+            if (x < 0.0) continue;
+
+            double y = position.Y + Settings::Config::Simulation::FieldRadius();
+
+            if (y < 0.0) continue;
+
+            double z;
+
+            if (m_enable2DMode) {
+                z = 0.0;
+            }
+            else {
+                z = position.Z + Settings::Config::Simulation::FieldRadius();
+                if (z < 0.0) continue;
+            }
+            
+            int32_t atX = (int32_t)(x * m_reverseGridLengthX);
+            int32_t atY = (int32_t)(y * m_reverseGridLengthY);
+            int32_t atZ = (int32_t)(z * m_reverseGridLengthZ);
+
+            if ((size_t)atX >= m_gridCountX) continue;
+            if ((size_t)atY >= m_gridCountY) continue;
+            if ((size_t)atZ >= m_gridCountZ) continue;
+
+            m_span.At(atX, atY, atZ).emplace_back(cell);
         }
     }
 

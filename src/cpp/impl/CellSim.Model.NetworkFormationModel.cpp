@@ -5,7 +5,9 @@
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
+#include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.NetworkFormation.hpp"
+#include "CellSim.Threading.ThreadPool.hpp"
 
 #include "CellSim.Messages.hpp"
 
@@ -44,6 +46,11 @@ namespace CellSim::Model
     , m_remoteForceFactor(remoteForceFactor)
     , m_reverseLambda(1.0 / lambda)
     , m_squareMaxAttractionDistance(maxAttractionDistance * maxAttractionDistance)
+    , m_cellList(
+        (size_t)(Settings::Config::Simulation::FieldRadius() / maxAttractionDistance) + 1,
+        Settings::Config::Simulation::Enable2DMode(),
+        maxAttractionDistance
+    )
     {
         if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.adhesiveRepulsionFactor"));
         if (attractionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.attractionFactor"));
@@ -116,7 +123,7 @@ namespace CellSim::Model
     }
 
     void NetworkFormationModel::OnAdvanceStep(
-        const Simulation*,
+        const Simulation* sender,
         SimulationModelStepArgs args
     )
     {
@@ -124,6 +131,42 @@ namespace CellSim::Model
             cell.ClearAttachedCells();
         }
 
+// CellListとナイーブの切り替え
+#if 1
+        m_cellList.ResetCells();
+        m_cellList.SetCells(*args.Cells);
+
+        auto begin = args.Cells->begin().base();
+        auto end = args.Cells->end().base();
+
+        Threading::ThreadPool::ParallelFor(
+            begin,
+            end,
+            [this, args] (Cells::Cell& cell1) {
+                if (!cell1.IsAlive()) return;
+
+                Cells::CellInfo info{ cell1 };
+
+                CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
+                    cellInfo,
+                    m_cellList,
+                    &cell1,
+                    args.Cells,
+                    args.Fields,
+                    {
+                        if (!cellInfo.IsAlive) continue;
+
+                        cell1.Adhere(*cellInfo.CellPtr);
+                        //cell2.Adhere(cell1);
+                    }
+                )
+
+                
+            }
+        );
+
+        return;
+#else
         for (auto itr = args.Cells->begin(), end = args.Cells->end(); itr != end; ++itr) {
             Cells::Cell& cell1 = *itr;
 
@@ -142,5 +185,6 @@ namespace CellSim::Model
                 }
             }
         }
+#endif
     }
 }

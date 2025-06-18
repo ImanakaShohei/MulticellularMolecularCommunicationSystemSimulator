@@ -86,7 +86,12 @@ namespace CellSim::CellAlgorithms
             CellAlgorithmStepArgs args
         ) override;
 
+        void ResetCells() noexcept;
+
         [[nodiscard]] constexpr double SearchRadius() const noexcept;
+
+        void SetCells(::std::vector<Cells::Cell> const& cells) noexcept;
+        
 
         [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
         [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Numerics::Vector3 position) const noexcept;

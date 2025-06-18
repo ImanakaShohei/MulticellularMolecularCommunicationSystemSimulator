@@ -40,7 +40,7 @@ namespace CellSim::Model
 {
     constexpr bool CellGrowthModel::UseCellAlgorithm() const noexcept
     {
-        return false;
+        return true;
     }
 }
 

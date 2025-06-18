@@ -34,7 +34,7 @@ namespace CellSim::Settings
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.simulationType"));
 
         switch (s_simulationType) {
-            case Model::CellSimulationType::CellGrowth: CellGrowth::Load(config["cellGrowthModel"]); break;
+            case Model::CellSimulationType::CellGrowth: CellGrowth::Load(config["cellGrowth"]); break;
             case Model::CellSimulationType::ClusterFormation: ClusterFormation::Load(config["clusterFormation"]); break;
             case Model::CellSimulationType::ClusterRotation: ClusterRotation::Load(config["clusterRotation"]); break;
             case Model::CellSimulationType::ClusterSprouting: ClusterSprouting::Load(config["clusterSprouting"]); break;

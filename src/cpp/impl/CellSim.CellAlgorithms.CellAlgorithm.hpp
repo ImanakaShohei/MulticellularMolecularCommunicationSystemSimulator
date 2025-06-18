@@ -12,7 +12,7 @@
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(cellInfo, cellAlgorithm, sender, target, cells, molecules, func)               \
     switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                                 \
         case ::CellSim::PeformanceType::Fast:                                                                                          \
-        for (::CellSim::Cells::CellInfo& cellInfo : (cellAlgorithm).GetAffectableCellInfos(sender, { target, cells, molecules })) {    \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).GetAffectableCellInfos(sender, { target, cells, molecules })) {     \
             func                                                                                                                       \
         }                                                                                                                              \
         break;                                                                                                                         \

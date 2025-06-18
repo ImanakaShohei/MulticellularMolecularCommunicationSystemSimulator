@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.CellAlgorithms.CellList.hpp"
 
 namespace CellSim::Model
 {
@@ -18,6 +19,8 @@ namespace CellSim::Model
         double m_remoteForceFactor;
         double m_reverseLambda;
         double m_squareMaxAttractionDistance;
+
+        CellAlgorithms::CellList m_cellList;
 
         public:
 

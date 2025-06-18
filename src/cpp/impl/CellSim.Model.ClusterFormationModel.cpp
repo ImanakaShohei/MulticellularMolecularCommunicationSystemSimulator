@@ -18,7 +18,7 @@ namespace CellSim::Model
     ) const noexcept
     {
         const Numerics::Vector3 diff = target.Position - cell.Position;
-        const double mass            = cell.Mass * target.Mass;
+        const double mass            = cell.Mass + target.Mass;
 
         return (
             -mass *
@@ -82,6 +82,8 @@ namespace CellSim::Model
     ) const
     {
         Cells::CellInfo info{ *args.Target };
+        
+        
 
         if (info.IsAlive) {
             Numerics::Vector3 vec1;
