@@ -2,6 +2,7 @@
 
 #include "../thirdparty/nameof.hpp"
 #include "../SimulationSettings.hpp"
+#include "../utils/MakeVector.hpp"
 #include <ostream>
 #include <random>
 
