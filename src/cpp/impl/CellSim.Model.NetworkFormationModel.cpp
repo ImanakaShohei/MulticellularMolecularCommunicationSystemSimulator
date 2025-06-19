@@ -136,8 +136,8 @@ namespace CellSim::Model
         m_cellList.ResetCells();
         m_cellList.SetCells(*args.Cells);
 
-        auto begin = args.Cells->begin().base();
-        auto end = args.Cells->end().base();
+        auto begin = args.Cells->begin();
+        auto end = args.Cells->end();
 
         Threading::ThreadPool::ParallelFor(
             begin,
