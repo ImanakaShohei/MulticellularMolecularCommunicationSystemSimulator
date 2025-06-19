@@ -11,12 +11,12 @@ namespace CellSim::Cells
     struct CellInfo {
         public:
         const Cell* CellPtr;
-        bool IsAlive;
         double Mass;
         Numerics::Vector3 Position;
         Numerics::Vector3 PreviusForce;
         double Radius;
         CellType Type;
+        bool IsAlive;
 
         CellInfo() = default;
         
@@ -44,22 +44,22 @@ namespace CellSim::Cells
     ) noexcept
         : CellPtr(nullptr)
         , Mass(mass)
-        , IsAlive(isAlive)
         , Position(position)
         , PreviusForce(previusForce)
         , Radius(radius)
         , Type(type)
+        , IsAlive(isAlive)
     {
     }
 
     constexpr CellInfo::CellInfo(Cell const& cell) noexcept
         : CellPtr(&cell)
         , Mass(cell.Mass())
-        , IsAlive(cell.IsAlive())
         , Position(cell.Position())
         , PreviusForce(cell.PreviusForce())
         , Radius(cell.Radius())
         , Type(cell.Type())
+        , IsAlive(cell.IsAlive())
     {
     }
 }

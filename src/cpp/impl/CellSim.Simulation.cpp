@@ -25,8 +25,8 @@ namespace CellSim
             // ここでm_pCellAlgorithmはnullptrではありません
             if (m_enableMultithreading) {
                 Threading::ThreadPool::ParallelFor(
-                    m_cells.begin(),
-                    m_cells.end(),
+                    m_cells.begin().base(),
+                    m_cells.end().base(),
                     [this] (Cells::Cell& cell) {
                         cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules }));
                     }
@@ -41,8 +41,8 @@ namespace CellSim
         else {
             if (m_enableMultithreading) {
                 Threading::ThreadPool::ParallelFor(
-                    m_cells.begin(),
-                    m_cells.end(),
+                    m_cells.begin().base(),
+                    m_cells.end().base(),
                     [this] (Cells::Cell& cell) {
                         cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellAlgorithm }));
                     }

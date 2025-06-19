@@ -83,11 +83,10 @@ namespace CellSim::Model
     {
         Cells::CellInfo info{ *args.Target };
         
-        
-
         if (info.IsAlive) {
             Numerics::Vector3 vec1;
             Numerics::Vector3 vec2;
+
             CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
                 cellInfo,
                 *args.CellAlgorithm,

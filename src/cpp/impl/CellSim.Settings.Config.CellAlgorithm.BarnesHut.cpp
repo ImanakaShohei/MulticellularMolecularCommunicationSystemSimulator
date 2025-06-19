@@ -8,6 +8,6 @@ namespace CellSim::Settings
 {
     void Config::CellAlgorithm::BarnesHut::Load([[maybe_unused]] ::nlohmann::json const& config)
     {
-        // TODO: ここで設定を読み込みます
+        
     }
 }

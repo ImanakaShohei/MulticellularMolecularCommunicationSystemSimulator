@@ -16,7 +16,7 @@ namespace CellSim::CellAlgorithms
 
         for (Cells::Cell const& cell : *args.Cells) {
             if (&cell == args.Target) continue;
-            vec.push_back(cell);
+            vec.emplace_back(cell);
         }
 
         return vec;
