@@ -40,12 +40,12 @@ $ ./build-linux.sh
 dotnet build src/cs/CellSim.sln --configuration Release
 ```
 
-### 実行ファイルの場所
-## C++の場合
+## 実行ファイルの場所
+### C++の場合
 `./build-scripts/build/bin/`に作られます。
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
 
-## C#の場合
+### C#の場合
 `./src/cs/CellSim/bin/Release/net8.0/`に作られます。
 
 # コマンドラインオプション
