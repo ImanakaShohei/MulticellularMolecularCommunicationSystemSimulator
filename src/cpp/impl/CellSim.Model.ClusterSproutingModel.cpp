@@ -108,11 +108,13 @@ namespace CellSim::Model
         Numerics::Vector3 force4;
         Cells::CellInfo info{ *args.Target };
 
+        size_t attachedCellCount = args.Target->AttachedCellCount();
+
         for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
             Numerics::Vector3 diff = info.Position - pCell->Position();
             double dist = diff.Length();
 
-            if (args.Target->AttachedCellCount() <= m_adhesionThreshold) {
+            if (attachedCellCount <= m_adhesionThreshold) {
                 // 接着している細胞から離れようとする
                 force1 += diff * ((m_leaderRepulsionMaxDistance - dist) / (m_leaderRepulsionMaxDistance * dist));
             }

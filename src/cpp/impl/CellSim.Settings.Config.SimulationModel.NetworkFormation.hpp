@@ -23,7 +23,6 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(NetworkFormation);
         
         /// @brief くっついた細胞同士に働く反発力の係数
-        /// @return 
         [[nodiscard]] static double AdhesiveRepulsionFactor() noexcept;
 
         /// @brief 接着した細胞同士にかかる引力の係数

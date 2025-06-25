@@ -1,6 +1,11 @@
 ﻿# cmake
 build
 
+# visualstudio
+.vs
+bin
+obj
+
 # vscode
 .vscode
 

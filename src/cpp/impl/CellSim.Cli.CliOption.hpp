@@ -43,6 +43,8 @@ namespace CellSim::Cli
         virtual bool IsMatch(::std::string_view optionName) const noexcept = 0;
 
         /// @brief オプションが有効な時に呼ばれる関数
+        /// @param sender このメンバー関数を呼んだインスタンス
+        /// @param args 処理に必要な情報
         virtual void OnActive(
             const CliOptions* sender,
             CliOptionActivationArgs args

@@ -20,7 +20,6 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(ClusterFormation);
 
         /// @brief くっついた細胞同士に働く反発力の係数
-        /// @return 
         [[nodiscard]] static double AdhesiveRepulsionFactor() noexcept;
 
         [[nodiscard]] static double Lambda() noexcept;

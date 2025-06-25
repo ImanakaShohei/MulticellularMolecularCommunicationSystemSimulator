@@ -21,7 +21,7 @@ namespace CellSim::Cells
         constexpr void AddOwner() noexcept;
 
         /// @brief 細胞の成長度合いを計算
-        /// @param cell ターゲットの細胞
+        /// @param sender この関数を呼び出した細胞インスタンス
         /// @return 計算結果
         [[nodiscard]] virtual CellGrowthResult ComputeGrowth(const Cell* sender) = 0;
 

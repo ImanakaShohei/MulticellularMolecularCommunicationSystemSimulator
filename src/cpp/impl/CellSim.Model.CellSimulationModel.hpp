@@ -19,18 +19,16 @@ namespace CellSim::Model
         [[nodiscard]] static CellSimulationModel* FromType(CellSimulationType type);
 
         /// @brief 前処理
-        /// @param cells 細胞リスト
-        /// @param molecules 分子空間リスト
+        /// @param sender このメンバー関数を呼んだインスタンス
+        /// @param args 処理に必要な情報
         virtual void BeforeAdvanceStep(
             const Simulation* sender,
             SimulationModelStepArgs args
         ) = 0;
 
         /// @brief ターゲットの細胞かける力を計算
-        /// @param target ターゲットの細胞
-        /// @param cells 細胞リスト
-        /// @param moleculeSpaces 分子空間リスト
-        /// @param cellAlgorithm 高速化アルゴリズム
+        /// @param sender このメンバー関数を呼んだインスタンス
+        /// @param args 処理に必要な情報
         /// @return 計算結果
         [[nodiscard]] virtual Numerics::Vector3 ComputeForceOnCell(
             const Simulation* sender,
@@ -38,6 +36,7 @@ namespace CellSim::Model
         ) const = 0;
 
         /// @brief リストに細胞を格納
+        /// @param sender このメンバー関数を呼んだインスタンス
         /// @param cells リスト
         virtual void InitializeCells(
             const Simulation* sender,
@@ -45,8 +44,8 @@ namespace CellSim::Model
         );
 
         /// @brief 後処理
-        /// @param cells 細胞リスト
-        /// @param molecules 分子空間リスト
+        /// @param sender このメンバー関数を呼んだインスタンス
+        /// @param args 処理に必要な情報
         virtual void OnAdvanceStep(
             const Simulation* sender,
             SimulationModelStepArgs args

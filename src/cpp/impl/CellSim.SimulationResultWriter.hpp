@@ -28,10 +28,10 @@ namespace CellSim
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveImage(::cv::Mat const& image, uint64_t step) const;
 
-        ::cv::Mat m_createImage(
+        static ::cv::Mat m_createImage(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Molecular::MoleculeField> const& fields
-        ) const;
+        );
 
         public:
 

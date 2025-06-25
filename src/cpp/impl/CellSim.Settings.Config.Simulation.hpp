@@ -26,7 +26,7 @@ namespace CellSim::Settings
         /// @brief 2Dとしてシミュレーションするかどうか
         [[nodiscard]] static bool Enable2DMode() noexcept;
 
-        /// @brief フィールドのX方向の半径
+        /// @brief フィールドの半径
         [[nodiscard]] static double FieldRadius() noexcept;
 
         /// @brief フィールドのX方向の半径

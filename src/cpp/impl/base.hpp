@@ -99,7 +99,7 @@
 /// @brief シミュレーターの既定の名前空間
 namespace CellSim
 {
-    class LocalizedMessageProvider;
+    class Messages;
     enum class PeformanceType;
     class Simulation;
     class SimulationOption;
@@ -155,7 +155,6 @@ namespace CellSim::Cli
     struct CliOptionActivationArgs;
     struct CliOptions;
     enum class CliOptionType;
-    class ConfigFilePathOption;
     class CreateImageOption;
     class CreateVideoOption;
     class CsvOption;

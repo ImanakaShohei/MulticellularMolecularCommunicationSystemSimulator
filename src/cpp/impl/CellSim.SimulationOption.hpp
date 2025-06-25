@@ -14,7 +14,7 @@ namespace CellSim
         /// @brief データをバイナリファイルとして出力するかどうか
         bool m_isOutputBinary;
 
-        /// @brief データをcsvファイルとして出力するかどうか
+        /// @brief データをバイナリファイルとして出力するかどうか
         bool m_isOutputCsv;
 
         /// @brief データを画像として出力するかどうか

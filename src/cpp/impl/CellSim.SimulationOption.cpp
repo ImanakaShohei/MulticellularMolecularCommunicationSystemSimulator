@@ -26,7 +26,7 @@ namespace CellSim
     {
         constexpr char pathSeparator = (char)::std::filesystem::path::preferred_separator;
 
-        if (!m_outputPath.ends_with(pathSeparator)) {
+        if (!m_outputPath.ends_with('\\') && !m_outputPath.ends_with('/')) {
             m_outputPath.push_back(pathSeparator);
         }
 

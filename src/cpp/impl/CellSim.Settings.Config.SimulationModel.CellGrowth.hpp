@@ -18,7 +18,6 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(CellGrowth);
 
         /// @brief くっついた細胞同士に働く反発力の係数
-        /// @return 
         [[nodiscard]] static double AdhesiveRepulsionFactor() noexcept;
 
         static void Load(::nlohmann::json const& config);

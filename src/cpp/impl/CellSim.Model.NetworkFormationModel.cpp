@@ -145,8 +145,6 @@ namespace CellSim::Model
             [this, args] (Cells::Cell& cell1) {
                 if (!cell1.IsAlive()) return;
 
-                Cells::CellInfo info{ cell1 };
-
                 CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
                     cellInfo,
                     m_cellList,
