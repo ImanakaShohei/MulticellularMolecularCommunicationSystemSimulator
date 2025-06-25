@@ -4,7 +4,7 @@
 # Overview
 分子通信シミュレーションのための汎用シミュレータであり、ユーザがシミュレーションのパラメータや力学作用を定義することでさまざまなモデルに対応したシミュレーションを実行することができます。
 
-# 動作要件
+# ビルド・動作要件
 ## C++の場合
 - C++20をサポートするコンパイラ
 - CMake (version 3.11~3.31)
@@ -14,7 +14,7 @@
 - .NET 8 SDK
 
 # ビルド方法
-
+## C++の場合
 `Windows`の場合
 ```sh
 cd build-scripts
@@ -35,9 +35,18 @@ $ chmod +x build-linux.sh
 $ ./build-linux.sh
 ```
 
+## C#の場合
+```sh
+dotnet build src/cs/CellSim.sln --configuration Release
+```
+
 ### 実行ファイルの場所
+## C++の場合
 `./build-scripts/build/bin/`に作られます。
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
+
+## C#の場合
+`./src/cs/CellSim/bin/Release/net8.0/`に作られます。
 
 # コマンドラインオプション
 ### `-b` `--binary`
