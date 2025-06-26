@@ -12,6 +12,7 @@ namespace CellSim::Cli
         Image,
         Output,
         Param,
+        ParamSweep,
         Setting,
         Video,
     };

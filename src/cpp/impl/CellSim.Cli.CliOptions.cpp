@@ -5,6 +5,7 @@
 #include "CellSim.Cli.ImageOption.hpp"
 #include "CellSim.Cli.OutputOption.hpp"
 #include "CellSim.Cli.ParamOption.hpp"
+#include "CellSim.Cli.ParamSweepOption.hpp"
 #include "CellSim.Cli.SettingOption.hpp"
 #include "CellSim.Cli.VideoOption.hpp"
 #include "CellSim.Messages.hpp"
@@ -79,6 +80,8 @@ namespace CellSim::Cli
                 );
             }
         }
+
+        m_activeOption();
     }
 
     CliOptions::CliOptions(int argc, char** argv)
@@ -95,6 +98,7 @@ namespace CellSim::Cli
         addOption(new CsvOption());
         addOption(new ImageOption());
         addOption(new OutputOption());
+        addOption(new ParamSweepOption());
         addOption(new SettingOption());
         addOption(new VideoOption());
 

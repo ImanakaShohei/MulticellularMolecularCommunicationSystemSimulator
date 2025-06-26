@@ -12,6 +12,32 @@ namespace CellSim.Cli
         protected readonly Dictionary<CliOptionType, CliOption> m_options;
         protected CliOption? m_controllerOption;
 
+        private void ActiveOption()
+        {
+            var arg = CreateReadOnlyOptions();
+            foreach (var pair in m_options)
+            {
+                if (pair.Value.IsEnabled)
+                {
+                    pair.Value.OnActive(this, new CliOptionActivationArgs(arg));
+                }
+            }
+        }
+
+#pragma warning disable CA1859 // 可能な場合は具象型を使用してパフォーマンスを向上させる
+        private IReadOnlyDictionary<CliOptionType, ReadOnlyCliOption> CreateReadOnlyOptions()
+#pragma warning restore CA1859 // 可能な場合は具象型を使用してパフォーマンスを向上させる
+        {
+            Dictionary<CliOptionType, ReadOnlyCliOption> dictionary = new Dictionary<CliOptionType, ReadOnlyCliOption>();
+
+            foreach (var pair in m_options)
+            {
+                dictionary.Add(pair.Key, pair.Value);
+            }
+
+            return dictionary;
+        }
+
         private void EnableOptions(string[] args)
         {
             for (int i = 0; i < args.Length; ++i)
@@ -61,6 +87,8 @@ namespace CellSim.Cli
                     );
                 }
             }
+
+            ActiveOption();
         }
 
         public ReadOnlyCliOptions(string[] args)
@@ -79,6 +107,7 @@ namespace CellSim.Cli
             addOption(new CsvOption());
             addOption(new ImageOption());
             addOption(new OutputOption());
+            addOption(new ParamSweepOption());
             addOption(new SettingOption());
             addOption(new VideoOption());
 

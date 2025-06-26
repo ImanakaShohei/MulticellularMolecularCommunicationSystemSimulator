@@ -49,4 +49,16 @@ namespace CellSim::Settings
         Simulation::Load(config["simulation"]);
         SimulationModel::Load(config["simulationModel"]);
     }
+
+    ::nlohmann::json Config::OpenJsonFile(::std::string const& filePath)
+    {
+        ::nlohmann::json config;
+        ::std::ifstream ifs(filePath);
+        
+        if (!ifs) [[unlikely]] throw ::std::invalid_argument("Failed to open the specified file.");
+
+        ifs >> config;
+
+        return config;
+    }
 }

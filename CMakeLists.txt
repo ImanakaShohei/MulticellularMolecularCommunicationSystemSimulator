@@ -44,11 +44,13 @@ set(SOURCES
     src/cpp/impl/CellSim.Cli.ImageOption.cpp
     src/cpp/impl/CellSim.Cli.OutputOption.cpp
     src/cpp/impl/CellSim.Cli.ParamOption.cpp
+    src/cpp/impl/CellSim.Cli.ParamSweepOption.cpp
     src/cpp/impl/CellSim.Cli.RepeatedValueOption.cpp
     src/cpp/impl/CellSim.Cli.SettingOption.cpp
     src/cpp/impl/CellSim.Cli.ValueOption.cpp
     src/cpp/impl/CellSim.Cli.VideoOption.cpp
     src/cpp/impl/CellSim.Imaging.ImageCreater.cpp
+    src/cpp/impl/CellSim.IO.DirectoryCreater.cpp
     src/cpp/impl/CellSim.Model.CellGrowthModel.cpp
     src/cpp/impl/CellSim.Model.CellSimulationModel.cpp
     src/cpp/impl/CellSim.Model.ClusterFormationModel.cpp

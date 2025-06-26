@@ -29,5 +29,14 @@ namespace CellSim.Settings
             SimulationModel.Load(config["simulationModel"].AsObject());
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
         }
+
+        internal static JsonObject OpenJsonFile(string path)
+        {
+            using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            
+            JsonNode? node = JsonNode.Parse(fileStream) ?? throw new ArgumentException("JsonObject Config.OpenJsonFile(string path)");
+
+            return node.AsObject();
+        }
     }
 }

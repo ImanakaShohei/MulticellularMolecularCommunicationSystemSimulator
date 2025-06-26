@@ -8,9 +8,9 @@ namespace CellSim.Cli
 {
     public struct CliOptionActivationArgs
     {
-        public Dictionary<CliOptionType, ReadOnlyCliOption> Options;
+        public IReadOnlyDictionary<CliOptionType, ReadOnlyCliOption> Options;
 
-        public CliOptionActivationArgs(Dictionary<CliOptionType, ReadOnlyCliOption> options)
+        public CliOptionActivationArgs(IReadOnlyDictionary<CliOptionType, ReadOnlyCliOption> options)
         {
             Options = options;
         }

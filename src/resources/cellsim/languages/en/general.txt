@@ -23,6 +23,10 @@ Cli.CliOptions.m_enableOption.Error.MatchError='%s' is an invalid option.
 
 Cli.FlagOption.AddValue.Error=Attempted to assign a value to an option that does not accept one.
 
+Cli.ParamSweepOption.CheckValue.Error.NotFound='--param-sweep' The specified parameter was not found.
+Cli.ParamSweepOption.CheckValue.Error.NotNumber='--param-sweep' The parameter must be number type.
+Cli.ParamSweepOption.OnActive.Error=The format of the '--param-sweep' is invalid.
+
 Model.CellSimulationModel.FromType.Error=Invalid CellSim::Model::CellSimulationType value.
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=The parameter 'adhesiveRepulsionFactor' must be greater than or equal to zero.

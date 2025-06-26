@@ -8,7 +8,7 @@
 #define CELLSIM_VERSION_MAJOR 2
 #define CELLSIM_VERSION_MINOR 0
 #define CELLSIM_VERSION_PATCH 0
-#define CELLSIM_VERSION_EXTENSION "Beta 3"
+#define CELLSIM_VERSION_EXTENSION "Beta 4"
 
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1
@@ -163,6 +163,7 @@ namespace CellSim::Cli
     class ImageOption;
     class OutputOption;
     class ParamOption;
+    class ParamSweepOption;
     class RepeatedValueOption;
     class SettingOption;
     class ValueOption;
@@ -187,6 +188,7 @@ namespace CellSim::Imaging
 /// @brief 追加の入出力機能
 namespace CellSim::IO
 {
+    class DirectoryCreater;
     class NamedPipe;
 }
 

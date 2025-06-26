@@ -23,6 +23,10 @@ Cli.CliOptions.m_enableOption.Error.MatchError='%s' 無効なオプションで�
 
 Cli.FlagOption.AddValue.Error=値を持たないオプションに値を追加しようとしました。
 
+Cli.ParamSweepOption.CheckValue.Error.NotFound='--param-sweep' 指定されたパラメータが見つかりませんでした。
+Cli.ParamSweepOption.CheckValue.Error.NotNumber='--param-sweep' パラメータは数値型である必要があります。
+Cli.ParamSweepOption.OnActive.Error='--param-sweep'の形式が正しくありません。
+
 Model.CellSimulationModel.FromType.Error=無効なCellSim::Model::CellSimulationType値です。
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
