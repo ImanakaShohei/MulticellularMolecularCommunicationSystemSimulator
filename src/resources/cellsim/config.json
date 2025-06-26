@@ -35,7 +35,7 @@
         },
         
         "clusterFormation": {
-            "adhesiveRepulsionFactor": 1.0,
+            "adhesiveRepulsionFactor": 10.0,
             "lambda": 20.0,
             "remoteForceFactor": 1.0
         },

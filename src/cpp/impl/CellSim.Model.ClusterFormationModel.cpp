@@ -13,27 +13,29 @@
 namespace CellSim::Model
 {
     Numerics::Vector3 ClusterFormationModel::m_computeRemoteForce(
-        Cells::CellInfo target,
-        Cells::CellInfo cell
+        Numerics::Vector3 diff,
+        double dist,
+        double targetMass,
+        double cellMass
     ) const noexcept
     {
-        const Numerics::Vector3 diff = target.Position - cell.Position;
-        const double mass            = cell.Mass + target.Mass;
+        const double mass = targetMass + cellMass;
 
         return (
             -mass *
-            ::exp(-m_reverseLambda)
+            ::exp(-dist * m_reverseLambda) /
+            dist
         ) * diff;
     }
 
     Numerics::Vector3 ClusterFormationModel::m_computeVolumeExclusion(
-        Cells::CellInfo target,
-        Cells::CellInfo cell
+        Numerics::Vector3 diff,
+        double dist,
+        double targetRadius,
+        double cellRadius
     ) const noexcept
     {
-        const Numerics::Vector3 diff   = target.Position - cell.Position;
-        const double dist = diff.Length();
-        const double sumRadius = target.Radius + cell.Radius;
+        const double sumRadius = targetRadius + cellRadius;
 
         if (dist < sumRadius) {
 
@@ -94,10 +96,12 @@ namespace CellSim::Model
                 args.Cells,
                 args.Fields,
                 {
+                    Numerics::Vector3 diff = info.Position - cellInfo.Position;
+                    double dist = diff.Length();
                     if (cellInfo.IsAlive) {
-                        vec1 += m_computeRemoteForce(info, cellInfo);
+                        vec1 += m_computeRemoteForce(diff, dist, info.Mass, cellInfo.Mass);
                     }
-                    vec2 += m_computeVolumeExclusion(info, cellInfo);
+                    vec2 += m_computeVolumeExclusion(diff, dist, info.Radius, cellInfo.Radius);
                 }
             )
 
@@ -113,7 +117,9 @@ namespace CellSim::Model
             args.Cells,
             args.Fields,
             {
-                vec += m_computeVolumeExclusion(info, cellInfo);
+                Numerics::Vector3 diff = info.Position - cellInfo.Position;
+                double dist = diff.Length();
+                vec += m_computeVolumeExclusion(diff, dist, info.Radius, cellInfo.Radius);
             }
         )
 

@@ -17,19 +17,26 @@ namespace CellSim.Model
         private readonly double m_reverseLambda;
         private readonly double m_remoteForceFactor;
 
-        private Vector3 ComputeRemoteForce(CellInfo target, CellInfo cell)
+        private Vector3 ComputeRemoteForce(
+            Vector3 diff,
+            double dist,
+            double targetMass,
+            double cellMass
+        )
         {
-            Vector3 diff = target.Position - cell.Position;
-            double mass = cell.Mass + target.Mass;
+            double mass = cellMass + targetMass;
 
-            return (-mass * Math.Exp(-m_reverseLambda)) * diff;
+            return (-mass * Math.Exp(-dist * m_reverseLambda) / dist) * diff;
         }
 
-        private Vector3 ComputeVolumeExclusion(CellInfo target, CellInfo cell)
+        private Vector3 ComputeVolumeExclusion(
+            Vector3 diff,
+            double dist,
+            double targetRadius,
+            double cellRadius
+        )
         {
-            Vector3 diff = target.Position - cell.Position;
-            double dist = diff.Length;
-            double sumRadius = target.Radius + cell.Radius;
+            double sumRadius = targetRadius + cellRadius;
 
             if (dist < sumRadius)
             {
@@ -89,11 +96,13 @@ namespace CellSim.Model
                     args.Fields,
                     cellInfo =>
                     {
+                        Vector3 diff = info.Position - cellInfo.Position;
+                        double dist = diff.Length;
                         if (cellInfo.IsAlive)
                         {
-                            vec1 += ComputeRemoteForce(info, cellInfo);
+                            vec1 += ComputeRemoteForce(diff, dist, info.Mass, cellInfo.Mass);
                         }
-                        vec2 += ComputeVolumeExclusion(info, cellInfo);
+                        vec2 += ComputeVolumeExclusion(diff, dist, info.Radius, cellInfo.Radius);
                     }
                 );
 
@@ -110,7 +119,9 @@ namespace CellSim.Model
                 args.Fields,
                 cellInfo =>
                 {
-                    vec += ComputeVolumeExclusion(info, cellInfo);
+                    Vector3 diff = info.Position - cellInfo.Position;
+                    double dist = diff.Length;
+                    vec += ComputeVolumeExclusion(diff, dist, info.Radius, cellInfo.Radius);
                 }
             );
 

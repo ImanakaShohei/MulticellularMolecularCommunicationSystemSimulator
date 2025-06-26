@@ -14,8 +14,10 @@ namespace CellSim::Model
         /// @param cell 
         /// @return 計算結果
         [[nodiscard]] Numerics::Vector3 m_computeRemoteForce(
-            Cells::CellInfo target,
-            Cells::CellInfo cell
+            Numerics::Vector3 diff,
+            double dist,
+            double targetMass,
+            double cellMass
         ) const noexcept;
 
         /// @brief くっついた細胞同士の反発力
@@ -23,8 +25,10 @@ namespace CellSim::Model
         /// @param cell 
         /// @return 計算結果
         [[nodiscard]] Numerics::Vector3 m_computeVolumeExclusion(
-            Cells::CellInfo target,
-            Cells::CellInfo cell
+            Numerics::Vector3 diff,
+            double dist,
+            double targetRadius,
+            double cellRadius
         ) const noexcept;
 
         double m_adhesiveRepulsionFactor;
