@@ -74,7 +74,35 @@ namespace CellSim.Settings
 
                 internal static void Load(JsonObject config)
                 {
-                    throw new NotImplementedException();
+                    try
+                    {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                        s_adhesionThreshold = config["adhesionThreshold"].GetValue<int>();
+                        s_coefficientCd = config["coefficientCd"].GetValue<double>();
+                        s_contactDistance = config["contactDistance"].GetValue<double>();
+                        s_followerAttractionFactor = config["followerAttractionFactor"].GetValue<double>();
+                        s_globalAttractionFactor = config["globalAttractionFactor"].GetValue<double>();
+                        s_lambda = config["lambda"].GetValue<double>();
+                        s_leaderRepulsionFactor = config["leaderRepulsionFactor"].GetValue<double>();
+                        s_leaderRepulsionMaxDistance = config["leaderRepulsionMaxDistance"].GetValue<double>();
+                        s_leaderRepulsionMinDistance = config["leaderRepulsionMinDistance"].GetValue<double>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    }
+                    catch
+                    {
+                        throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.JsonError"));
+                    }
+
+                    if (s_coefficientCd < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.coefficientCd"));
+                    if (s_contactDistance < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance"));
+                    if (s_followerAttractionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.followerAttractionFactor"));
+                    if (s_globalAttractionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.globalAttractionFactor"));
+                    if (s_lambda == 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.lambda"));
+                    if (s_leaderRepulsionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionFactor"));
+                    if (s_leaderRepulsionMaxDistance < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMaxDistance"));
+                    if (s_leaderRepulsionMinDistance < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMinDistance"));
+
+                    if (s_contactDistance >= s_leaderRepulsionMinDistance) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.contactDistance-leaderRepulsionMinDistance"));
                 }
             }
 

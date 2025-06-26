@@ -1,10 +1,14 @@
 ﻿# cmake
 build
 
+# C-Sharp
+
+
 # visualstudio
 .vs
 bin
 obj
+*.user
 
 # vscode
 .vscode

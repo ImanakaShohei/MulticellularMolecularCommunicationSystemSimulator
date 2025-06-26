@@ -51,7 +51,28 @@ namespace CellSim.Settings
 
                 internal static void Load(JsonObject config)
                 {
-                    throw new NotImplementedException();
+                    try
+                    {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                        s_adhesionDistanceThreshold = config["adhesionDistanceThreshold"].GetValue<double>();
+                        s_adhesionForceFactor = config["adhesionForceFactor"].GetValue<double>();
+                        s_centralForceFactor = config["centralForceFactor"].GetValue<double>();
+                        s_repulsionFactor = config["repulsionFactor"].GetValue<double>();
+                        s_repulsionMaxDistance = config["repulsionMaxDistance"].GetValue<double>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    }
+                    catch
+                    {
+                        throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error.JsonError"));
+                    }
+
+                    if (s_adhesionDistanceThreshold < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error.adhesionDistanceThreshold"));
+                    if (s_adhesionForceFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error.adhesionForceFactor"));
+                    if (s_centralForceFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error.centralForceFactor"));
+                    if (s_repulsionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error.repulsionFactor"));
+                    if (s_repulsionMaxDistance < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error."));
+
+                    if (s_repulsionMaxDistance >= s_adhesionDistanceThreshold) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.ClusterRotation.Load.Error."));
                 }
             }
 

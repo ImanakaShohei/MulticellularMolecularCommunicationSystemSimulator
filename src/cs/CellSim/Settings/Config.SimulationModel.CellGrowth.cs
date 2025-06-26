@@ -23,8 +23,18 @@ namespace CellSim.Settings
 
                 internal static void Load(JsonObject config)
                 {
-                    throw new NotImplementedException();
-                }
+                    try
+                    {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].GetValue<double>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    }
+                    catch {
+                        throw new FormatException(Messages.Get("Settings.Config.SimulationModel.CellGrowth.Load.Error.JsonError"));
+                    }
+
+                    if (s_adhesiveRepulsionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.CellGrowth.Load.Error.adhesiveRepulsionFactor"));
+                    }
             }
 
         }

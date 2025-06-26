@@ -59,6 +59,11 @@ namespace CellSim.Model
             if (adhesiveRepulsionFactor < 0.0) throw new ArgumentOutOfRangeException(Messages.Get("Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor"));
             if (lambda == 0.0) throw new ArgumentOutOfRangeException(Messages.Get("Model.ClusterFormationModel.ClusterFormationModel.Error.lambda"));
             if (remoteForceFactor < 0.0) throw new ArgumentOutOfRangeException(Messages.Get("Model.ClusterFormationModel.ClusterFormationModel.Error.remoteForceFactor"));
+
+            m_adhesiveRepulsionFactor = adhesiveRepulsionFactor;
+            m_lambda = lambda;
+            m_reverseLambda = 1.0 / lambda;
+            m_remoteForceFactor = remoteForceFactor;
         }
 
         public override bool UseCellAlgorithm => true;

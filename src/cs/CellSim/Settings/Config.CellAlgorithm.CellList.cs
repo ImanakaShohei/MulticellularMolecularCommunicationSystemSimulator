@@ -13,7 +13,7 @@ namespace CellSim.Settings
         public static partial class CellAlgorithm
         {
             public static class CellList
-            { 
+            {
                 private static int s_gridCount;
                 private static double s_searchRadius;
 
@@ -29,7 +29,20 @@ namespace CellSim.Settings
 
                 internal static void Load(JsonObject config)
                 {
-                    throw new NotImplementedException();
+                    try
+                    {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                        s_gridCount = config["gridCount"].GetValue<int>();
+                        s_searchRadius = config["searchRadius"].GetValue<double>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    }
+                    catch
+                    {
+                        throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError"));
+                    }
+
+                    if (s_gridCount == 0) throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount"));
+                    if (s_searchRadius == 0) throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius"));
                 }
             }
 

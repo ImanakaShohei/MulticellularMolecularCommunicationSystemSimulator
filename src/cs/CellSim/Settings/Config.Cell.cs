@@ -72,7 +72,35 @@ namespace CellSim.Settings
 
             internal static void Load(JsonObject config)
             {
-                throw new NotImplementedException();
+                string s;
+
+                try
+                {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                    s_cellCount = config["cellCount"].GetValue<int>();
+                    s_enableGrowth = config["enableGrowth"].GetValue<bool>();
+                    s_growthRate = config["growthRate"].GetValue<double>();
+                    s_initialPlacementRadius = config["initialPlacementRadius"].GetValue<double>();
+                    s_isSensitiveToMolecules = config["isSensitiveToMolecules"].GetValue<bool>();
+                    s_initialPlacementSeed = config["initialPlacementSeed"].GetValue<int>();
+                    s_mass = config["mass"].GetValue<double>();
+                    s_radius = config["radius"].GetValue<double>();
+                    s = config["type"].GetValue<string>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                }
+                catch {
+                    throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.JsonError"));
+                }
+
+                if (s_cellCount == 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.cellCount"));
+                if (s_growthRate <= 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.growthRate"));
+                if (s_initialPlacementRadius <= 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.initialPlacementRadius"));
+                if (s_mass == 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.mass"));
+                if (s_radius == 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.radius"));
+                if (s_cellCount == 0) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.radius"));
+
+                if (s == "Normal") s_type = CellType.Normal;
+                else throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.type"));
             }
         }
     }

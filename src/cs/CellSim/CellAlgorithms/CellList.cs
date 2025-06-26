@@ -65,6 +65,8 @@ namespace CellSim.CellAlgorithms
                     }
                 }
             }
+
+            m_enable2DMode = enable2DMode;
             
             m_gridCountX = gridCount;
             m_gridCountY = gridCount;

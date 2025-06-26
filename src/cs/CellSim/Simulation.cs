@@ -2,6 +2,7 @@
 using CellSim.Cells;
 using CellSim.Model;
 using CellSim.Molecular;
+using CellSim.Numerics;
 using CellSim.Settings;
 using System;
 using System.Collections.Generic;

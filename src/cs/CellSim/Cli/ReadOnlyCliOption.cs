@@ -25,6 +25,11 @@ namespace CellSim.Cli
         public abstract CliOptionType OptionType { get; }
 
         /// <summary>
+        /// 'true'のときはオプション自身が主役となって独自の動作を行う
+        /// </summary>
+        public abstract bool TakesControl { get; }
+
+        /// <summary>
         /// 値
         /// </summary>
         public abstract string Value { get; }

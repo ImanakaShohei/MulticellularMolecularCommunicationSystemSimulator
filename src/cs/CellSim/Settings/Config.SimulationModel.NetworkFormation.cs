@@ -56,7 +56,33 @@ namespace CellSim.Settings
 
                 internal static void Load(JsonObject config)
                 {
-                    throw new NotImplementedException();
+                    try
+                    {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].GetValue<double>();
+                        s_attractionFactor = config["attractionFactor"].GetValue<double>();
+                        s_lambda = config["lambda"].GetValue<double>();
+                        s_maxAttractionDistance = config["maxAttractionDistance"].GetValue<double>();
+                        s_maxRepulsionDistance = config["maxRepulsionDistance"].GetValue<double>();
+                        s_minAttractionDistance = config["minAttractionDistance"].GetValue<double>();
+                        s_remoteForceFactor = config["remoteForceFactor"].GetValue<double>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    }
+                    catch
+                    {
+                        throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.JsonError"));
+                    }
+
+                    if (s_adhesiveRepulsionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.adhesiveRepulsionFactor"));
+                    if (s_attractionFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.attractionFactor"));
+                    if (s_lambda == 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.lambda"));
+                    if (s_maxAttractionDistance <= 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.maxAttractionDistance"));
+                    if (s_maxRepulsionDistance <= 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.maxRepulsionDistance"));
+                    if (s_minAttractionDistance <= 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.minAttractionDistance"));
+                    if (s_remoteForceFactor < 0.0) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.remoteForceFactor"));
+
+                    if (s_minAttractionDistance >= s_maxAttractionDistance) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.minAttractionDistance-maxAttractionDistance"));
+                    if (s_maxRepulsionDistance >= s_minAttractionDistance) throw new FormatException(Messages.Get("Settings.Config.SimulationModel.NetworkFormation.Load.Error.maxRepulsionDistance-minAttractionDistance"));
                 }
             }
 

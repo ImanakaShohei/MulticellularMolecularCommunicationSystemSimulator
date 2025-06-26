@@ -43,8 +43,12 @@ namespace CellSim.Cli
             CliOptionActivationArgs args
         );
 
-        
-
-        public abstract void Run(ReadOnlyCliOptions sender);
+        /// <summary>
+        /// TakesControlが'true'のときに実行される
+        /// </summary>
+        /// <param name="sender">このメソッドを呼んだインスタンス</param>
+        public virtual void Run(ReadOnlyCliOptions sender)
+        {
+        }
     }
 }

@@ -13,12 +13,12 @@ namespace CellSim.Cli
     {
         protected string m_value;
 
-        public ValueOption()
+        protected ValueOption()
         {
             m_value = "";
         }
 
-        public ValueOption(string value)
+        protected ValueOption(string value)
         {
             m_value = value;
         }

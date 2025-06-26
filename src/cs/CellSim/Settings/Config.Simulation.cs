@@ -62,8 +62,26 @@ namespace CellSim.Settings
 
             internal static void Load(JsonObject config)
             {
-                throw new NotImplementedException();
-            }
+                try
+                {
+#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
+                    s_deltaTime = config["deltaTime"].GetValue<double>();
+                    s_enable2DMode = config["enable2DMode"].GetValue<bool>();
+                    s_fieldRadius = config["fieldRadius"].GetValue<double>();
+                    s_outputInterval = config["outputInterval"].GetValue<int>();
+                    s_totalSteps = config["totalSteps"].GetValue<ulong>();
+#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                }
+                catch {
+                    throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.JsonError"));
+                }
+
+
+                if (s_deltaTime <= 0.0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.deltaTime"));
+                if (s_fieldRadius < 0.0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.fieldRadius"));
+                if (s_outputInterval <= 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.outputInterval"));
+                if (s_totalSteps == 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.totalSteps"));
+                }
         }
 
     }

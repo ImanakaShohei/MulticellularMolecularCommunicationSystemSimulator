@@ -55,21 +55,21 @@ namespace CellSim
 
             if (!outputPath.EndsWith('\\') && !outputPath.EndsWith('/'))
             {
-                OutputPath = $"{outputPath}{Path.PathSeparator}";
+                OutputPath = $"{outputPath}{Path.DirectorySeparatorChar}";
             }
             else
             {
                 OutputPath = outputPath;
             }
 
-            OutputBinaryPath = $"{OutputPath}bin{Path.PathSeparator}";
-            OutputCsvPath = $"{OutputPath}csv{Path.PathSeparator}";
-            OutputImagePath = $"{OutputPath}image{Path.PathSeparator}";
+            OutputBinaryPath = $"{OutputPath}bin{Path.DirectorySeparatorChar}";
+            OutputCsvPath = $"{OutputPath}csv{Path.DirectorySeparatorChar}";
+            OutputImagePath = $"{OutputPath}image{Path.DirectorySeparatorChar}";
 
-            OutputBinaryCellPath = $"{OutputBinaryPath}cells{Path.PathSeparator}";
-            OutputBinaryMoleculePath = $"{OutputBinaryPath}molecules{Path.PathSeparator}";
-            OutputCsvCellPath = $"{OutputCsvPath}cells{Path.PathSeparator}";
-            OutputCsvMoleculePath = $"{OutputCsvPath}molecules{Path.PathSeparator}";
+            OutputBinaryCellPath = $"{OutputBinaryPath}cells{Path.DirectorySeparatorChar}";
+            OutputBinaryMoleculePath = $"{OutputBinaryPath}molecules{Path.DirectorySeparatorChar}";
+            OutputCsvCellPath = $"{OutputCsvPath}cells{Path.DirectorySeparatorChar}";
+            OutputCsvMoleculePath = $"{OutputCsvPath}molecules{Path.DirectorySeparatorChar}";
         }
 
         public void InitializeDirectories()

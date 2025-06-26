@@ -24,6 +24,7 @@ namespace CellSim
                 string? line = sr.ReadLine();
 
                 if (line is null) break;
+                if (line.Length == 0) continue;
 
                 string[] pair = line.Split('=');
 

@@ -64,6 +64,8 @@ namespace CellSim::Cli
 
                         pair.second->AddValue(argv[i]);
                     }
+
+                    break;
                 }
             }
 
