@@ -22,7 +22,10 @@ namespace CellSim::Cli
         constexpr bool HasValue() const noexcept override;
         constexpr bool IsRepeatable() const noexcept override;
 
-        [[nodiscard]] constexpr ::std::vector<::std::string> const& Values() const noexcept;
+        [[noreturn]]
+        ::std::string const& Value() const override;
+
+        constexpr ::std::vector<::std::string> const& Values() const noexcept;
     };
 }
 

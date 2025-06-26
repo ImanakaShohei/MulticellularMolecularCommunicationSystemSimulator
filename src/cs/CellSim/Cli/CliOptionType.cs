@@ -14,6 +14,7 @@ namespace CellSim.Cli
         Image,
         Output,
         Param,
+        Setting,
         Video,
     }
 }

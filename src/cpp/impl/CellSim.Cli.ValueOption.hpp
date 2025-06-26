@@ -26,8 +26,10 @@ namespace CellSim::Cli
         constexpr bool HasValue() const noexcept override;
         constexpr bool IsRepeatable() const noexcept override;
 
-        /// @brief 値
-        [[nodiscard]] constexpr ::std::string const& Value() const noexcept;
+        constexpr ::std::string const& Value() const override;
+
+        [[noreturn]]
+        ::std::vector<::std::string> const& Values() const override;
     };
 }
 
@@ -53,7 +55,7 @@ namespace CellSim::Cli
         return false;
     }
 
-    constexpr ::std::string const& ValueOption::Value() const noexcept
+    constexpr ::std::string const& ValueOption::Value() const
     {
         return m_value;
     }

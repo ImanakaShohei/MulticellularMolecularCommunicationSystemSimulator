@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Cli.CliOptionType.hpp"
 #include <string_view>
+#include <string>
+#include <vector>
 
 namespace CellSim::Cli
 {
@@ -60,7 +62,11 @@ namespace CellSim::Cli
 
         /// @brief 'true'のときはオプション自身が主役となって独自の動作を行う
         [[nodiscard]] virtual bool TakesControl() const noexcept = 0;
+
+        /// @brief 値
+        [[nodiscard]] virtual ::std::string const& Value() const = 0;
         
+        [[nodiscard]] virtual ::std::vector<::std::string> const& Values() const = 0;
     };
 }
 

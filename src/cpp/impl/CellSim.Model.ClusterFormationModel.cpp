@@ -101,7 +101,7 @@ namespace CellSim::Model
                 }
             )
 
-            return m_remoteForceFactor * vec1.Normalize() + m_adhesiveRepulsionFactor * vec2;
+            return m_remoteForceFactor * vec1 + m_adhesiveRepulsionFactor * vec2;
         }
         
         Numerics::Vector3 vec;

@@ -22,7 +22,7 @@ namespace CellSim.Cli
             else
             {
 
-                Config.Load("./config.json");
+                Config.Load(m_options[CliOptionType.Setting].Value);
 
                 Simulation sim = new Simulation(CreateSimulationOption());
 

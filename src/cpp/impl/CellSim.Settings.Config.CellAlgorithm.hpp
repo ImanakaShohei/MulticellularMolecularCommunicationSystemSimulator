@@ -19,6 +19,7 @@ namespace CellSim::Settings
 
         class BarnesHut;
         class CellList;
+        class DualTreeBH;
         class Naive;
         class Null;
         class ParticleMesh;

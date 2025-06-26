@@ -28,6 +28,7 @@ set(SOURCES
     src/cpp/impl/CellSim.CellAlgorithms.CellAlgorithm.cpp
     src/cpp/impl/CellSim.CellAlgorithms.CellList.cpp
     src/cpp/impl/CellSim.CellAlgorithms.ClusterModel.cpp
+    src/cpp/impl/CellSim.CellAlgorithms.Detail.Node.cpp
     src/cpp/impl/CellSim.CellAlgorithms.NaiveAlgorithm.cpp
     src/cpp/impl/CellSim.CellAlgorithms.ParticleMesh.cpp
     src/cpp/impl/CellSim.Cells.Cell.cpp
@@ -43,6 +44,9 @@ set(SOURCES
     src/cpp/impl/CellSim.Cli.ImageOption.cpp
     src/cpp/impl/CellSim.Cli.OutputOption.cpp
     src/cpp/impl/CellSim.Cli.ParamOption.cpp
+    src/cpp/impl/CellSim.Cli.RepeatedValueOption.cpp
+    src/cpp/impl/CellSim.Cli.SettingOption.cpp
+    src/cpp/impl/CellSim.Cli.ValueOption.cpp
     src/cpp/impl/CellSim.Cli.VideoOption.cpp
     src/cpp/impl/CellSim.Imaging.ImageCreater.cpp
     src/cpp/impl/CellSim.Model.CellGrowthModel.cpp

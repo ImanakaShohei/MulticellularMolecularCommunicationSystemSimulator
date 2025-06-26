@@ -5,6 +5,7 @@
 #include "CellSim.Cli.ImageOption.hpp"
 #include "CellSim.Cli.OutputOption.hpp"
 #include "CellSim.Cli.ParamOption.hpp"
+#include "CellSim.Cli.SettingOption.hpp"
 #include "CellSim.Cli.VideoOption.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Settings.Config.hpp"
@@ -94,6 +95,7 @@ namespace CellSim::Cli
         addOption(new CsvOption());
         addOption(new ImageOption());
         addOption(new OutputOption());
+        addOption(new SettingOption());
         addOption(new VideoOption());
 
         m_enableOption(argc, argv);
@@ -113,7 +115,7 @@ namespace CellSim::Cli
             m_options.at(CliOptionType::Csv)->IsEnabled(),
             m_options.at(CliOptionType::Image)->IsEnabled(),
             m_options.at(CliOptionType::Video)->IsEnabled(),
-            static_cast<OutputOption*>(m_options.at(CliOptionType::Output))->Value()
+            m_options.at(CliOptionType::Output)->Value()
         );
     }
 
@@ -124,7 +126,7 @@ namespace CellSim::Cli
         }
         else {
 
-            Settings::Config::Load("./config.json");
+            Settings::Config::Load(m_options[CliOptionType::Setting]->Value());
 
             Simulation sim(CreateSimulationOption());
 

@@ -79,6 +79,7 @@ namespace CellSim.Cli
             addOption(new CsvOption());
             addOption(new ImageOption());
             addOption(new OutputOption());
+            addOption(new SettingOption());
             addOption(new VideoOption());
 
             EnableOptions(args);
