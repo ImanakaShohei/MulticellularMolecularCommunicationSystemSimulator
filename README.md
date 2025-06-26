@@ -36,8 +36,28 @@ $ ./build-linux.sh
 ```
 
 ## C#の場合
+`Windows(x64)`の場合
 ```sh
-dotnet build src/cs/CellSim.sln --configuration Release
+cd src/cs/CellSim
+dotnet publish CellSim.csproj -p:PublishProfile=Properties\\PublishProfiles\\win-x64.pubxml
+```
+
+`Windows(arm64)`の場合
+```sh
+cd src/cs/CellSim
+dotnet publish CellSim.csproj -p:PublishProfile=Properties\\PublishProfiles\\win-arm64.pubxml
+```
+
+`macOS(Apple Silicon Mac)`の場合
+```sh
+$ cd src/cs/CellSim
+$ dotnet publish cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-arm64.pubxml
+```
+
+`macOS(Intel Mac)`の場合
+```sh
+$ cd src/cs/CellSim
+$ dotnet publish cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
 ```
 
 ## 実行ファイルの場所
@@ -46,7 +66,7 @@ dotnet build src/cs/CellSim.sln --configuration Release
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
 
 ### C#の場合
-`./src/cs/CellSim/bin/Release/net8.0/`に作られます。
+`./src/cs/CellSim/bin/Release/net8.0/publish/`に作られます。
 
 # コマンドラインオプション
 ### `-b` `--binary`
