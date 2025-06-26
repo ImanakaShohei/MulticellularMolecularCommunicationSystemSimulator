@@ -54,7 +54,7 @@ namespace CellSim::Cli
 
         if (!sin) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.OnActive.Error");
 
-        for (TNum current = begin; current < end; current += delta) {
+        for (TNum current = begin; current <= end; current += delta) {
 
             ::nlohmann::json& j = s_checkValue(config, paramName);
 

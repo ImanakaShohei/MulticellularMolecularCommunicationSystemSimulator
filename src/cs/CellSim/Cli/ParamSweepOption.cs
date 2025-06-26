@@ -97,7 +97,7 @@ namespace CellSim.Cli
                     throw new FormatException(Messages.Get("Cli.ParamSweepOption.OnActive.Error"));
                 }
                 
-                for (double current = begin; current < end; current += delta)
+                for (double current = begin; current <= end; current += delta)
                 {
                     JsonNode j = CheckValue(config, paramName);
 
@@ -140,7 +140,7 @@ namespace CellSim.Cli
                     throw new FormatException(Messages.Get("Cli.ParamSweepOption.OnActive.Error"));
                 }
 
-                for (long current = begin; current < end; current += delta)
+                for (long current = begin; current <= end; current += delta)
                 {
                     JsonNode j = CheckValue(config, paramName);
 
