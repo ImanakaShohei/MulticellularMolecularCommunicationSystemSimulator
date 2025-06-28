@@ -23,7 +23,7 @@ namespace CellSim.Model
         private readonly double m_reverseLambda;
         private readonly double m_squareMaxAttractionDistance;
 
-        CellList m_cellList;
+        private readonly CellList m_cellList;
 
         public NetworkFormationModel()
             : this(
@@ -143,13 +143,10 @@ namespace CellSim.Model
             m_cellList.ResetCells();
             m_cellList.SetCells(args.Cells);
 
-            Parallel.For(
-                0,
-                args.Cells.Count,
-                i =>
+            Parallel.ForEach(
+                args.Cells,
+                cell =>
                 {
-                    Cell cell = args.Cells[i];
-
                     CellAlgorithm.Enumerate(
                         this,
                         m_cellList,

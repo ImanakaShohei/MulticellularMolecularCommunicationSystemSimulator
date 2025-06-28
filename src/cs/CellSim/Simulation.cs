@@ -25,12 +25,10 @@ namespace CellSim
                 // ここでm_pCellAlgorithmはnullptrではありません
                 if (m_enableMultithreading)
                 {
-                    Parallel.For(
-                        0,
-                        m_cells.Count,
-                        i =>
+                    Parallel.ForEach(
+                        m_cells,
+                        cell =>
                         {
-                            Cell cell = m_cells[i];
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
                             cell.ApplyForce(CellAlgorithm.ComputeForceOnCell(this, new CellAlgorithmForceComputationArgs(m_cells, m_molecules, cell)));
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
@@ -51,12 +49,10 @@ namespace CellSim
             {
                 if (m_enableMultithreading)
                 {
-                    Parallel.For(
-                        0,
-                        m_cells.Count,
-                        i =>
+                    Parallel.ForEach(
+                        m_cells,
+                        cell =>
                         {
-                            Cell cell = m_cells[i];
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
 #pragma warning disable CS8604 // Null 参照引数の可能性があります。
                             cell.ApplyForce(m_simulationModel.ComputeForceOnCell(this, new SimulationModelForceComputationArgs(CellAlgorithm, m_cells, m_molecules, cell)));
@@ -116,13 +112,10 @@ namespace CellSim
 
             if (Config.Cell.IsSensitiveToMolecules)
             {
-                Parallel.For(
-                    0,
-                    m_cells.Count,
-                    i =>
+                Parallel.ForEach(
+                    m_cells,
+                    cell =>
                     {
-                        Cell cell = m_cells[i];
-
                         foreach (MoleculeField field in m_molecules)
                         {
                             cell.SenseMolecules(field);
@@ -237,7 +230,7 @@ namespace CellSim
         {
             Console.WriteLine(Messages.Get("Simulation.Run.Running"));
 
-            ulong totalStep = Settings.Config.Simulation.TotalSteps;
+            ulong totalStep = Config.Simulation.TotalSteps;
 
             DateTime beginClock = DateTime.Now;
             DateTime currentClock = beginClock;
@@ -250,7 +243,7 @@ namespace CellSim
                 BeforeAdvanceStep();
                 AdvanceStep();
 
-                if (step % Settings.Config.Simulation.OutputInterval == 0)
+                if (step % Config.Simulation.OutputInterval == 0)
                 {
                     m_writer.Save(this, step);
                 }
@@ -267,10 +260,10 @@ namespace CellSim
 
             m_writer.SaveConfig(
                 totalStep,
-                Settings.Config.Cell.CellCount,
+                Config.Cell.CellCount,
                 (long)(currentClock - beginClock).TotalMilliseconds,
-                Settings.Config.SimulationModel.SimulationType,
-                Settings.Config.CellAlgorithm.AlgorithmType
+                Config.SimulationModel.SimulationType,
+                Config.CellAlgorithm.AlgorithmType
             );
 
             Console.WriteLine(Messages.Get("Simulation.Run.Completed"));
