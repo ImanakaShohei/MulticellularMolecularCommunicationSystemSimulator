@@ -74,7 +74,7 @@ dotnet publish cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles
 
 ## 実行ファイルの場所
 ### C++の場合
-`./build-scripts/build/bin/`に作られます。
+`./build-scripts/build/bin/`に作られます。  
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
 
 ### C#の場合
