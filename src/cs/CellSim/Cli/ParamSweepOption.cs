@@ -81,6 +81,13 @@ namespace CellSim.Cli
 
             JsonObject config = Config.OpenJsonFile(args.Options[CliOptionType.Output].Value);
 
+            ParamOption paramOption = (ParamOption)args.Options[CliOptionType.Param];
+
+            if (paramOption.IsEnabled)
+            {
+                paramOption.OverrideParameter(config);
+            }
+
             if (isFloatingPoint)
             {
                 double begin;

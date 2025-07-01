@@ -11,7 +11,7 @@ namespace CellSim.Cli
     /// </summary>
     public abstract class RepeatedValueOption : CliOption
     {
-        private readonly List<string> m_values;
+        protected readonly List<string> m_values;
 
         public RepeatedValueOption()
         {

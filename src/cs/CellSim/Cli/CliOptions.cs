@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace CellSim.Cli
@@ -21,8 +22,16 @@ namespace CellSim.Cli
             }
             else
             {
+                JsonObject config = Config.OpenJsonFile(m_options[CliOptionType.Setting].Value);
 
-                Config.Load(m_options[CliOptionType.Setting].Value);
+                ParamOption paramOption = (ParamOption)m_options[CliOptionType.Param];
+
+                if (paramOption.IsEnabled)
+                {
+                    paramOption.OverrideParameter(config);
+                }
+
+                Config.Load(config);
 
                 Simulation sim = new Simulation(CreateSimulationOption());
 

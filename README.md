@@ -60,13 +60,25 @@ $ cd src/cs/CellSim
 $ dotnet publish cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
 ```
 
+`Linux(x64)`の場合
+```sh
+cd src/cs/CellSim
+dotnet publish cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-x64.pubxml
+```
+
+`Linux(arm64)`の場合
+```sh
+cd src/cs/CellSim
+dotnet publish cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-arm64.pubxml
+```
+
 ## 実行ファイルの場所
 ### C++の場合
 `./build-scripts/build/bin/`に作られます。
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
 
 ### C#の場合
-`./src/cs/CellSim/bin/Release/net8.0/publish/`に作られます。
+`./cs-publish/`に作られます。
 
 # コマンドラインオプション
 ### `-b` `--binary`

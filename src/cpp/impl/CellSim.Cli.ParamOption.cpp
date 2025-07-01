@@ -49,7 +49,7 @@ namespace CellSim::Cli
 
         index = param.find('=');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.FormatError"));
+        if (index == ::std::string_view::npos || index == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.FormatError"));
 
         ::std::string_view paramName = param.substr(0, index);
         ::std::string_view value = param.substr(index + 1);
@@ -57,9 +57,9 @@ namespace CellSim::Cli
         nlohmann::json& j = config[paramName];
 
         switch (j.type()) {
-            case nlohmann::detail::value_t::number_float: s_changeValue<double>(j, value); break;
-            case nlohmann::detail::value_t::number_integer: s_changeValue<int64_t>(j, value); break;
-            case nlohmann::detail::value_t::number_unsigned: s_changeValue<uint64_t>(j, value); break;
+            case nlohmann::detail::value_t::number_float:
+            case nlohmann::detail::value_t::number_integer:
+            case nlohmann::detail::value_t::number_unsigned: s_changeValue<double>(j, value); break;
             case nlohmann::detail::value_t::boolean: s_changeValue<bool>(j, value); break;
             case nlohmann::detail::value_t::string: s_changeValue<::std::string>(j, value); break;
             case nlohmann::detail::value_t::null: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
