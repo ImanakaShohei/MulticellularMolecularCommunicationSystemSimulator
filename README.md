@@ -38,14 +38,14 @@ $ ./build-linux.sh
 ## C#の場合
 `Windows(x64)`の場合
 ```sh
-cd src/cs/CellSim
-dotnet publish CellSim.csproj -p:PublishProfile=Properties\\PublishProfiles\\win-x64.pubxml
+cd src\cs\CellSim
+dotnet publish CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-x64.pubxml
 ```
 
 `Windows(arm64)`の場合
 ```sh
-cd src/cs/CellSim
-dotnet publish CellSim.csproj -p:PublishProfile=Properties\\PublishProfiles\\win-arm64.pubxml
+cd src\cs\CellSim
+dotnet publish CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-arm64.pubxml
 ```
 
 `macOS(Apple Silicon Mac)`の場合
