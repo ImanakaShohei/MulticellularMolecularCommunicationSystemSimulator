@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Cli.ParamSweepOption.hpp"
+#include "CellSim.Cli.ParamOption.hpp"
 #include "CellSim.Cli.CliOptionActivationArgs.hpp"
 #include "CellSim.IO.DirectoryCreater.hpp"
 #include "CellSim.Messages.hpp"
@@ -117,6 +118,12 @@ namespace CellSim::Cli
         if (third.find('.') != ::std::string_view::npos) isFloatingPoint = true;
 
         ::nlohmann::json config = Settings::Config::OpenJsonFile(args.Options->at(CliOptionType::Setting)->Value());
+
+        auto pParamOption = static_cast<ParamOption*>(args.Options->at(CliOptionType::Param));
+
+        if (pParamOption->IsEnabled()) {
+            pParamOption->OverrideParameter(config);
+        }
 
         if (isFloatingPoint) s_sweep<double>(first, second, third, paramName, config, args);
         else s_sweep<int64_t>(first, second, third, paramName, config, args);

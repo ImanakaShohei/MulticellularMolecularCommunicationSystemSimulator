@@ -98,6 +98,7 @@ namespace CellSim::Cli
         addOption(new CsvOption());
         addOption(new ImageOption());
         addOption(new OutputOption());
+        addOption(new ParamOption());
         addOption(new ParamSweepOption());
         addOption(new SettingOption());
         addOption(new VideoOption());
@@ -130,7 +131,15 @@ namespace CellSim::Cli
         }
         else {
 
-            Settings::Config::Load(m_options[CliOptionType::Setting]->Value());
+            ::nlohmann::json config = Settings::Config::OpenJsonFile(m_options[CliOptionType::Setting]->Value());
+
+            auto pParamOption = static_cast<ParamOption*>(m_options[CliOptionType::Param]);
+
+            if (pParamOption->IsEnabled()) {
+                pParamOption->OverrideParameter(config);
+            }
+
+            Settings::Config::Load(config);
 
             Simulation sim(CreateSimulationOption());
 

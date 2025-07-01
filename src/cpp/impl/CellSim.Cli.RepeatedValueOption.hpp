@@ -11,7 +11,7 @@ namespace CellSim::Cli
 {
     /// @brief 複数回指定できるオプション
     class RepeatedValueOption : public CliOption {
-        private:
+        protected:
 
         ::std::vector<::std::string> m_values;
 
@@ -22,7 +22,6 @@ namespace CellSim::Cli
         constexpr bool HasValue() const noexcept override;
         constexpr bool IsRepeatable() const noexcept override;
 
-        [[noreturn]]
         ::std::string const& Value() const override;
 
         constexpr ::std::vector<::std::string> const& Values() const noexcept;

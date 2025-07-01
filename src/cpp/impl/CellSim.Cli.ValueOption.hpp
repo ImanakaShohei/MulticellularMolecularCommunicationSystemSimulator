@@ -28,7 +28,6 @@ namespace CellSim::Cli
 
         constexpr ::std::string const& Value() const override;
 
-        [[noreturn]]
         ::std::vector<::std::string> const& Values() const override;
     };
 }

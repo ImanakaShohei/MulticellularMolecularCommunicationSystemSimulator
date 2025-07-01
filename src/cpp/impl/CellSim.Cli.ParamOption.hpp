@@ -5,6 +5,7 @@
 #include "CellSim.Cli.RepeatedValueOption.hpp"
 
 #include <string>
+#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Cli
 {
@@ -14,7 +15,12 @@ namespace CellSim::Cli
         static constexpr ::std::string_view s_fullName = "--param";
         static constexpr ::std::string_view s_names = "-p, --param";
 
+        template <class T>
+        static void s_changeValue(nlohmann::json& v, ::std::string_view value);
+
         public:
+
+        static void OverrideParameter(nlohmann::json& config, ::std::string_view param);
 
         constexpr ::std::string_view FullName() const noexcept override;
 
@@ -25,6 +31,8 @@ namespace CellSim::Cli
         void OnActive(const CliOptions* sender, CliOptionActivationArgs args) override;
 
         constexpr CliOptionType OptionType() const noexcept override;
+
+        void OverrideParameter(nlohmann::json& config) const;
 
         constexpr bool TakesControl() const noexcept override;
     };

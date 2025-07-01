@@ -23,6 +23,11 @@ Cli.CliOptions.m_enableOption.Error.MatchError='%s' is an invalid option.
 
 Cli.FlagOption.AddValue.Error=Attempted to assign a value to an option that does not accept one.
 
+Cli.ParamOption.OverrideParameter.Error.FormatError=The format of the '-p, --param' is invalid.
+Cli.ParamOption.OverrideParameter.Error.InvalidParam='-p, --param'The specified parameter cannot be modified.
+Cli.ParamOption.OverrideParameter.Error.InvalidValue='-p, --param' Invalid value.
+Cli.ParamOption.OverrideParameter.Error.NotFound='-p, --param' The specified parameter was not found.
+
 Cli.ParamSweepOption.CheckValue.Error.NotFound='--param-sweep' The specified parameter was not found.
 Cli.ParamSweepOption.CheckValue.Error.NotNumber='--param-sweep' The parameter must be number type.
 Cli.ParamSweepOption.OnActive.Error=The format of the '--param-sweep' is invalid.
