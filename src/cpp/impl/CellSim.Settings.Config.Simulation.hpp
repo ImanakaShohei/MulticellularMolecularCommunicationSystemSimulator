@@ -30,13 +30,13 @@ namespace CellSim::Settings
         [[nodiscard]] static double FieldRadius() noexcept;
 
         /// @brief フィールドのX方向の半径
-        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusX() noexcept;
+        static double FieldRadiusX() noexcept;
 
         /// @brief フィールドのY方向の半径
-        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusY() noexcept;
+        static double FieldRadiusY() noexcept;
 
         /// @brief フィールドのZ方向の半径
-        [[deprecated("FieldRadius()をお使いください")]] static double FieldRadiusZ() noexcept;
+        static double FieldRadiusZ() noexcept;
 
         /// @brief 出力間隔
         [[nodiscard]] static int32_t OutputInterval() noexcept;
