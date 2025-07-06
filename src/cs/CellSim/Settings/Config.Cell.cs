@@ -89,6 +89,7 @@ namespace CellSim.Settings
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
                 catch {
+                    Console.WriteLine(config);
                     throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.JsonError"));
                 }
 

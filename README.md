@@ -4,6 +4,11 @@
 # Overview
 分子通信シミュレーションのための汎用シミュレータであり、ユーザがシミュレーションのパラメータや力学作用を定義することでさまざまなモデルに対応したシミュレーションを実行することができます。
 
+# 既知の不具合
+- `-p --param`で浮動小数点数を指定するとエラーが発生する
+- C#版で`-p --param`がうまく動作しない
+- C#版で`--param-sweep`がうまく動作しない
+
 # ビルド・動作要件
 ## C++の場合
 - C++20をサポートするコンパイラ
@@ -38,38 +43,32 @@ $ ./build-linux.sh
 ## C#の場合
 `Windows(x64)`の場合
 ```sh
-cd src\cs\CellSim
-dotnet publish CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-x64.pubxml
+dotnet publish src\cs\CellSim\CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-x64.pubxml
 ```
 
 `Windows(arm64)`の場合
 ```sh
-cd src\cs\CellSim
-dotnet publish CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-arm64.pubxml
+dotnet publish src\cs\CellSim\CellSim.csproj -p:PublishProfile=Properties\PublishProfiles\win-arm64.pubxml
 ```
 
 `macOS(Apple Silicon Mac)`の場合
 ```sh
-$ cd src/cs/CellSim
-$ dotnet publish cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-arm64.pubxml
+$ dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-arm64.pubxml
 ```
 
 `macOS(Intel Mac)`の場合
 ```sh
-$ cd src/cs/CellSim
-$ dotnet publish cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
+$ dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
 ```
 
 `Linux(x64)`の場合
 ```sh
-cd src/cs/CellSim
-dotnet publish cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-x64.pubxml
+dotnet publish src/cs/CellSim/cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-x64.pubxml
 ```
 
 `Linux(arm64)`の場合
 ```sh
-cd src/cs/CellSim
-dotnet publish cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-arm64.pubxml
+dotnet publish src/cs/CellSim/cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-arm64.pubxml
 ```
 
 ## 実行ファイルの場所

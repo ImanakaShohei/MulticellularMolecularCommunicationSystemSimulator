@@ -107,6 +107,7 @@ namespace CellSim.Cli
             addOption(new CsvOption());
             addOption(new ImageOption());
             addOption(new OutputOption());
+            addOption(new ParamOption());
             addOption(new ParamSweepOption());
             addOption(new SettingOption());
             addOption(new VideoOption());

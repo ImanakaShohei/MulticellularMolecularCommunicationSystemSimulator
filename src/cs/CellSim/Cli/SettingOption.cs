@@ -9,7 +9,7 @@ namespace CellSim.Cli
 {
     public sealed class SettingOption : ValueOption
     {
-        public SettingOption() : base("./config.json/")
+        public SettingOption() : base("./config.json")
         {
         }
 
