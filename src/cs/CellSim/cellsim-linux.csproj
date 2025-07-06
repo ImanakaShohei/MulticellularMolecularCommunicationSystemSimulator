@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
 		<PublishAot>True</PublishAot>
-		<AssemblyName>CellSim</AssemblyName>
+		<AssemblyName>cellsim</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
