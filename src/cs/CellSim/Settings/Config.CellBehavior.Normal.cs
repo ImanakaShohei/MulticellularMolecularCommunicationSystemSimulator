@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CellSim.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace CellSim.Settings
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        s_cellDivisionRadius = config["cellDivisionRadius"].GetValue<double>();
+                        s_cellDivisionRadius = config["cellDivisionRadius"].ToDouble();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                     catch

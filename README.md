@@ -4,11 +4,9 @@
 # Overview
 分子通信シミュレーションのための汎用シミュレータであり、ユーザがシミュレーションのパラメータや力学作用を定義することでさまざまなモデルに対応したシミュレーションを実行することができます。
 
+<!--
 # 既知の不具合
-- `-p --param`で浮動小数点数を指定するとエラーが発生する
-- C#版で`-p --param`がうまく動作しない
-- C#版で`--param-sweep`がうまく動作しない
-
+-->
 # ビルド・動作要件
 ## C++の場合
 - C++20をサポートするコンパイラ
@@ -28,16 +26,16 @@ cd build-scripts
 
 `macOS`の場合
 ```sh
-$ cd build-scripts
-$ chmod +x build-macos.sh
-$ ./build-macos.sh
+cd build-scripts
+chmod +x build-macos.sh
+./build-macos.sh
 ```
 
 `Linux`の場合
 ```sh
-$ cd build-scripts
-$ chmod +x build-linux.sh
-$ ./build-linux.sh
+cd build-scripts
+chmod +x build-linux.sh
+./build-linux.sh
 ```
 
 ## C#の場合
@@ -53,12 +51,12 @@ dotnet publish src\cs\CellSim\CellSim.csproj -p:PublishProfile=Properties\Publis
 
 `macOS(Apple Silicon Mac)`の場合
 ```sh
-$ dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-arm64.pubxml
+dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-arm64.pubxml
 ```
 
 `macOS(Intel Mac)`の場合
 ```sh
-$ dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
+dotnet publish src/cs/CellSim/cellsim-macos.csproj -p:PublishProfile=Properties/PublishProfiles/osx-x64.pubxml
 ```
 
 `Linux(x64)`の場合
@@ -90,12 +88,15 @@ MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作ら�
 ```sh
 ./cellsim -c
 ```
+
+<!--
 ### `-h` `--help`
 ヘルプを表示します。  
 **注意:** このオプションはほかのオプションと併用できません。
 ```sh
 ./cellsim -h
 ```
+-->
 ### `-i` `--image`
 実行結果を画像ファイルとして出力します。
 ```sh
@@ -131,6 +132,8 @@ MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作ら�
 ```sh
 ./cellsim -v
 ```
+
+<!--
 ### `--create-image`
 出力したcsvファイルまたはbinファイルから画像を作成します。
 このオプションは`-o` `--output`のみと併用可能です。  
@@ -165,6 +168,8 @@ GUIツールと通信するための、書き込み用の名前付きパイプ�
 ```sh
 ./cellsim --named-pipe-in "my-pipe-in" --named-pipe-out "my-pipe-out"
 ```
+
+-->
 ### `--param-sweep`
 パラメータ範囲を順番に実行します。
 以下の例では細胞数を1000個から2000個まで100刻みで実行します。

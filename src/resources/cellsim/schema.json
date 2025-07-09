@@ -152,6 +152,10 @@
                     "minimum": 0,
                     "examples": [ 512, 1024, 2048 ]
                 },
+                "imageSize": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                },
                 "outputInterval": {
                     "type": "integer",
                     "minimum": 1
@@ -161,7 +165,7 @@
                     "exclusiveMinimum": 0
                 }
             },
-            "required": [ "deltaTime", "fieldRadius", "outputInterval", "totalSteps" ]
+            "required": [ "deltaTime", "fieldRadius", "imageSize", "outputInterval", "totalSteps" ]
         },
         "simulationModel": {
             "type": "object",

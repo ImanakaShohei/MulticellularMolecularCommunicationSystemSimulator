@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CellSim.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace CellSim.Settings
             private static double s_deltaTime;
             private static bool s_enable2DMode;
             private static double s_fieldRadius;
+            private static int s_imageSize;
             private static int s_outputInterval;
             private static ulong s_totalSteps;
 
@@ -51,6 +53,11 @@ namespace CellSim.Settings
             public static double FieldRadiusZ => s_enable2DMode ? 0.0 : s_fieldRadius;
 
             /// <summary>
+            /// 出力画像の縦横の長さ
+            /// </summary>
+            public static int ImageSize => s_imageSize;
+
+            /// <summary>
             /// 出力間隔
             /// </summary>
             public static double OutputInterval => s_outputInterval;
@@ -65,20 +72,21 @@ namespace CellSim.Settings
                 try
                 {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                    s_deltaTime = config["deltaTime"].GetValue<double>();
+                    s_deltaTime = config["deltaTime"].ToDouble();
                     s_enable2DMode = config["enable2DMode"].GetValue<bool>();
-                    s_fieldRadius = config["fieldRadius"].GetValue<double>();
-                    s_outputInterval = config["outputInterval"].GetValue<int>();
-                    s_totalSteps = config["totalSteps"].GetValue<ulong>();
+                    s_fieldRadius = config["fieldRadius"].ToDouble();
+                    s_imageSize = config["imageSize"].ToInt32();
+                    s_outputInterval = config["outputInterval"].ToInt32();
+                    s_totalSteps = config["totalSteps"].ToUInt64();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
                 catch {
                     throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.JsonError"));
                 }
 
-
                 if (s_deltaTime <= 0.0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.deltaTime"));
                 if (s_fieldRadius < 0.0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.fieldRadius"));
+                if (s_imageSize <= 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.imageSize"));
                 if (s_outputInterval <= 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.outputInterval"));
                 if (s_totalSteps == 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.totalSteps"));
                 }

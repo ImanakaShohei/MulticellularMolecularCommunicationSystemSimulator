@@ -25,8 +25,8 @@ namespace CellSim
                 fourcc,
                 20,
                 cv::Size(
-                    (int)(Settings::Config::Simulation::FieldRadius() * 2.0),
-                    (int)(Settings::Config::Simulation::FieldRadius() * 2.0)
+                    m_imageSize,
+                    m_imageSize
                 ),
                 true
             );
@@ -140,12 +140,9 @@ namespace CellSim
         ::std::vector<Molecular::MoleculeField> const& fields
     )
     {
-        int radius = (int)(Settings::Config::Simulation::FieldRadius());
+        ::cv::Mat image{ m_imageSize, m_imageSize, CV_8UC3, ::cv::Scalar(0, 0, 0) };
 
-        int height = (int)(Settings::Config::Simulation::FieldRadiusY() * 2.0);
-        int width = height;
-
-        ::cv::Mat image{ height, width, CV_8UC3, ::cv::Scalar(0, 0, 0) };
+        int radius = m_imageSize / 2;
 
         ::cv::circle(
             image,
@@ -158,7 +155,7 @@ namespace CellSim
         ::cv::line(
             image,
             ::cv::Point{ radius, 0 },
-            ::cv::Point{ radius, height },
+            ::cv::Point{ radius, m_imageSize },
             ::cv::Scalar(255, 255, 255),
             1
         );
@@ -166,19 +163,19 @@ namespace CellSim
         ::cv::line(
             image,
             ::cv::Point{ 0, radius },
-            ::cv::Point{ width, radius },
+            ::cv::Point{ m_imageSize, radius },
             ::cv::Scalar(255, 255, 255),
             1
         );
 
         for (Cells::Cell const& cell : cells) {
-            int pointX = (int)(cell.PositionX() + Settings::Config::Simulation::FieldRadiusX());
-            int pointY = (int)(cell.PositionY() + Settings::Config::Simulation::FieldRadiusY());
+            int pointX = (int)((cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale);
+            int pointY = (int)((cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()) * m_scale);
 
             ::cv::circle(
                 image,
                 ::cv::Point{ pointX, pointY },
-                (int)cell.Radius(),
+                (int)(cell.Radius() * m_scale),
                 ::cv::Scalar(255, 255, 0),
                 1
             );
@@ -191,7 +188,7 @@ namespace CellSim
                 ::cv::line(
                     image,
                     ::cv::Point{ pointY, pointX },
-                    ::cv::Point{ (int)(pCell->PositionY() + Settings::Config::Simulation::FieldRadiusY()), (int)(pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) },
+                    ::cv::Point{ (int)((pCell->PositionY() + Settings::Config::Simulation::FieldRadius()) * m_scale), (int)((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale) },
                     ::cv::Scalar(0, 255, 255),
                     1
                 );
@@ -223,6 +220,8 @@ namespace CellSim
     SimulationResultWriter::SimulationResultWriter(SimulationOption option)
         : m_option(::std::move(option))
         , m_digits(s_log10(Settings::Config::Simulation::TotalSteps()))
+        , m_imageSize(Settings::Config::Simulation::ImageSize())
+        , m_scale(Settings::Config::Simulation::ImageSize() / 2 / Settings::Config::Simulation::FieldRadius())
         , m_videoWriter()
     {
         m_initialize();

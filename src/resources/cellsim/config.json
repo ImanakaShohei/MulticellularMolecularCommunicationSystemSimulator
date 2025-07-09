@@ -24,6 +24,7 @@
         "deltaTime": 0.1,
         "enable2DMode": true,
         "fieldRadius": 512,
+        "imageSize": 720,
         "outputInterval": 5,
         "totalSteps": 1000
     },

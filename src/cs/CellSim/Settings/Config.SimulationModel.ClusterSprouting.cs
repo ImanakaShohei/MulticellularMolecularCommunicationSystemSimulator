@@ -1,4 +1,5 @@
 ﻿using CellSim.Model;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,15 +78,15 @@ namespace CellSim.Settings
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        s_adhesionThreshold = config["adhesionThreshold"].GetValue<int>();
-                        s_coefficientCd = config["coefficientCd"].GetValue<double>();
-                        s_contactDistance = config["contactDistance"].GetValue<double>();
-                        s_followerAttractionFactor = config["followerAttractionFactor"].GetValue<double>();
-                        s_globalAttractionFactor = config["globalAttractionFactor"].GetValue<double>();
-                        s_lambda = config["lambda"].GetValue<double>();
-                        s_leaderRepulsionFactor = config["leaderRepulsionFactor"].GetValue<double>();
-                        s_leaderRepulsionMaxDistance = config["leaderRepulsionMaxDistance"].GetValue<double>();
-                        s_leaderRepulsionMinDistance = config["leaderRepulsionMinDistance"].GetValue<double>();
+                        s_adhesionThreshold = config["adhesionThreshold"].ToInt32();
+                        s_coefficientCd = config["coefficientCd"].ToDouble();
+                        s_contactDistance = config["contactDistance"].ToDouble();
+                        s_followerAttractionFactor = config["followerAttractionFactor"].ToDouble();
+                        s_globalAttractionFactor = config["globalAttractionFactor"].ToDouble();
+                        s_lambda = config["lambda"].ToDouble();
+                        s_leaderRepulsionFactor = config["leaderRepulsionFactor"].ToDouble();
+                        s_leaderRepulsionMaxDistance = config["leaderRepulsionMaxDistance"].ToDouble();
+                        s_leaderRepulsionMinDistance = config["leaderRepulsionMinDistance"].ToDouble();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                     catch

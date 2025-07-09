@@ -1,4 +1,5 @@
 ﻿using CellSim.Model;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,13 +60,13 @@ namespace CellSim.Settings
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].GetValue<double>();
-                        s_attractionFactor = config["attractionFactor"].GetValue<double>();
-                        s_lambda = config["lambda"].GetValue<double>();
-                        s_maxAttractionDistance = config["maxAttractionDistance"].GetValue<double>();
-                        s_maxRepulsionDistance = config["maxRepulsionDistance"].GetValue<double>();
-                        s_minAttractionDistance = config["minAttractionDistance"].GetValue<double>();
-                        s_remoteForceFactor = config["remoteForceFactor"].GetValue<double>();
+                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].ToDouble();
+                        s_attractionFactor = config["attractionFactor"].ToDouble();
+                        s_lambda = config["lambda"].ToDouble();
+                        s_maxAttractionDistance = config["maxAttractionDistance"].ToDouble();
+                        s_maxRepulsionDistance = config["maxRepulsionDistance"].ToDouble();
+                        s_minAttractionDistance = config["minAttractionDistance"].ToDouble();
+                        s_remoteForceFactor = config["remoteForceFactor"].ToDouble();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                     catch

@@ -12,7 +12,7 @@ namespace CellSim
         private static bool s_isInitialized = false;
         private static readonly Dictionary<string, string> s_map = new Dictionary<string, string>();
 
-        private static string GetLanguage() => System.Globalization.CultureInfo.CurrentCulture.Name[2..];
+        private static string GetLanguage() => System.Globalization.CultureInfo.CurrentCulture.Name[..2];
         
 
         private static void LoadMessages(string folderPath, string fileName)

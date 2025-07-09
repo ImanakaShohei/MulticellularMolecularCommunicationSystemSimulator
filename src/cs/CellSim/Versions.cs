@@ -11,6 +11,6 @@ namespace CellSim
         public static readonly int Major = 2;
         public static readonly int Minor = 0;
         public static readonly int Patch = 0;
-        public static readonly string Extension = "Beta 5";
+        public static readonly string Extension = "Beta 6";
     }
 }

@@ -40,6 +40,10 @@ namespace CellSim
         /// </summary>
         private readonly uint m_digits;
 
+        private readonly int m_imageSize;
+
+        private readonly double m_scale;
+
         private readonly VideoWriter m_videoWriter;
 
         private void Initialize()
@@ -146,14 +150,11 @@ namespace CellSim
             // TODO: ここに処理を追加します
         }
 
-        private static Mat CreateImage(IReadOnlyList<ReadOnlyCell> cells, IReadOnlyList<ReadOnlyMoleculeField> fields)
+        private Mat CreateImage(IReadOnlyList<ReadOnlyCell> cells, IReadOnlyList<ReadOnlyMoleculeField> fields)
         {
-            int radius = (int)Config.Simulation.FieldRadius;
+            int radius = m_imageSize / 2;
 
-            int height = (int)(Config.Simulation.FieldRadius * 2.0);
-            int width = height;
-
-            Mat image = new Mat(height, width, MatType.CV_8UC3, new Scalar(0, 0, 0));
+            Mat image = new Mat(m_imageSize, m_imageSize, MatType.CV_8UC3, new Scalar(0, 0, 0));
 
             Cv2.Circle(
                 image,
@@ -166,7 +167,7 @@ namespace CellSim
             Cv2.Line(
                 image,
                 new Point(radius, 0),
-                new Point(radius, height),
+                new Point(radius, m_imageSize),
                 new Scalar(255, 255, 255),
                 1
             );
@@ -174,20 +175,20 @@ namespace CellSim
             Cv2.Line(
                 image,
                 new Point(0, radius),
-                new Point(width, radius),
+                new Point(m_imageSize, radius),
                 new Scalar(255, 255, 255),
                 1
             );
 
             foreach (ReadOnlyCell cell in cells)
             {
-                int pointX = (int)(cell.PositionX + Config.Simulation.FieldRadiusX);
-                int pointY = (int)(cell.PositionY + Config.Simulation.FieldRadiusY);
+                int pointX = (int)((cell.PositionX + Config.Simulation.FieldRadiusX) * m_scale);
+                int pointY = (int)((cell.PositionY + Config.Simulation.FieldRadiusY) * m_scale);
 
                 Cv2.Circle(
                     image,
                     new Point(pointX, pointY),
-                    (int)cell.Radius,
+                    (int)(cell.Radius * m_scale),
                     new Scalar(255, 255, 0),
                     1
                 );
@@ -201,7 +202,7 @@ namespace CellSim
                     Cv2.Line(
                         image,
                         new Point(pointX, pointY),
-                        new Point(attachedCell.PositionX + Config.Simulation.FieldRadiusX, attachedCell.PositionY + Config.Simulation.FieldRadiusY),
+                        new Point((attachedCell.PositionX + Config.Simulation.FieldRadiusX) * m_scale, (attachedCell.PositionY + Config.Simulation.FieldRadiusY) * m_scale),
                         new Scalar(255, 255, 0),
                         1
                     );
@@ -225,6 +226,8 @@ namespace CellSim
         {
             m_option = option;
             m_digits = Log10(Config.Simulation.TotalSteps);
+            m_imageSize = Config.Simulation.ImageSize;
+            m_scale = Config.Simulation.ImageSize / 2 / Config.Simulation.FieldRadius;
             m_videoWriter = new VideoWriter();
 
             Initialize();

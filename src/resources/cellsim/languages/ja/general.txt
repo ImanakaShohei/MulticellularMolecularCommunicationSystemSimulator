@@ -84,6 +84,7 @@ Settings.Config.Optimization.Load.Error.peformance=configファイルの'optimiz
 Settings.Config.Simulation.Load.Error.JsonError=configファイルの'simulation'パラメータの形式が正しくありません。
 Settings.Config.Simulation.Load.Error.deltaTime=configファイルの'simulation.deltaTime'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.fieldRadius=configファイルの'simulation.fieldRadius'に負の値が指定されました。
+Settings.Config.Simulation.Load.Error.imageSize=configファイルの'simulation.imageSize'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.outputInterval=configファイルの'simulation.toutputInterval'にゼロ以下の値が指定されました。
 Settings.Config.Simulation.Load.Error.totalSteps=configファイルの'simulation.totalSteps'にゼロが指定されました。
 

@@ -8,7 +8,7 @@
 #define CELLSIM_VERSION_MAJOR 2
 #define CELLSIM_VERSION_MINOR 0
 #define CELLSIM_VERSION_PATCH 0
-#define CELLSIM_VERSION_EXTENSION "Beta 5"
+#define CELLSIM_VERSION_EXTENSION "Beta 6"
 
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1
@@ -251,6 +251,7 @@ namespace CellSim::Settings
 namespace CellSim::Text
 {
     class CString;
+    class JsonHelper;
 }
 
 /// @brief 並列処理とコルーチン

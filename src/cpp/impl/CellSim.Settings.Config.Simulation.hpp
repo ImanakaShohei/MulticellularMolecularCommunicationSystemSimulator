@@ -15,6 +15,7 @@ namespace CellSim::Settings
         static inline double s_deltaTime;
         static inline bool s_enable2DMode;
         static inline double s_fieldRadius;
+        static inline int32_t s_imageSize;
         static inline int32_t s_outputInterval;
         static inline uint64_t s_totalSteps;
 
@@ -37,6 +38,9 @@ namespace CellSim::Settings
 
         /// @brief フィールドのZ方向の半径
         static double FieldRadiusZ() noexcept;
+
+        /// @brief 出力画像の縦横の長さ
+        [[nodiscard]] static int32_t ImageSize() noexcept;
 
         /// @brief 出力間隔
         [[nodiscard]] static int32_t OutputInterval() noexcept;
@@ -78,6 +82,11 @@ namespace CellSim::Settings
     inline double Config::Simulation::FieldRadiusZ() noexcept
     {
         return s_enable2DMode ? 0.0 : s_fieldRadius;
+    }
+
+    inline int32_t Config::Simulation::ImageSize() noexcept
+    {
+        return s_imageSize;
     }
 
     inline int32_t Config::Simulation::OutputInterval() noexcept

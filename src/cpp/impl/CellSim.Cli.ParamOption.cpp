@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cli.ParamOption.hpp"
 #include "CellSim.Cli.CliOptionActivationArgs.hpp"
 #include "CellSim.Messages.hpp"
+#include "CellSim.Text.JsonHelper.hpp"
 
 #include <sstream>
 #include <nlohmann/json.hpp>
@@ -33,28 +34,17 @@ namespace CellSim::Cli
 
     void ParamOption::OverrideParameter(nlohmann::json& config, ::std::string_view param)
     {
-        size_t index = param.find('.');
-
-        if (index != ::std::string_view::npos) {
-            ::std::string_view param1 = param.substr(0, index);
-            ::std::string_view param2 = param.substr(index + 1);
-
-            ::nlohmann::json& j = config[param1];
-
-            if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
-
-            OverrideParameter(j, param2);
-            return;
-        }
-
-        index = param.find('=');
+        size_t index = param.find('=');
 
         if (index == ::std::string_view::npos || index == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.FormatError"));
 
         ::std::string_view paramName = param.substr(0, index);
         ::std::string_view value = param.substr(index + 1);
 
-        nlohmann::json& j = config[paramName];
+        nlohmann::json* pj = Text::JsonHelper::GetParam(config, paramName);
+
+        if (pj == nullptr) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
+        nlohmann::json& j = *pj;
 
         switch (j.type()) {
             case nlohmann::detail::value_t::number_float:

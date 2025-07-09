@@ -1,4 +1,5 @@
 ﻿using CellSim.Model;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,9 @@ namespace CellSim.Settings
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].GetValue<double>();
-                        s_lambda = config["lambda"].GetValue<double>();
-                        s_remoteForceFactor = config["remoteForceFactor"].GetValue<double>();
+                        s_adhesiveRepulsionFactor = config["adhesiveRepulsionFactor"].ToDouble();
+                        s_lambda = config["lambda"].ToDouble();
+                        s_remoteForceFactor = config["remoteForceFactor"].ToDouble();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                     catch

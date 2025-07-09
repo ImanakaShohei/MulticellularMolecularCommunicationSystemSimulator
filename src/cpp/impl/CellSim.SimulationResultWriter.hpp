@@ -18,6 +18,9 @@ namespace CellSim
         /// @brief ステップ数の桁数
         uint32_t m_digits;
 
+        int m_imageSize;
+        double m_scale;
+
         ::cv::VideoWriter m_videoWriter;
 
         void m_initialize();
@@ -28,7 +31,7 @@ namespace CellSim
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveImage(::cv::Mat const& image, uint64_t step) const;
 
-        static ::cv::Mat m_createImage(
+        ::cv::Mat m_createImage(
             ::std::vector<Cells::Cell> const& cells,
             ::std::vector<Molecular::MoleculeField> const& fields
         );

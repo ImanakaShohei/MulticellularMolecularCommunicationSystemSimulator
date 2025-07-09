@@ -1,4 +1,5 @@
 ﻿using CellSim.Settings;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CellSim.Cli
 {
@@ -31,7 +33,7 @@ namespace CellSim.Cli
             {
                 try
                 {
-                    _ = j.GetValue<double>();
+                    _ = j.ToDouble();
                 }
                 catch
                 {
@@ -79,7 +81,7 @@ namespace CellSim.Cli
                 }
             }
 
-            JsonObject config = Config.OpenJsonFile(args.Options[CliOptionType.Output].Value);
+            JsonObject config = Config.OpenJsonFile(args.Options[CliOptionType.Setting].Value);
 
             ParamOption paramOption = (ParamOption)args.Options[CliOptionType.Param];
 
@@ -103,14 +105,19 @@ namespace CellSim.Cli
                 {
                     throw new FormatException(Messages.Get("Cli.ParamSweepOption.OnActive.Error"));
                 }
-                
+
+                JsonNode j = CheckValue(config, paramName);
+                string name = paramName.Split('.')[^1];
+
                 for (double current = begin; current <= end; current += delta)
                 {
-                    JsonNode j = CheckValue(config, paramName);
-
-#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                    j.Parent[paramName.Split('.')[^1]] = current;
+#pragma warning disable CS8602, CS8600 // null 参照の可能性があるものの逆参照です。
+                    var parent = j.Parent;
+                    parent[name] = current;
+                    j = parent[name];
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+
+                    Config.Load(config);
 
                     string path = $"{args.Options[CliOptionType.Output].Value}{paramName}={current}";
 
@@ -147,13 +154,21 @@ namespace CellSim.Cli
                     throw new FormatException(Messages.Get("Cli.ParamSweepOption.OnActive.Error"));
                 }
 
+                JsonNode j = CheckValue(config, paramName);
+                string name = paramName.Split('.')[^1];
+
                 for (long current = begin; current <= end; current += delta)
                 {
-                    JsonNode j = CheckValue(config, paramName);
 
-#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                    j.Parent[paramName.Split('.')[^1]] = current;
+#pragma warning disable CS8602, CS8600 // null 参照の可能性があるものの逆参照です。
+                    var parent = j.Parent;
+                    parent[name] = current;
+                    j = parent[name];
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+
+                    
+
+                    Config.Load(config);
 
                     string path = $"{args.Options[CliOptionType.Output].Value}{paramName}={current}";
 

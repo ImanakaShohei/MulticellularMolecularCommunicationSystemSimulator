@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CellSim.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,29 +16,15 @@ namespace CellSim.Cli
 
         public static void OverrideParameter(JsonObject config, string param)
         {
-            int index = param.IndexOf('.');
-
-            if (index != -1)
-            {
-                string param1 = param[..index];
-                string param2 = param[(index + 1)..];
-
-                JsonNode node = config[param1] ?? throw new ArgumentException(Messages.Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
-
-                OverrideParameter(node.AsObject(), param2);
-
-                return;
-            }
-
-            index = param.IndexOf('=');
+            int index = param.IndexOf('=');
 
             if (index == -1 || index == 0) throw new FormatException(Messages.Get("Cli.ParamOption.OverrideParameter.Error.FormatError"));
 
             string paramName = param[..index];
             string value = param[(index + 1)..];
 
-            JsonNode j = config[paramName] ?? throw new ArgumentException(Messages.Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
-
+            JsonNode j = JsonHelper.GetParam(config, paramName) ?? throw new ArgumentException(Messages.Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
+            
             switch (j.GetValueKind())
             {
                 case JsonValueKind.True:

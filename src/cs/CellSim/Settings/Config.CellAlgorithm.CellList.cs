@@ -1,4 +1,5 @@
 ﻿using CellSim.CellAlgorithms;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,8 @@ namespace CellSim.Settings
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        s_gridCount = config["gridCount"].GetValue<int>();
-                        s_searchRadius = config["searchRadius"].GetValue<double>();
+                        s_gridCount = config["gridCount"].ToInt32();
+                        s_searchRadius = config["searchRadius"].ToDouble();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                     catch

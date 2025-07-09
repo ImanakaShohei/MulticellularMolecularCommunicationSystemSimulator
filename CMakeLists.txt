@@ -78,6 +78,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterRotation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.ClusterSprouting.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.NetworkFormation.cpp
+    src/cpp/impl/CellSim.Text.JsonHelper.cpp
     src/cpp/impl/CellSim.Threading.StlThreadPool.cpp
     src/cpp/impl/CellSim.Threading.ThreadPool.cpp
 )

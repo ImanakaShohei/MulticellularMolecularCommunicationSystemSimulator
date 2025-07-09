@@ -1,4 +1,5 @@
 ﻿using CellSim.Cells;
+using CellSim.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,14 +78,14 @@ namespace CellSim.Settings
                 try
                 {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                    s_cellCount = config["cellCount"].GetValue<int>();
+                    s_cellCount = config["cellCount"].ToInt32();
                     s_enableGrowth = config["enableGrowth"].GetValue<bool>();
-                    s_growthRate = config["growthRate"].GetValue<double>();
-                    s_initialPlacementRadius = config["initialPlacementRadius"].GetValue<double>();
+                    s_growthRate = config["growthRate"].ToDouble();
+                    s_initialPlacementRadius = config["initialPlacementRadius"].ToDouble();
                     s_isSensitiveToMolecules = config["isSensitiveToMolecules"].GetValue<bool>();
-                    s_initialPlacementSeed = config["initialPlacementSeed"].GetValue<int>();
-                    s_mass = config["mass"].GetValue<double>();
-                    s_radius = config["radius"].GetValue<double>();
+                    s_initialPlacementSeed = config["initialPlacementSeed"].ToInt32();
+                    s_mass = config["mass"].ToDouble();
+                    s_radius = config["radius"].ToDouble();
                     s = config["type"].GetValue<string>();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
