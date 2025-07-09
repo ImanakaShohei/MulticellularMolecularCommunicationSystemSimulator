@@ -145,6 +145,7 @@ namespace CellSim.Model
 
             Parallel.ForEach(
                 args.Cells,
+                Config.Optimization.ParallelOptions,
                 cell =>
                 {
                     CellAlgorithm.Enumerate(

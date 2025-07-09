@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CellSim.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,13 @@ namespace CellSim.Settings
     {
         public static class Optimization
         {
+            private static uint s_maxDegreeOfParallelism;
+            private static readonly ParallelOptions s_parallelOptions = new ParallelOptions();
             private static PeformanceType s_peformance;
+
+            public static uint MaxDegreeOfParallelism => s_maxDegreeOfParallelism;
+
+            public static ParallelOptions ParallelOptions => s_parallelOptions;
 
             /// <summary>
             /// 実行速度とメモリ使用量の設定
@@ -21,10 +28,12 @@ namespace CellSim.Settings
             internal static void Load(JsonObject config)
             {
                 string s;
+                int maxDegreeOfParallelism;
                 try
                 {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
                     s = config["peformance"].GetValue<string>();
+                    maxDegreeOfParallelism = config["maxDegreeOfParallelism"].ToInt32();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
                 catch
@@ -35,6 +44,13 @@ namespace CellSim.Settings
                 if (s == "Fast") s_peformance = PeformanceType.Fast;
                 else if (s == "LowMemory") s_peformance = PeformanceType.LowMemory;
                 else throw new FormatException(Messages.Get("Settings.Config.Optimization.Load.Error.peformance"));
+
+                int maxThread = Environment.ProcessorCount;
+
+                if (maxDegreeOfParallelism <= 0 || maxThread < maxDegreeOfParallelism) s_maxDegreeOfParallelism = (uint)maxThread;
+                else s_maxDegreeOfParallelism = (uint)maxDegreeOfParallelism;
+
+                s_parallelOptions.MaxDegreeOfParallelism = (int)s_maxDegreeOfParallelism;
             }
         }
     }

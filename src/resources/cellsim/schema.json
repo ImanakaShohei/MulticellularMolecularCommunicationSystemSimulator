@@ -131,12 +131,15 @@
         "optimization": {
             "type": "object",
             "properties": {
+                "maxDegreeOfParallelism": {
+                    "type": "integer"
+                },
                 "peformance": {
                     "type": "string",
                     "enum": [ "Fast", "LowMemory" ]
                 }
             },
-            "required": [ "peformance" ]
+            "required": [ "maxDegreeOfParallelism", "peformance" ]
         },
         "simulation": {
             "type": "object",

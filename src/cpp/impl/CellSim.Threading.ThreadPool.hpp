@@ -4,6 +4,7 @@
 // https://github.com/KongkongNT15/KongkongLibrary/blob/main/src/include/klib/Definitions/Kongkong.Threading.ThreadPool.h
 
 #include "base.hpp"
+#include "CellSim.Settings.Config.Optimization.hpp"
 
 #if CELLSIM_ENV_WINDOWS
     #include <Windows.h>
@@ -56,7 +57,7 @@ namespace CellSim::Threading
     template <class TIterator, class TFunction>
     void ThreadPool::ParallelFor(TIterator begin, TIterator end, TFunction f)
     {
-        ParallelFor(::std::thread::hardware_concurrency(), begin, end, f);
+        ParallelFor(Settings::Config::Optimization::MaxDegreeOfParallelism(), begin, end, f);
     }
 
     template <class TIterator, class TFunction>

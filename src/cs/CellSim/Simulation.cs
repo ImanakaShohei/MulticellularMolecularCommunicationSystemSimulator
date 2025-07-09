@@ -27,6 +27,7 @@ namespace CellSim
                 {
                     Parallel.ForEach(
                         m_cells,
+                        Config.Optimization.ParallelOptions,
                         cell =>
                         {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
@@ -51,6 +52,7 @@ namespace CellSim
                 {
                     Parallel.ForEach(
                         m_cells,
+                        Config.Optimization.ParallelOptions,
                         cell =>
                         {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
@@ -73,7 +75,6 @@ namespace CellSim
                 }
             }
         }
-
         private void AdvanceStep()
         {
             // 前処理
@@ -114,6 +115,7 @@ namespace CellSim
             {
                 Parallel.ForEach(
                     m_cells,
+                    Config.Optimization.ParallelOptions,
                     cell =>
                     {
                         foreach (MoleculeField field in m_molecules)

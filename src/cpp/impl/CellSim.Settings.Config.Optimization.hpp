@@ -13,11 +13,15 @@ namespace CellSim::Settings
     class Config::Optimization final {
         private:
 
+        static inline uint32_t s_maxDegreeOfParallelism;
         static inline PeformanceType s_peformance;
-
+        
         public:
 
         CELLSIM_STATIC_CLASS(Optimization);
+
+        /// @brief 
+        [[nodiscard]] static uint32_t MaxDegreeOfParallelism() noexcept;
 
         /// @brief 実行速度とメモリ使用量の設定
         [[nodiscard]] static PeformanceType Peformance() noexcept;
@@ -28,6 +32,11 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
+    inline uint32_t Config::Optimization::MaxDegreeOfParallelism() noexcept
+    {
+        return s_maxDegreeOfParallelism;
+    }
+
     inline PeformanceType Config::Optimization::Peformance() noexcept
     {
         return s_peformance;
