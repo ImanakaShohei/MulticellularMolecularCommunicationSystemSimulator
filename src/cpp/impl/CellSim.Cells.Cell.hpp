@@ -16,6 +16,9 @@ namespace CellSim::Cells
     class Cell final {
         private:
 
+        /// @brief ダミー細胞のID
+        static constexpr uint32_t s_dummyId = (uint32_t)-1;
+
         /// @brief 各細胞に割り振るID
         static uint32_t s_id;
 
@@ -54,8 +57,29 @@ namespace CellSim::Cells
 
         /// @brief 細胞の種類
         CellType m_type;
+
+        /// @brief ダミー用
+        /// @param type 
+        /// @param mass 
+        /// @param radius 
+        /// @param position 
+        Cell(
+            CellType type,
+            bool isAlive,
+            double mass,
+            double radius,
+            Numerics::Vector3 position
+        );
         
         public:
+
+        [[nodiscard]] static Cell CreateDummy(
+            CellType type,
+            bool isAlive,
+            double mass,
+            double radius,
+            Numerics::Vector3 position
+        ) noexcept;
 
         Cell(
             CellType type,
@@ -89,6 +113,9 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr ::std::vector<Molecular::Molecule> const& InternalMolecules() const noexcept;
 
         [[nodiscard]] constexpr bool IsAlive() const noexcept;
+
+        /// @brief ダミー細胞かどうか
+        [[nodiscard]] constexpr bool IsDummy() const noexcept;
 
         /// @brief 細胞の質量
         [[nodiscard]] constexpr double Mass() const noexcept;
@@ -193,6 +220,44 @@ namespace CellSim::Cells
 
 namespace CellSim::Cells
 {
+    inline Cell::Cell(
+        CellType type,
+        bool isAlive,
+        double mass,
+        double radius,
+        Numerics::Vector3 position
+    )
+        : m_attachedCells()
+        , m_behaviorPtr(CellBehaviorPtr::Null())
+        , m_force()
+        , m_id(s_dummyId)
+        , m_internalMolecules()
+        , m_isAlive(isAlive)
+        , m_mass(mass)
+        , m_polarity()
+        , m_position(position)
+        , m_previusForce()
+        , m_radius(radius)
+        , m_type(type)
+    {
+    }
+
+    inline Cell Cell::CreateDummy(
+        CellType type,
+        bool isAlive,
+        double mass,
+        double radius,
+        Numerics::Vector3 position) noexcept
+    {
+        return Cell(
+            type,
+            isAlive,
+            mass,
+            radius,
+            position
+        );
+    }
+
     constexpr ::std::vector<const Cell*> const& Cell::AttachedCells() const noexcept
     {
         return m_attachedCells;
@@ -221,6 +286,11 @@ namespace CellSim::Cells
     constexpr bool Cell::IsAlive() const noexcept
     {
         return m_isAlive;
+    }
+
+    constexpr bool Cell::IsDummy() const noexcept
+    {
+        return m_id == s_dummyId;
     }
 
     constexpr double Cell::Mass() const noexcept

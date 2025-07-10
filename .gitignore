@@ -10,6 +10,7 @@ bin
 obj
 *.user
 src/cs/CellSim/CellSim.sln
+out/
 
 # vscode
 .vscode

@@ -67,7 +67,7 @@ namespace CellSim::Model
             cellInfo,
             args.CellAlgorithm,
             args.Target,
-            args.Cells,
+            args.AffectedCells,
             args.Fields,
             {
                 Numerics::Vector3 diff = info.Position - cellInfo.Position;

@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cli.CliMain.hpp"
 #include "CellSim.Cli.CliOptions.hpp"
 #include "CellSim.Messages.hpp"
+#include "CellSim.Version.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -10,10 +11,10 @@ namespace CellSim::Cli
     {
         ::printf(
             "CellSim %d.%d.%d %s\n",
-            CELLSIM_VERSION_MAJOR,
-            CELLSIM_VERSION_MINOR,
-            CELLSIM_VERSION_PATCH,
-            CELLSIM_VERSION_EXTENSION
+            Version::Major(),
+            Version::Minor(),
+            Version::Patch(),
+            Version::Extension()
         );
         putchar('\n');
         

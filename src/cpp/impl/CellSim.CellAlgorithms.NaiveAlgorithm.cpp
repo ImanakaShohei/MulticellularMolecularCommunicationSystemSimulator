@@ -14,7 +14,7 @@ namespace CellSim::CellAlgorithms
     {
         return args.SimulationModel->ComputeForceOnCell(
             sender,
-            { args.Target, args.Cells, args.Fields, nullptr }
+            { args.Target, args.Cells, args.Cells, args.Fields, nullptr }
         );
     }
 

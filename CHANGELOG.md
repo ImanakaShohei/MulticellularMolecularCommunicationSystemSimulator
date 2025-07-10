@@ -2,9 +2,10 @@
 
 <!--
 
-## [2.0.0 Beta 7] 2025-07-10
+## [2.0.0 Beta 7] 2025-07-11
 ### 新機能
-- 
+- ダミーCellを作成するCell.CreateDummy()を追加(C++)
+- Cellにthisがダミーであるかを判定するプロパティIsDummy()を追加(C++)
 ### 変更点
 - CellSimulationModel.ComputeForceOnCell(sender, args)のargs.CellAlgorithmがnullの時、ナイーブなアルゴリズムとして実行するように変更(C++)
 - ナイーブなアルゴリズム使用時にパフォーマンスが向上(C++)

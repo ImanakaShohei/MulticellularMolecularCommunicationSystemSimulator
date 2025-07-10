@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CellSim
 {
-    public static class Versions
+    public static class Version
     {
         public static readonly int Major = 2;
         public static readonly int Minor = 0;

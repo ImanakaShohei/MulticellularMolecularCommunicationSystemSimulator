@@ -43,10 +43,10 @@ namespace CellSim::Model
             cellInfo,
             args.CellAlgorithm,
             args.Target,
-            args.Cells,
+            args.AffectedCells,
             args.Fields,
             {
-                const Numerics::Vector3 diff   = info.Position - cellInfo.Position;
+                const Numerics::Vector3 diff = info.Position - cellInfo.Position;
                 const double dist = diff.Length();
                 const double sumRadius = info.Radius + cellInfo.Radius;
 

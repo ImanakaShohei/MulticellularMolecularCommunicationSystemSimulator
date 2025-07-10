@@ -10,7 +10,7 @@ namespace CellSim.Cli
     {
         public static void Run(string[] args)
         {
-            Console.WriteLine($"CellSim {Versions.Major}.{Versions.Minor}.{Versions.Patch} {Versions.Extension}");
+            Console.WriteLine($"CellSim {Version.Major}.{Version.Minor}.{Version.Patch} {Version.Extension}");
             Console.WriteLine();
         
             Messages.Initialize();

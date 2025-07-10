@@ -44,13 +44,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellAlgorithm }));
+                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_cells, &m_molecules, m_pCellAlgorithm }));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellAlgorithm }));
+                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_cells, &m_molecules, m_pCellAlgorithm }));
                 }
             }
         }

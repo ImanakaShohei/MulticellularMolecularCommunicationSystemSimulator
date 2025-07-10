@@ -30,6 +30,9 @@ namespace CellSim::Cells
         /// @exception std::invalid_argument: ptrがnullptrのとき
         [[nodiscard]] static CellBehaviorPtr FromPointer(CellBehavior* ptr);
 
+        /// @brief nullptr
+        [[nodiscard]] static constexpr CellBehaviorPtr Null() noexcept;
+
         CellBehaviorPtr(CellBehaviorPtr const& right);
         constexpr CellBehaviorPtr(CellBehaviorPtr&& right) noexcept;
 
@@ -64,6 +67,11 @@ namespace CellSim::Cells
         if (m_ptr->HasOwner()) return;
 
         delete m_ptr;
+    }
+
+    constexpr CellBehaviorPtr CellBehaviorPtr::Null() noexcept
+    {
+        return CellBehaviorPtr((CellBehavior*)nullptr);
     }
 
     constexpr CellBehaviorPtr::CellBehaviorPtr(CellBehavior* ptr) noexcept

@@ -34,7 +34,7 @@ namespace CellSim::CellAlgorithms
         // TODO: 処理の内容を変更します
         return args.SimulationModel->ComputeForceOnCell(
             sender,
-            { args.Target, args.Cells, args.Fields, nullptr }
+            { args.Target, args.Cells, args.Cells, args.Fields, nullptr }
         );
     }
 

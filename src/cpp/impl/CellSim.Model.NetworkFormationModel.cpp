@@ -104,7 +104,7 @@ namespace CellSim::Model
             cellInfo,
             args.CellAlgorithm,
             args.Target,
-            args.Cells,
+            args.AffectedCells,
             args.Fields,
             {
                 if (!cellInfo.IsAlive) continue;
