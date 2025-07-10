@@ -1,10 +1,23 @@
 ﻿#include "CellSim.CellAlgorithms.NaiveAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Threading.Generator.hpp"
 
 namespace CellSim::CellAlgorithms
 {
+    Numerics::Vector3 NaiveAlgorithm::ComputeForceOnCell(
+        const Simulation* sender,
+        CellAlgorithmForceComputationArgs args
+    ) const
+    {
+        return args.SimulationModel->ComputeForceOnCell(
+            sender,
+            { args.Target, args.Cells, args.Fields, nullptr }
+        );
+    }
+
     ::std::vector<Cells::CellInfo> NaiveAlgorithm::GetAffectableCellInfos(
         const Model::CellSimulationModel*,
         CellAlgorithmAffectableCellQueryArgs args

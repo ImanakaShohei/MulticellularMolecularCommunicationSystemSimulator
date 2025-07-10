@@ -27,8 +27,40 @@ namespace CellSim::Molecular
     }
 
     MoleculeBehavior::MoleculeBehavior() noexcept
-        : m_boundaryCondition(Settings::Config::Molecular::BoundaryCondition())
+        : MoleculeBehavior(Settings::Config::Molecular::BoundaryCondition())
     {
     }
 
+    MoleculeBehavior::~MoleculeBehavior()
+    {
+        if (m_diffusionDeltaBuffer == nullptr) return;
+
+        delete[] m_diffusionDeltaBuffer;
+    }
+
+    MoleculeBehavior& MoleculeBehavior::operator=(MoleculeBehavior&& right) noexcept
+    {
+        if (m_diffusionDeltaBuffer != nullptr) delete[] m_diffusionDeltaBuffer;
+
+        m_diffusionDeltaBuffer = right.m_diffusionDeltaBuffer;
+
+        right.m_diffusionDeltaBuffer = nullptr;
+    }
+
+    void MoleculeBehavior::SetBuffer(size_t gridCount, bool enable2dMode)
+    {
+        if (enable2dMode) {
+            m_diffusionDeltaBuffer = new double[gridCount * gridCount];
+            m_concentrations = Containers::Span3<double>(gridCount, gridCount, 1, m_diffusionDeltaBuffer);
+            m_enable2dMode = true;
+            m_gridCountX = m_gridCountY = gridCount;
+            m_gridCountZ = 1;
+        }
+        else {
+            m_diffusionDeltaBuffer = new double[gridCount * gridCount * gridCount];
+            m_concentrations = Containers::Span3<double>(gridCount, gridCount, gridCount, m_diffusionDeltaBuffer);
+            m_gridCountX = m_gridCountY = m_gridCountZ = m_gridCountZ;
+            m_enable2dMode = false;
+        }
+    }
 }

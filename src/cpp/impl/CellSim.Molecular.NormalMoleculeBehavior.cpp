@@ -28,6 +28,153 @@ namespace CellSim::Molecular
             reverseCo
         ;
     }
+    void NormalMoleculeBehavior::m_applyBoundaryConditions(bool enable2dMode, Containers::Span3<double> concentrations)
+    {
+        switch (m_boundaryCondition) {
+            case ::CellSim::Molecular::BoundaryCondition::Absorbing:
+            {
+                size_t tmp;
+                if (enable2dMode) {
+                    tmp = GridCountY() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        concentrations[x][0][0]   = 0;
+                        concentrations[x][tmp][0] = 0;
+                    }
+                    
+                    tmp = GridCountX() - 1;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        concentrations[0][y][0]   = 0;
+                        concentrations[tmp][y][0] = 0;
+                    }
+                }
+                else {
+                    tmp = GridCountZ() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t y = 0; y < GridCountY(); y++) {
+                            concentrations[x][y][0]   = 0;
+                            concentrations[x][y][tmp] = 0;
+                        }
+                    }
+                    
+                    tmp = GridCountY() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[x][0][z]   = 0;
+                            concentrations[x][tmp][z] = 0;
+                        }
+                    }
+                    
+                    tmp = GridCountX() - 1;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[0][y][z]   = 0;
+                            concentrations[tmp][y][z] = 0;
+                        }
+                    }
+                }
+                break;
+            }
+            case ::CellSim::Molecular::BoundaryCondition::Periodic:
+            {
+                size_t tmp1;
+                size_t tmp2;
+
+                if (enable2dMode) {
+                    tmp1 = GridCountY() - 2;
+                    tmp2 = GridCountY() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        concentrations[x][0][0]    = concentrations[x][tmp1][0];
+                        concentrations[x][tmp2][0] = concentrations[x][1][0];
+                    }
+                    
+                    tmp1 = GridCountX() - 2;
+                    tmp2 = GridCountX() - 1;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        concentrations[0][y][0]    = concentrations[tmp1][y][0];
+                        concentrations[tmp2][y][0] = concentrations[1][y][0];
+                    }
+                }
+                else {
+                    tmp1 = GridCountZ() - 2;
+                    tmp2 = GridCountZ() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t y = 0; y < GridCountY(); y++) {
+                            concentrations[x][y][0]    = concentrations[x][y][tmp1];
+                            concentrations[x][y][tmp2] = concentrations[x][y][1];
+                        }
+                    }
+                    
+                    tmp1 = GridCountY() - 2;
+                    tmp2 = GridCountY() - 1;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[x][0][z]    = concentrations[x][tmp1][z];
+                            concentrations[x][tmp2][z] = concentrations[x][1][z];
+                        }
+                    }
+                    
+                    tmp1 = GridCountX() - 2;
+                    tmp2 = GridCountX() - 1;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[0][y][z]    = concentrations[tmp1][y][z];
+                            concentrations[tmp2][y][z] = concentrations[1][y][z];
+                        }
+                    }
+                }
+                break;
+            }
+            case ::CellSim::Molecular::BoundaryCondition::Reflective:
+            {
+                size_t tmp1;
+                size_t tmp2;
+                if (enable2dMode) {
+                    tmp1 = GridCountY() - 1;
+                    tmp2 = GridCountY() - 2;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        concentrations[x][0][0]    = concentrations[x][1][0];
+                        concentrations[x][tmp1][0] = concentrations[x][tmp2][0];
+                    }
+                    
+                    tmp1 = GridCountX() - 1;
+                    tmp2 = GridCountX() - 2;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        concentrations[0][y][0]    = concentrations[1][y][0];
+                        concentrations[tmp1][y][0] = concentrations[tmp2][y][0];
+                    }
+                }
+                else {
+                    tmp1 = GridCountZ() - 1;
+                    tmp2 = GridCountZ() - 2;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t y = 0; y < GridCountY(); y++) {
+                            concentrations[x][y][0]    = concentrations[x][y][1];
+                            concentrations[x][y][tmp1] = concentrations[x][y][tmp2];
+                        }
+                    }
+                    
+                    tmp1 = GridCountY() - 1;
+                    tmp2 = GridCountY() - 2;
+                    for (size_t x = 0; x < GridCountX(); x++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[x][0][z]    = concentrations[x][1][z];
+                            concentrations[x][tmp1][z] = concentrations[x][tmp2][z];
+                        }
+                    }
+                    
+                    tmp1 = GridCountX() - 1;
+                    tmp2 = GridCountX() - 2;
+                    for (size_t y = 0; y < GridCountY(); y++) {
+                        for (size_t z = 0; z < GridCountZ(); z++) {
+                            concentrations[0][y][z]    = concentrations[1][y][z];
+                            concentrations[tmp1][y][z] = concentrations[tmp2][y][z];
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
 
     NormalMoleculeBehavior::NormalMoleculeBehavior()
     {
@@ -85,23 +232,7 @@ namespace CellSim::Molecular
         [[maybe_unused]] MoleculeDiffusionArgs args
     )
     {
-        double co = sender->GridLengthX() * sender->GridCountY() * sender->GridCountZ();
-        double reverseCo = 1.0 / co;
-
-        switch (m_boundaryCondition) {
-            case ::CellSim::Molecular::BoundaryCondition::Absorbing:
-            {
-                break;
-            }
-            case ::CellSim::Molecular::BoundaryCondition::Periodic:
-            {
-                break;
-            }
-            case ::CellSim::Molecular::BoundaryCondition::Reflective:
-            {
-                break;
-            }
-        }
+        
     }
 
     void NormalMoleculeBehavior::InitializeMolecules(
@@ -112,6 +243,12 @@ namespace CellSim::Molecular
         switch (args.DistributionType) {
             case InitialMoleculeDistribution::Centered:
             {
+                if (GridCountX() & 1) {
+                    
+                }
+                else {
+
+                }
                 break;
             }
             case InitialMoleculeDistribution::Gaussian:

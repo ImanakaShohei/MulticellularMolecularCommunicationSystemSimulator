@@ -10,12 +10,14 @@ namespace CellSim::CellAlgorithms
     struct CellAlgorithmForceComputationArgs {
         const ::std::vector<Cells::Cell>* Cells;
         const ::std::vector<Molecular::MoleculeField>* Fields;
+        const Model::CellSimulationModel* SimulationModel;
         const Cells::Cell* Target;
 
         constexpr CellAlgorithmForceComputationArgs(
             const Cells::Cell* target,
             const ::std::vector<Cells::Cell>* cells,
-            const ::std::vector<Molecular::MoleculeField>* fields
+            const ::std::vector<Molecular::MoleculeField>* fields,
+            const Model::CellSimulationModel* simulationModel
         ) noexcept;
     };
 }
@@ -24,11 +26,13 @@ namespace CellSim::CellAlgorithms
 {
     constexpr CellAlgorithmForceComputationArgs::CellAlgorithmForceComputationArgs(
         const Cells::Cell* target,
-            const ::std::vector<Cells::Cell>* cells,
-            const ::std::vector<Molecular::MoleculeField>* fields
+        const ::std::vector<Cells::Cell>* cells,
+        const ::std::vector<Molecular::MoleculeField>* fields,
+        const Model::CellSimulationModel* simulationModel
     ) noexcept
         : Cells(cells)
         , Fields(fields)
+        , SimulationModel(simulationModel)
         , Target(target)
     {
     }

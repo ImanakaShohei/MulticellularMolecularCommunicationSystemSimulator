@@ -47,7 +47,7 @@ namespace CellSim::CellAlgorithms
 
         if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
         
-        if (m_enable2DMode) {
+        if (enable2dMode) {
             m_searchGridCountZ = 0;
             m_reverseGridLengthZ = 0;
         }

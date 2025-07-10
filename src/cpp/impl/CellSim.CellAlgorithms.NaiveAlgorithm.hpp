@@ -15,6 +15,11 @@ namespace CellSim::CellAlgorithms
             CellAlgorithmStepArgs args
         ) override;
 
+        Numerics::Vector3 ComputeForceOnCell(
+            const Simulation* sender,
+            CellAlgorithmForceComputationArgs args
+        ) const override;
+
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             const Model::CellSimulationModel* sender,
             CellAlgorithmAffectableCellQueryArgs args
@@ -31,6 +36,8 @@ namespace CellSim::CellAlgorithms
             const Simulation* sender,
             CellAlgorithmStepArgs args
         ) override;
+
+        constexpr bool OverrideForceComputation() const noexcept override;
     };
 }
 
@@ -53,6 +60,11 @@ namespace CellSim::CellAlgorithms
             CellAlgorithmStepArgs
     )
     {
+    }
+
+    constexpr bool NaiveAlgorithm::OverrideForceComputation() const noexcept
+    {
+        return true;
     }
 }
 

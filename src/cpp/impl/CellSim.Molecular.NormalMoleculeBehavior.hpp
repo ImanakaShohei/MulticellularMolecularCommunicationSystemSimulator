@@ -21,6 +21,11 @@ namespace CellSim::Molecular
         ::CellSim::Molecular::BoundaryCondition m_boundaryCondition;
         double m_diffusionFactor;
 
+        protected:
+
+        /// @brief 境界条件に応じて境界部分を更新
+        void m_applyBoundaryConditions(bool enable2dMode, Containers::Span3<double> concentrations);
+
         public:
 
         NormalMoleculeBehavior();

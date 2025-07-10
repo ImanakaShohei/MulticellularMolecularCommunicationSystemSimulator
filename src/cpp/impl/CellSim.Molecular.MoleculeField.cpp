@@ -3,35 +3,44 @@
 #include "CellSim.Molecular.MoleculeBehaviorStepArgs.hpp"
 #include "CellSim.Molecular.MoleculeDiffusionArgs.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
+#include "CellSim.Messages.hpp"
 
 #include <stdexcept>
 
 namespace CellSim::Molecular
 {
     MoleculeField::MoleculeField(
-        size_t gridCountX,
-        size_t gridCountY,
-        size_t gridCountZ,
+        size_t gridCount,
+        bool enable2DMode,
         MoleculeKind kind,
         MoleculeBehavior* pBehavior
     )
         : m_concentrations()
-        , m_pConcentration(new double[gridCountX * gridCountY * gridCountZ])
-        , m_gridCountX(gridCountX)
-        , m_gridCountY(gridCountY)
-        , m_gridCountZ(gridCountZ)
-        , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / gridCountX)
-        , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / gridCountY)
-        , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / gridCountZ)
+        , m_pConcentration(new double[enable2DMode ? gridCount * gridCount : gridCount * gridCount * gridCount])
+        , m_enable2dMode(enable2DMode)
+        , m_gridCountX(gridCount)
+        , m_gridCountY(gridCount)
+        , m_gridCountZ(enable2DMode ? 1 : gridCount)
+        , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / gridCount)
+        , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / gridCount)
+        , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / gridCount)
         , m_reverseGridLengthX(1.0 / m_gridLengthX)
         , m_reverseGridLengthY(1.0 / m_gridLengthY)
         , m_reverseGridLengthZ(1.0 / m_gridLengthZ)
         , m_kind(kind)
         , m_pBehavior(pBehavior)
     {
-        m_concentrations = Containers::Span3<double>(gridCountX, gridCountY, gridCountZ, m_pConcentration);
+        if (gridCount < 3) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Molecular.MoleculeField.MoleculeField.Error.gridCount"));
+
+        m_concentrations = Containers::Span3<double>(gridCount, gridCount, m_gridCountZ, m_pConcentration);
 
         if (pBehavior == nullptr) [[unlikely]] throw ::std::invalid_argument("MoleculeBehavior* is nullptr.");
+
+        if (enable2DMode) {
+            m_reverseGridLengthZ = 0;
+        }
+
+        pBehavior->SetBuffer(gridCount, enable2DMode);
     }
 
     MoleculeField::~MoleculeField()
@@ -59,16 +68,25 @@ namespace CellSim::Molecular
 
     Numerics::GridPosition3 MoleculeField::ToGridPosition3(Numerics::Vector3 position) const noexcept
     {
-        double x = position.X + Settings::Config::Simulation::FieldRadiusX();
+        double x = position.X + Settings::Config::Simulation::FieldRadius();
 
-        double y = position.Y + Settings::Config::Simulation::FieldRadiusY();
+        double y = position.Y + Settings::Config::Simulation::FieldRadius();
+        
+        if (m_enable2dMode) {
+            return Numerics::GridPosition3(
+                (int32_t)(x * m_reverseGridLengthX),
+                (int32_t)(y * m_reverseGridLengthY),
+                0
+            );
+        }
+        else {
+            double z = position.Z + Settings::Config::Simulation::FieldRadius();
 
-        double z = position.Z + Settings::Config::Simulation::FieldRadiusZ();
-
-        return Numerics::GridPosition3(
-            (size_t)((position.X + Settings::Config::Simulation::FieldRadiusX()) * m_reverseGridLengthX),
-            (size_t)((position.Y + Settings::Config::Simulation::FieldRadiusY()) * m_reverseGridLengthY),
-            (size_t)((position.Z + Settings::Config::Simulation::FieldRadiusZ()) * m_reverseGridLengthZ)
-        );
+            return Numerics::GridPosition3(
+                (int32_t)(x * m_reverseGridLengthX),
+                (int32_t)(y * m_reverseGridLengthY),
+                (int32_t)(z * m_reverseGridLengthZ)
+            );
+        }
     }
 }

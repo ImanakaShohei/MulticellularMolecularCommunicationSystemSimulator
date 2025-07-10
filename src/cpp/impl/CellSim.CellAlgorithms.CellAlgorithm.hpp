@@ -10,14 +10,22 @@
 #include <vector>
 
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(cellInfo, cellAlgorithm, sender, target, cells, molecules, func)               \
+    if (cellAlgorithm == nullptr) { \
+        for (Cells::Cell const& cell : *cells) {\
+            if (cell == *target) continue; \
+            Cells::CellInfo cellInfo = cell;    \
+            func \
+        }    \
+    } \
+    else     \
     switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                                 \
         case ::CellSim::PeformanceType::Fast:                                                                                          \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).GetAffectableCellInfos(sender, { target, cells, molecules })) {     \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm)->GetAffectableCellInfos(sender, { target, cells, molecules })) {     \
             func                                                                                                                       \
         }                                                                                                                              \
         break;                                                                                                                         \
         case ::CellSim::PeformanceType::LowMemory:                                                                                     \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm).IterateAffectableCellInfos(sender, { target, cells, molecules })) { \
+        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm)->IterateAffectableCellInfos(sender, { target, cells, molecules })) { \
             func                                                                                                                       \
         }                                                                                                                              \
         break;                                                                                                                         \

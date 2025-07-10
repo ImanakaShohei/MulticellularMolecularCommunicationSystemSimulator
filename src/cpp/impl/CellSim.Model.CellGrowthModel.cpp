@@ -41,7 +41,7 @@ namespace CellSim::Model
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
-            *args.CellAlgorithm,
+            args.CellAlgorithm,
             args.Target,
             args.Cells,
             args.Fields,

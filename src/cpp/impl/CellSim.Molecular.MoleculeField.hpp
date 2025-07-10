@@ -20,6 +20,8 @@ namespace CellSim::Molecular
 
         double* m_pConcentration;
 
+        bool m_enable2dMode;
+
         size_t m_gridCountX;
         size_t m_gridCountY;
         size_t m_gridCountZ;
@@ -41,9 +43,8 @@ namespace CellSim::Molecular
         public:
 
         MoleculeField(
-            size_t gridCountX,
-            size_t gridCountY,
-            size_t gridCountZ,
+            size_t gridCount,
+            bool enable2DMode,
             MoleculeKind kind,
             MoleculeBehavior* pBehavior
         );

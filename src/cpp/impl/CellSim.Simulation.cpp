@@ -28,13 +28,13 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules }));
+                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules }));
+                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
                 }
             }
         }
