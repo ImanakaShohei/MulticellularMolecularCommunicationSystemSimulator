@@ -13,9 +13,11 @@ namespace CellSim::Molecular
         size_t gridCount,
         bool enable2DMode,
         MoleculeKind kind,
+        ::CellSim::Molecular::BoundaryCondition boundaryCondition,
         MoleculeBehavior* pBehavior
     )
-        : m_concentrations()
+        : m_boundaryCondition(boundaryCondition)
+        , m_concentrations()
         , m_pConcentration(new double[enable2DMode ? gridCount * gridCount : gridCount * gridCount * gridCount])
         , m_enable2dMode(enable2DMode)
         , m_gridCountX(gridCount)
@@ -40,7 +42,7 @@ namespace CellSim::Molecular
             m_reverseGridLengthZ = 0;
         }
 
-        pBehavior->SetBuffer(gridCount, enable2DMode);
+        pBehavior->SetBuffer(gridCount, enable2DMode, m_boundaryCondition);
     }
 
     MoleculeField::~MoleculeField()

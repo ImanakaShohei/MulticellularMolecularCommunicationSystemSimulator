@@ -10,15 +10,10 @@ namespace CellSim::Molecular
 {
     MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind)
     {
-        return FromKind(kind, Settings::Config::Molecular::BoundaryCondition());
-    }
-
-    MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind, ::CellSim::Molecular::BoundaryCondition condition)
-    {
         switch (kind) {
-            case MoleculeBehaviorKind::Normal: return new NormalMoleculeBehavior(condition);
-            case MoleculeBehaviorKind::Null:   return new NullMoleculeBehavior(condition);
-            case MoleculeBehaviorKind::User:   return new Users::UserMoleculeBehavior(condition);
+            case MoleculeBehaviorKind::Normal: return new NormalMoleculeBehavior();
+            case MoleculeBehaviorKind::Null:   return new NullMoleculeBehavior();
+            case MoleculeBehaviorKind::User:   return new Users::UserMoleculeBehavior();
             default: [[unlikely]]
             {
                 throw ::std::invalid_argument("Invalid MoleculeBehaviorKind argument.");
@@ -47,8 +42,10 @@ namespace CellSim::Molecular
         right.m_diffusionDeltaBuffer = nullptr;
     }
 
-    void MoleculeBehavior::SetBuffer(size_t gridCount, bool enable2dMode)
+    void MoleculeBehavior::SetBuffer(size_t gridCount, bool enable2dMode, ::CellSim::Molecular::BoundaryCondition boundaryCondition)
     {
+        m_boundaryCondition = boundaryCondition;
+
         if (enable2dMode) {
             m_diffusionDeltaBuffer = new double[gridCount * gridCount];
             m_concentrations = Containers::Span3<double>(gridCount, gridCount, 1, m_diffusionDeltaBuffer);

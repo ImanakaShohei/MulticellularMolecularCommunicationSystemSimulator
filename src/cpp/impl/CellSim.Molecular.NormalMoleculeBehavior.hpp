@@ -17,24 +17,17 @@ namespace CellSim::Molecular
             size_t y,
             size_t z
         ) const noexcept;
-
-        ::CellSim::Molecular::BoundaryCondition m_boundaryCondition;
+        
         double m_diffusionFactor;
 
         protected:
 
         /// @brief 境界条件に応じて境界部分を更新
-        void m_applyBoundaryConditions(bool enable2dMode, Containers::Span3<double> concentrations);
+        void m_applyBoundaryConditions(Containers::Span3<double> concentrations);
 
         public:
 
-        NormalMoleculeBehavior();
-        NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition boundaryCondition);
         NormalMoleculeBehavior(double diffusionFactor);
-        NormalMoleculeBehavior(
-            ::CellSim::Molecular::BoundaryCondition boundaryCondition,
-            double diffusionFactor
-        );
 
         void BeforeAdvanceStep(
             const MoleculeField* sender,

@@ -15,6 +15,8 @@ namespace CellSim::Molecular
     class MoleculeField final {
         private:
 
+        ::CellSim::Molecular::BoundaryCondition m_boundaryCondition;
+
         /// @brief 
         Containers::Span3<double> m_concentrations;
 
@@ -46,6 +48,7 @@ namespace CellSim::Molecular
             size_t gridCount,
             bool enable2DMode,
             MoleculeKind kind,
+            ::CellSim::Molecular::BoundaryCondition boundaryCondition,
             MoleculeBehavior* pBehavior
         );
 
@@ -56,6 +59,8 @@ namespace CellSim::Molecular
         MoleculeField& operator=(MoleculeField const&) = delete;
 
         void BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells);
+
+        [[nodiscard]] constexpr ::CellSim::Molecular::BoundaryCondition BoundaryCondition() const noexcept;
 
         [[nodiscard]] constexpr Containers::Span3<double> Concentrations() noexcept;
         [[nodiscard]] constexpr Containers::ReadOnlySpan3<double> Concentrations() const noexcept;
@@ -80,6 +85,11 @@ namespace CellSim::Molecular
 
 namespace CellSim::Molecular
 {
+    constexpr ::CellSim::Molecular::BoundaryCondition MoleculeField::BoundaryCondition() const noexcept
+    {
+        return m_boundaryCondition;
+    }
+
     constexpr Containers::Span3<double> MoleculeField::Concentrations() noexcept
     {
         return m_concentrations;

@@ -28,13 +28,13 @@ namespace CellSim::Molecular
             reverseCo
         ;
     }
-    void NormalMoleculeBehavior::m_applyBoundaryConditions(bool enable2dMode, Containers::Span3<double> concentrations)
+    void NormalMoleculeBehavior::m_applyBoundaryConditions(Containers::Span3<double> concentrations)
     {
-        switch (m_boundaryCondition) {
+        switch (BoundaryCondition()) {
             case ::CellSim::Molecular::BoundaryCondition::Absorbing:
             {
                 size_t tmp;
-                if (enable2dMode) {
+                if (Enable2dMode()) {
                     tmp = GridCountY() - 1;
                     for (size_t x = 0; x < GridCountX(); x++) {
                         concentrations[x][0][0]   = 0;
@@ -79,7 +79,7 @@ namespace CellSim::Molecular
                 size_t tmp1;
                 size_t tmp2;
 
-                if (enable2dMode) {
+                if (Enable2dMode()) {
                     tmp1 = GridCountY() - 2;
                     tmp2 = GridCountY() - 1;
                     for (size_t x = 0; x < GridCountX(); x++) {
@@ -128,7 +128,7 @@ namespace CellSim::Molecular
             {
                 size_t tmp1;
                 size_t tmp2;
-                if (enable2dMode) {
+                if (Enable2dMode()) {
                     tmp1 = GridCountY() - 1;
                     tmp2 = GridCountY() - 2;
                     for (size_t x = 0; x < GridCountX(); x++) {
@@ -176,45 +176,12 @@ namespace CellSim::Molecular
         }
     }
 
-    NormalMoleculeBehavior::NormalMoleculeBehavior()
-    {
-        throw ::std::runtime_error(
-            Text::CString::Format(
-                Messages::Get("NotImplemented"),
-                "NormalMoleculeBehavior::NormalMoleculeBehavior()"
-            )
-        );
-    }
-
-    NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition)
-    {
-        throw ::std::runtime_error(
-            Text::CString::Format(
-                Messages::Get("NotImplemented"),
-                "NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition)"
-            )
-        );
-    }
-
     NormalMoleculeBehavior::NormalMoleculeBehavior(double)
     {
         throw ::std::runtime_error(
             Text::CString::Format(
                 Messages::Get("NotImplemented"),
                 "NormalMoleculeBehavior::NormalMoleculeBehavior(double)"
-            )
-        );
-    }
-
-    NormalMoleculeBehavior::NormalMoleculeBehavior(
-        ::CellSim::Molecular::BoundaryCondition,
-        double
-    )
-    {
-        throw ::std::runtime_error(
-            Text::CString::Format(
-                Messages::Get("NotImplemented"),
-                "NormalMoleculeBehavior::NormalMoleculeBehavior(::CellSim::Molecular::BoundaryCondition, double)"
             )
         );
     }

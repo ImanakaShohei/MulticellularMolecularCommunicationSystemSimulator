@@ -39,11 +39,6 @@ namespace CellSim::Molecular
         /// @return インスタンス
         [[nodiscard]] static MoleculeBehavior* FromKind(MoleculeBehaviorKind kind);
 
-        /// @brief 種類から作成
-        /// @param kind 種類
-        /// @return インスタンス
-        [[nodiscard]] static MoleculeBehavior* FromKind(MoleculeBehaviorKind kind, ::CellSim::Molecular::BoundaryCondition condition);
-
         virtual void BeforeAdvanceStep(
             const MoleculeField* sender,
             MoleculeBehaviorStepArgs args
@@ -74,7 +69,7 @@ namespace CellSim::Molecular
             MoleculeBehaviorStepArgs args
         ) = 0;
 
-        void SetBuffer(size_t gridCount, bool enable2dMode);
+        void SetBuffer(size_t gridCount, bool enable2dMode, ::CellSim::Molecular::BoundaryCondition boundaryCondition);
     };
 }
 
