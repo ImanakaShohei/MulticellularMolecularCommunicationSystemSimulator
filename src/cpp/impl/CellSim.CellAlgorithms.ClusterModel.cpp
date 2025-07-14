@@ -39,7 +39,7 @@ namespace CellSim::CellAlgorithms
 
                 CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(
                     cellInfo,
-                    *pCellList,
+                    pCellList,
                     nullptr,
                     &cell,
                     &cells,
