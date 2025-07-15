@@ -7,6 +7,8 @@
 #include "CellSim.Molecular.MoleculeInitializationArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Text.CString.hpp"
+
+#include <random>
 #include <stdexcept>
 
 namespace CellSim::Molecular
@@ -191,39 +193,97 @@ namespace CellSim::Molecular
         [[maybe_unused]] MoleculeBehaviorStepArgs args
     )
     {
-        // TODO: ここに処理を追加します
-    }
-
-    void NormalMoleculeBehavior::Diffuse(
-        const MoleculeField* sender,
-        [[maybe_unused]] MoleculeDiffusionArgs args
-    )
-    {
         
     }
 
+    void NormalMoleculeBehavior::Diffuse(
+        const MoleculeField*,
+        MoleculeDiffusionArgs args
+    )
+    {
+        m_applyBoundaryConditions(args.Concentrations);
+    }
+
     void NormalMoleculeBehavior::InitializeMolecules(
-        [[maybe_unused]] const MoleculeField* sender,
+        const MoleculeField*,
         MoleculeInitializationArgs args
     )
     {
         switch (args.DistributionType) {
             case InitialMoleculeDistribution::Centered:
             {
-                if (GridCountX() & 1) {
-                    
-                }
-                else {
+                size_t index;
+                // 奇数
+                if (GridCount() & 1) {
+                    index = GridCount() / 2 + 1;
 
+                    args.Concentrations[index][index][Enable2dMode() ? 0 : index] = args.MoleculeAmount;
+                }
+                // 偶数
+                else {
+                    index = GridCount();
+                    double moleculeAmount;
+                    if (Enable2dMode()) {
+                        moleculeAmount = args.MoleculeAmount / 4;
+                        args.Concentrations[index][index][0] = moleculeAmount;
+                        args.Concentrations[index][index + 1][0] = moleculeAmount;
+                        args.Concentrations[index + 1][index][0] = moleculeAmount;
+                        args.Concentrations[index + 1][index + 1][0] = moleculeAmount;
+                    }
+                    else {
+                        moleculeAmount = args.MoleculeAmount / 8;
+                        args.Concentrations[index][index][index] = moleculeAmount;
+                        args.Concentrations[index][index][index + 1] = moleculeAmount;
+                        args.Concentrations[index][index + 1][index] = moleculeAmount;
+                        args.Concentrations[index][index + 1][index + 1] = moleculeAmount;
+                        args.Concentrations[index + 1][index][index] = moleculeAmount;
+                        args.Concentrations[index + 1][index][index + 1] = moleculeAmount;
+                        args.Concentrations[index + 1][index + 1][index] = moleculeAmount;
+                        args.Concentrations[index + 1][index + 1][index + 1] = moleculeAmount;
+                    }
                 }
                 break;
             }
             case InitialMoleculeDistribution::Gaussian:
             {
+                ::std::mt19937 mt(args.Seed);
+
+                throw ::std::runtime_error("InitialMoleculeDistribution::Gaussian is not supported.");
+
                 break;
             }
             case InitialMoleculeDistribution::Uniform:
             {
+                // 境界部分は無視する
+                
+                size_t gridCount = GridCount() - 2;
+                size_t end = GridCount() - 1;
+                double moleculeAmount;
+
+                if (Enable2dMode()) {
+                    moleculeAmount = args.MoleculeAmount / (gridCount * gridCount);
+
+                    for (size_t x = 1; x < end; x++) {
+                        auto span2 = args.Concentrations[x];
+                        for (size_t y = 1; y < end; y++) {
+                            span2[y][0] = moleculeAmount;
+                        }
+                    }
+                }
+                else {
+                    moleculeAmount = args.MoleculeAmount / (gridCount * gridCount * gridCount);
+
+                    for (size_t x = 1; x < end; x++) {
+                        auto span2 = args.Concentrations[x];
+                        for (size_t y = 1; y < end; y++) {
+                            auto span = span2[y];
+
+                            for (size_t z = 1; z < end; z++) {
+                                span[z] = moleculeAmount;
+                            }
+                        }
+                    }
+                }
                 break;
             }
         }

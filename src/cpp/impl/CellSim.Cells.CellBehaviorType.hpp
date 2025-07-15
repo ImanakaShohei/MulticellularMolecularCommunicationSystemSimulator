@@ -9,7 +9,8 @@ namespace CellSim::Cells
     enum class CellBehaviorType {
         MoleculeAware,
         Normal,
-        User
+        User,
+        WavePropagation,
     };
 }
 

@@ -35,6 +35,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Cells.CellBehaviorPtr.cpp
     src/cpp/impl/CellSim.Cells.MoleculeAwareCellBehavior.cpp
     src/cpp/impl/CellSim.Cells.NormalCellBehavior.cpp
+    src/cpp/impl/CellSim.Cells.WavePropagationCellBehavior.cpp
     src/cpp/impl/CellSim.Cli.BinaryOption.cpp
     src/cpp/impl/CellSim.Cli.CliMain.cpp
     src/cpp/impl/CellSim.Cli.CliOption.cpp

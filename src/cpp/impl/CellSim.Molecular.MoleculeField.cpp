@@ -2,6 +2,7 @@
 #include "CellSim.Molecular.MoleculeBehavior.hpp"
 #include "CellSim.Molecular.MoleculeBehaviorStepArgs.hpp"
 #include "CellSim.Molecular.MoleculeDiffusionArgs.hpp"
+#include "CellSim.Molecular.MoleculeInitializationArgs.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Messages.hpp"
 
@@ -14,7 +15,10 @@ namespace CellSim::Molecular
         bool enable2DMode,
         MoleculeKind kind,
         ::CellSim::Molecular::BoundaryCondition boundaryCondition,
-        MoleculeBehavior* pBehavior
+        InitialMoleculeDistribution distributionType,
+        double moleculeAmount,
+        MoleculeBehavior* pBehavior,
+        uint32_t seed
     )
         : m_boundaryCondition(boundaryCondition)
         , m_concentrations()
@@ -33,6 +37,7 @@ namespace CellSim::Molecular
         , m_pBehavior(pBehavior)
     {
         if (gridCount < 3) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Molecular.MoleculeField.MoleculeField.Error.gridCount"));
+        if (moleculeAmount < 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Molecular.MoleculeField.MoleculeField.Error.moleculeAmount"));
 
         m_concentrations = Containers::Span3<double>(gridCount, gridCount, m_gridCountZ, m_pConcentration);
 
@@ -43,6 +48,7 @@ namespace CellSim::Molecular
         }
 
         pBehavior->SetBuffer(gridCount, enable2DMode, m_boundaryCondition);
+        pBehavior->InitializeMolecules(this, { m_concentrations, distributionType, moleculeAmount, seed });
     }
 
     MoleculeField::~MoleculeField()

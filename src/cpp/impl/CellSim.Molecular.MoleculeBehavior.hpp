@@ -6,6 +6,7 @@
 #include "CellSim.Containers.Span3.hpp"
 
 #include <vector>
+#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Molecular
 {
@@ -39,6 +40,8 @@ namespace CellSim::Molecular
         /// @return インスタンス
         [[nodiscard]] static MoleculeBehavior* FromKind(MoleculeBehaviorKind kind);
 
+        [[nodiscard]] static MoleculeBehavior* FromJson(::nlohmann::json const& j);
+
         virtual void BeforeAdvanceStep(
             const MoleculeField* sender,
             MoleculeBehaviorStepArgs args
@@ -50,6 +53,7 @@ namespace CellSim::Molecular
 
         [[nodiscard]] constexpr bool Enable2dMode() const noexcept;
 
+        [[nodiscard]] constexpr size_t GridCount() const noexcept;
         [[nodiscard]] constexpr size_t GridCountX() const noexcept;
         [[nodiscard]] constexpr size_t GridCountY() const noexcept;
         [[nodiscard]] constexpr size_t GridCountZ() const noexcept;
@@ -101,6 +105,11 @@ namespace CellSim::Molecular
     constexpr bool MoleculeBehavior::Enable2dMode() const noexcept
     {
         return m_enable2dMode;
+    }
+
+    constexpr size_t MoleculeBehavior::GridCount() const noexcept
+    {
+        return m_gridCountX;
     }
 
     constexpr size_t MoleculeBehavior::GridCountX() const noexcept

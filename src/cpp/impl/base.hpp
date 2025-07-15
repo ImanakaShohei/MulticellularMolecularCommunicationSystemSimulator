@@ -140,6 +140,7 @@ namespace CellSim::Cells
     struct DaughterCellInfo;
     class MoleculeAwareCellBehavior;
     class NormalCellBehavior;
+    class WavePropagationCellBehavior;
 }
 
 /// @brief コマンドライン処理

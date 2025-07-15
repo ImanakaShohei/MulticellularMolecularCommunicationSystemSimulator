@@ -10,6 +10,9 @@ namespace CellSim::Molecular
 {
     MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind)
     {
+#if 1
+        throw 1;
+#else
         switch (kind) {
             case MoleculeBehaviorKind::Normal: return new NormalMoleculeBehavior();
             case MoleculeBehaviorKind::Null:   return new NullMoleculeBehavior();
@@ -19,6 +22,12 @@ namespace CellSim::Molecular
                 throw ::std::invalid_argument("Invalid MoleculeBehaviorKind argument.");
             }
         }
+#endif
+    }
+
+    MoleculeBehavior* MoleculeBehavior::FromJson(::nlohmann::json const& j)
+    {
+        return nullptr;
     }
 
     MoleculeBehavior::MoleculeBehavior() noexcept

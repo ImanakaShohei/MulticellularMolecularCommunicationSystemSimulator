@@ -53,6 +53,7 @@ Model.NetworkFormationModel.NetworkFormationModel.Error.remoteForceFactor=引数
 Molecular.Molecule.Amount.Error=引数'amount'に負の値が指定されました。
 
 Molecular.MoleculeField.MoleculeField.Error.gridCount=引数'gridCount'に2以下が指定されました。
+Molecular.MoleculeField.MoleculeField.Error.moleculeAmount=引数'moleculeAmount'に負の値が指定されました。
 
 Settings.Config.Cell.Load.Error.JsonError=configファイルの'cell'パラメータの形式が正しくありません。
 Settings.Config.Cell.Load.Error.cellCount=configファイルの'cell.cellCount'にゼロが指定されました。

@@ -8,6 +8,7 @@
 #include "CellSim.Numerics.Vector3T.hpp"
 
 #include <vector>
+#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Molecular
 {
@@ -44,12 +45,17 @@ namespace CellSim::Molecular
 
         public:
 
+        [[nodiscard]] static MoleculeField FromJson(::nlohmann::json const& j);
+
         MoleculeField(
             size_t gridCount,
             bool enable2DMode,
             MoleculeKind kind,
             ::CellSim::Molecular::BoundaryCondition boundaryCondition,
-            MoleculeBehavior* pBehavior
+            InitialMoleculeDistribution distributionType,
+            double moleculeAmount,
+            MoleculeBehavior* pBehavior,
+            uint32_t seed = 0
         );
 
         MoleculeField(MoleculeField const&) = delete;
