@@ -82,22 +82,10 @@ namespace CellSim
         m_applyForce();
 
         if (Settings::Config::Cell::IsSensitiveToMolecules()) {
-            // SenseMolecules()
-            // EmitMolecule()
-            // 関数が呼ばれる順番を変えないようにする
-            Threading::ThreadPool::ParallelFor(
-                m_cells.begin(),
-                m_cells.end(),
-                [this] (Cells::Cell& cell) {
-                    for (Molecular::MoleculeField const& field : m_molecules) {
-                        cell.SenseMolecules(field);
-                    }
-                }
-            );
 
             // 状態を変更する可能性があるのでシングルスレッドで動かす
             for (Cells::Cell& cell : m_cells) {
-                cell.EmitMolecule(m_molecules);
+                cell.ProcessMolecules(m_molecules);
             }
         }
         
@@ -135,31 +123,14 @@ namespace CellSim
     {
         // 無駄な最適化
         if (Settings::Config::Cell::EnableGrowth()) {
-            if (Settings::Config::Cell::IsSensitiveToMolecules()) {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ResetForce();
-                    cell.Grow();
-                    cell.Metabolize();
-                }
-            }
-            else {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ResetForce();
-                    cell.Grow();
-                }
+            for (Cells::Cell& cell : m_cells) {
+                cell.ResetForce();
+                cell.Grow();
             }
         }
         else {
-            if (Settings::Config::Cell::IsSensitiveToMolecules()) {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ResetForce();
-                    cell.Metabolize();
-                }
-            }
-            else {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ResetForce();
-                }
+            for (Cells::Cell& cell : m_cells) {
+                cell.ResetForce();
             }
         }
         
