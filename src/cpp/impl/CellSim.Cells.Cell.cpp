@@ -94,7 +94,7 @@ namespace CellSim::Cells
     {
         Numerics::GridPosition3 position3 = field.ToGridPosition3(m_position);
 
-        field.Concentrations().At(position3.X, position3.Y, position3.Z) += m_behaviorPtr->ComputeMoleculeEmitAmount(this, { &field });
+        field.Concentrations().At(position3.X, position3.Y, position3.Z) += m_behaviorPtr->ComputeMoleculeEmitAmount(this, { &field, position3 });
     }
 
     void Cell::EmitMolecule(::std::vector<Molecular::MoleculeField>& fields)

@@ -82,6 +82,9 @@ namespace CellSim
         m_applyForce();
 
         if (Settings::Config::Cell::IsSensitiveToMolecules()) {
+            // SenseMolecules()
+            // EmitMolecule()
+            // 関数が呼ばれる順番を変えないようにする
             Threading::ThreadPool::ParallelFor(
                 m_cells.begin(),
                 m_cells.end(),

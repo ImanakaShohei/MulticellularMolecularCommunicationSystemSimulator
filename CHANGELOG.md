@@ -6,6 +6,7 @@
 ### 新機能
 - ダミーCellを作成するCell.CreateDummy()を追加(C++)
 - Cellにthisがダミーであるかを判定するプロパティIsDummy()を追加(C++)
+- WavePropagationCellBehaviorを追加(C++)
 ### 変更点
 - CellSimulationModel.ComputeForceOnCell(sender, args)のargs.CellAlgorithmがnullの時、ナイーブなアルゴリズムとして実行するように変更(C++)
 - ナイーブなアルゴリズム使用時にパフォーマンスが向上(C++)
