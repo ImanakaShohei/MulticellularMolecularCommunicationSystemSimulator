@@ -15,12 +15,11 @@ namespace CellSim::Users
         Cells::CellDivisionResult ComputeDivisionOutcome(const Cells::Cell* sender) override;
         Cells::CellGrowthResult ComputeGrowth(const Cells::Cell* sender) override;
         
-        double ComputeMetabolicChange(const Cells::Cell* sender, Cells::CellMetabolicArgs args) override;
-        double ComputeMoleculeEmitAmount(const Cells::Cell* sender, Cells::CellMoleculeEmissionArgs args) override;
+        Cells::MolecularProcessResult ComputeMolecularProcess(const Cells::Cell* sender, Cells::MolecularProcessArgs args) override;
         
         CellBehavior* CreateClone() const override;
         
-        bool HasState() const noexcept override;
+        bool IsReusable() const noexcept override;
 
         Numerics::Vector3 OnSenseMolecules(const Cells::Cell* sender, Cells::CellMoleculeSensingArgs args) override;
 

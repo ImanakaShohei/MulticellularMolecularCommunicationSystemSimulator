@@ -1,8 +1,8 @@
 ﻿#include "CellSim.Users.UserCellBehavior.hpp"
 #include "impl/CellSim.Cells.CellDivisionResult.hpp"
 #include "impl/CellSim.Cells.CellGrowthResult.hpp"
-#include "impl/CellSim.Cells.CellMetabolicArgs.hpp"
-#include "impl/CellSim.Cells.CellMoleculeEmissionArgs.hpp"
+#include "impl/CellSim.Cells.MolecularProcessArgs.hpp"
+#include "impl/CellSim.Cells.MolecularProcessResult.hpp"
 #include "impl/CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "impl/CellSim.Molecular.MoleculeInfo.hpp"
 
@@ -30,22 +30,13 @@ namespace CellSim::Users
         return result;
     }
 
-    double UserCellBehavior::ComputeMetabolicChange(
-        [[maybe_unused]] const Cell* sender,
-        [[maybe_unused]] CellMetabolicArgs args
-    )
+    MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
     {
-        // TODO: ここに処理を追加します
-        return 0.0;
-    }
+        MolecularProcessResult result;
 
-    double UserCellBehavior::ComputeMoleculeEmitAmount(
-        [[maybe_unused]] const Cell* sender,
-        [[maybe_unused]] CellMoleculeEmissionArgs args
-    )
-    {
-        // TODO: 放出量を計算します
-        return 0.0;
+        // TODO: resultに値を格納します
+
+        return result;
     }
 
     CellBehavior* UserCellBehavior::CreateClone() const
@@ -54,10 +45,10 @@ namespace CellSim::Users
         return new UserCellBehavior();
     }
 
-    bool UserCellBehavior::HasState() const noexcept
+    bool UserCellBehavior::IsReusable() const noexcept
     {
-        // このクラスにフィールドを追加した場合は'true'に変える
-        return false;
+        // このクラスの院スタンが使いまわせない場合は'false'に変える
+        return true;
     }
 
     Numerics::Vector3 UserCellBehavior::OnSenseMolecules(

@@ -25,17 +25,11 @@ namespace CellSim::Cells
         /// @return 計算結果
         [[nodiscard]] virtual CellGrowthResult ComputeGrowth(const Cell* sender) = 0;
 
-        /// @brief 細胞内の分子の変化量を計算
+        /// @brief 細胞内外の分子の状態を更新
         /// @param sender この関数を呼んだ細胞インスタンス
         /// @param args 処理に必要な情報
-        /// @return 分子の変化量
-        [[nodiscard]] virtual double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) = 0;
-
-        /// @brief 分子空間に放出する分子の量を計算
-        /// @param sender この関数を呼び出した細胞インスタンス
-        /// @param args 処理に必要な情報
         /// @return 計算結果
-        [[nodiscard]] virtual double ComputeMoleculeEmitAmount(const Cell* sender, CellMoleculeEmissionArgs args) = 0;
+        [[nodiscard]] virtual MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) = 0;
 
         [[nodiscard]] virtual CellBehavior* CreateClone() const = 0;
 
@@ -46,8 +40,8 @@ namespace CellSim::Cells
 
         [[nodiscard]] constexpr bool HasOwner() const noexcept;
 
-        /// @brief インスタンスが状態を持つかどうか
-        [[nodiscard]] virtual bool HasState() const noexcept = 0;
+        /// @brief インスタンスを使いまわせるかどうか
+        [[nodiscard]] virtual bool IsReusable() const noexcept = 0;
 
         /// @brief Cell.SenseMolecules()から呼ばれる関数
         /// @param sender この関数を呼び出した細胞インスタンス

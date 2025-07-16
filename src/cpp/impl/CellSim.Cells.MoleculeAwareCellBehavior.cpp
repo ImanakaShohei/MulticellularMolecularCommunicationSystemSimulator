@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
 #include "CellSim.Cells.Cell.hpp"
-#include "CellSim.Cells.CellMetabolicArgs.hpp"
+#include "CellSim.Cells.MolecularProcessArgs.hpp"
+#include "CellSim.Cells.MolecularProcessResult.hpp"
 #include "CellSim.Cells.CellMoleculeSensingArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
@@ -23,28 +24,26 @@ namespace CellSim::Cells
         double synthesisRate,
         double degradationRate
     )
-        : m_cellDivisionRadius(cellDivisionRadius)
+        : NormalCellBehavior(cellDivisionRadius)
         , m_synthesisRate(synthesisRate)
         , m_degradationRate(degradationRate)
     {
-        if (cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"));
         if (synthesisRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.synthesisRate"));
         if (degradationRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.degradationRate"));
     }
 
-    double MoleculeAwareCellBehavior::ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args)
+    MolecularProcessResult MoleculeAwareCellBehavior::ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
     {
-        return (m_synthesisRate - m_degradationRate * args.MoleculeInfo.Amount) * Settings::Config::Simulation::DeltaTime();
+        MolecularProcessResult result;
+        result.ExtracellularChange = 0;
+        result.IntracellularChange = (m_synthesisRate - m_degradationRate * args.IntracellularAmount) * Settings::Config::Simulation::DeltaTime();
+
+        return result;
     }
 
     Numerics::Vector3 MoleculeAwareCellBehavior::OnSenseMolecules(const Cell*, CellMoleculeSensingArgs)
     {
         // TODO: ここに処理を追加します
         return Numerics::Vector3();
-    }
-
-    bool MoleculeAwareCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
-    {
-        return sender->Radius() > m_cellDivisionRadius;
     }
 }

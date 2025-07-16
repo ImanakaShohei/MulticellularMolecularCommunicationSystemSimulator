@@ -82,6 +82,9 @@ namespace CellSim::Molecular
         [[nodiscard]] constexpr double GridLengthY() const noexcept;
         [[nodiscard]] constexpr double GridLengthZ() const noexcept;
 
+        /// @brief 分子の種類
+        [[nodiscard]] constexpr MoleculeKind Kind() const noexcept;
+
         void OnAdvanceStep(::std::vector<Cells::Cell> const& cells);
 
         [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
@@ -134,6 +137,11 @@ namespace CellSim::Molecular
     constexpr double MoleculeField::GridLengthZ() const noexcept
     {
         return m_gridLengthZ;
+    }
+
+    constexpr MoleculeKind MoleculeField::Kind() const noexcept
+    {
+        return m_kind;
     }
 
     inline Numerics::GridPosition3 MoleculeField::ToGridPosition3(Cells::Cell const& cell) const noexcept

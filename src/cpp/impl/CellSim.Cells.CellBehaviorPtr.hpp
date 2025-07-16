@@ -51,7 +51,7 @@ namespace CellSim::Cells
 
     inline void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
     {
-        if (right.m_ptr->HasState()) {
+        if (right.m_ptr->IsReusable()) {
             m_ptr = right.m_ptr;
             m_ptr->AddOwner();
             return;

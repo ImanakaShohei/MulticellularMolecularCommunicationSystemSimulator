@@ -4,6 +4,8 @@
 #include "base.hpp"
 #include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
 
+#include <map>
+
 #if 0 // コメント文
 
 812ページ目
@@ -83,8 +85,7 @@ namespace CellSim::Cells
         double m_lambda;
         double m_epsilon;
 
-        double m_beta;
-        double m_rho_T;
+        ::std::map<Molecular::MoleculeKind, double> m_rho_T;
 
         constexpr double ComputeDiffBeta(double beta, double gamma, double rho_T) const noexcept;
         constexpr double ComputeDiffGamma(double beta, double gamma) const noexcept;
@@ -122,11 +123,11 @@ namespace CellSim::Cells
             double epsilon
         );
         
-        double ComputeMoleculeEmitAmount(const Cell* sender, CellMoleculeEmissionArgs args) override;
+        MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) override;
         
         CellBehavior* CreateClone() const override;
         
-        constexpr bool HasState() const noexcept override;
+        constexpr bool IsReusable() const noexcept override;
     };
 }
 
@@ -173,9 +174,9 @@ namespace CellSim::Cells
         return new WavePropagationCellBehavior(*this);
     }
 
-    constexpr bool WavePropagationCellBehavior::HasState() const noexcept
+    constexpr bool WavePropagationCellBehavior::IsReusable() const noexcept
     {
-        return true;
+        return false;
     }
 }
 

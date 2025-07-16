@@ -10,9 +10,6 @@ namespace CellSim::Cells
     class MoleculeAwareCellBehavior : public NormalCellBehavior {
         private:
 
-        /// @brief 細胞の半径がこの値を超えると分裂する
-        double m_cellDivisionRadius;
-
         /// @brief 生成係数 k1
         double m_synthesisRate;
 
@@ -29,11 +26,10 @@ namespace CellSim::Cells
             double degradationRate
         );
 
-        double ComputeMetabolicChange(const Cell* sender, CellMetabolicArgs args) override;
+        MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) override;
         CellBehavior* CreateClone() const override;
-        constexpr bool HasState() const noexcept override;
+        constexpr bool IsReusable() const noexcept override;
         Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) override;
-        bool ShouldDivideThisStep(const Cell* sender) noexcept override;
     };
 }
 
@@ -44,7 +40,7 @@ namespace CellSim::Cells
         return new MoleculeAwareCellBehavior(*this);
     }
 
-    constexpr bool MoleculeAwareCellBehavior::HasState() const noexcept
+    constexpr bool MoleculeAwareCellBehavior::IsReusable() const noexcept
     {
         return true;
     }

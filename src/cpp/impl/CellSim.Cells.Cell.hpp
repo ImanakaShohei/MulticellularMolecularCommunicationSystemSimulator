@@ -7,6 +7,7 @@
 #include "CellSim.Molecular.Molecule.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -35,7 +36,7 @@ namespace CellSim::Cells
         uint32_t m_id;
 
         /// @brief 細胞内の分子の種類とその量
-        ::std::vector<Molecular::Molecule> m_internalMolecules;
+        ::std::map<Molecular::MoleculeKind, double> m_internalMolecules;
 
         /// @brief この細胞が生きているかどうか
         bool m_isAlive;
@@ -110,7 +111,7 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         /// @brief 細胞内の分子の種類とその量
-        [[nodiscard]] constexpr ::std::vector<Molecular::Molecule> const& InternalMolecules() const noexcept;
+        [[nodiscard]] constexpr ::std::map<Molecular::MoleculeKind, double> const& InternalMolecules() const noexcept;
 
         [[nodiscard]] constexpr bool IsAlive() const noexcept;
 
@@ -160,11 +161,6 @@ namespace CellSim::Cells
         /// @note 初期状態では分子の数はゼロ
         bool AppendMolecule(Molecular::MoleculeKind kind);
 
-        /// @brief 分子を追加
-        /// @param kind 分子の種類
-        /// @note 初期状態では分子の数はゼロ
-        void AppendMoleculeUnsafe(Molecular::MoleculeKind kind);
-
         /// @brief 細胞に力を加える
         /// @param force 加える力
         constexpr void ApplyForce(Numerics::Vector3 force) noexcept;
@@ -188,24 +184,21 @@ namespace CellSim::Cells
         /// @return 分裂したもう1つの細胞
         [[nodiscard]] Cell Divide();
 
-        /// @brief 分子空間に分子を放出
-        /// @param field 分子空間
-        void EmitMolecule(Molecular::MoleculeField& field);
-
-        /// @brief 分子空間に分子を放出
-        /// @param fields 分子空間リスト
-        void EmitMolecule(::std::vector<Molecular::MoleculeField>& fields);
-
         /// @brief 細胞が成長
         void Grow();
 
         [[nodiscard]] bool IsAdheringTo(Cell const& cell) const noexcept;
 
-        /// @brief 代謝
-        void Metabolize();
-
         /// @brief 細胞が移動
         void Move() noexcept;
+
+        /// @brief 細胞内と空間中の分子の状態を更新
+        /// @param field 分子空間
+        void ProcessMolecules(Molecular::MoleculeField& field);
+
+        /// @brief 細胞内と空間中の分子の状態を更新
+        /// @param fields 分子空間リスト
+        void ProcessMolecules(::std::vector<Molecular::MoleculeField>& fields);
 
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
@@ -278,7 +271,7 @@ namespace CellSim::Cells
         return m_id;
     }
 
-    constexpr ::std::vector<Molecular::Molecule> const& Cell::InternalMolecules() const noexcept
+    constexpr ::std::map<Molecular::MoleculeKind, double> const& Cell::InternalMolecules() const noexcept
     {
         return m_internalMolecules;
     }
@@ -348,9 +341,9 @@ namespace CellSim::Cells
         return m_force / m_mass;
     }
 
-    inline void Cell::AppendMoleculeUnsafe(Molecular::MoleculeKind kind)
+    inline bool Cell::AppendMolecule(Molecular::MoleculeKind kind)
     {
-        m_internalMolecules.push_back(Molecular::Molecule(kind));
+        return m_internalMolecules.try_emplace(kind, 0).second;
     }
 
     constexpr void Cell::ApplyForce(Numerics::Vector3 force) noexcept

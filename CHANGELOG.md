@@ -2,7 +2,7 @@
 
 <!--
 
-## [2.0.0 Beta 7] 2025-07-11
+## [2.0.0 Beta 7] 2025-07-17
 ### 新機能
 - ダミーCellを作成するCell.CreateDummy()を追加(C++)
 - Cellにthisがダミーであるかを判定するプロパティIsDummy()を追加(C++)
@@ -10,6 +10,11 @@
 ### 変更点
 - CellSimulationModel.ComputeForceOnCell(sender, args)のargs.CellAlgorithmがnullの時、ナイーブなアルゴリズムとして実行するように変更(C++)
 - ナイーブなアルゴリズム使用時にパフォーマンスが向上(C++)
+### 破壊的変更
+- CellBehaviorのComputeMetabolicChange(), ComputeMoleculeEmitAmount()を削除し、代わりにComputeMolecularProcess()を追加(C++)
+- CellBehaviorのHasStateを削除し、代わりにIsReusable()を追加(C++)
+- CellのAppendMoleculeUnsafe()を削除(C++)
+- CellのEmitMolecule(), Metabolize()を削除し、代わりにProcessMolecules()を追加(C++)
 ### 不具合修正
 - 
 

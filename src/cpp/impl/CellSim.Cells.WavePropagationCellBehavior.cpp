@@ -1,5 +1,6 @@
 ﻿#include "CellSim.Cells.WavePropagationCellBehavior.hpp"
-#include "CellSim.Cells.CellMoleculeEmissionArgs.hpp"
+#include "CellSim.Cells.MolecularProcessArgs.hpp"
+#include "CellSim.Cells.MolecularProcessResult.hpp"
 #include "CellSim.Molecular.MoleculeField.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
@@ -48,24 +49,27 @@ namespace CellSim::Cells
         , m_epsilon(epsilon)
     {
     }
-    
-    double WavePropagationCellBehavior::ComputeMoleculeEmitAmount(const Cell*, CellMoleculeEmissionArgs args)
+
+    MolecularProcessResult WavePropagationCellBehavior::ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
     {
-        auto span3 = args.Field->Concentrations();
-        double gamma = span3.At(args.Position.X, args.Position.Y, args.Position.Z);
+        MolecularProcessResult result;
+
+        double& rho_T = m_rho_T[args.Kind];
 
         // dβ/dt
-        double diff_beta = ComputeDiffBeta(m_beta, gamma, m_rho_T);
+        double diff_beta = ComputeDiffBeta(args.IntracellularAmount, args.ExtracellularAmount, rho_T);
         // dγ/dt
-        double diff_gamma = ComputeDiffGamma(m_beta, gamma);
+        double diff_gamma = ComputeDiffGamma(args.IntracellularAmount, args.ExtracellularAmount);
         // dρ/dt
-        double diff_rho_T = ComputeDiffRhoT(gamma, m_rho_T);
+        double diff_rho_T = ComputeDiffRhoT(args.ExtracellularAmount, rho_T);
 
         double deltaTime = Settings::Config::Simulation::DeltaTime();
 
-        m_beta += diff_beta * deltaTime;
-        m_rho_T += diff_rho_T * deltaTime;
+        rho_T += diff_rho_T * deltaTime;
 
-        return diff_gamma * deltaTime;
+        result.ExtracellularChange = diff_gamma * deltaTime;
+        result.IntracellularChange = diff_beta * deltaTime;
+        
+        return result;
     }
 }

@@ -94,7 +94,7 @@
             "properties": {
                 "behaviorType": {
                     "type": "string",
-                    "enum": [ "MoleculeAware", "Normal", "User" ]
+                    "enum": [ "MoleculeAware", "Normal", "User", "WavePropagation" ]
                 },
                 "moleculeAware": {
                     "type": "object",

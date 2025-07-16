@@ -24,6 +24,7 @@ namespace CellSim::Settings
         if (s == "MoleculeAware") s_behaviorType = Cells::CellBehaviorType::MoleculeAware;
         else if (s == "Normal") s_behaviorType = Cells::CellBehaviorType::Normal;
         else if (s == "User") s_behaviorType = Cells::CellBehaviorType::User;
+        else if (s == "WavePropagation") s_behaviorType = Cells::CellBehaviorType::WavePropagation;
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.behaviorType"));
 
         switch (s_behaviorType) {
