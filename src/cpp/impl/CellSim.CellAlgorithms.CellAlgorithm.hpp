@@ -12,7 +12,7 @@
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(cellInfo, cellAlgorithm, sender, target, cells, molecules, func)               \
     if (cellAlgorithm == nullptr) { \
         for (Cells::Cell const& l_cell : *cells) {\
-            if (&cell == target) continue; \
+            if (&l_cell == target) continue; \
             Cells::CellInfo cellInfo = l_cell;    \
             func \
         }    \
