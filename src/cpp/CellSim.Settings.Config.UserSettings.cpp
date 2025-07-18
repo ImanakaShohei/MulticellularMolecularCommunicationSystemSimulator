@@ -6,8 +6,10 @@ using namespace CellSim;
 
 namespace CellSim::Settings
 {
-    void Config::UserSettings::Load([[maybe_unused]] ::nlohmann::json const& config)
+    void Config::UserSettings::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+
         // TODO: ここに処理を追加します
     }
 }

@@ -19,6 +19,7 @@ namespace CellSim::Settings
         class MoleculeAware;
         class Normal;
         class User;
+        class WavePropagation;
 
         CELLSIM_STATIC_CLASS(CellBehavior);
 

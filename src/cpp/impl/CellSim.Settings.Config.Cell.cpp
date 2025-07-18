@@ -8,6 +8,8 @@ namespace CellSim::Settings
 {
     void Config::Cell::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
+
         ::std::string s;
 
         try {

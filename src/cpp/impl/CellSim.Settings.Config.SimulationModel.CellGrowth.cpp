@@ -8,6 +8,8 @@ namespace CellSim::Settings
 {
     void Config::SimulationModel::CellGrowth::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_adhesiveRepulsionFactor = config.at("adhesiveRepulsionFactor").get<double>();
         }

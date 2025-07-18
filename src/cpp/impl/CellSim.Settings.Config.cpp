@@ -5,6 +5,7 @@
 #include "CellSim.Settings.Config.Optimization.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
+#include "../CellSim.Settings.Config.UserSettings.hpp"
 
 #include <fstream>
 #include <stdexcept>
@@ -48,6 +49,7 @@ namespace CellSim::Settings
         Optimization::Load(config["optimization"]);
         Simulation::Load(config["simulation"]);
         SimulationModel::Load(config["simulationModel"]);
+        UserSettings::Load(config["userSettings"]);
     }
 
     ::nlohmann::json Config::OpenJsonFile(::std::string const& filePath)

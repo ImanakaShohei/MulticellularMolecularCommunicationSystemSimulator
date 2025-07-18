@@ -2,7 +2,7 @@
 
 <!--
 
-## [2.0.0 Beta 7] 2025-07-17
+## [2.0.0 Beta 7] 2025-07-18
 ### 新機能
 - ダミーCellを作成するCell.CreateDummy()を追加(C++)
 - Cellにthisがダミーであるかを判定するプロパティIsDummy()を追加(C++)
@@ -16,8 +16,8 @@
 - CellのAppendMoleculeUnsafe()を削除(C++)
 - CellのEmitMolecule(), Metabolize()を削除し、代わりにProcessMolecules()を追加(C++)
 ### 不具合修正
-- 
-
+- UserSettingsが読み込まれない問題を修正(C++)
+- CellAlgorithmをCellList以外にした状態でクラスタモデルを有効にするとアプリケーションがクラッシュする問題を修正(C++)
 -->
 
 ## [2.0.0 Beta 6] 2025-07-09

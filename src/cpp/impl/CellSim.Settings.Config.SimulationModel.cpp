@@ -15,6 +15,8 @@ namespace CellSim::Settings
 {
     void Config::SimulationModel::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.JsonError"));
+
         ::std::string s;
 
         try {
@@ -33,15 +35,12 @@ namespace CellSim::Settings
         else if (s == "User") s_simulationType = Model::CellSimulationType::User;
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.simulationType"));
 
-        switch (s_simulationType) {
-            case Model::CellSimulationType::CellGrowth: CellGrowth::Load(config["cellGrowth"]); break;
-            case Model::CellSimulationType::ClusterFormation: ClusterFormation::Load(config["clusterFormation"]); break;
-            case Model::CellSimulationType::ClusterRotation: ClusterRotation::Load(config["clusterRotation"]); break;
-            case Model::CellSimulationType::ClusterSprouting: ClusterSprouting::Load(config["clusterSprouting"]); break;
-            case Model::CellSimulationType::NetworkFormation: NetworkFormation::Load(config["networkFormation"]); break;
-            case Model::CellSimulationType::Null: break;
-            case Model::CellSimulationType::User: User::Load(config["user"]); break;
-        }
+        CellGrowth::Load(config["cellGrowth"]);
+        ClusterFormation::Load(config["clusterFormation"]);
+        ClusterRotation::Load(config["clusterRotation"]);
+        ClusterSprouting::Load(config["clusterSprouting"]);
+        NetworkFormation::Load(config["networkFormation"]);
+        User::Load(config["user"]);
         
     }
 }

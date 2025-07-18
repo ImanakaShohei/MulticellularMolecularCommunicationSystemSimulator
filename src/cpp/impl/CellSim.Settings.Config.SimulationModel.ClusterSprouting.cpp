@@ -8,6 +8,8 @@ namespace CellSim::Settings
 {
     void Config::SimulationModel::ClusterSprouting::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_adhesionThreshold = config.at("adhesionThreshold").get<size_t>();
             s_coefficientCd = config.at("coefficientCd").get<double>();

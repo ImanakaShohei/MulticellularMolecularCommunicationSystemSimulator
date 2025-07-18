@@ -10,6 +10,8 @@ namespace CellSim::Settings
 {
     void Config::Optimization::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.JsonError"));
+
         int32_t maxDegreeOfParallelism;
         ::std::string s;
         try {

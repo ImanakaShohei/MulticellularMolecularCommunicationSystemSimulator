@@ -9,6 +9,8 @@ namespace CellSim::Settings
 {
     void Config::CellBehavior::Normal::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
         }

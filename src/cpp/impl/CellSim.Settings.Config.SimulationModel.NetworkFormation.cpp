@@ -9,6 +9,8 @@ namespace CellSim::Settings
 {
     void Config::SimulationModel::NetworkFormation::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_adhesiveRepulsionFactor = config.at("adhesiveRepulsionFactor").get<double>();
             s_attractionFactor = config.at("attractionFactor").get<double>();

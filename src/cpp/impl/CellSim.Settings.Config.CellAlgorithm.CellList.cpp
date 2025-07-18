@@ -8,6 +8,8 @@ namespace CellSim::Settings
 {
     void Config::CellAlgorithm::CellList::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_gridCount = config.at("gridCount").get<size_t>();
             s_searchRadius = config.at("searchRadius").get<double>();

@@ -9,6 +9,8 @@ namespace CellSim::Settings
 {
     void Config::CellBehavior::MoleculeAware::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) return;
+        
         try {
             s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
             s_degradationRate = config.at("degradationRate").get<double>();

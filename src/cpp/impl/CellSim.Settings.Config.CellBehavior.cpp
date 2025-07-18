@@ -27,10 +27,9 @@ namespace CellSim::Settings
         else if (s == "WavePropagation") s_behaviorType = Cells::CellBehaviorType::WavePropagation;
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.behaviorType"));
 
-        switch (s_behaviorType) {
-            case Cells::CellBehaviorType::MoleculeAware: MoleculeAware::Load(config["moleculeAware"]); break;
-            case Cells::CellBehaviorType::Normal: Normal::Load(config["normal"]); break;
-            case Cells::CellBehaviorType::User: User::Load(config["user"]); break;
-        }
+        MoleculeAware::Load(config["moleculeAware"]);
+        Normal::Load(config["normal"]);
+        User::Load(config["user"]);
+        
     }
 }

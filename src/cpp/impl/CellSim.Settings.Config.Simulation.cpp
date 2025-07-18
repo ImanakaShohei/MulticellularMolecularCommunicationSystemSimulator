@@ -7,6 +7,8 @@ namespace CellSim::Settings
 {
     void Config::Simulation::Load(::nlohmann::json const& config)
     {
+        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));
+
         try {
             s_deltaTime = config.at("deltaTime").get<double>();
             s_enable2DMode = config.at("enable2DMode").get<bool>();
