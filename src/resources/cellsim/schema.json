@@ -124,7 +124,59 @@
                     },
                     "required": [ "cellDivisionRadius" ]
                 },
-                "user": { "type": "object" }
+                "user": { "type": "object" },
+                "wavePropagation": {
+                    "type": "object",
+                    "properties": {
+                        "cellDivisionRadius": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "degradationRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "synthesisRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "c": { "type": "number" },
+                        "k1": { "type": "number" },
+                        "k2": { "type": "number" },
+                        "l1": { "type": "number" },
+                        "l2": { "type": "number" },
+                        "q": { "type": "number" },
+                        "sigma": { "type": "number" },
+                        "ki": { "type": "number" },
+                        "ke": { "type": "number" },
+                        "kt": { "type": "number" },
+                        "alpha": { "type": "number" },
+                        "h": { "type": "number" },
+                        "theta": { "type": "number" },
+                        "lambda": { "type": "number" },
+                        "epsilon": { "type": "number" }
+                    },
+                    "required": [ 
+                        "cellDivisionRadius",
+                        "degradationRate",
+                        "synthesisRate",
+                        "c",
+                        "k1",
+                        "k2",
+                        "l1",
+                        "l2",
+                        "q",
+                        "sigma",
+                        "ki",
+                        "ke",
+                        "kt",
+                        "alpha",
+                        "h",
+                        "theta",
+                        "lambda",
+                        "epsilon"
+                    ]
+                }
             },
             "required": [ "behaviorType" ]
         },

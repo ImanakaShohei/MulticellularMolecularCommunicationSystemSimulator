@@ -78,6 +78,11 @@ Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate=configフ�
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate=configファイルの'cellBehavior.moleculeAware.synthesisRate'にゼロ以下の値が指定されました。
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError=configファイルの'cellBehavior.moleculeAware'パラメータの形式が正しくありません。
 
+Settings.Config.CellBehavior.WavePropagation.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.wavePropagation.cellDivisionRadius'にゼロ以下の値が指定されました。
+Settings.Config.CellBehavior.WavePropagation.Load.Error.degradationRate=configファイルの'cellBehavior.wavePropagation.degradationRate'にゼロ以下の値が指定されました。
+Settings.Config.CellBehavior.WavePropagation.Load.Error.synthesisRate=configファイルの'cellBehavior.wavePropagation.synthesisRate'にゼロ以下の値が指定されました。
+Settings.Config.CellBehavior.WavePropagation.Load.Error.JsonError=configファイルの'cellBehavior.wavePropagation'パラメータの形式が正しくありません。
+
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.normal.cellDivisionRadius'にゼロ以下の値が指定されました。
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=configファイルの'cellBehavior.normal'パラメータの形式が正しくありません。
 

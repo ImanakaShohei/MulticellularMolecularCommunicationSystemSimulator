@@ -78,6 +78,11 @@ Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate='cellBehav
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate='cellBehavior.moleculeAware.synthesisRate' in the config file must be a positive value.
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError=The format of the 'cellBehavior.moleculeAware' parameter in the config file is invalid.
 
+Settings.Config.CellBehavior.WavePropagation.Load.Error.cellDivisionRadius='cellBehavior.wavePropagation.cellDivisionRadius' in the config file must be a positive value.
+Settings.Config.CellBehavior.WavePropagation.Load.Error.degradationRate='cellBehavior.wavePropagation.degradationRate' in the config file must be a positive value.
+Settings.Config.CellBehavior.WavePropagation.Load.Error.synthesisRate='cellBehavior.wavePropagation.synthesisRate' in the config file must be a positive value.
+Settings.Config.CellBehavior.WavePropagation.Load.Error.JsonError=The format of the 'cellBehavior.wavePropagation' parameter in the config file is invalid.
+
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius='cellBehavior.normal.cellDivisionRadius' in the config file must be a positive value.
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cellBehavior.normal' parameter in the config file is invalid.
 
