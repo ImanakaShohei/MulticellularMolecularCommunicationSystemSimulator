@@ -1,5 +1,6 @@
 ﻿using CellSim.Cells;
 using CellSim.Model;
+using CellSim.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,18 @@ namespace CellSim.CellAlgorithms
     {
         public override bool HasMultithreadingSupport => true;
 
+        public override bool OverrideForceComputation => true;
+
         public override void BeforeAdvanceStep(ReadOnlySimulation sender, CellAlgorithmStepArgs args)
         {
+        }
+
+        public override Vector3 ComputeForceOnCell(ReadOnlySimulation sender, CellAlgorithmForceComputationArgs args)
+        {
+            return args.SimulationModel.ComputeForceOnCell(
+                sender,
+                new SimulationModelForceComputationArgs(args.Target, args.Cells, args.Cells, args.Fields, null)
+            );
         }
 
         public override IEnumerable<CellInfo> EnumerateAffectableCellInfos(CellSimulationModel sender, CellAlgorithmAffectableCellQueryArgs args)

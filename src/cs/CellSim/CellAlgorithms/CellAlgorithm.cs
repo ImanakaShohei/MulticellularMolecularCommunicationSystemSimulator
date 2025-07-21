@@ -17,23 +17,36 @@ namespace CellSim.CellAlgorithms
     /// </summary>
     public abstract class CellAlgorithm
     {
-        public static void Enumerate(CellSimulationModel model, CellAlgorithm cellAlgorithm, ReadOnlyCell target, IReadOnlyList<ReadOnlyCell> cells, IReadOnlyList<ReadOnlyMoleculeField> fields, Action<CellInfo> action)
+        public static void Enumerate(CellSimulationModel model, CellAlgorithm? cellAlgorithm, ReadOnlyCell target, IReadOnlyList<ReadOnlyCell> cells, IReadOnlyList<ReadOnlyMoleculeField> fields, Action<CellInfo> action)
         {
-            switch (Config.Optimization.Peformance)
+            if (cellAlgorithm == null)
             {
-                case PeformanceType.Fast:
-                    foreach (CellInfo cellInfo in cellAlgorithm.GetAffectableCellInfos(model, new CellAlgorithmAffectableCellQueryArgs(cells, fields, target)))
-                    {
-                        action(cellInfo);
-                    }
-                    break;
-                case PeformanceType.LowMemory:
-                    foreach (CellInfo cellInfo in cellAlgorithm.EnumerateAffectableCellInfos(model, new CellAlgorithmAffectableCellQueryArgs(cells, fields, target)))
-                    {
-                        action(cellInfo);
-                    }
-                    break;
+                foreach (ReadOnlyCell readOnlyCell in cells)
+                {
+                    if (object.ReferenceEquals(readOnlyCell, target)) continue;
+
+                    action(new CellInfo(readOnlyCell));
+                }
             }
+            else
+            {
+                switch (Config.Optimization.Peformance)
+                {
+                    case PeformanceType.Fast:
+                        foreach (CellInfo cellInfo in cellAlgorithm.GetAffectableCellInfos(model, new CellAlgorithmAffectableCellQueryArgs(cells, fields, target)))
+                        {
+                            action(cellInfo);
+                        }
+                        break;
+                    case PeformanceType.LowMemory:
+                        foreach (CellInfo cellInfo in cellAlgorithm.EnumerateAffectableCellInfos(model, new CellAlgorithmAffectableCellQueryArgs(cells, fields, target)))
+                        {
+                            action(cellInfo);
+                        }
+                        break;
+                }
+            }
+                
         }
 
         /// <summary>

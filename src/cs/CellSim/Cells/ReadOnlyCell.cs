@@ -11,6 +11,11 @@ namespace CellSim.Cells
     public class ReadOnlyCell
     {
         /// <summary>
+        /// ダミー細胞のID
+        /// </summary>
+        private const uint s_dummyID = unchecked((uint)-1);
+
+        /// <summary>
         /// 各細胞に割り振るID
         /// </summary>
         private static uint s_id = 0;
@@ -75,6 +80,31 @@ namespace CellSim.Cells
         /// </summary>
         protected CellType m_type;
 
+#pragma warning disable CS8618 // null 非許容のフィールドには、コンストラクターの終了時に null 以外の値が入っていなければなりません。'required' 修飾子を追加するか、Null 許容として宣言することを検討してください。
+        /// <summary>
+        /// ダミー用
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="mass"></param>
+        /// <param name="radius"></param>
+        /// <param name="position"></param>
+        protected ReadOnlyCell(
+            CellType type,
+            bool isAlive,
+            double mass,
+            double radius,
+            Vector3 position
+        )
+#pragma warning restore CS8618 // null 非許容のフィールドには、コンストラクターの終了時に null 以外の値が入っていなければなりません。'required' 修飾子を追加するか、Null 許容として宣言することを検討してください。
+        {
+            m_id = s_dummyID;
+            m_type = type;
+            m_isAlive = isAlive;
+            m_mass = mass;
+            m_radius = radius;
+            m_position = position;
+        }
+
         internal ReadOnlyCell(
             CellType type,
             CellBehavior behavior,
@@ -93,6 +123,7 @@ namespace CellSim.Cells
             m_radius = radius;
             m_position = position;
             m_previusForce = new Vector3();
+            m_type = type;
 
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(mass, nameof(mass));
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(radius, nameof(radius));
@@ -126,6 +157,11 @@ namespace CellSim.Cells
         /// この細胞が生きているかどうか
         /// </summary>
         public bool IsAlive => m_isAlive;
+
+        /// <summary>
+        /// ダミー細胞かどうか
+        /// </summary>
+        public bool IsDummy => m_id == s_dummyID;
 
         /// <summary>
         /// 細胞の質量

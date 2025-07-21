@@ -14,6 +14,47 @@ namespace CellSim.Cells
     /// </summary>
     public sealed class Cell : ReadOnlyCell
     {
+        /// <summary>
+        /// ダミー用
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="isAlive"></param>
+        /// <param name="mass"></param>
+        /// <param name="radius"></param>
+        /// <param name="position"></param>
+        private Cell(
+            CellType type,
+            bool isAlive,
+            double mass,
+            double radius,
+            Vector3 position
+        ) : base(
+                type,
+                isAlive,
+                mass,
+                radius,
+                position
+            )
+        {
+        }
+
+        public static Cell CreateDummy(
+            CellType type,
+            bool isAlive,
+            double mass,
+            double radius,
+            Vector3 position
+        )
+        {
+            return new Cell(
+                type,
+                isAlive,
+                mass,
+                radius,
+                position
+            );
+        }
+
         public Cell(
             CellType type,
             CellBehavior behavior,

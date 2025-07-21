@@ -25,8 +25,10 @@ namespace CellSim.Settings
             /// </summary>
             public static bool UseClusterModel => s_useClusterModel;
 
-            internal static void Load(JsonObject config)
+            internal static void Load(JsonNode? config)
             {
+                if (config == null) throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.Load.Error.JsonError"));
+
                 string s;
                 try
                 {
@@ -40,25 +42,21 @@ namespace CellSim.Settings
                     throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.Load.Error.JsonError"));
                 }
 
-                if (s == "BarnesHut") s_algorithmType = CellAlgorithmType.BarnesHut;
-                else if (s == "CellList") s_algorithmType = CellAlgorithmType.CellList;
-                else if (s == "Naive") s_algorithmType = CellAlgorithmType.Naive;
-                else if (s == "Null") s_algorithmType = CellAlgorithmType.Null;
-                else if (s == "ParticleMesh") s_algorithmType = CellAlgorithmType.ParticleMesh;
-                else if (s == "User") s_algorithmType = CellAlgorithmType.User;
-                else throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.Load.Error.algorithmType"));
-
-#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                switch (s_algorithmType)
+                s_algorithmType = s switch
                 {
-                    case CellAlgorithmType.BarnesHut: BarnesHut.Load(config["barnesHut"].AsObject()); break;
-                    case CellAlgorithmType.CellList: CellList.Load(config["cellList"].AsObject()); break;
-                    case CellAlgorithmType.Naive: break;
-                    case CellAlgorithmType.Null: break;
-                    case CellAlgorithmType.ParticleMesh: ParticleMesh.Load(config["particleMesh"].AsObject()); break;
-                    case CellAlgorithmType.User: User.Load(config["User"].AsObject()); break;
-                }
-#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    "BarnesHut" => CellAlgorithmType.BarnesHut,
+                    "CellList" => CellAlgorithmType.CellList,
+                    "Naive" => CellAlgorithmType.Naive,
+                    "Null" => CellAlgorithmType.Null,
+                    "ParticleMesh" => CellAlgorithmType.ParticleMesh,
+                    "User" => CellAlgorithmType.User,
+                    _ => throw new FormatException(Messages.Get("Settings.Config.CellAlgorithm.Load.Error.algorithmType"))
+                };
+
+                BarnesHut.Load(config["barnesHut"]);
+                CellList.Load(config["cellList"]);
+                ParticleMesh.Load(config["particleMesh"]);
+                User.Load(config["User"]);
             }
         }
 

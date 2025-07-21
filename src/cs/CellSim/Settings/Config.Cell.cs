@@ -71,8 +71,10 @@ namespace CellSim.Settings
             /// </summary>
             public static CellType Type => s_type;
 
-            internal static void Load(JsonObject config)
+            internal static void Load(JsonNode? config)
             {
+                if (config == null) throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.JsonError"));
+
                 string s;
 
                 try
@@ -90,7 +92,6 @@ namespace CellSim.Settings
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
                 catch {
-                    Console.WriteLine(config);
                     throw new FormatException(Messages.Get("Settings.Config.Cell.Load.Error.JsonError"));
                 }
 

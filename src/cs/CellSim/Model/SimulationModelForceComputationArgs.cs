@@ -11,18 +11,21 @@ namespace CellSim.Model
 {
     public struct SimulationModelForceComputationArgs
     {
-        public CellAlgorithm CellAlgorithm;
+        public IReadOnlyList<ReadOnlyCell> AffectedCells;
+        public CellAlgorithm? CellAlgorithm;
         public IReadOnlyList<ReadOnlyCell> Cells;
         public IReadOnlyList<ReadOnlyMoleculeField> Fields;
         public ReadOnlyCell Target;
 
         public SimulationModelForceComputationArgs(
-            CellAlgorithm cellAlgorithm,
+            ReadOnlyCell target,
             IReadOnlyList<ReadOnlyCell> cells,
+            IReadOnlyList<ReadOnlyCell> affectedCells,
             IReadOnlyList<ReadOnlyMoleculeField> fields,
-            ReadOnlyCell target
+            CellAlgorithm? cellAlgorithm
         )
         {
+            AffectedCells = affectedCells;
             CellAlgorithm = cellAlgorithm;
             Cells = cells;
             Fields = fields;

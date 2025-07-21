@@ -67,8 +67,10 @@ namespace CellSim.Settings
             /// </summary>
             public static ulong TotalSteps => s_totalSteps;
 
-            internal static void Load(JsonObject config)
+            internal static void Load(JsonNode? config)
             {
+                if (config == null) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.JsonError"));
+
                 try
                 {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
@@ -80,7 +82,8 @@ namespace CellSim.Settings
                     s_totalSteps = config["totalSteps"].ToUInt64();
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                 }
-                catch {
+                catch
+                {
                     throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.JsonError"));
                 }
 
@@ -89,7 +92,7 @@ namespace CellSim.Settings
                 if (s_imageSize <= 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.imageSize"));
                 if (s_outputInterval <= 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.outputInterval"));
                 if (s_totalSteps == 0) throw new FormatException(Messages.Get("Settings.Config.Simulation.Load.Error.totalSteps"));
-                }
+            }
         }
 
     }

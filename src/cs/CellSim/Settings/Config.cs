@@ -16,18 +16,17 @@ namespace CellSim.Settings
 
             if (node == null) return;
 
-            Load(node.AsObject());
+            Load(node);
         }
-        internal static void Load(JsonObject config)
+        internal static void Load(JsonNode config)
         {
-#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-            Cell.Load(config["cell"].AsObject());
-            CellAlgorithm.Load(config["cellAlgorithm"].AsObject());
-            CellBehavior.Load(config["cellBehavior"].AsObject());
-            Optimization.Load(config["optimization"].AsObject());
-            Simulation.Load(config["simulation"].AsObject());
-            SimulationModel.Load(config["simulationModel"].AsObject());
-#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+            Cell.Load(config["cell"]);
+            CellAlgorithm.Load(config["cellAlgorithm"]);
+            CellBehavior.Load(config["cellBehavior"]);
+            Optimization.Load(config["optimization"]);
+            Simulation.Load(config["simulation"]);
+            SimulationModel.Load(config["simulationModel"]);
+            UserSettings.Load(config["userSettings"]);
         }
 
         internal static JsonObject OpenJsonFile(string path)

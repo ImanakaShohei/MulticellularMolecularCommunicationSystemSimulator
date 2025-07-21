@@ -19,8 +19,9 @@ namespace CellSim.Settings
             /// </summary>
             public static CellBehaviorType BehaviorType => s_behaviorType;
 
-            internal static void Load(JsonObject config)
+            internal static void Load(JsonNode? config)
             {
+                if (config == null) throw new FormatException(Messages.Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
                 string s;
 
                 try
@@ -34,19 +35,17 @@ namespace CellSim.Settings
                     throw new FormatException(Messages.Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
                 }
 
-                if (s == "MoleculeAware") s_behaviorType = CellBehaviorType.MoleculeAware;
-                else if (s == "Normal") s_behaviorType = CellBehaviorType.Normal;
-                else if (s == "User") s_behaviorType = CellBehaviorType.User;
-                else throw new FormatException(Messages.Get("Settings.Config.CellBehavior.Load.Error.behaviorType"));
-
-#pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                switch (s_behaviorType)
+                s_behaviorType = s switch
                 {
-                    case CellBehaviorType.MoleculeAware: MoleculeAware.Load(config["moleculeAware"].AsObject()); break;
-                    case CellBehaviorType.Normal: Normal.Load(config["normal"].AsObject()); break;
-                    case CellBehaviorType.User: User.Load(config["user"].AsObject()); break;
-                }
-#pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
+                    "MoleculeAware" => CellBehaviorType.MoleculeAware,
+                    "Normal" => CellBehaviorType.Normal,
+                    "User" => CellBehaviorType.User,
+                    _ => throw new FormatException(Messages.Get("Settings.Config.CellBehavior.Load.Error.behaviorType"))
+                };
+
+                MoleculeAware.Load(config["moleculeAware"]);
+                Normal.Load(config["normal"]);
+                User.Load(config["user"]);
             }
         }
 

@@ -31,7 +31,7 @@ namespace CellSim
                         cell =>
                         {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                            cell.ApplyForce(CellAlgorithm.ComputeForceOnCell(this, new CellAlgorithmForceComputationArgs(m_cells, m_molecules, cell)));
+                            cell.ApplyForce(CellAlgorithm.ComputeForceOnCell(this, new CellAlgorithmForceComputationArgs(m_cells, m_molecules, m_simulationModel, cell)));
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                         }
                     );
@@ -41,7 +41,7 @@ namespace CellSim
                     foreach (Cell cell in m_cells)
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
-                        cell.ApplyForce(CellAlgorithm.ComputeForceOnCell(this, new CellAlgorithmForceComputationArgs(m_cells, m_molecules, cell)));
+                        cell.ApplyForce(CellAlgorithm.ComputeForceOnCell(this, new CellAlgorithmForceComputationArgs(m_cells, m_molecules, m_simulationModel, cell)));
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                     }
                 }
@@ -57,7 +57,7 @@ namespace CellSim
                         {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
 #pragma warning disable CS8604 // Null 参照引数の可能性があります。
-                            cell.ApplyForce(m_simulationModel.ComputeForceOnCell(this, new SimulationModelForceComputationArgs(CellAlgorithm, m_cells, m_molecules, cell)));
+                            cell.ApplyForce(m_simulationModel.ComputeForceOnCell(this, new SimulationModelForceComputationArgs(cell, m_cells, m_cells, m_molecules, CellAlgorithm)));
 #pragma warning restore CS8604 // Null 参照引数の可能性があります。
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                         }
@@ -69,7 +69,7 @@ namespace CellSim
                     foreach (Cell cell in m_cells)
                     {
 #pragma warning disable CS8604 // Null 参照引数の可能性があります。
-                        cell.ApplyForce(m_simulationModel.ComputeForceOnCell(this, new SimulationModelForceComputationArgs(CellAlgorithm, m_cells, m_molecules, cell)));
+                        cell.ApplyForce(m_simulationModel.ComputeForceOnCell(this, new SimulationModelForceComputationArgs(cell, m_cells, m_cells, m_molecules, CellAlgorithm)));
 #pragma warning restore CS8604 // Null 参照引数の可能性があります。
                     }
                 }

@@ -34,8 +34,10 @@ namespace CellSim.Settings
                 /// </summary>
                 public static double RemoteForceFactor => s_remoteForceFactor;
 
-                internal static void Load(JsonObject config)
+                internal static void Load(JsonNode? config)
                 {
+                    if (config == null) return;
+
                     try
                     {
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。

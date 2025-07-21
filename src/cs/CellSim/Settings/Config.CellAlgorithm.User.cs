@@ -18,7 +18,7 @@ namespace CellSim.Settings
 
                 // TODO: ここにアクセサーを追加します
 
-                internal static void Load(JsonObject config)
+                internal static void Load(JsonNode? config)
                 {
                     // TODO: ここに処理を追加します
                 }

@@ -25,8 +25,10 @@ namespace CellSim.Settings
             /// </summary>
             public static PeformanceType Peformance => s_peformance;
 
-            internal static void Load(JsonObject config)
+            internal static void Load(JsonNode? config)
             {
+                if (config == null) throw new FormatException(Messages.Get("Settings.Config.Optimization.Load.Error.JsonError"));
+
                 string s;
                 int maxDegreeOfParallelism;
                 try
@@ -41,9 +43,12 @@ namespace CellSim.Settings
                     throw new FormatException(Messages.Get("Settings.Config.Optimization.Load.Error.JsonError"));
                 }
 
-                if (s == "Fast") s_peformance = PeformanceType.Fast;
-                else if (s == "LowMemory") s_peformance = PeformanceType.LowMemory;
-                else throw new FormatException(Messages.Get("Settings.Config.Optimization.Load.Error.peformance"));
+                s_peformance = s switch
+                {
+                    "Fast" => PeformanceType.Fast,
+                    "LowMemory" => PeformanceType.LowMemory,
+                    _ => throw new FormatException(Messages.Get("Settings.Config.Optimization.Load.Error.peformance"))
+                };
 
                 int maxThread = Environment.ProcessorCount;
 
