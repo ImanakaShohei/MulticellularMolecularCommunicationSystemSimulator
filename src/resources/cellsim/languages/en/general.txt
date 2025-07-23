@@ -86,6 +86,10 @@ Settings.Config.CellBehavior.WavePropagation.Load.Error.JsonError=The format of 
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius='cellBehavior.normal.cellDivisionRadius' in the config file must be a positive value.
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cellBehavior.normal' parameter in the config file is invalid.
 
+Settings.Config.Molecular.Load.Error.JsonError=The format of the 'molecular' parameter in the config file is invalid.
+Settings.Config.Molecular.Load.Error.boundaryCondition=The value of 'molecular.boundaryCondition' in the config file is invalid.
+Settings.Config.Molecular.Load.Error.initialDistribution=The value of 'molecular.initialDistribution' in the config file is invalid.
+
 Settings.Config.Optimization.Load.Error.JsonError=The format of the 'optimization' parameter in the config file is invalid.
 Settings.Config.Optimization.Load.Error.peformance=The value of 'optimization.peformance' in the config file is invalid.
 

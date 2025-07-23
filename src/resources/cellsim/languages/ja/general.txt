@@ -86,6 +86,10 @@ Settings.Config.CellBehavior.WavePropagation.Load.Error.JsonError=configファ�
 Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.normal.cellDivisionRadius'にゼロ以下の値が指定されました。
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=configファイルの'cellBehavior.normal'パラメータの形式が正しくありません。
 
+Settings.Config.Molecular.Load.Error.JsonError=configファイルの'molecular'パラメータの形式が正しくありません。
+Settings.Config.Molecular.Load.Error.boundaryCondition=configファイルの'molecular.boundaryCondition'値が無効です。
+Settings.Config.Molecular.Load.Error.initialDistribution=configファイルの'molecular.initialDistribution'値が無効です。
+
 Settings.Config.Optimization.Load.Error.JsonError=configファイルの'optimization'パラメータの形式が正しくありません。
 Settings.Config.Optimization.Load.Error.peformance=configファイルの'optimization.peformance'値が無効です。
 

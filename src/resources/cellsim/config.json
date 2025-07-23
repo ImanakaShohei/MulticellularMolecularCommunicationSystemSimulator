@@ -101,5 +101,9 @@
             "gridCount": 32,
             "searchRadius": 64
         }
+    },
+    "molecular": {
+        "boundaryCondition": "Reflective",
+        "initialDistribution": "Uniform"
     }
 }

@@ -21,6 +21,14 @@
             },
             "minItems": 1,
             "uniqueItems": true
+        },
+        "moleculeField": {
+            "type": "object",
+            "properties": {
+                "moleculeKind": {
+                    "type": "string"
+                }
+            }
         }
     },
     "properties": {
@@ -179,6 +187,28 @@
                 }
             },
             "required": [ "behaviorType" ]
+        },
+        "molecular": {
+            "properties": {
+                "boundaryCondition": {
+                    "type": "string",
+                    "enum": [ "Absorbing", "Periodic", "Reflective" ]
+                },
+                "initialDistribution": {
+                    "type": "string",
+                    "enum": [ "Centered", "Gaussian", "Uniform" ]
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/moleculeField"
+                    }
+                }
+            },
+            "required": [
+                "boundaryCondition",
+                "initialDistribution"
+            ]
         },
         "optimization": {
             "type": "object",
@@ -379,6 +409,7 @@
         "cell",
         "cellAlgorithm",
         "cellBehavior",
+        "molecular",
         "optimization",
         "simulation",
         "simulationModel"
