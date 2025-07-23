@@ -10,7 +10,7 @@
 - ナイーブなアルゴリズム使用時にパフォーマンスが向上
 ### 破壊的変更
 - CellBehaviorのComputeMetabolicChange(), ComputeMoleculeEmitAmount()を削除し、代わりにComputeMolecularProcess()を追加
-- CellBehaviorのHasStateを削除し、代わりにIsReusable()を追加(C++)
+- C++版のCellBehaviorのHasState()を削除し、代わりにIsReusable()を追加
 - CellのAppendMoleculeUnsafe()を削除
 - CellのEmitMolecule(), Metabolize()を削除し、代わりにProcessMolecules()を追加
 ### 不具合修正
