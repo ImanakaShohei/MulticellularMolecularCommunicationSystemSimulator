@@ -18,7 +18,7 @@ namespace CellSim.Users
         public override CellBehavior Clone()
         {
             // ここはいじらない
-            return new UserCellBehavior();
+            return (UserCellBehavior)MemberwiseClone();
         }
 
         public override CellDivisionResult ComputeDivisionOutcome(ReadOnlyCell sender)

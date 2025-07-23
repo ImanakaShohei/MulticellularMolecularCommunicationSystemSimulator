@@ -128,6 +128,11 @@ namespace CellSim.Cells
             m_rho_T = new Dictionary<MoleculeKind, double>();
         }
 
+        public override CellBehavior Clone()
+        {
+            return (WavePropagationCellBehavior)MemberwiseClone();
+        }
+
         public override MolecularProcessResult ComputeMolecularProcess(ReadOnlyCell sender, MolecularProcessArgs args)
         {
             MolecularProcessResult result;
