@@ -18,5 +18,7 @@ namespace CellSim.Containers
         public T this[int x, int y, int z] => m_array[x, y, z];
 
         public int Length => m_array.Length;
+
+        public T At(int x, int y, int z) => m_array[x, y, z];
     }
 }

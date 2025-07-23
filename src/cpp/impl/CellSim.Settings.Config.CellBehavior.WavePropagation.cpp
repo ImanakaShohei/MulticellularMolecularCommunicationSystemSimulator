@@ -32,11 +32,11 @@ namespace CellSim::Settings
             s_epsilon = config.at("epsilon").get<double>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError"));
+            throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.WavePropagation.Load.Error.JsonError"));
         }
 
-        if (s_cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius"));
-        if (s_degradationRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate"));
-        if (s_synthesisRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate"));
+        if (s_cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.WavePropagation.Load.Error.cellDivisionRadius"));
+        if (s_degradationRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.WavePropagation.Load.Error.degradationRate"));
+        if (s_synthesisRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.WavePropagation.Load.Error.synthesisRate"));
     }
 }

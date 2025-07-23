@@ -13,6 +13,7 @@ namespace CellSim.Cells
     {
         MoleculeAware,
         Normal,
-        User
+        User,
+        WavePropagation,
     }
 }

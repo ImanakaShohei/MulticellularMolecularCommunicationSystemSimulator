@@ -13,6 +13,22 @@ namespace CellSim.Cells
     {
         private static readonly Mutex s_mutex = new Mutex(false);
         private static readonly Random s_random = new Random(Config.Cell.InitialPlacementSeed);
+
+        /// <summary>
+        /// 細胞の半径がこの値を超えると分裂する
+        /// </summary>
+        private double m_cellDivisionRadius;
+
+        public NormalCellBehavior() : this(Config.CellBehavior.Normal.CellDivisionRadius)
+        {
+        }
+
+        public NormalCellBehavior(double cellDivisionRadius)
+        {
+            if (cellDivisionRadius <= 0.0) throw new ArgumentOutOfRangeException(Messages.Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"));
+            m_cellDivisionRadius = cellDivisionRadius;
+        }
+
         public override CellBehavior Clone()
         {
             return this;
@@ -76,14 +92,9 @@ namespace CellSim.Cells
             return new CellGrowthResult(newMass, newRadius);
         }
 
-        public override double ComputeMetabolicChange(ReadOnlyCell sender, CellMetabolicArgs args)
+        public override MolecularProcessResult ComputeMolecularProcess(ReadOnlyCell sender, MolecularProcessArgs args)
         {
-            return 0;
-        }
-
-        public override double ComputeMoleculeEmitAmount(ReadOnlyCell sender, CellMoleculeEmissionArgs args)
-        {
-            return 0;
+            return new MolecularProcessResult();
         }
 
         public override Vector3 OnSenseMolecules(ReadOnlyCell sender, CellMoleculeSensingArgs args)
@@ -93,7 +104,7 @@ namespace CellSim.Cells
 
         public override bool ShouldDivideThisStep(ReadOnlyCell sender)
         {
-            return sender.Radius > Config.CellBehavior.Normal.CellDivisionRadius;
+            return sender.Radius > m_cellDivisionRadius;
         }
     }
 }

@@ -113,23 +113,11 @@ namespace CellSim
 
             if (Config.Cell.IsSensitiveToMolecules)
             {
-                Parallel.ForEach(
-                    m_cells,
-                    Config.Optimization.ParallelOptions,
-                    cell =>
-                    {
-                        foreach (MoleculeField field in m_molecules)
-                        {
-                            cell.SenseMolecules(field);
-                        }
-                    }
-                );
-            }
-
-            // 状態を変更する可能性があるのでシングルスレッドで動かす
-            foreach (Cell cell in m_cells)
-            {
-                cell.EmitMolecule(m_molecules);
+                // 状態を変更する可能性があるのでシングルスレッドで動かす
+                foreach (Cell cell in m_cells)
+                {
+                    cell.ProcessMolecules(m_molecules);
+                }
             }
 
 
@@ -176,40 +164,17 @@ namespace CellSim
             // 無駄な最適化
             if (Config.Cell.EnableGrowth)
             {
-                if (Config.Cell.IsSensitiveToMolecules)
+                foreach (Cell cell in m_cells)
                 {
-                    foreach (Cell cell in m_cells)
-                    {
-                        cell.ResetForce();
-                        cell.Grow();
-                        cell.Metabolize();
-                    }
-                }
-                else
-                {
-                    foreach (Cell cell in m_cells)
-                    {
-                        cell.ResetForce();
-                        cell.Grow();
-                    }
+                    cell.ResetForce();
+                    cell.Grow();
                 }
             }
             else
             {
-                if (Config.Cell.IsSensitiveToMolecules)
+                foreach (Cell cell in m_cells)
                 {
-                    foreach (Cell cell in m_cells)
-                    {
-                        cell.ResetForce();
-                        cell.Metabolize();
-                    }
-                }
-                else
-                {
-                    foreach (Cell cell in m_cells)
-                    {
-                        cell.ResetForce();
-                    }
+                    cell.ResetForce();
                 }
             }
 

@@ -39,16 +39,10 @@ namespace CellSim.Users
             return result;
         }
 
-        public override double ComputeMetabolicChange(ReadOnlyCell sender, CellMetabolicArgs args)
+        public override MolecularProcessResult ComputeMolecularProcess(ReadOnlyCell sender, MolecularProcessArgs args)
         {
             // TODO: ここに処理を追加します
-            return 0.0;
-        }
-
-        public override double ComputeMoleculeEmitAmount(ReadOnlyCell sender, CellMoleculeEmissionArgs args)
-        {
-            // TODO: 放出量を計算します
-            return 0.0;
+            return new MolecularProcessResult();
         }
 
         public override Vector3 OnSenseMolecules(ReadOnlyCell sender, CellMoleculeSensingArgs args)

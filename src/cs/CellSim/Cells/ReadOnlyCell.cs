@@ -43,7 +43,7 @@ namespace CellSim.Cells
         /// <summary>
         /// 細胞内の分子の種類とその量
         /// </summary>
-        protected readonly List<Molecule> m_internalMolecules;
+        protected readonly Dictionary<MoleculeKind, double> m_internalMolecules;
 
         /// <summary>
         /// この細胞が生きているかどうか
@@ -116,7 +116,7 @@ namespace CellSim.Cells
             m_attachedCells = new List<ReadOnlyCell>();
             m_behavior = behavior;
             m_id = s_id;
-            m_internalMolecules = new List<Molecule>();
+            m_internalMolecules = new Dictionary<MoleculeKind, double>();
             m_isAlive = true;
             m_force = new Vector3();
             m_mass = mass;
@@ -151,7 +151,7 @@ namespace CellSim.Cells
         /// </summary>
         public uint Id => m_id;
 
-        public IReadOnlyList<ReadOnlyMolecule> InternalMolecules => m_internalMolecules;
+        public IReadOnlyDictionary<MoleculeKind, double> InternalMolecules => m_internalMolecules;
 
         /// <summary>
         /// この細胞が生きているかどうか

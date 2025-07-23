@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Settings.Config.CellBehavior.hpp"
 #include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
 #include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
+#include "CellSim.Settings.Config.CellBehavior.WavePropagation.hpp"
 #include "../CellSim.Settings.Config.CellBehavior.User.hpp"
 
 #include "CellSim.Messages.hpp"
@@ -30,6 +31,6 @@ namespace CellSim::Settings
         MoleculeAware::Load(config["moleculeAware"]);
         Normal::Load(config["normal"]);
         User::Load(config["user"]);
-        
+        WavePropagation::Load(config["wavePropagation"]);
     }
 }

@@ -40,12 +40,14 @@ namespace CellSim.Settings
                     "MoleculeAware" => CellBehaviorType.MoleculeAware,
                     "Normal" => CellBehaviorType.Normal,
                     "User" => CellBehaviorType.User,
+                    "WavePropagation" => CellBehaviorType.WavePropagation,
                     _ => throw new FormatException(Messages.Get("Settings.Config.CellBehavior.Load.Error.behaviorType"))
                 };
 
                 MoleculeAware.Load(config["moleculeAware"]);
                 Normal.Load(config["normal"]);
                 User.Load(config["user"]);
+                WavePropagation.Load(config["wavePropagation"]);
             }
         }
 

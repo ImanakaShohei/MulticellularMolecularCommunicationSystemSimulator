@@ -1,26 +1,23 @@
 ﻿# 更新履歴
 
-<!--
-
-## [2.0.0 Beta 7] 2025-07-21
+## [2.0.0 Beta 7] 2025-07-23
 ### 新機能
 - ダミーCellを作成するCell.CreateDummy()を追加
 - Cellにthisがダミーであるかを判定するプロパティIsDummyを追加
-- WavePropagationCellBehaviorを追加(C++)
+- WavePropagationCellBehaviorを追加
 ### 変更点
 - CellSimulationModel.ComputeForceOnCell(sender, args)のargs.CellAlgorithmがnullの時、ナイーブなアルゴリズムとして実行するように変更
 - ナイーブなアルゴリズム使用時にパフォーマンスが向上
 ### 破壊的変更
-- CellBehaviorのComputeMetabolicChange(), ComputeMoleculeEmitAmount()を削除し、代わりにComputeMolecularProcess()を追加(C++)
+- CellBehaviorのComputeMetabolicChange(), ComputeMoleculeEmitAmount()を削除し、代わりにComputeMolecularProcess()を追加
 - CellBehaviorのHasStateを削除し、代わりにIsReusable()を追加(C++)
-- CellのAppendMoleculeUnsafe()を削除(C++)
-- CellのEmitMolecule(), Metabolize()を削除し、代わりにProcessMolecules()を追加(C++)
+- CellのAppendMoleculeUnsafe()を削除
+- CellのEmitMolecule(), Metabolize()を削除し、代わりにProcessMolecules()を追加
 ### 不具合修正
 - UserSettingsが読み込まれない問題を修正
 - CellAlgorithmをCellList以外にした状態でクラスタモデルを有効にするとアプリケーションがクラッシュする問題を修正
 - CellAlgorithmをCellList以外にした状態でネットワーク形成モデルを動かそうとするとアプリケーションがクラッシュする問題を修正
 - C#版でCellのTypeが正しく設定されない問題を修正
--->
 
 ## [2.0.0 Beta 6] 2025-07-09
 ### 新機能

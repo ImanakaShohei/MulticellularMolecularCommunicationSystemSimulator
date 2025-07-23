@@ -17,6 +17,7 @@ namespace CellSim.Cells
                 CellBehaviorType.MoleculeAware => new MoleculeAwareCellBehavior(),
                 CellBehaviorType.Normal => new NormalCellBehavior(),
                 CellBehaviorType.User => new UserCellBehavior(),
+                CellBehaviorType.WavePropagation => new WavePropagationCellBehavior(),
                 _ => throw new NotSupportedException(Messages.Get("Cells.CellBehaviorPtr.FromType.Error")),
             };
         }
@@ -29,22 +30,8 @@ namespace CellSim.Cells
         /// <param name="sender">この関数を呼び出した細胞インスタンス</param>
         /// <returns>計算結果</returns>
         public abstract CellGrowthResult ComputeGrowth(ReadOnlyCell sender);
-        
-        /// <summary>
-        /// 細胞内の分子の変化量を計算
-        /// </summary>
-        /// <param name="sender">この関数を呼んだ細胞インスタンス</param>
-        /// <param name="args">処理に必要な情報</param>
-        /// <returns>分子の変化量</returns>
-        public abstract double ComputeMetabolicChange(ReadOnlyCell sender, CellMetabolicArgs args);
 
-        /// <summary>
-        /// 分子空間に放出する分子の量を計算
-        /// </summary>
-        /// <param name="sender">この関数を呼び出した細胞インスタンス</param>
-        /// <param name="args">処理に必要な情報</param>
-        /// <returns>計算結果</returns>
-        public abstract double ComputeMoleculeEmitAmount(ReadOnlyCell sender, CellMoleculeEmissionArgs args);
+        public abstract MolecularProcessResult ComputeMolecularProcess(ReadOnlyCell sender, MolecularProcessArgs args);
 
         /// <summary>
         /// 細胞分裂後の細胞の状態を定義

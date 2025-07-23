@@ -80,24 +80,7 @@ namespace CellSim.Cells
         /// <remarks>初期状態では分子の数はゼロ</remarks>
         public bool AppendMolecule(MoleculeKind kind)
         {
-            foreach (Molecule molecule in m_internalMolecules)
-            {
-                if (molecule.Kind == kind) return false;
-            }
-
-            m_internalMolecules.Add(new Molecule(kind));
-
-            return true;
-        }
-
-        /// <summary>
-        /// 分子を追加
-        /// </summary>
-        /// <param name="kind">分子の種類</param>
-        /// /// <remarks>初期状態では分子の数はゼロ</remarks>
-        public void AppendMoleculeUnsafe(MoleculeKind kind)
-        {
-            m_internalMolecules.Add(new Molecule(kind));
+            return m_internalMolecules.TryAdd(kind, 0);
         }
 
         /// <summary>
@@ -169,35 +152,18 @@ namespace CellSim.Cells
                 result.NewDaughter.NewPosition
             );
 
-            foreach (Molecule molecule in m_internalMolecules)
+            // 分子の量を半分にしてコピー
+
+            foreach (var pair in m_internalMolecules)
             {
-                newDaughter.AppendMoleculeUnsafe(molecule.Kind);
+                double newValue = pair.Value / 2;
+
+                newDaughter.m_internalMolecules.Add(pair.Key, newValue);
+
+                m_internalMolecules[pair.Key] = newValue;
             }
 
             return newDaughter;
-        }
-
-        /// <summary>
-        /// 分子空間に分子を放出
-        /// </summary>
-        /// <param name="field">分子空間</param>
-        public void EmitMolecule(MoleculeField field)
-        {
-            GridPosition3 position3 = field.ToGridPosition3(m_position);
-
-            field.Concentrations[position3.X, position3.Y, position3.Z] += m_behavior.ComputeMoleculeEmitAmount(this, new CellMoleculeEmissionArgs(field));
-        }
-
-        /// <summary>
-        /// 分子空間に分子を放出
-        /// </summary>
-        /// <param name="fields">分子空間リスト</param>
-        public void EmitMolecule(IReadOnlyCollection<MoleculeField> fields)
-        {
-            foreach (MoleculeField field in fields)
-            {
-                EmitMolecule(field);
-            }
         }
 
         /// <summary>
@@ -214,22 +180,42 @@ namespace CellSim.Cells
         public bool IsAdheringTo(ReadOnlyCell cell) => m_attachedCells.Contains(cell);
 
         /// <summary>
-        /// 代謝
-        /// </summary>
-        public void Metabolize()
-        {
-            foreach (Molecule molecule in m_internalMolecules)
-            {
-                molecule.Amount += m_behavior.ComputeMetabolicChange(this, new CellMetabolicArgs(new MoleculeInfo(molecule.Amount, molecule.Kind)));
-            }
-        }
-
-        /// <summary>
         /// 細胞が移動
         /// </summary>
         public void Move()
         {
             m_position += m_force * (Config.Simulation.DeltaTime / m_mass);
+        }
+
+        /// <summary>
+        /// 細胞内と空間中の分子の状態を更新
+        /// </summary>
+        /// <param name="field">分子空間</param>
+        public void ProcessMolecules(MoleculeField field)
+        {
+            GridPosition3 position3 = field.ToGridPosition3(m_position);
+
+            MoleculeKind kind = field.Kind;
+
+            var intracellularAmount = m_internalMolecules[kind];
+            var extracellularAmount = field.Concentrations[position3.X, position3.Y, position3.Z];
+
+            MolecularProcessResult result = m_behavior.ComputeMolecularProcess(this, new MolecularProcessArgs(extracellularAmount, field, intracellularAmount, kind, position3));
+
+            m_internalMolecules[kind] += result.IntracellularChange;
+            field.Concentrations[position3.X, position3.Y, position3.Z] += result.ExtracellularChange;
+        }
+
+        /// <summary>
+        /// 細胞内と空間中の分子の状態を更新
+        /// </summary>
+        /// <param name="fields">分子空間リスト</param>
+        public void ProcessMolecules(IEnumerable<MoleculeField> fields)
+        {
+            foreach (var field in fields)
+            {
+                ProcessMolecules(field);
+            }
         }
 
         /// <summary>
