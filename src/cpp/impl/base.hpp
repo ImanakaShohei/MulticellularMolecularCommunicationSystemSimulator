@@ -134,7 +134,7 @@ namespace CellSim::Cells
     struct CellGrowthResult;
     struct CellMoleculeSensingArgs;
     struct CellInfo;
-    enum class CellType;
+    class CellType;
     struct DaughterCellInfo;
     struct MolecularProcessArgs;
     struct MolecularProcessResult;
