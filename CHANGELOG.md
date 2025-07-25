@@ -1,5 +1,20 @@
 ﻿# 更新履歴
 
+<!--
+
+## [2.0.0 Beta 8] 2025-07-25
+### 新機能
+- Colorを追加(C++)
+- CellTypeにAddName()、Color, Id、Nameを追加(C++)
+### 変更点
+- 
+### 破壊的変更
+- CellTypeをenumからclassに変更(C++)
+### 不具合修正
+- 
+
+-->
+
 ## [2.0.0 Beta 7] 2025-07-23
 ### 新機能
 - ダミーCellを作成するCell.CreateDummy()を追加

@@ -176,6 +176,11 @@ namespace CellSim::Containers
     class Span3;
 }
 
+namespace CellSim::Graphics
+{
+    struct Color;
+}
+
 /// @brief 画像処理
 namespace CellSim::Imaging
 {
