@@ -6,6 +6,7 @@
 ### 新機能
 - Colorを追加(C++)
 - CellTypeにAddName()、Color, Id、Nameを追加(C++)
+- MoleculeKindにAddName()、Id、Nameを追加(C++)
 ### 変更点
 - 
 ### 破壊的変更

@@ -53,7 +53,7 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         /// @brief 名前
-        [[nodiscard]] constexpr ::std::string const& Name() const noexcept;
+        [[nodiscard]] ::std::string const& Name() const noexcept;
     };
 
     [[nodiscard]] constexpr bool operator==(CellType left, CellType right) noexcept;
@@ -92,7 +92,7 @@ namespace CellSim::Cells
         return m_id;
     }
 
-    constexpr ::std::string const& CellType::Name() const noexcept
+    inline ::std::string const& CellType::Name() const noexcept
     {
         return s_names[m_id].first;
     }

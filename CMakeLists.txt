@@ -62,6 +62,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Molecular.Molecule.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeBehavior.cpp
     src/cpp/impl/CellSim.Molecular.MoleculeField.cpp
+    src/cpp/impl/CellSim.Molecular.MoleculeKind.cpp
     src/cpp/impl/CellSim.Molecular.NormalMoleculeBehavior.cpp
     src/cpp/impl/CellSim.Settings.Config.cpp
     src/cpp/impl/CellSim.Settings.Config.Cell.cpp

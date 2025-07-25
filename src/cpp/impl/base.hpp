@@ -222,7 +222,7 @@ namespace CellSim::Molecular
     struct MoleculeDiffusionArgs;
     class MoleculeField;
     struct MoleculeInitializationArgs;
-    enum class MoleculeKind;
+    class MoleculeKind;
     class NormalMoleculeBehavior;
     class NullMoleculeBehavior;
 }
