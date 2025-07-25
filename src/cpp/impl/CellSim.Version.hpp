@@ -8,7 +8,7 @@ namespace CellSim
     class Version final {
         private:
 
-        static constexpr const char s_extension[] = "Beta 7";
+        static constexpr const char s_extension[] = "Beta 8";
 
         public:
 
