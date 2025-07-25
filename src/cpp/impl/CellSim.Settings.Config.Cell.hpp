@@ -2,27 +2,27 @@
 #define CELLSIM_SETTINGS_CONFIG_CELL_HPP
 
 #include "base.hpp"
+#include "CellSim.Cells.CellCreateInfo.hpp"
 #include "CellSim.Cells.CellBehaviorType.hpp"
 #include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Settings.Config.hpp"
 
 #include <nlohmann/json_fwd.hpp>
 
+#include <vector>
+
 namespace CellSim::Settings
 {
     /// @brief 細胞設定
     class Config::Cell final {
         private:
-        
-        static inline size_t s_cellCount;
         static inline bool s_enableGrowth;
-        static inline double s_growthRate;
         static inline double s_initialPlacementRadius;
         static inline bool s_isSensitiveToMolecules;
         static inline uint32_t s_initialPlacementSeed;
-        static inline double s_mass;
-        static inline double s_radius;
-        static inline Cells::CellType s_type;
+        static inline uint64_t s_totalCellCount;
+
+        static inline ::std::vector<Cells::CellCreateInfo> s_cells;
 
         public:
 
@@ -30,14 +30,10 @@ namespace CellSim::Settings
 
         // プロパティ
 
-        /// @brief 細胞の初期数
-        [[nodiscard]] static size_t CellCount() noexcept;
+        [[nodiscard]] static ::std::vector<Cells::CellCreateInfo> const& Cells() noexcept;
 
         /// @brief 細胞の成長・分裂を有効にするかどうか
         [[nodiscard]] static bool EnableGrowth() noexcept;
-
-        /// @brief 細胞の成長速度
-        [[nodiscard]] static double GrowthRate() noexcept;
 
         /// @brief 細胞が配置される円・球の半径
         [[nodiscard]] static double InitialPlacementRadius() noexcept;
@@ -48,14 +44,8 @@ namespace CellSim::Settings
         /// @brief 細胞が周囲の分子の影響を受けるかどうか
         [[nodiscard]] static bool IsSensitiveToMolecules() noexcept;
 
-        /// @brief 細胞の初期質量
-        [[nodiscard]] static double Mass() noexcept;
-
-        /// @brief 細胞の初期半径
-        [[nodiscard]] static double Radius() noexcept;
-
-        /// @brief 細胞の種類
-        [[nodiscard]] static Cells::CellType Type() noexcept;
+        /// @brief 細胞の総数
+        [[nodiscard]] static uint64_t TotalCellCount() noexcept;
 
         // メソッド
 
@@ -65,20 +55,14 @@ namespace CellSim::Settings
 
 namespace CellSim::Settings
 {
-
-    inline size_t Config::Cell::CellCount() noexcept
+    inline ::std::vector<Cells::CellCreateInfo> const& Config::Cell::Cells() noexcept
     {
-        return s_cellCount;
+        return s_cells;
     }
 
     inline bool Config::Cell::EnableGrowth() noexcept
     {
         return s_enableGrowth;
-    }
-
-    inline double Config::Cell::GrowthRate() noexcept
-    {
-        return s_growthRate;
     }
 
     inline double Config::Cell::InitialPlacementRadius() noexcept
@@ -96,19 +80,9 @@ namespace CellSim::Settings
         return s_isSensitiveToMolecules;
     }
 
-    inline double Config::Cell::Mass() noexcept
+    inline uint64_t Config::Cell::TotalCellCount() noexcept
     {
-        return s_mass;
-    }
-
-    inline double Config::Cell::Radius() noexcept
-    {
-        return s_radius;
-    }
-
-    inline Cells::CellType Config::Cell::Type() noexcept
-    {
-        return s_type;
+        return s_totalCellCount;
     }
 }
 

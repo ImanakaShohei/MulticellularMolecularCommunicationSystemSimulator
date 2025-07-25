@@ -12,7 +12,7 @@ namespace CellSim::Molecular
 
         s_names.emplace_back(::std::move(name));
 
-        return MoleculeKind((uint32_t)s_names.size());
+        return MoleculeKind((uint32_t)(s_names.size() - 1));
     }
 
     MoleculeKind MoleculeKind::AddName(::std::string name)
@@ -23,7 +23,7 @@ namespace CellSim::Molecular
 
         s_names.emplace_back(::std::move(name));
 
-        return MoleculeKind((uint32_t)s_names.size());
+        return MoleculeKind((uint32_t)(s_names.size() - 1));
     }
 
     MoleculeKind MoleculeKind::FromName(::std::string_view name) noexcept

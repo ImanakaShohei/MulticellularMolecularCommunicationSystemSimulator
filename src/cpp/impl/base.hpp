@@ -130,6 +130,7 @@ namespace CellSim::Cells
     class CellBehavior;
     class CellBehaviorPtr;
     enum class CellBehaviorType;
+    struct CellCreateInfo;
     struct CellDivisionResult;
     struct CellGrowthResult;
     struct CellMoleculeSensingArgs;

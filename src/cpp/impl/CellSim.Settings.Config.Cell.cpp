@@ -8,33 +8,54 @@ namespace CellSim::Settings
 {
     void Config::Cell::Load(::nlohmann::json const& config)
     {
+        s_cells.clear();
+        s_totalCellCount = 0;
+
         if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
 
-        ::std::string s;
-
         try {
-            s_cellCount = config.at("cellCount").get<size_t>();
             s_enableGrowth = config.at("enableGrowth").get<bool>();
-            s_growthRate = config.at("growthRate").get<double>();
             s_initialPlacementRadius = config.at("initialPlacementRadius").get<double>();
             s_isSensitiveToMolecules = config.at("isSensitiveToMolecules").get<bool>();
             s_initialPlacementSeed = config.at("initialPlacementSeed").get<uint32_t>();
-            s_mass = config.at("mass").get<double>();
-            s_radius = config.at("radius").get<double>();
-            s = config.at("type").get<::std::string>();
+
+            Cells::CellCreateInfo info;
+            ::std::string s;
+
+            for (::nlohmann::json const& obj : config.at("cells")) {
+                s = obj.at("behaviorType");
+                info.CellCount = obj.at("cellCount").get<int32_t>();
+                info.GrowthRate = obj.at("growthRate").get<double>();
+                info.Mass = obj.at("mass").get<double>();
+                info.Radius = obj.at("radius").get<double>();
+                info.Type = Cells::CellType::AddName(obj.at("typeName").get<::std::string>(), Graphics::Color(obj.at("color")));
+
+                if (info.CellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
+                if (info.GrowthRate <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.growthRate"));
+                if (info.Mass == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.mass"));
+                if (info.Radius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
+
+                if (s == "MoleculeAware") info.BehaviorType = Cells::CellBehaviorType::MoleculeAware;
+                else if (s == "Normal") info.BehaviorType = Cells::CellBehaviorType::Normal;
+                else if (s == "User") info.BehaviorType = Cells::CellBehaviorType::User;
+                else if (s == "WavePropagation") info.BehaviorType = Cells::CellBehaviorType::WavePropagation;
+                else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.behaviorType"));
+
+                s_cells.emplace_back(info);
+                s_totalCellCount += info.CellCount;
+            }
+        }
+        catch (::std::runtime_error) {
+            ::std::rethrow_exception(::std::current_exception());
+        }
+        catch (::std::invalid_argument) {
+            throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.color"));
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
         }
-
-        if (s_cellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
-        if (s_growthRate <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.growthRate"));
+        
         if (s_initialPlacementRadius <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.initialPlacementRadius"));
-        if (s_mass == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.mass"));
-        if (s_radius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
-        if (s_cellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
-
-        if (s == "Normal") s_type = Cells::CellType::Normal;
-        else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.type"));
+    
     }
 }

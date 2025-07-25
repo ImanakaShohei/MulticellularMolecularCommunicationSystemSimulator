@@ -89,7 +89,7 @@ namespace CellSim::CellAlgorithms {
             }
             // ノードnの重心を計算
             Numerics::Vector3 gravityPos = totalPos / totalWeight;
-            n.gravityCell                = Cells::CellInfo(totalWeight, false, gravityPos, Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid);
+            n.gravityCell                = Cells::CellInfo(totalWeight, false, gravityPos, Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid());
 
         } else if (numCells == 1) { // ノードnの子孫に細胞が１つ含まれる場合
             // ノードに登録されている細胞を重心細胞に
@@ -97,7 +97,7 @@ namespace CellSim::CellAlgorithms {
 
         } else if (numCells == 0) { // ノードnの子孫に細胞が含まれない場合
             // 空の重心細胞を登録
-            n.gravityCell = Cells::CellInfo(0.0, false, Numerics::Vector3::Zero(), Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid);
+            n.gravityCell = Cells::CellInfo(0.0, false, Numerics::Vector3::Zero(), Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid());
 
         } else {
             std::cerr << "error: BarnesHut.cpp calcGravity()" << std::endl;

@@ -10,7 +10,7 @@ namespace CellSim::CellAlgorithms
     void ClusterModel::Combine(::std::vector<Cells::Cell>& cells, ::std::vector<Molecular::MoleculeField> const& fields, const CellList* pCellList)
     {
         auto f = [] (Cells::Cell& cell, Cells::CellInfo info, Cells::CellInfo cellInfo) {
-            if (cellInfo.Type == Cells::CellType::Invalid) return;
+            if (cellInfo.Type == Cells::CellType::Invalid()) return;
             if (cellInfo.Type != info.Type) return;
 
             double radius = info.Radius + cellInfo.Radius;

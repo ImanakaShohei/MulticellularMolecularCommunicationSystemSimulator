@@ -49,6 +49,8 @@ namespace CellSim::Molecular
         m_diffusionDeltaBuffer = right.m_diffusionDeltaBuffer;
 
         right.m_diffusionDeltaBuffer = nullptr;
+
+        return *this;
     }
 
     void MoleculeBehavior::SetBuffer(size_t gridCount, bool enable2dMode, ::CellSim::Molecular::BoundaryCondition boundaryCondition)

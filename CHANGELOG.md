@@ -5,12 +5,16 @@
 ## [2.0.0 Beta 8] 2025-07-25
 ### 新機能
 - Colorを追加(C++)
+- CellCreateInfoを追加
 - CellTypeにAddName()、Color, Id、Nameを追加(C++)
 - MoleculeKindにAddName()、Id、Nameを追加(C++)
+- config.jsonで複数種類のCellを指定できるように更新(C++)
+- 画像・動画出力時のCellの色を指定できるように更新(C++)
 ### 変更点
-- 
+- Cellの等値判定を「Idの一致」から「アドレスの一致」に変更(C++)
 ### 破壊的変更
 - CellTypeをenumからclassに変更(C++)
+- MoleculeKindをenumからclassに変更(C++)
 ### 不具合修正
 - 
 

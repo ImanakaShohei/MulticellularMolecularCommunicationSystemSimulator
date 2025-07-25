@@ -114,7 +114,7 @@ namespace CellSim
         for (Cells::Cell const& cell : cells) {
             Numerics::Vector3 velocity = cell.Velocity();
             ofs << cell.Id() << ',';
-            ofs << (int)cell.Type() << ',';
+            ofs << cell.Type().Name() << ',';
             ofs << cell.PositionX() << ',';
             ofs << cell.PositionY() << ',';
             ofs << cell.PositionZ() << ',';
@@ -172,11 +172,13 @@ namespace CellSim
             int pointX = (int)((cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale);
             int pointY = (int)((cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()) * m_scale);
 
+            Graphics::Color color = cell.Type().Color();
+
             ::cv::circle(
                 image,
                 ::cv::Point{ pointX, pointY },
                 (int)(cell.Radius() * m_scale),
-                ::cv::Scalar(255, 255, 0),
+                ::cv::Scalar(color.B, color.G, color.R),
                 1
             );
 

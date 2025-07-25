@@ -56,12 +56,13 @@ Molecular.MoleculeField.MoleculeField.Error.gridCount=引数'gridCount'に2以�
 Molecular.MoleculeField.MoleculeField.Error.moleculeAmount=引数'moleculeAmount'に負の値が指定されました。
 
 Settings.Config.Cell.Load.Error.JsonError=configファイルの'cell'パラメータの形式が正しくありません。
-Settings.Config.Cell.Load.Error.cellCount=configファイルの'cell.cellCount'にゼロが指定されました。
-Settings.Config.Cell.Load.Error.growthRate=configファイルの'cell.growthRate'にゼロ以下の値が指定されました。
+Settings.Config.Cell.Load.Error.behaviorType=configファイルの'cell.cells.behaviorType'値が無効です。
+Settings.Config.Cell.Load.Error.cellCount=configファイルの'cell.cells.cellCount'にゼロ以下が指定されました。
+Settings.Config.Cell.Load.Error.color=configファイルの'cell.cells.color'値が無効です。
+Settings.Config.Cell.Load.Error.growthRate=configファイルの'cell.cells.growthRate'にゼロ以下の値が指定されました。
 Settings.Config.Cell.Load.Error.initialPlacementRadius=configファイルの'cell.initialPlacementRadius'にゼロ以下の値が指定されました。
-Settings.Config.Cell.Load.Error.mass=configファイルの'cell.mass'にゼロ以下の値が指定されました。
-Settings.Config.Cell.Load.Error.radius=configファイルの'cell.radius'にゼロ以下の値が指定されました。
-Settings.Config.Cell.Load.Error.type=configファイルの'cell.type'値が無効です。
+Settings.Config.Cell.Load.Error.mass=configファイルの'cell.cells.mass'にゼロ以下の値が指定されました。
+Settings.Config.Cell.Load.Error.radius=configファイルの'cell.cells.radius'にゼロ以下の値が指定されました。
 
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=configファイルの'cellAlgorithm.algorithmType'値が無効です。
 Settings.Config.CellAlgorithm.Load.Error.JsonError=configファイルの'cellAlgorithm'パラメータの形式が正しくありません。
@@ -70,7 +71,6 @@ Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=configファイル�
 Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount=configファイルの'cellAlgorithms.cellList.gridCount'にゼロが指定されました。
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius=configファイルの'cellAlgorithms.cellList.searchRadius'にゼロ以下の値が指定されました。
 
-Settings.Config.CellBehavior.Load.Error.behaviorType=configファイルの'cellBehavior.behaviorType'値が無効です。
 Settings.Config.CellBehavior.Load.Error.JsonError=configファイルの'cellBehavior'パラメータの形式が正しくありません。
 
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius=configファイルの'cellBehavior.moleculeAware.cellDivisionRadius'にゼロ以下の値が指定されました。

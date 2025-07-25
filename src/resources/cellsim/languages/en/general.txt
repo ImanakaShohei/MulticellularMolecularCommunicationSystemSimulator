@@ -56,12 +56,13 @@ Molecular.MoleculeField.MoleculeField.Error.gridCount=The parameter 'gridCount' 
 Molecular.MoleculeField.MoleculeField.Error.moleculeAmount=The parameter 'moleculeAmount' must be greater than or equal to zero.
 
 Settings.Config.Cell.Load.Error.JsonError=The format of the 'cell' parameter in the config file is invalid.
-Settings.Config.Cell.Load.Error.cellCount='cell.cellCount' in the config file must be a positive value.
-Settings.Config.Cell.Load.Error.growthRate='cell.growthRate' in the config file must be a positive value.
+Settings.Config.Cell.Load.Error.behaviorType=The value of 'cell.cells.behaviorType' in the config file is invalid.
+Settings.Config.Cell.Load.Error.cellCount='cell.cells.cellCount' in the config file must be a positive value.
+Settings.Config.Cell.Load.Error.color=The value of 'cell.cells.color' in the config file is invalid.
+Settings.Config.Cell.Load.Error.growthRate='cell.cells.growthRate' in the config file must be a positive value.
 Settings.Config.Cell.Load.Error.initialPlacementRadius='cell.initialPlacementRadius' in the config file must be a positive value.
-Settings.Config.Cell.Load.Error.mass='cell.mass' in the config file must be a positive value.
-Settings.Config.Cell.Load.Error.radius='cell.radius' in the config file must be a positive value.
-Settings.Config.Cell.Load.Error.type=The value of 'cell.type' in the config file is invalid.
+Settings.Config.Cell.Load.Error.mass='cell.cells.mass' in the config file must be a positive value.
+Settings.Config.Cell.Load.Error.radius='cell.cells.radius' in the config file must be a positive value.
 
 Settings.Config.CellAlgorithm.Load.Error.algorithmType=The value of 'cellAlgorithm.algorithmType' in the config file is invalid.
 Settings.Config.CellAlgorithm.Load.Error.JsonError=The format of the 'cellAlgorithm' parameter in the config file is invalid.
@@ -70,7 +71,6 @@ Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError=The format of the 'c
 Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount='cellAlgorithms.cellList.gridCount' in the config file must be non-zero.
 Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius='cellAlgorithms.cellList.searchRadius' in the config file must be a positive value.
 
-Settings.Config.CellBehavior.Load.Error.behaviorType=The value of 'cellBehavior.behaviorType' in the config file is invalid.
 Settings.Config.CellBehavior.Load.Error.JsonError=The format of the 'cellBehavior' parameter in the config file is invalid.
 
 Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius='cellBehavior.moleculeAware.cellDivisionRadius' in the config file must be a positive value.

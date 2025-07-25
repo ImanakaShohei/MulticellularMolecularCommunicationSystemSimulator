@@ -10,6 +10,8 @@ namespace CellSim::Cells
         private:
         /// @brief 細胞の半径がこの値を超えると分裂する
         double m_cellDivisionRadius;
+        double m_growthRate;
+        bool m_isGrowthRateLoaded;
 
         public:
 

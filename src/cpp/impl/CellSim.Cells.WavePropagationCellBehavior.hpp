@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
+#include "CellSim.Molecular.MoleculeKind.hpp"
 
 #include <map>
 

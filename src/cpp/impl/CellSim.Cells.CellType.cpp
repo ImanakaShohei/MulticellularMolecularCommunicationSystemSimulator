@@ -13,7 +13,7 @@ namespace CellSim::Cells
 
         s_names.emplace_back(::std::move(name), color);
 
-        return CellType((uint32_t)s_names.size());
+        return CellType((uint32_t)(s_names.size() - 1));
     }
 
     CellType CellType::AddName(::std::string_view name, Graphics::Color color)
@@ -25,7 +25,7 @@ namespace CellSim::Cells
 
         s_names.emplace_back(name, color);
 
-        return CellType((uint32_t)s_names.size());
+        return CellType((uint32_t)(s_names.size() - 1));
     }
 
     CellType CellType::FromName(::std::string_view name) noexcept

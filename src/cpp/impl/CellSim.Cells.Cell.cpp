@@ -53,7 +53,7 @@ namespace CellSim::Cells
         m_position = (m_position * m_mass + c.m_position * c.m_mass) / (m_mass + c.m_mass);
         m_mass += c.m_mass;
 
-        c.m_type = CellType::Invalid;
+        c.m_type = CellType::Invalid();
     }
 
     Cell Cell::Divide()

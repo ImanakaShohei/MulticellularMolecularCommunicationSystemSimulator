@@ -1,42 +1,21 @@
 {
     "$schema": "./schema.json",
     "cell": {
-        "cellCount": 1000,
+        "cells": [
+           {
+            "behaviorType": "Normal",
+            "cellCount": 1000,
+            "color": "#00FFFF",
+            "growthRate": 0.03,
+            "mass": 1.0,
+            "radius": 10.0,
+            "typeName": "NormalCell"
+           }
+        ],
         "enableGrowth": false,
-        "growthRate": 0.03,
         "initialPlacementRadius": 512,
         "initialPlacementSeed": 0,
-        "isSensitiveToMolecules": false,
-        "mass": 1.0,
-        "radius": 10.0,
-        "type": "Normal"
-    },
-    "cellBehavior": {
-        "behaviorType": "Normal",
-        "normal": {
-            "cellDivisionRadius": 18
-        },
-
-        "wavePropagation": {
-            "cellDivisionRadius": 18,
-            "degradationRate": 1,
-            "synthesisRate": 1,
-            "alpha": 0,
-            "c": 0,
-            "epsilon": 0,
-            "h": 0,
-            "k1": 0,
-            "k2": 0,
-            "ke": 0,
-            "ki": 0,
-            "kt": 0,
-            "l1": 0,
-            "l2": 0,
-            "lambda": 0,
-            "q": 0,
-            "sigma": 0,
-            "theta": 0
-        }
+        "isSensitiveToMolecules": false
     },
     "optimization": {
         "maxDegreeOfParallelism": -1,
@@ -91,6 +70,32 @@
             "maxRepulsionDistance": 25,
             "minAttractionDistance": 80,
             "remoteForceFactor": 0.01
+        }
+    },
+    "cellBehavior": {
+        "normal": {
+            "cellDivisionRadius": 18
+        },
+
+        "wavePropagation": {
+            "cellDivisionRadius": 18,
+            "degradationRate": 1,
+            "synthesisRate": 1,
+            "alpha": 0,
+            "c": 0,
+            "epsilon": 0,
+            "h": 0,
+            "k1": 0,
+            "k2": 0,
+            "ke": 0,
+            "ki": 0,
+            "kt": 0,
+            "l1": 0,
+            "l2": 0,
+            "lambda": 0,
+            "q": 0,
+            "sigma": 0,
+            "theta": 0
         }
     },
     "cellAlgorithm": {

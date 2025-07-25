@@ -59,13 +59,13 @@ namespace CellSim::CellAlgorithms {
                 totalPos += childGravity.Position * childGravity.Mass;
             }
             Numerics::Vector3 gravityPos = totalPos / totalWeight;
-            n.gravityCell                = Cells::CellInfo(totalWeight, false, gravityPos, Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid);
+            n.gravityCell                = Cells::CellInfo(totalWeight, false, gravityPos, Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid());
 
         } else if (numCells == 1) {
             n.gravityCell = Cells::CellInfo(*n.cellInNode);
 
         } else if (numCells == 0) {
-            n.gravityCell = Cells::CellInfo(0.0, false, Numerics::Vector3::Zero(), Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid);
+            n.gravityCell = Cells::CellInfo(0.0, false, Numerics::Vector3::Zero(), Numerics::Vector3::Zero(), 0.0, Cells::CellType::Invalid());
 
         } else {
             std::cerr << "error: BarnesHut.cpp calcGravity()" << std::endl;

@@ -46,48 +46,49 @@ namespace CellSim::Model
         std::uniform_real_distribution<double> rand_theta(0, 2.0 * ::std::numbers::pi);
         std::uniform_real_distribution<double> rand_r(0, 1.0);
 
-        Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(Settings::Config::CellBehavior::BehaviorType());
-        Cells::CellType type = Settings::Config::Cell::Type();
-        size_t cellCount = Settings::Config::Cell::CellCount();
-        double mass = Settings::Config::Cell::Mass();
-        double radius = Settings::Config::Cell::Radius();
+        
         double initialPlacementRadius = Settings::Config::Cell::InitialPlacementRadius();
 
-        if (Settings::Config::Simulation::Enable2DMode()) {
-            for (size_t i = 0; i != cellCount; i++) {
-                double r = ::sqrt(rand_r(mt)) * initialPlacementRadius;
-                double theta = rand_theta(mt);
-                double x = r * ::cos(theta);
-                double y = r * ::sin(theta);
+        for (Cells::CellCreateInfo const& info : Settings::Config::Cell::Cells()) {
+            Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(info.BehaviorType);
 
-                cells.emplace_back(
-                    type,
-                    pBehavior,
-                    mass,
-                    radius,
-                    Numerics::Vector3(x, y, 0)
-                );
+            if (Settings::Config::Simulation::Enable2DMode()) {
+                for (int32_t i = 0; i != info.CellCount; i++) {
+                    double r = ::sqrt(rand_r(mt)) * initialPlacementRadius;
+                    double theta = rand_theta(mt);
+                    double x = r * ::cos(theta);
+                    double y = r * ::sin(theta);
+
+                    cells.emplace_back(
+                        info.Type,
+                        pBehavior,
+                        info.Mass,
+                        info.Radius,
+                        Numerics::Vector3(x, y, 0)
+                    );
+                }
+            }
+            else {
+                for (int32_t i = 0; i != info.CellCount; i++) {
+                    double v = rand_r(mt);
+
+                    double theta = rand_theta(mt);
+                    double phi = ::acos(1.0 - 2.0 * v);
+
+                    double x = ::sin(phi) * ::cos(theta) * initialPlacementRadius;
+                    double y = ::sin(phi) * ::sin(theta) * initialPlacementRadius;
+                    double z = ::cos(phi) * initialPlacementRadius;
+
+                    cells.emplace_back(
+                        info.Type,
+                        pBehavior,
+                        info.Mass,
+                        info.Radius,
+                        Numerics::Vector3(x, y, z)
+                    );
+                }
             }
         }
-        else {
-            for (size_t i = 0; i != cellCount; i++) {
-                double v = rand_r(mt);
 
-                double theta = rand_theta(mt);
-                double phi = ::acos(1.0 - 2.0 * v);
-
-                double x = ::sin(phi) * ::cos(theta) * initialPlacementRadius;
-                double y = ::sin(phi) * ::sin(theta) * initialPlacementRadius;
-                double z = ::cos(phi) * initialPlacementRadius;
-
-                cells.emplace_back(
-                    type,
-                    pBehavior,
-                    mass,
-                    radius,
-                    Numerics::Vector3(x, y, z)
-                );
-            }
-        }
     }
 }

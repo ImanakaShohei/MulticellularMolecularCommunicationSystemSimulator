@@ -30,6 +30,8 @@ namespace CellSim::Molecular
 
         [[nodiscard]] static MoleculeKind FromName(::std::string_view name) noexcept;
 
+        MoleculeKind() = default;
+
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         [[nodiscard]] ::std::string const& Name() const noexcept;
@@ -46,7 +48,17 @@ namespace CellSim::Molecular
 
 namespace CellSim::Molecular
 {
-    MoleculeKind MoleculeKind::AddName(const char* name)
+    constexpr MoleculeKind::MoleculeKind(uint32_t id) noexcept
+        : m_id(id)
+    {
+    }
+
+    constexpr MoleculeKind MoleculeKind::Invalid() noexcept
+    {
+        return MoleculeKind(0);
+    }
+
+    inline MoleculeKind MoleculeKind::AddName(const char* name)
     {
         return AddName(::std::string_view{ name });
     }

@@ -12,8 +12,6 @@ namespace CellSim::Settings
     class Config::CellBehavior final {
         private:
 
-        static inline Cells::CellBehaviorType s_behaviorType;
-
         public:
 
         class MoleculeAware;
@@ -23,19 +21,8 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(CellBehavior);
 
-        /// @brief ふるまい定義
-        [[nodiscard]] static Cells::CellBehaviorType BehaviorType() noexcept;
-
         static void Load(::nlohmann::json const& config);
     };
-}
-
-namespace CellSim::Settings
-{
-    inline Cells::CellBehaviorType Config::CellBehavior::BehaviorType() noexcept
-    {
-        return s_behaviorType;
-    }
 }
 
 #endif //!CELLSIM_SETTINGS_CONFIG_CELLBEHAVIOR_HPP

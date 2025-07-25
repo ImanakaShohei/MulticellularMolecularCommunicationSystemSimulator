@@ -385,12 +385,12 @@ namespace CellSim::Cells
 
     constexpr bool operator==(Cell const& left, Cell const& right) noexcept
     {
-        return left.Id() == right.Id();
+        return &left == &right;
     }
 
     constexpr bool operator!=(Cell const& left, Cell const& right) noexcept
     {
-        return left.Id() != right.Id();
+        return &left != &right;
     }
 }
 

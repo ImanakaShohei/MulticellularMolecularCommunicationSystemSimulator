@@ -26,6 +26,8 @@ namespace CellSim::Cells
 
     NormalCellBehavior::NormalCellBehavior(double cellDivisionRadius)
         : m_cellDivisionRadius(cellDivisionRadius)
+        , m_growthRate(0)
+        , m_isGrowthRateLoaded(false)
     {
         if (cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"));
     }
@@ -33,7 +35,19 @@ namespace CellSim::Cells
     CellGrowthResult NormalCellBehavior::ComputeGrowth(const Cell* sender)
     {
         double oldRadius = sender->Radius();
-        double newRadius = oldRadius + Settings::Config::Cell::GrowthRate() * Settings::Config::Simulation::DeltaTime();
+
+        if (!m_isGrowthRateLoaded) {
+            auto type = sender->Type();
+            for (auto const& info : Settings::Config::Cell::Cells()) {
+                if (info.Type == type) {
+                    m_growthRate = info.GrowthRate;
+                    m_isGrowthRateLoaded = true;
+                    break;
+                }
+            }
+        }
+
+        double newRadius = oldRadius + m_growthRate * Settings::Config::Simulation::DeltaTime();
 
         double tmp = newRadius / oldRadius;
 

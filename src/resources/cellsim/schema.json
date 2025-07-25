@@ -22,6 +22,46 @@
             "minItems": 1,
             "uniqueItems": true
         },
+        "cellCreateInfo": {
+            "type": "object",
+            "properties": {
+                "behaviorType": {
+                    "type": "string",
+                    "enum": [ "MoleculeAware", "Normal", "User", "WavePropagation" ]
+                },
+                "cellCount": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                },
+                "color": {
+                    "type": "string"
+                },
+                "growthRate": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "mass": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "radius": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "typeName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "behaviorType",
+                "cellCount",
+                "color",
+                "growthRate",
+                "mass",
+                "radius",
+                "typeName"
+            ]
+        },
         "moleculeField": {
             "type": "object",
             "properties": {
@@ -36,15 +76,15 @@
             "type": "object",
             "title": "cell congfig",
             "properties": {
-                "cellCount": {
-                    "type": "integer",
-                    "exclusiveMinimum": 0
+                "cells": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/cellCreateInfo"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
                 },
                 "enableGrowth": { "type": "boolean" },
-                "growthRate": {
-                    "type": "number",
-                    "exclusiveMinimum": 0
-                },
                 "initialPlacementRadius": {
                     "type": "number",
                     "exclusiveMinimum": 0
@@ -53,21 +93,16 @@
                     "type": "integer",
                     "minimum": 0
                 },
-                "isSensitiveToMolecules": { "type": "boolean" },
-                "mass": {
-                    "type": "number",
-                    "exclusiveMinimum": 0
-                },
-                "radius": {
-                    "type": "number",
-                    "exclusiveMinimum": 0
-                },
-                "type": {
-                    "type": "string",
-                    "enum": [ "Normal" ]
-                }
+                "isSensitiveToMolecules": { "type": "boolean" }
+                
             },
-            "required": [ "cellCount", "enableGrowth", "growthRate", "initialPlacementRadius", "initialPlacementSeed", "isSensitiveToMolecules", "mass", "radius", "type" ]
+            "required": [
+                "cells",
+                "enableGrowth",
+                "initialPlacementRadius",
+                "initialPlacementSeed",
+                "isSensitiveToMolecules"
+            ]
         },
         "cellAlgorithm": {
             "type": "object",
@@ -100,10 +135,7 @@
         "cellBehavior": {
             "type": "object",
             "properties": {
-                "behaviorType": {
-                    "type": "string",
-                    "enum": [ "MoleculeAware", "Normal", "User", "WavePropagation" ]
-                },
+                
                 "moleculeAware": {
                     "type": "object",
                     "properties": {
@@ -185,8 +217,7 @@
                         "epsilon"
                     ]
                 }
-            },
-            "required": [ "behaviorType" ]
+            }
         },
         "molecular": {
             "properties": {

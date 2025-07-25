@@ -30,7 +30,7 @@ namespace CellSim::Users
         return result;
     }
 
-    MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
+    MolecularProcessResult UserCellBehavior::ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
     {
         MolecularProcessResult result;
 

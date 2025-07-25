@@ -102,7 +102,7 @@ namespace CellSim
             auto end = m_cells.end();
 
             while (itr != end) {
-                if (itr->Type() == Cells::CellType::Invalid) {
+                if (itr->Type() == Cells::CellType::Invalid()) {
                     itr = m_cells.erase(itr);
                     end = m_cells.end();
                     continue;
@@ -232,9 +232,11 @@ namespace CellSim
 
         currentClock = ::std::chrono::system_clock::now();
 
+        uint64_t totalCellCount = 0;
+
         m_writer.SaveConfig(
             totalStep,
-            Settings::Config::Cell::CellCount(),
+            Settings::Config::Cell::TotalCellCount(),
             ::std::chrono::duration_cast<::std::chrono::milliseconds>(currentClock - beginClock).count(),
             Settings::Config::SimulationModel::SimulationType(),
             Settings::Config::CellAlgorithm::AlgorithmType()
