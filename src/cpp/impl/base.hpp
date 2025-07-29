@@ -11,11 +11,25 @@
     #if __cplusplus == 199711L
         #define CELLSIM_COMPILER_MSVC 1
         #define CELLSIM_CPP_LANG_VERSION _MSVC_LANG
+
+        #if defined(_M_ARM64)
+            #define CELLSIM_ENV_ARM64 1
+        #elif defined(_M_X64)
+            #define CELLSIM_ENV_X64 1
+        #endif
     #else
         #define CELLSIM_COMPILER_MSVC 0
         #define CELLSIM_CPP_LANG_VERSION __cplusplus
     #endif
 
+    #if defined(__MINGW32__) || defined(__MINGW64__)
+        #define CELLSIM_COMPILER_MINGW 1
+        #if defined(__aarch64__)
+            #define CELLSIM_ENV_ARM64 1
+        #elif defined(__x86_64__)
+            #define CELLSIM_ENV_X64 1
+        #endif
+    #endif
 #endif
 
 #if __has_include(<unistd.h>) && !defined(CELLSIM_ENV_WINDOWS)
@@ -24,6 +38,24 @@
 
 #ifdef __APPLE__
     #define CELLSIM_ENV_APPLE 1
+
+    #if defined(__aarch64__) || defined(__arm64__)
+        #define CELLSIM_ENV_ARM64 1
+    #else
+        #define CELLSIM_ENV_X64 1
+    #endif
+#endif
+
+#ifdef __linux__
+    #define CELLSIM_ENV_LINUX 1
+
+    #ifdef __aarch64__
+        #define CELLSIM_ENV_ARM64 1
+    #endif
+
+    #ifdef __x86_64__
+        #define CELLSIM_ENV_X64 1
+    #endif
 #endif
 
 #ifndef CELLSIM_CPP_LANG_VERSION
@@ -78,8 +110,28 @@
     #define CELLSIM_COMPILER_MSVC 0
 #endif
 
+#ifndef CELLSIM_COMPILER_MINGW
+    #define CELLSIM_COMPILER_MINGW 0
+#endif
+
 #ifndef CELLSIM_ENV_APPLE
     #define CELLSIM_ENV_APPLE 0
+#endif
+
+#ifndef CELLSIM_ENV_LINUX
+    #define CELLSIM_ENV_LINUX 0
+#endif
+
+#ifndef CELLSIM_ENV_ARM64
+    #define CELLSIM_ENV_ARM64 0
+#endif
+
+#ifndef CELLSIM_ENV_X64
+    #define CELLSIM_ENV_X64 0
+#endif
+
+#ifndef CELLSIM_CELLS_CELL_IS_POINTER_CLASS
+    #define CELLSIM_CELLS_CELL_IS_POINTER_CLASS (CELLSIM_ENV_ARM64)
 #endif
 
 // クラスをインスタンス化できないようにする
