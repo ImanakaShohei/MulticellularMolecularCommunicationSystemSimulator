@@ -68,6 +68,9 @@ namespace CellSim
             double mass = cell.Mass();
             ::fwrite(&mass, sizeof(mass), 1, fp);
 
+            bool isAlive = cell.IsAlive();
+            ::fwrite(&isAlive, sizeof(isAlive), 1, fp);
+
             uint64_t attachedCellCount = cell.AttachedCellCount();
             ::fwrite(&attachedCellCount, sizeof(attachedCellCount), 1, fp);
 
@@ -109,7 +112,7 @@ namespace CellSim
         
         if (!filePath) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
 
-        ofs << "ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,AttachedCellCount," << ::std::endl;
+        ofs << "ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,IsAlive,AttachedCellCount," << ::std::endl;
 
         for (Cells::Cell const& cell : cells) {
             Numerics::Vector3 velocity = cell.Velocity();
@@ -123,6 +126,7 @@ namespace CellSim
             ofs << velocity.Z << ',';
             ofs << cell.Radius() << ',';
             ofs << cell.Mass() << ',';
+            ofs << (cell.IsAlive() ? '1' : '0') << ',';
             ofs << cell.AttachedCellCount() << ',';
 
             for (const Cells::Cell* attachedCell : cell.AttachedCells()) {
