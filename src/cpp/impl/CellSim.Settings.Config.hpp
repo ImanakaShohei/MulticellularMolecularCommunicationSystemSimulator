@@ -29,7 +29,7 @@ namespace CellSim::Settings
         static void Load();
         static void Load(const char* filePath);
         static void Load(::std::string const& filePath);
-        static void Load(::nlohmann::json const& config);
+        static void Load(::nlohmann::json& config);
 
         static ::nlohmann::json OpenJsonFile(::std::string const& filePath);
     };

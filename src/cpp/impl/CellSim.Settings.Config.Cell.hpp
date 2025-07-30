@@ -49,7 +49,7 @@ namespace CellSim::Settings
 
         // メソッド
 
-        static void Load(::nlohmann::json const& cellConfig);
+        static void Load(::nlohmann::json& config);
     };
 }
 

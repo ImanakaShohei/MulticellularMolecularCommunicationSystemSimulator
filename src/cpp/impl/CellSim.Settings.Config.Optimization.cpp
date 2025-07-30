@@ -8,7 +8,7 @@
 
 namespace CellSim::Settings
 {
-    void Config::Optimization::Load(::nlohmann::json const& config)
+    void Config::Optimization::Load(::nlohmann::json& config)
     {
         if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.JsonError"));
 

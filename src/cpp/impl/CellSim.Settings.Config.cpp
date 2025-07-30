@@ -42,7 +42,7 @@ namespace CellSim::Settings
         s_loadUnsafe(filePath.c_str());
     }
 
-    void Config::Load(::nlohmann::json const& config)
+    void Config::Load(::nlohmann::json& config)
     {
         Cell::Load(config["cell"]);
         CellAlgorithm::Load(config["cellAlgorithm"]);

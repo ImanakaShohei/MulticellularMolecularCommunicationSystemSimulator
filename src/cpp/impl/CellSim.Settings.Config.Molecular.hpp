@@ -27,7 +27,7 @@ namespace CellSim::Settings
         /// @brief 初期配置
         [[nodiscard]] static ::CellSim::Molecular::InitialMoleculeDistribution InitialDistribution() noexcept;
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(::nlohmann::json& config);
     };
 }
 

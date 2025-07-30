@@ -11,8 +11,10 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellBehavior::Load(::nlohmann::json const& config)
+    void Config::CellBehavior::Load(::nlohmann::json& config)
     {
+        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
+
         MoleculeAware::Load(config["moleculeAware"]);
         Normal::Load(config["normal"]);
         User::Load(config["user"]);

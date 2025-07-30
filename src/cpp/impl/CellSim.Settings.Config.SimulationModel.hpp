@@ -28,7 +28,7 @@ namespace CellSim::Settings
         /// @brief モデルの種類
         [[nodiscard]] static Model::CellSimulationType SimulationType() noexcept;
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(::nlohmann::json& config);
     };
 }
 

@@ -5,7 +5,7 @@
 
 namespace CellSim::Settings
 {
-    void Config::Simulation::Load(::nlohmann::json const& config)
+    void Config::Simulation::Load(::nlohmann::json& config)
     {
         if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));
 

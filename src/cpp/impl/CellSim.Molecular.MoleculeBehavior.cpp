@@ -67,7 +67,7 @@ namespace CellSim::Molecular
         else {
             m_diffusionDeltaBuffer = new double[gridCount * gridCount * gridCount];
             m_concentrations = Containers::Span3<double>(gridCount, gridCount, gridCount, m_diffusionDeltaBuffer);
-            m_gridCountX = m_gridCountY = m_gridCountZ = m_gridCountZ;
+            m_gridCountX = m_gridCountY = m_gridCountZ = gridCount;
             m_enable2dMode = false;
         }
     }

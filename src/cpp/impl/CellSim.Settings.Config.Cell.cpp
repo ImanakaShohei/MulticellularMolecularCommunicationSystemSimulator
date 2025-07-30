@@ -6,7 +6,7 @@
 
 namespace CellSim::Settings
 {
-    void Config::Cell::Load(::nlohmann::json const& config)
+    void Config::Cell::Load(::nlohmann::json& config)
     {
         s_cells.clear();
         s_totalCellCount = 0;
@@ -28,7 +28,7 @@ namespace CellSim::Settings
                 info.GrowthRate = obj.at("growthRate").get<double>();
                 info.Mass = obj.at("mass").get<double>();
                 info.Radius = obj.at("radius").get<double>();
-                info.Type = Cells::CellType::AddName(obj.at("typeName").get<::std::string>(), Graphics::Color(obj.at("color")));
+                info.Type = Cells::CellType::AddName(obj.at("typeName").get<::std::string>(), Graphics::Color(obj.at("color").get<::std::string>()));
 
                 if (info.CellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
                 if (info.GrowthRate <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.growthRate"));

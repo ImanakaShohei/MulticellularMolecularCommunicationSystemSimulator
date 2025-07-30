@@ -21,7 +21,7 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(CellBehavior);
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(::nlohmann::json& config);
     };
 }
 

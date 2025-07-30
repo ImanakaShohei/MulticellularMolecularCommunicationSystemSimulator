@@ -6,7 +6,7 @@
 
 namespace CellSim::Settings
 {
-    void Config::Molecular::Load(::nlohmann::json const& config)
+    void Config::Molecular::Load(::nlohmann::json& config)
     {
         if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.JsonError"));
 
