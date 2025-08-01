@@ -118,7 +118,7 @@ namespace CellSim
 
             using StreamWriter writer = new StreamWriter(filePath);
 
-            writer.WriteLine("ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,AttachedCellCount,");
+            writer.WriteLine("ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,IsAlive,AttachedCellCount,");
 
             foreach (ReadOnlyCell cell in cells)
             {
@@ -134,6 +134,7 @@ namespace CellSim
                 writer.Write($"{velocity.Z},");
                 writer.Write($"{cell.Radius},");
                 writer.Write($"{cell.Mass},");
+                writer.Write(cell.IsAlive ? "1," : "0,");
                 writer.Write($"{cell.AttachedCellCount},");
 
                 foreach (ReadOnlyCell attachedCell in cell.AttachedCells)
