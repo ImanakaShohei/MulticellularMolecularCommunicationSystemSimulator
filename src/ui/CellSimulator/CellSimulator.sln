@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36401.2 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellSimulator", "CellSimulator\CellSimulator.csproj", "{5896437F-780A-42CE-ACB4-DE853AEE450F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellSimulator", "CellSimulator\CellSimulator.csproj", "{15A016BA-F1FB-434D-99EF-B730AD72C234}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,17 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5896437F-780A-42CE-ACB4-DE853AEE450F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{15A016BA-F1FB-434D-99EF-B730AD72C234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15A016BA-F1FB-434D-99EF-B730AD72C234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15A016BA-F1FB-434D-99EF-B730AD72C234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15A016BA-F1FB-434D-99EF-B730AD72C234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9BAC5786-D8EA-4232-A3E4-6C675E8D58D4}
+		SolutionGuid = {74FC6061-3B64-48B1-B4ED-38B3D1F8EF00}
 	EndGlobalSection
 EndGlobal
