@@ -19,11 +19,6 @@ namespace CellSim::Users
         // TODO: ここに処理を追加します
     }
 
-    UserMoleculeBehavior::UserMoleculeBehavior(Molecular::BoundaryCondition boundaryCondition)
-    {
-        // TODO: ここに処理を追加します
-    }
-
     UserMoleculeBehavior::~UserMoleculeBehavior()
     {
         // TODO: ここに処理を追加します

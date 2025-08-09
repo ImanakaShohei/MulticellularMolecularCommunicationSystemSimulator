@@ -14,7 +14,6 @@ namespace CellSim::Users
         public:
 
         UserMoleculeBehavior();
-        UserMoleculeBehavior(Molecular::BoundaryCondition boundaryCondition);
         ~UserMoleculeBehavior();
 
         void BeforeAdvanceStep(
