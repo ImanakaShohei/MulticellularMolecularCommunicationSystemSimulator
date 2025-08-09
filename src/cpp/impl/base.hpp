@@ -268,6 +268,7 @@ namespace CellSim::Molecular
     enum class BoundaryCondition;
     enum class InitialMoleculeDistribution;
     class Molecule;
+    struct MoleculeCreateInfo;
     struct MoleculeInfo;
     class MoleculeBehavior;
     enum class MoleculeBehaviorKind;

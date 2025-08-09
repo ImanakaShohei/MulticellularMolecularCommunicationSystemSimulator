@@ -182,7 +182,7 @@ namespace CellSim::Molecular
     NormalMoleculeBehavior::NormalMoleculeBehavior(double diffusionFactor)
         : m_diffusionFactor(diffusionFactor)
     {
-        if (diffusionFactor <= 0) [[unlikely]] throw ::std::invalid_argument("diffusionFactor must be greater than 0.");
+        if (diffusionFactor < 0) [[unlikely]] throw ::std::invalid_argument("diffusionFactor must be non-negative.");
     }
 
     void NormalMoleculeBehavior::BeforeAdvanceStep(

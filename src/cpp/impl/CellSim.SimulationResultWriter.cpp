@@ -141,14 +141,14 @@ namespace CellSim
         delete[] filePath;
     }
 
-    ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent) const
+    ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent, bool is4Channel) const
     {
-        return ::cv::Mat{ m_imageSize, m_imageSize, CV_8UC4, isTransparent ? ::cv::Scalar(0, 0, 0, 255) : ::cv::Scalar(0, 0, 0, 255) };
+        return ::cv::Mat{ m_imageSize, m_imageSize, is4Channel ? CV_8UC4 : CV_8SC3, isTransparent ? ::cv::Scalar(0, 0, 0, 0) : ::cv::Scalar(0, 0, 0, 255) };
     }
 
     ::cv::Mat SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells) const
     {
-        ::cv::Mat image = m_createImage();
+        ::cv::Mat image = m_createImage(false, false);
         m_drawCells(cells, image);
 
         return image;
@@ -192,7 +192,7 @@ namespace CellSim
                 image,
                 ::cv::Point{ pointX, pointY },
                 (int)(cell.Radius() * m_scale),
-                ::cv::Scalar(color.B, color.G, color.R),
+                ::cv::Scalar(color.B, color.G, color.R, 255),
                 1
             );
 
@@ -218,29 +218,33 @@ namespace CellSim
         double threshold = field.Kind().Threshold();
 
         size_t z = field.Enable2dMode() ? 0 : field.GridCountZ() / 2;
-        int rectLength = (int)(m_imageSize / field.GridCountX());
+        // 境界を除く
+        size_t gridCount = field.GridCountX() - 2;
+        int rectLength = (int)(m_imageSize / gridCount);
+
+        auto concentrations = field.Concentrations();
         
-        for (size_t x = 0; x < field.GridCountX(); ++x) {
-            auto span2 = field.Concentrations()[x];
-            for (size_t y = 0; y < field.GridCountY(); ++y) {
+        for (size_t x = 1; x < field.GridCountX(); ++x) {
+            auto span2 = concentrations[x];
+            for (size_t y = 1; y < field.GridCountY(); ++y) {
                 double value = span2.At(y, z);
 
                 // 透明度設定
                 if (value < threshold) {
-                    color[3] = (value / threshold) * 255;
+                    color[1] = (value / threshold) * 255;
                 }
                 else {
-                    color[3] = 255;
+                    color[1] = 255;
                 }
 
                 // 位置ずれを最小限に抑えるために毎回位置を計算する
-                int pointX = (int)(x * m_imageSize / field.GridCountX());
-                int pointY = (int)(y * m_imageSize / field.GridCountY());
+                int pointX = (int)((x - 1) * m_imageSize / gridCount);
+                int pointY = (int)((y - 1) * m_imageSize / gridCount);
 
                 ::cv::rectangle(
                     image,
                     ::cv::Rect{ pointX, pointY, rectLength, rectLength },
-                    color,
+                    color, 
                     ::cv::LineTypes::FILLED // 塗りつぶし
                 );
             }
@@ -338,12 +342,12 @@ namespace CellSim
             }
         }
         else {
-            ::cv::Mat image = m_createImage();
-            ::cv::Mat cellImage = m_createImage(true);
+            ::cv::Mat image = m_createImage(false, true);
+            ::cv::Mat cellImage = m_createImage(true, true);
             m_drawCells(simulation.Cells(), cellImage);
 
             for (const Molecular::MoleculeField& field : simulation.Molecules()) {
-                ::cv::Mat moleculeImage = m_createImage();
+                ::cv::Mat moleculeImage = m_createImage(false, true);
                 m_drawMolecule(field, moleculeImage);
 
                 // 画像を合成
@@ -361,7 +365,7 @@ namespace CellSim
                 m_videoWriter.write(combined);
             }
         }
-        
+
     }
 
     void SimulationResultWriter::SaveConfig(

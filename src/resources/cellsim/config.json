@@ -9,7 +9,7 @@
             "growthRate": 0.03,
             "mass": 1.0,
             "radius": 10.0,
-            "typeName": "NormalCell"
+            "typeName": "Cell1"
            }
         ],
         "enableGrowth": false,
@@ -111,10 +111,15 @@
         {
             "behaviorType": "Normal",
             "boundaryCondition": "Absorbing",
+            "colorIntensityThreshold": 100,
             "gridCount": 32,
             "initialDistribution": "Uniform",
-            "moleculeAmount": 0,
-            "moleculeKind": "Molecule1"
+            "moleculeAmount": 300000,
+            "moleculeKind": "Molecule1",
+
+            "normalBehavior": {
+                "diffusionFactor": 0.1
+            }
         }
     ]
 }

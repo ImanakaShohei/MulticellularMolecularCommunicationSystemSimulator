@@ -10,6 +10,7 @@
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
+#include "CellSim.Settings.Config.Molecular.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "CellSim.Threading.ThreadPool.hpp"
@@ -189,6 +190,20 @@ namespace CellSim
         m_initializeCellAlgorithm();
         
         m_pCellSimulationModel->InitializeCells(this, m_cells);
+
+        for (Molecular::MoleculeCreateInfo const& info : Settings::Config::Molecular::MolecularConfigs()) {
+            m_molecules.emplace_back(
+                info.GridCount,
+                Settings::Config::Simulation::Enable2DMode(),
+                info.Kind,
+                info.BoundaryCondition,
+                info.InitialDistribution,
+                info.MoleculeAmount,
+                info.Behavior.get()
+            );
+        }
+
+        m_writer.InitializeMoleculeVideos(m_molecules);
     }
 
     Simulation::~Simulation()

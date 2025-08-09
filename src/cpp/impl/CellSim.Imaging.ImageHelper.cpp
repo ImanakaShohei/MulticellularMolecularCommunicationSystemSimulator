@@ -8,6 +8,8 @@ namespace CellSim::Imaging
         ::cv::Mat const& foreground
     )
     {
+        cv::Mat newData; // 背景画像をコピーして新しいMatを作成
+        cv::cvtColor(background, newData, cv::COLOR_BGRA2BGR);
         // 2. 前景画像をBGRチャンネルとアルファチャンネル(マスク)に分離
         ::std::vector<cv::Mat> channels;
         ::cv::split(foreground, channels); // 4つのチャンネルに分離
@@ -15,7 +17,6 @@ namespace CellSim::Imaging
         ::cv::Mat foreground_bgr; // 色情報(BGR)を格納するMat
         // 最初の3チャンネル(B,G,R)を結合して色情報のみの画像を再構成
         ::cv::merge(std::vector<cv::Mat>{channels[0], channels[1], channels[2]}, foreground_bgr);
-
         ::cv::Mat mask = channels[3]; // 4番目のチャンネルがアルファチャンネル(マスク)
 
         // 3. 背景画像に前景画像を合成
@@ -24,8 +25,8 @@ namespace CellSim::Imaging
         
         // copyToのマスク機能を使って合成
         // maskのピクセル値が0でない部分だけがコピーされる
-        foreground_bgr.copyTo(background(roi), mask);
+        foreground_bgr.copyTo(newData(roi), mask);
 
-        return foreground_bgr; // 合成された前景画像を返す
+        return newData; // 合成された前景画像を返す
     }
 }

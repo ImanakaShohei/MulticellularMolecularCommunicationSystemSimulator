@@ -16,12 +16,38 @@ namespace CellSim::Molecular
     class MoleculeField final {
         private:
 
+        class DoublePtr {
+            private:
+            double* m_ptr;
+
+            public:
+
+            constexpr DoublePtr() noexcept : m_ptr(nullptr) {}
+            constexpr DoublePtr(double* ptr) noexcept : m_ptr(ptr) {}
+            constexpr DoublePtr(DoublePtr&& right) noexcept : m_ptr(right.m_ptr) { right.m_ptr = nullptr; }
+
+            ~DoublePtr() noexcept { if (m_ptr != nullptr) delete[] m_ptr; }
+
+            operator double*() const noexcept { return m_ptr; }
+
+            DoublePtr& operator=(DoublePtr&& right) noexcept
+            {
+                if (this == &right) [[unlikely]] return *this;
+
+                if (m_ptr != nullptr) delete[] m_ptr;
+                m_ptr = right.m_ptr;
+                right.m_ptr = nullptr;
+
+                return *this;
+            }
+        };
+
         ::CellSim::Molecular::BoundaryCondition m_boundaryCondition;
 
         /// @brief 
         Containers::Span3<double> m_concentrations;
 
-        double* m_pConcentration;
+        DoublePtr m_pConcentration;
 
         bool m_enable2dMode;
 
@@ -58,10 +84,10 @@ namespace CellSim::Molecular
         );
 
         MoleculeField(MoleculeField const&) = delete;
-
-        ~MoleculeField();
+        MoleculeField(MoleculeField&&) = default;
 
         MoleculeField& operator=(MoleculeField const&) = delete;
+        MoleculeField& operator=(MoleculeField&&) = default;
 
         void BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells);
 

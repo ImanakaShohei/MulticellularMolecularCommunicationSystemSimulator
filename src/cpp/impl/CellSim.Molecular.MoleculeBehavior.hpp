@@ -28,7 +28,6 @@ namespace CellSim::Molecular
         MoleculeBehavior() noexcept;
         MoleculeBehavior(MoleculeBehavior const&) = delete;
         constexpr MoleculeBehavior(MoleculeBehavior&& right) noexcept;
-        constexpr MoleculeBehavior(::CellSim::Molecular::BoundaryCondition boundaryCondition) noexcept;
 
         virtual ~MoleculeBehavior();
 
@@ -84,12 +83,6 @@ namespace CellSim::Molecular
         , m_diffusionDeltaBuffer(right.m_diffusionDeltaBuffer)
     {
         right.m_diffusionDeltaBuffer = nullptr;
-    }
-
-    constexpr MoleculeBehavior::MoleculeBehavior(::CellSim::Molecular::BoundaryCondition boundaryCondition) noexcept
-        : m_boundaryCondition(boundaryCondition)
-        , m_diffusionDeltaBuffer(nullptr)
-    {
     }
 
     constexpr ::CellSim::Molecular::BoundaryCondition MoleculeBehavior::BoundaryCondition() const noexcept

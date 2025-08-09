@@ -76,6 +76,8 @@ set(SOURCES
     src/cpp/impl/CellSim.Settings.Config.CellBehavior.Normal.cpp
     src/cpp/impl/CellSim.Settings.Config.CellBehavior.WavePropagation.cpp
     src/cpp/impl/CellSim.Settings.Config.Molecular.cpp
+    src/cpp/impl/CellSim.Settings.Config.Molecular.Behavior.cpp
+    src/cpp/impl/CellSim.Settings.Config.Molecular.Behavior.Normal.cpp
     src/cpp/impl/CellSim.Settings.Config.Optimization.cpp
     src/cpp/impl/CellSim.Settings.Config.Simulation.cpp
     src/cpp/impl/CellSim.Settings.Config.SimulationModel.cpp

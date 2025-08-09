@@ -87,8 +87,13 @@ Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius='cellBehavior.
 Settings.Config.CellBehavior.Normal.Load.Error.JsonError=The format of the 'cellBehavior.normal' parameter in the config file is invalid.
 
 Settings.Config.Molecular.Load.Error.JsonError=The format of the 'molecular' parameter in the config file is invalid.
-Settings.Config.Molecular.Load.Error.boundaryCondition=The value of 'molecular.boundaryCondition' in the config file is invalid.
-Settings.Config.Molecular.Load.Error.initialDistribution=The value of 'molecular.initialDistribution' in the config file is invalid.
+Settings.Config.Molecular.Load.Error.behaviorType=The value of 'molecular.moleculeField.behaviorType' in the config file is invalid.
+Settings.Config.Molecular.Load.Error.boundaryCondition=The value of 'molecular.moleculeField.boundaryCondition' in the config file is invalid.
+Settings.Config.Molecular.Load.Error.colorIntensityThreshold='molecular.moleculeField.colorIntensityThreshold' in the config file must be a positive value.
+Settings.Config.Molecular.Load.Error.initialDistribution=The value of 'molecular.moleculeField.initialDistribution' in the config file is invalid.
+
+Settings.Config.Molecular.Behavior.Normal.FromJson.Error.JsonError=The format of the 'molecular.moleculeField.normalBehavior' parameter in the config file is invalid.
+Settings.Config.Molecular.Behavior.Normal.FromJson.Error.diffusionFactor='molecular.moleculeField.diffusionFactor' in the config file must be a positive value.
 
 Settings.Config.Optimization.Load.Error.JsonError=The format of the 'optimization' parameter in the config file is invalid.
 Settings.Config.Optimization.Load.Error.peformance=The value of 'optimization.peformance' in the config file is invalid.

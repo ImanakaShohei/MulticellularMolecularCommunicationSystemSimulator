@@ -69,6 +69,10 @@
                     "type": "string",
                     "enum": [ "Absorbing", "Periodic", "Reflective" ]
                 },
+                "colorIntensityThreshold": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
                 "gridCount": {
                     "type": "integer",
                     "exclusiveMinimum": 0
@@ -103,6 +107,7 @@
             "required": [
                 "behaviorType",
                 "boundaryCondition",
+                "colorIntensityThreshold",
                 "gridCount",
                 "initialDistribution",
                 "moleculeAmount",

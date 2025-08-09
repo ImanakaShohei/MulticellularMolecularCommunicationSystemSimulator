@@ -26,9 +26,9 @@ namespace CellSim::Molecular
         , m_gridCountX(gridCount)
         , m_gridCountY(gridCount)
         , m_gridCountZ(enable2DMode ? 1 : gridCount)
-        , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / gridCount)
-        , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / gridCount)
-        , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / gridCount)
+        , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / (gridCount - 2))
+        , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / (gridCount - 2))
+        , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / (gridCount - 2))
         , m_reverseGridLengthX(1.0 / m_gridLengthX)
         , m_reverseGridLengthY(1.0 / m_gridLengthY)
         , m_reverseGridLengthZ(1.0 / m_gridLengthZ)
@@ -48,14 +48,6 @@ namespace CellSim::Molecular
 
         pBehavior->SetBuffer(gridCount, enable2DMode, m_boundaryCondition);
         pBehavior->InitializeMolecules(this, { m_concentrations, distributionType, moleculeAmount });
-    }
-
-    MoleculeField::~MoleculeField()
-    {
-        if (m_pConcentration == nullptr) return;
-
-        delete[] m_pConcentration;
-        delete m_pBehavior;
     }
 
     void MoleculeField::BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells)

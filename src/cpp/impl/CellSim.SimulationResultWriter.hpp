@@ -34,7 +34,7 @@ namespace CellSim
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const;
 
-        [[nodiscard]] ::cv::Mat m_createImage(bool isTransparent = false) const;
+        [[nodiscard]] ::cv::Mat m_createImage(bool isTransparent, bool is4Channel) const;
 
         [[nodiscard]] ::cv::Mat m_drawCells(::std::vector<Cells::Cell> const& cells) const;
         void m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const;

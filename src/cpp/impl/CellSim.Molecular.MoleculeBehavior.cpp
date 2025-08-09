@@ -31,7 +31,6 @@ namespace CellSim::Molecular
     }
 
     MoleculeBehavior::MoleculeBehavior() noexcept
-        : MoleculeBehavior(Settings::Config::Molecular::BoundaryCondition())
     {
     }
 
