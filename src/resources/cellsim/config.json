@@ -112,7 +112,7 @@
             "behaviorType": "Normal",
             "boundaryCondition": "Absorbing",
             "colorIntensityThreshold": 100,
-            "gridCount": 32,
+            "gridCount": 256,
             "initialDistribution": "Uniform",
             "moleculeAmount": 300000,
             "moleculeKind": "Molecule1",

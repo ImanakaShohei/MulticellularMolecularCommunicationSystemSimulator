@@ -73,8 +73,9 @@ namespace CellSim::Molecular
         
         if (m_enable2dMode) {
             return Numerics::GridPosition3(
-                (int32_t)(x * m_reverseGridLengthX),
-                (int32_t)(y * m_reverseGridLengthY),
+                // 境界部分を無視
+                (int32_t)(x * m_reverseGridLengthX) + 1,
+                (int32_t)(y * m_reverseGridLengthY) + 1,
                 0
             );
         }
@@ -82,9 +83,10 @@ namespace CellSim::Molecular
             double z = position.Z + Settings::Config::Simulation::FieldRadius();
 
             return Numerics::GridPosition3(
-                (int32_t)(x * m_reverseGridLengthX),
-                (int32_t)(y * m_reverseGridLengthY),
-                (int32_t)(z * m_reverseGridLengthZ)
+                // 境界部分を無視
+                (int32_t)(x * m_reverseGridLengthX) + 1,
+                (int32_t)(y * m_reverseGridLengthY) + 1,
+                (int32_t)(z * m_reverseGridLengthZ) + 1
             );
         }
     }
