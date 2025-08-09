@@ -6,6 +6,7 @@
 #include "CellSim.Molecular.MoleculeDiffusionArgs.hpp"
 #include "CellSim.Molecular.MoleculeInitializationArgs.hpp"
 #include "CellSim.Messages.hpp"
+#include "CellSim.Settings.Config.Simulation.hpp"
 #include "CellSim.Text.CString.hpp"
 
 #include <numbers>
@@ -228,7 +229,7 @@ namespace CellSim::Molecular
         auto pConcentration = args.Concentrations.begin();
 
         for (; pDelta != eDelta; ++pDelta, ++pConcentration) {
-            *pConcentration += *pDelta;
+            *pConcentration += *pDelta * Settings::Config::Simulation::DeltaTime();
         }
 
         m_applyBoundaryConditions(args.Concentrations);

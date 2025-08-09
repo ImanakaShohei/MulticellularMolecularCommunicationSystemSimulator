@@ -17,8 +17,7 @@ namespace CellSim::Molecular
         ::CellSim::Molecular::BoundaryCondition boundaryCondition,
         InitialMoleculeDistribution distributionType,
         double moleculeAmount,
-        MoleculeBehavior* pBehavior,
-        uint32_t seed
+        MoleculeBehavior* pBehavior
     )
         : m_boundaryCondition(boundaryCondition)
         , m_concentrations()
@@ -48,7 +47,7 @@ namespace CellSim::Molecular
         }
 
         pBehavior->SetBuffer(gridCount, enable2DMode, m_boundaryCondition);
-        pBehavior->InitializeMolecules(this, { m_concentrations, distributionType, moleculeAmount, seed });
+        pBehavior->InitializeMolecules(this, { m_concentrations, distributionType, moleculeAmount });
     }
 
     MoleculeField::~MoleculeField()

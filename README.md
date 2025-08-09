@@ -17,7 +17,7 @@
 - .NET 8 SDK
 -->
 # ビルド方法
-## C++の場合
+<!--## C++の場合-->
 `Windows`の場合
 ```sh
 cd build-scripts

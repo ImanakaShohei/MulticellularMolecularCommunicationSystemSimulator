@@ -65,10 +65,49 @@
         "moleculeField": {
             "type": "object",
             "properties": {
+                "boundaryCondition": {
+                    "type": "string",
+                    "enum": [ "Absorbing", "Periodic", "Reflective" ]
+                },
+                "gridCount": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                },
+                "moleculeAmount": {
+                    "type": "number",
+                    "minimum": 0
+                },
                 "moleculeKind": {
                     "type": "string"
+                },
+                "initialDistribution": {
+                    "type": "string",
+                    "enum": [ "Centered", "Gaussian", "Uniform" ]
+                },
+                "behaviorType": {
+                    "type": "string",
+                    "enum": [ "Normal", "Null", "User" ]
+                },
+
+                "normalBehavior": {
+                    "type": "object",
+                    "properties": {
+                        "diffusionFactor": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [ "diffusionFactor" ]
                 }
-            }
+            },
+            "required": [
+                "behaviorType",
+                "boundaryCondition",
+                "gridCount",
+                "initialDistribution",
+                "moleculeAmount",
+                "moleculeKind"
+            ]
         }
     },
     "properties": {
@@ -220,26 +259,11 @@
             }
         },
         "molecular": {
-            "properties": {
-                "boundaryCondition": {
-                    "type": "string",
-                    "enum": [ "Absorbing", "Periodic", "Reflective" ]
-                },
-                "initialDistribution": {
-                    "type": "string",
-                    "enum": [ "Centered", "Gaussian", "Uniform" ]
-                },
-                "fields": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/moleculeField"
-                    }
-                }
-            },
-            "required": [
-                "boundaryCondition",
-                "initialDistribution"
-            ]
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/moleculeField"
+            }
+    
         },
         "optimization": {
             "type": "object",

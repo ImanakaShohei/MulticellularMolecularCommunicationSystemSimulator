@@ -107,8 +107,14 @@
             "searchRadius": 64
         }
     },
-    "molecular": {
-        "boundaryCondition": "Reflective",
-        "initialDistribution": "Uniform"
-    }
+    "molecular": [
+        {
+            "behaviorType": "Normal",
+            "boundaryCondition": "Absorbing",
+            "gridCount": 32,
+            "initialDistribution": "Uniform",
+            "moleculeAmount": 0,
+            "moleculeKind": "Molecule1"
+        }
+    ]
 }

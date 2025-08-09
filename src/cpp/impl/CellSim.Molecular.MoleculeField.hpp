@@ -54,8 +54,7 @@ namespace CellSim::Molecular
             ::CellSim::Molecular::BoundaryCondition boundaryCondition,
             InitialMoleculeDistribution distributionType,
             double moleculeAmount,
-            MoleculeBehavior* pBehavior,
-            uint32_t seed = 0
+            MoleculeBehavior* pBehavior
         );
 
         MoleculeField(MoleculeField const&) = delete;
