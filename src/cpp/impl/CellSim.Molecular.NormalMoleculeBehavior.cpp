@@ -31,6 +31,24 @@ namespace CellSim::Molecular
             reverseCo
         ;
     }
+
+    double NormalMoleculeBehavior::m_computeDiffuse2d(
+        Containers::Span3<double> concentrations,
+        double reverseCo,
+        size_t x,
+        size_t y
+    ) const noexcept
+    {
+        return m_diffusionFactor *
+            (
+                concentrations[x + 1][y][0] + concentrations[x - 1][y][0] +
+                concentrations[x][y + 1][0] + concentrations[x][y - 1][0] -
+                4.0 * concentrations[x][y][0]
+            ) *
+            reverseCo
+        ;
+    }
+
     void NormalMoleculeBehavior::m_applyBoundaryConditions(Containers::Span3<double> concentrations)
     {
         switch (BoundaryCondition()) {
@@ -201,23 +219,24 @@ namespace CellSim::Molecular
     )
     {
         double reverseCo = 1.0 / (field->GridLength() * field->GridLength());
+        size_t maxGridIndex = GridCountX() - 1; // 境界を除く
         if (Enable2dMode()) {
-            for (size_t x = 0; x < GridCountX(); x++) {
+            for (size_t x = 1; x < maxGridIndex; x++) {
                 auto span2 = Concentrations()[x];
 
-                for (size_t y = 0; y < GridCountY(); y++) {
-                    span2.At(y, 0) += m_computeDiffuse(args.Concentrations, reverseCo, x, y, 0);
+                for (size_t y = 1; y < maxGridIndex; y++) {
+                    span2.At(y, 0) += m_computeDiffuse2d(args.Concentrations, reverseCo, x, y);
                 }
             }
         }
         else {
-            for (size_t x = 0; x < GridCountX(); x++) {
+            for (size_t x = 1; x < maxGridIndex; x++) {
                 auto span2 = Concentrations()[x];
 
-                for (size_t y = 0; y < GridCountY(); y++) {
+                for (size_t y = 1; y < maxGridIndex; y++) {
                     auto span = span2[y];
 
-                    for (size_t z = 0; z < GridCountZ(); z++) {
+                    for (size_t z = 1; z < maxGridIndex; z++) {
                         span[z] += m_computeDiffuse(args.Concentrations, reverseCo, x, y, z);
                     }
                 }

@@ -17,6 +17,13 @@ namespace CellSim::Molecular
             size_t y,
             size_t z
         ) const noexcept;
+
+        double m_computeDiffuse2d(
+            Containers::Span3<double> concentrations,
+            double reverseCo,
+            size_t x,
+            size_t y
+        ) const noexcept;
         
         double m_diffusionFactor;
 

@@ -101,8 +101,13 @@ namespace CellSim::Molecular
 
         [[nodiscard]] constexpr bool Enable2dMode() const noexcept;
 
+        /// @brief 境界を含むX方向のグリッドの数
         [[nodiscard]] constexpr size_t GridCountX() const noexcept;
+
+        /// @brief 境界を含むY方向のグリッドの数
         [[nodiscard]] constexpr size_t GridCountY() const noexcept;
+
+        /// @brief 境界を含むZ方向のグリッドの数
         [[nodiscard]] constexpr size_t GridCountZ() const noexcept;
 
         [[nodiscard]] constexpr double GridLength() const noexcept;
