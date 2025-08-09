@@ -3,11 +3,14 @@
 #include "CellSim.CellAlgorithms.CellAlgorithmType.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
+#include "CellSim.Imaging.ImageHelper.hpp"
+#include "CellSim.IO.DirectoryCreater.hpp"
 #include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
 
 #include <fstream>
+#include <optional>
 #include <stdio.h>
 #include <stdexcept>
 
@@ -17,7 +20,7 @@ namespace CellSim
     {
         m_option.InitializeDirectories();
 
-        if(m_option.IsOutputVideo()) {
+        if (m_option.IsOutputVideo()) {
             int fourcc = ::cv::VideoWriter::fourcc('M', 'J', 'P', 'G');
 
             bool v = m_videoWriter.open(
@@ -30,7 +33,6 @@ namespace CellSim
                 ),
                 true
             );
-            
         }
     }
 
@@ -139,20 +141,28 @@ namespace CellSim
         delete[] filePath;
     }
 
-    ::cv::Mat SimulationResultWriter::m_createImage(
-        ::std::vector<Cells::Cell> const& cells,
-        ::std::vector<Molecular::MoleculeField> const& fields
-    )
+    ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent) const
     {
-        ::cv::Mat image{ m_imageSize, m_imageSize, CV_8UC3, ::cv::Scalar(0, 0, 0) };
+        return ::cv::Mat{ m_imageSize, m_imageSize, CV_8UC4, isTransparent ? ::cv::Scalar(0, 0, 0, 255) : ::cv::Scalar(0, 0, 0, 255) };
+    }
 
+    ::cv::Mat SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells) const
+    {
+        ::cv::Mat image = m_createImage();
+        m_drawCells(cells, image);
+
+        return image;
+    }
+
+    void SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const
+    {
         int radius = m_imageSize / 2;
 
         ::cv::circle(
             image,
             ::cv::Point{ radius, radius },
             radius,
-            ::cv::Scalar(255, 255, 255),
+            ::cv::Scalar(255, 255, 255, 255),
             1
         );
 
@@ -160,7 +170,7 @@ namespace CellSim
             image,
             ::cv::Point{ radius, 0 },
             ::cv::Point{ radius, m_imageSize },
-            ::cv::Scalar(255, 255, 255),
+            ::cv::Scalar(255, 255, 255, 255),
             1
         );
 
@@ -168,7 +178,7 @@ namespace CellSim
             image,
             ::cv::Point{ 0, radius },
             ::cv::Point{ m_imageSize, radius },
-            ::cv::Scalar(255, 255, 255),
+            ::cv::Scalar(255, 255, 255, 255),
             1
         );
 
@@ -195,18 +205,51 @@ namespace CellSim
                     image,
                     ::cv::Point{ pointY, pointX },
                     ::cv::Point{ (int)((pCell->PositionY() + Settings::Config::Simulation::FieldRadius()) * m_scale), (int)((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale) },
-                    ::cv::Scalar(0, 255, 255),
+                    ::cv::Scalar(0, 255, 255, 255),
                     1
                 );
             }
         }
-
-        return image;
     }
 
-    void SimulationResultWriter::m_saveImage(::cv::Mat const& image, uint64_t step) const
+    void SimulationResultWriter::m_drawMolecule(Molecular::MoleculeField const& field, ::cv::Mat& image) const
     {
-        size_t filePathLength = m_option.OutputImagePath().size() + m_digits + 4; // ".png"
+        ::cv::Scalar color(0, 255, 0, 255);
+        double threshold = field.Kind().Threshold();
+
+        size_t z = field.Enable2dMode() ? 0 : field.GridCountZ() / 2;
+        int rectLength = (int)(m_imageSize / field.GridCountX());
+        
+        for (size_t x = 0; x < field.GridCountX(); ++x) {
+            auto span2 = field.Concentrations()[x];
+            for (size_t y = 0; y < field.GridCountY(); ++y) {
+                double value = span2.At(y, z);
+
+                // 透明度設定
+                if (value < threshold) {
+                    color[3] = (value / threshold) * 255;
+                }
+                else {
+                    color[3] = 255;
+                }
+
+                // 位置ずれを最小限に抑えるために毎回位置を計算する
+                int pointX = (int)(x * m_imageSize / field.GridCountX());
+                int pointY = (int)(y * m_imageSize / field.GridCountY());
+
+                ::cv::rectangle(
+                    image,
+                    ::cv::Rect{ pointX, pointY, rectLength, rectLength },
+                    color,
+                    ::cv::LineTypes::FILLED // 塗りつぶし
+                );
+            }
+        }
+    }
+
+    void SimulationResultWriter::m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const
+    {
+        size_t filePathLength = parentPath.size() + m_digits + 4; // ".png"
         size_t filePathCapacity = filePathLength + 1;
 
         // "%s%020llu.png"
@@ -216,7 +259,7 @@ namespace CellSim
         
         char* filePath = new char[filePathCapacity];
 
-        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputImagePath().c_str(), step);
+        ::snprintf(filePath, filePathCapacity, optionStr, parentPath.c_str(), step);
 
         ::cv::imwrite(filePath, image);
 
@@ -235,8 +278,40 @@ namespace CellSim
 
     SimulationResultWriter::~SimulationResultWriter()
     {
-        if (m_videoWriter.isOpened()) {
-            m_videoWriter.release();
+        auto f = [](::cv::VideoWriter& writer) {
+            if (writer.isOpened()) writer.release();
+        };
+        
+        f(m_videoWriter);
+
+        for (auto& pair : m_moleculeVideos) {
+            f(pair.second);
+        }
+    }
+
+    void SimulationResultWriter::InitializeMoleculeVideos(::std::vector<Molecular::MoleculeField> const& fields)
+    {
+        for (const Molecular::MoleculeField& field : fields) {
+            auto& videoWriter = m_moleculeVideos[field.Kind()];
+
+            if (m_option.IsOutputImage()) {
+                IO::DirectoryCreater::Create(m_option.OutputImagePath() + field.Kind().Name());
+            }
+
+            if (m_option.IsOutputVideo()) {
+                int fourcc = ::cv::VideoWriter::fourcc('M', 'J', 'P', 'G');
+
+                bool v = videoWriter.open(
+                    m_option.OutputPath() + "out-" + field.Kind().Name() + ".avi",
+                    fourcc,
+                    20,
+                    cv::Size(
+                        m_imageSize,
+                        m_imageSize
+                    ),
+                    true
+                );
+            }
         }
     }
 
@@ -252,20 +327,41 @@ namespace CellSim
             m_saveCsvMolecules(simulation.Molecules(), step);
         }
 
-        if (m_option.IsOutputImage()) {
-            ::cv::Mat image = m_createImage(simulation.Cells(), simulation.Molecules());
-            m_saveImage(image, step);
+        if (!m_option.IsOutputImage() && !m_option.IsOutputVideo()) return;
 
+        if (simulation.Molecules().empty()) {
+            ::cv::Mat image = m_drawCells(simulation.Cells());
+            if (m_option.IsOutputImage()) m_saveImage(image, m_option.OutputImagePath(), step);
+        
             if (m_option.IsOutputVideo()) {
                 m_videoWriter.write(image);
             }
-
-            return;
         }
+        else {
+            ::cv::Mat image = m_createImage();
+            ::cv::Mat cellImage = m_createImage(true);
+            m_drawCells(simulation.Cells(), cellImage);
 
-        if (m_option.IsOutputVideo()) {
-            m_videoWriter.write(m_createImage(simulation.Cells(), simulation.Molecules()));
+            for (const Molecular::MoleculeField& field : simulation.Molecules()) {
+                ::cv::Mat moleculeImage = m_createImage();
+                m_drawMolecule(field, moleculeImage);
+
+                // 画像を合成
+                ::cv::Mat combinedMolecular = Imaging::ImageHelper::CombineImages(moleculeImage, cellImage);
+
+                if (m_option.IsOutputVideo()) {
+                    m_moleculeVideos[field.Kind()].write(combinedMolecular);
+                }
+            }
+
+            ::cv::Mat combined = Imaging::ImageHelper::CombineImages(image, cellImage);
+            if (m_option.IsOutputImage()) m_saveImage(combined, m_option.OutputImagePath(), step);
+
+            if (m_option.IsOutputVideo()) {
+                m_videoWriter.write(combined);
+            }
         }
+        
     }
 
     void SimulationResultWriter::SaveConfig(

@@ -74,9 +74,13 @@ namespace CellSim::Molecular
         /// @brief 分子を拡散させる
         void Diffuse();
 
+        [[nodiscard]] constexpr bool Enable2dMode() const noexcept;
+
         [[nodiscard]] constexpr size_t GridCountX() const noexcept;
         [[nodiscard]] constexpr size_t GridCountY() const noexcept;
         [[nodiscard]] constexpr size_t GridCountZ() const noexcept;
+
+        [[nodiscard]] constexpr double GridLength() const noexcept;
 
         [[nodiscard]] constexpr double GridLengthX() const noexcept;
         [[nodiscard]] constexpr double GridLengthY() const noexcept;
@@ -109,6 +113,11 @@ namespace CellSim::Molecular
         return Containers::ReadOnlySpan3<double>(m_gridCountX, m_gridCountY, m_gridCountZ, m_pConcentration);
     }
 
+    constexpr bool MoleculeField::Enable2dMode() const noexcept
+    {
+        return m_enable2dMode;
+    }
+
     constexpr size_t MoleculeField::GridCountX() const noexcept
     {
         return m_gridCountX;
@@ -122,6 +131,11 @@ namespace CellSim::Molecular
     constexpr size_t MoleculeField::GridCountZ() const noexcept
     {
         return m_gridCountZ;
+    }
+
+    constexpr double MoleculeField::GridLength() const noexcept
+    {
+        return m_gridLengthX;
     }
 
     constexpr double MoleculeField::GridLengthX() const noexcept

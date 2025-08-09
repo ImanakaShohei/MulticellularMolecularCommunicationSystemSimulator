@@ -2,26 +2,26 @@
 
 namespace CellSim::Molecular
 {
-    ::std::vector<::std::string> MoleculeKind::s_names{ "Invalid" };
+    ::std::vector<::std::pair<::std::string, double>> MoleculeKind::s_names{ { "Invalid", 0 } };
 
-    MoleculeKind MoleculeKind::AddName(::std::string_view name)
+    MoleculeKind MoleculeKind::AddName(::std::string_view name, double threshold)
     {
         for (size_t i = 0; i < s_names.size(); i++) {
-            if (s_names[i] == name) [[unlikely]] return MoleculeKind((uint32_t)i);
+            if (s_names[i].first == name) [[unlikely]] return MoleculeKind((uint32_t)i);
         }
 
-        s_names.emplace_back(::std::move(name));
+        s_names.emplace_back(::std::move(name), threshold);
 
         return MoleculeKind((uint32_t)(s_names.size() - 1));
     }
 
-    MoleculeKind MoleculeKind::AddName(::std::string name)
+    MoleculeKind MoleculeKind::AddName(::std::string name, double threshold)
     {
         for (size_t i = 0; i < s_names.size(); i++) {
-            if (s_names[i] == name) [[unlikely]] return MoleculeKind((uint32_t)i);
+            if (s_names[i].first == name) [[unlikely]] return MoleculeKind((uint32_t)i);
         }
 
-        s_names.emplace_back(::std::move(name));
+        s_names.emplace_back(::std::move(name), threshold);
 
         return MoleculeKind((uint32_t)(s_names.size() - 1));
     }
@@ -29,7 +29,7 @@ namespace CellSim::Molecular
     MoleculeKind MoleculeKind::FromName(::std::string_view name) noexcept
     {
         for (size_t i = 0; i < s_names.size(); i++) {
-            if (s_names[i] == name) return MoleculeKind((uint32_t)i);
+            if (s_names[i].first == name) return MoleculeKind((uint32_t)i);
         }
 
         return Invalid();

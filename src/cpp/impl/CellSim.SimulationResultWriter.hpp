@@ -2,8 +2,10 @@
 #define CELLSIM_SIMULATIONRESULTWRITER_HPP
 
 #include "base.hpp"
+#include "CellSim.Molecular.MoleculeKind.hpp"
 #include "CellSim.SimulationOption.hpp"
 
+#include <map>
 #include <vector>
 #include <opencv2/opencv.hpp>
 
@@ -22,6 +24,7 @@ namespace CellSim
         double m_scale;
 
         ::cv::VideoWriter m_videoWriter;
+        ::std::map<Molecular::MoleculeKind, ::cv::VideoWriter> m_moleculeVideos;
 
         void m_initialize();
 
@@ -29,12 +32,13 @@ namespace CellSim
         void m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
         void m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
         void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
-        void m_saveImage(::cv::Mat const& image, uint64_t step) const;
+        void m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const;
 
-        ::cv::Mat m_createImage(
-            ::std::vector<Cells::Cell> const& cells,
-            ::std::vector<Molecular::MoleculeField> const& fields
-        );
+        [[nodiscard]] ::cv::Mat m_createImage(bool isTransparent = false) const;
+
+        [[nodiscard]] ::cv::Mat m_drawCells(::std::vector<Cells::Cell> const& cells) const;
+        void m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const;
+        void m_drawMolecule(Molecular::MoleculeField const& field, ::cv::Mat& image) const;
 
         public:
 
@@ -44,6 +48,8 @@ namespace CellSim
         ~SimulationResultWriter();
 
         SimulationResultWriter& operator=(SimulationResultWriter const&) = delete;
+
+        void InitializeMoleculeVideos(::std::vector<Molecular::MoleculeField> const& fields);
 
         void Save(Simulation const& simulation, uint64_t step);
 

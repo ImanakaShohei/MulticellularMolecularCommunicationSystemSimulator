@@ -8,14 +8,14 @@
 - IsAliveプロパティがファイルに出力されない
 
 # ビルド・動作要件
-## C++の場合
+<!--## C++の場合-->
 - C++20をサポートするコンパイラ
 - CMake (version 3.11~3.31)
 - Windows or macOS or Linux
-
+<!--
 ## C#の場合
 - .NET 8 SDK
-
+-->
 # ビルド方法
 ## C++の場合
 `Windows`の場合
@@ -37,7 +37,7 @@ cd build-scripts
 chmod +x build-linux.sh
 ./build-linux.sh
 ```
-
+<!--
 ## C#の場合
 `Windows(x64)`の場合
 ```sh
@@ -68,15 +68,15 @@ dotnet publish src/cs/CellSim/cellsim-linux.csproj -p:PublishProfile=Properties/
 ```sh
 dotnet publish src/cs/CellSim/cellsim-linux.csproj -p:PublishProfile=Properties/PublishProfiles/linux-arm64.pubxml
 ```
-
+-->
 ## 実行ファイルの場所
-### C++の場合
+<!--### C++の場合-->
 `./build-scripts/build/bin/`に作られます。  
 MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作られます。
-
+<!--
 ### C#の場合
 `./cs-publish/`に作られます。
-
+-->
 # コマンドラインオプション
 ### `-b` `--binary`
 実行結果を`.bin`ファイルとして出力します。

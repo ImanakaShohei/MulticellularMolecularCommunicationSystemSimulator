@@ -8,7 +8,7 @@
 #include "CellSim.Messages.hpp"
 #include "CellSim.Text.CString.hpp"
 
-#include <random>
+#include <numbers>
 #include <stdexcept>
 
 namespace CellSim::Molecular
@@ -26,7 +26,7 @@ namespace CellSim::Molecular
                 concentrations[x + 1][y][z] + concentrations[x - 1][y][z] + concentrations[x][y + 1][z] +
                 concentrations[x][y - 1][z] + concentrations[x][y][z + 1] + concentrations[x][y][z - 1] -
                 6.0 * concentrations[x][y][z]
-            ) /
+            ) *
             reverseCo
         ;
     }
@@ -178,14 +178,10 @@ namespace CellSim::Molecular
         }
     }
 
-    NormalMoleculeBehavior::NormalMoleculeBehavior(double)
+    NormalMoleculeBehavior::NormalMoleculeBehavior(double diffusionFactor)
+        : m_diffusionFactor(diffusionFactor)
     {
-        throw ::std::runtime_error(
-            Text::CString::Format(
-                Messages::Get("NotImplemented"),
-                "NormalMoleculeBehavior::NormalMoleculeBehavior(double)"
-            )
-        );
+        if (diffusionFactor <= 0) [[unlikely]] throw ::std::invalid_argument("diffusionFactor must be greater than 0.");
     }
 
     void NormalMoleculeBehavior::BeforeAdvanceStep(
@@ -193,14 +189,48 @@ namespace CellSim::Molecular
         [[maybe_unused]] MoleculeBehaviorStepArgs args
     )
     {
-        
+        for (auto& v : Concentrations()) {
+            v = 0;
+        }
     }
 
     void NormalMoleculeBehavior::Diffuse(
-        const MoleculeField*,
+        const MoleculeField* field,
         MoleculeDiffusionArgs args
     )
     {
+        double reverseCo = 1.0 / (field->GridLength() * field->GridLength());
+        if (Enable2dMode()) {
+            for (size_t x = 0; x < GridCountX(); x++) {
+                auto span2 = Concentrations()[x];
+
+                for (size_t y = 0; y < GridCountY(); y++) {
+                    span2.At(y, 0) += m_computeDiffuse(args.Concentrations, reverseCo, x, y, 0);
+                }
+            }
+        }
+        else {
+            for (size_t x = 0; x < GridCountX(); x++) {
+                auto span2 = Concentrations()[x];
+
+                for (size_t y = 0; y < GridCountY(); y++) {
+                    auto span = span2[y];
+
+                    for (size_t z = 0; z < GridCountZ(); z++) {
+                        span[z] += m_computeDiffuse(args.Concentrations, reverseCo, x, y, z);
+                    }
+                }
+            }
+        }
+
+        auto pDelta = Concentrations().begin();
+        auto eDelta = Concentrations().end();
+        auto pConcentration = args.Concentrations.begin();
+
+        for (; pDelta != eDelta; ++pDelta, ++pConcentration) {
+            *pConcentration += *pDelta;
+        }
+
         m_applyBoundaryConditions(args.Concentrations);
     }
 
@@ -246,7 +276,11 @@ namespace CellSim::Molecular
             }
             case InitialMoleculeDistribution::Gaussian:
             {
-                ::std::mt19937 mt(args.Seed);
+                constexpr double mean = 0.0;
+                
+                auto p = [] (double x) {
+
+                };
 
                 throw ::std::runtime_error("InitialMoleculeDistribution::Gaussian is not supported.");
 

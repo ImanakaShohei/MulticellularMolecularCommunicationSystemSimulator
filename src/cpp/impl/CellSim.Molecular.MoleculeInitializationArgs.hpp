@@ -16,15 +16,11 @@ namespace CellSim::Molecular
 
         /// @brief 境界条件
         InitialMoleculeDistribution DistributionType;
-
-        /// @brief シード値
-        uint32_t Seed;
         
         constexpr MoleculeInitializationArgs(
             Containers::Span3<double> concentrations,
             InitialMoleculeDistribution distributionType,
-            double moleculeAmount,
-            uint32_t seed
+            double moleculeAmount
         ) noexcept;
     };
 }
@@ -34,13 +30,11 @@ namespace CellSim::Molecular
     constexpr MoleculeInitializationArgs::MoleculeInitializationArgs(
         Containers::Span3<double> concentrations,
         InitialMoleculeDistribution distributionType,
-        double moleculeAmount,
-        uint32_t seed
+        double moleculeAmount
     ) noexcept
         : MoleculeAmount(moleculeAmount)
         , Concentrations(concentrations)
         , DistributionType(distributionType)
-        , Seed(seed)
     {
     }
 }

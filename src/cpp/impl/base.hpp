@@ -237,7 +237,7 @@ namespace CellSim::Graphics
 /// @brief 画像処理
 namespace CellSim::Imaging
 {
-    class ImageCreater;
+    class ImageHelper;
 }
 
 /// @brief 追加の入出力機能

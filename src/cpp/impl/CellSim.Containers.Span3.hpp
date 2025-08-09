@@ -23,6 +23,11 @@ namespace CellSim::Containers
 
         [[nodiscard]] constexpr Span2<T> operator[](size_t index) const noexcept;
 
+        [[nodiscard]] constexpr T* begin() noexcept;
+        [[nodiscard]] constexpr const T* begin() const noexcept;
+        [[nodiscard]] constexpr T* end() noexcept;
+        [[nodiscard]] constexpr const T* end() const noexcept;
+
         [[nodiscard]] constexpr T& At(size_t index1, size_t index2, size_t index3) const noexcept;
 
         [[nodiscard]] constexpr size_t Length() const noexcept;
@@ -47,6 +52,30 @@ namespace CellSim::Containers
     constexpr Span2<T> Span3<T>::operator[](size_t index) const noexcept
     {
         return Span2(m_lengthY, m_lengthZ, m_ptr + (index * m_lengthY * m_lengthZ));
+    }
+
+    template <class T>
+    constexpr T* Span3<T>::begin() noexcept
+    {
+        return m_ptr;
+    }
+
+    template <class T>
+    constexpr const T* Span3<T>::begin() const noexcept
+    {
+        return m_ptr;
+    }
+
+    template <class T>
+    constexpr T* Span3<T>::end() noexcept
+    {
+        return m_ptr + Length();
+    }
+
+    template <class T>
+    constexpr const T* Span3<T>::end() const noexcept
+    {
+        return m_ptr + Length();
     }
 
     template <class T>

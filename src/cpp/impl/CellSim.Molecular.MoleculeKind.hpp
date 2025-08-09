@@ -14,7 +14,8 @@ namespace CellSim::Molecular
     class MoleculeKind {
         private:
 
-        static ::std::vector<::std::string> s_names;
+        // <名前, 動画出力時の閾値>
+        static ::std::vector<::std::pair<::std::string, double>> s_names;
 
         uint32_t m_id;
 
@@ -24,9 +25,9 @@ namespace CellSim::Molecular
 
         [[nodiscard]] static constexpr MoleculeKind Invalid() noexcept;
 
-        [[nodiscard]] static MoleculeKind AddName(const char* name);
-        [[nodiscard]] static MoleculeKind AddName(::std::string_view name);
-        [[nodiscard]] static MoleculeKind AddName(::std::string name);
+        [[nodiscard]] static MoleculeKind AddName(const char* name, double threshold);
+        [[nodiscard]] static MoleculeKind AddName(::std::string_view name, double threshold);
+        [[nodiscard]] static MoleculeKind AddName(::std::string name, double threshold);
 
         [[nodiscard]] static MoleculeKind FromName(::std::string_view name) noexcept;
 
@@ -34,7 +35,9 @@ namespace CellSim::Molecular
 
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
-        [[nodiscard]] ::std::string const& Name() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& Name() const noexcept;
+
+        [[nodiscard]] constexpr double Threshold() const noexcept;
     };
 
     [[nodiscard]] constexpr bool operator==(MoleculeKind left, MoleculeKind right) noexcept;
@@ -58,9 +61,9 @@ namespace CellSim::Molecular
         return MoleculeKind(0);
     }
 
-    inline MoleculeKind MoleculeKind::AddName(const char* name)
+    inline MoleculeKind MoleculeKind::AddName(const char* name, double threshold)
     {
-        return AddName(::std::string_view{ name });
+        return AddName(::std::string_view{ name }, threshold);
     }
 
     constexpr uint32_t MoleculeKind::Id() const noexcept
@@ -68,9 +71,14 @@ namespace CellSim::Molecular
         return m_id;
     }
 
-    inline ::std::string const& MoleculeKind::Name() const noexcept
+    constexpr ::std::string const& MoleculeKind::Name() const noexcept
     {
-        return s_names[m_id];
+        return s_names[m_id].first;
+    }
+
+    constexpr double MoleculeKind::Threshold() const noexcept
+    {
+        return s_names[m_id].second;
     }
 
     constexpr bool operator==(MoleculeKind left, MoleculeKind right) noexcept
