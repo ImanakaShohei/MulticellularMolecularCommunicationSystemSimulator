@@ -18,6 +18,8 @@ namespace CellSim::Containers
 
         public:
 
+        [[nodiscard]] static constexpr size_t ElementSize() noexcept;
+
         Span3() = default;
         constexpr Span3(size_t lengthX, size_t lengthY, size_t lengthZ, T* ptr) noexcept;
 
@@ -39,6 +41,12 @@ namespace CellSim::Containers
 
 namespace CellSim::Containers
 {
+    template <class T>
+    constexpr size_t Span3<T>::ElementSize() noexcept
+    {
+        return sizeof(T);
+    }
+
     template <class T>
     constexpr Span3<T>::Span3(size_t lengthX, size_t lengthY, size_t lengthZ, T* ptr) noexcept
         : m_lengthX(lengthX)

@@ -11,6 +11,12 @@ namespace CellSim
     class SimulationOption {
         private:
 
+        static constexpr const char* s_binName = "bin";
+        static constexpr const char* s_cellsName = "cells";
+        static constexpr const char* s_csvName = "csv";
+        static constexpr const char* s_imagesName = "images";
+        static constexpr const char* s_moleculesName = "molecules";
+
         /// @brief データをバイナリファイルとして出力するかどうか
         bool m_isOutputBinary;
 
@@ -31,8 +37,15 @@ namespace CellSim
         ::std::string m_outputCsvCellPath;
         ::std::string m_outputCsvMoleculePath;
         ::std::string m_outputImagePath;
+        ::std::string m_outputImageMoleculePath;
 
         public:
+
+        [[nodiscard]] static constexpr const char* BinName() noexcept;
+        [[nodiscard]] static constexpr const char* CellsName() noexcept;
+        [[nodiscard]] static constexpr const char* CsvName() noexcept;
+        [[nodiscard]] static constexpr const char* ImagesName() noexcept;
+        [[nodiscard]] static constexpr const char* MoleculesName() noexcept;
 
         SimulationOption(
             bool isOutputBinary,
@@ -62,6 +75,7 @@ namespace CellSim
         [[nodiscard]] constexpr ::std::string const& OutputCsvCellPath() const noexcept;
         [[nodiscard]] constexpr ::std::string const& OutputCsvMoleculePath() const noexcept;
         [[nodiscard]] constexpr ::std::string const& OutputImagePath() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& OutputImageMoleculePath() const noexcept;
 
         void InitializeDirectories() const;
     };
@@ -69,6 +83,31 @@ namespace CellSim
 
 namespace CellSim
 {
+    constexpr const char* SimulationOption::BinName() noexcept
+    {
+        return s_binName;
+    }
+
+    constexpr const char* SimulationOption::CellsName() noexcept
+    {
+        return s_cellsName;
+    }
+
+    constexpr const char* SimulationOption::CsvName() noexcept
+    {
+        return s_csvName;
+    }
+
+    constexpr const char* SimulationOption::ImagesName() noexcept
+    {
+        return s_imagesName;
+    }
+
+    constexpr const char* SimulationOption::MoleculesName() noexcept
+    {
+        return s_moleculesName;
+    }
+
     constexpr bool SimulationOption::IsOutputBinary() const noexcept
     {
         return m_isOutputBinary;
@@ -127,6 +166,11 @@ namespace CellSim
     constexpr ::std::string const& SimulationOption::OutputImagePath() const noexcept
     {
         return m_outputImagePath;
+    }
+
+    constexpr ::std::string const& SimulationOption::OutputImageMoleculePath() const noexcept
+    {
+        return m_outputImageMoleculePath;
     }
 }
 

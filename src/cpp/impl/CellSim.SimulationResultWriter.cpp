@@ -16,6 +16,23 @@
 
 namespace CellSim
 {
+    ::std::string SimulationResultWriter::s_createFilePath(uint64_t step, uint32_t digits, ::std::string const& parentPath, ::std::string_view extension)
+    {
+        size_t filePathLength = parentPath.size() + digits + extension.size();
+        size_t filePathCapacity = filePathLength + 1;
+
+        // "%s%020llu%4s"
+        char optionStr[13];
+        
+        ::snprintf(optionStr, 13, "%%s%%0%lullu%%%zus", (unsigned long)digits, extension.size());
+        
+        ::std::string filePath(filePathLength, '\0');
+
+        ::snprintf(filePath.data(), filePathCapacity, optionStr, parentPath.c_str(), step, extension.data());
+
+        return filePath;
+    }
+
     void SimulationResultWriter::m_initialize()
     {
         m_option.InitializeDirectories();
@@ -38,19 +55,7 @@ namespace CellSim
 
     void SimulationResultWriter::m_saveBinaryCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
     {
-        size_t filePathLength = m_option.OutputBinaryCellPath().size() + m_digits + 4; // ".bin"
-        size_t filePathCapacity = filePathLength + 1;
-
-        // "%s%020llu.bin"
-        char optionStr[14];
-        
-        ::snprintf(optionStr, 14, "%%s%%0%lullu.bin", (unsigned long)m_digits);
-        
-        char* filePath = new char[filePathCapacity];
-
-        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputBinaryCellPath().c_str(), step);
-
-        ::FILE* fp = ::fopen(filePath, "wb");
+        ::FILE* fp = ::fopen(s_createFilePath(step, m_digits, m_option.OutputBinaryCellPath(), ".bin").c_str(), "wb");
 
         if (fp == nullptr) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
 
@@ -81,38 +86,76 @@ namespace CellSim
                 ::fwrite(&id, sizeof(id), 1, fp);
             }
         }
-
-        delete[] filePath;
+        
         ::fclose(fp);
     }
 
-    void SimulationResultWriter::m_saveBinaryMolecules([[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& cells, [[maybe_unused]] uint64_t step) const
+    void SimulationResultWriter::m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& fields, uint64_t step) const
     {
-        // TODO: ここに処理を追加します
+        for (Molecular::MoleculeField const& field : fields) {
+            ::FILE* fp = ::fopen(s_createFilePath(step, m_digits, m_option.OutputBinaryMoleculePath() + field.Kind().Name() + '/', ".bin").c_str(), "wb");
+
+            if (fp == nullptr) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
+
+            size_t gridCounts[]{ field.GridCountX(), field.GridCountY(), field.GridCountZ() };
+
+            ::fwrite(gridCounts, sizeof(gridCounts), 1, fp);
+
+            auto data = field.Concentrations();
+
+            ::fwrite(data.begin(), data.ElementSize(), data.Length(), fp);
+
+            ::fclose(fp);
+        }
     }
 
-    void SimulationResultWriter::m_saveCsvMolecules([[maybe_unused]] ::std::vector<Molecular::MoleculeField> const& cells, [[maybe_unused]] uint64_t step) const
+    void SimulationResultWriter::m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& fields, uint64_t step) const
     {
-        // TODO: ここに処理を追加します
+        for (Molecular::MoleculeField const& field : fields) {
+            ::std::ofstream ofs(s_createFilePath(step, m_digits, m_option.OutputCsvMoleculePath() + field.Kind().Name() + '/', ".csv"));
+
+            if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create .csv file");
+
+            ofs << "Nx," << field.GridCountX() << ::std::endl;
+            ofs << "Ny," << field.GridCountY() << ::std::endl;
+            ofs << "Nz," << field.GridCountZ() << ::std::endl;
+
+            ofs << "x,y,z,amount" << ::std::endl;
+
+            auto data = field.Concentrations();
+
+            if (field.Enable2dMode()) {
+                for (size_t x = 0; x < field.GridCountX(); x++) {
+                    auto span2 = data[x];
+
+                    for (size_t y = 0; y < field.GridCountY(); y++) {
+                        ofs << x << ',' << y << ",0," << span2.At(y, 0) << ::std::endl;
+                    }
+                }
+            }
+            else {
+                for (size_t x = 0; x < field.GridCountX(); x++) {
+                    auto span2 = data[x];
+
+                    for (size_t y = 0; y < field.GridCountY(); y++) {
+                        auto span = span2[y];
+
+                        for (size_t z = 0; z < field.GridCountZ(); z++) {
+                            ofs << x << ',' << y << ',' << z << ',' << span[z] << ::std::endl; 
+                        }
+                    }
+                }
+            }
+
+            
+        }
     }
 
     void SimulationResultWriter::m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
     {
-        size_t filePathLength = m_option.OutputCsvCellPath().size() + m_digits + 4; // ".csv"
-        size_t filePathCapacity = filePathLength + 1;
-
-        // "%s%020llu.csv"
-        char optionStr[14];
+        ::std::ofstream ofs(s_createFilePath(step, m_digits, m_option.OutputCsvCellPath(), ".csv"));
         
-        ::snprintf(optionStr, 14, "%%s%%0%lullu.csv", (unsigned long)m_digits);
-        
-        char* filePath = new char[filePathCapacity];
-
-        ::snprintf(filePath, filePathCapacity, optionStr, m_option.OutputCsvCellPath().c_str(), step);
-
-        ::std::ofstream ofs(filePath);
-        
-        if (!filePath) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
+        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create .csv file");
 
         ofs << "ID,Type,Position.X,Position.Y,Position.Z,Velocity.X,Velocity.Y,Velocity.Z,Radius,Mass,IsAlive,AttachedCellCount," << ::std::endl;
 
@@ -137,8 +180,7 @@ namespace CellSim
 
             ofs << ::std::endl;
         }
-
-        delete[] filePath;
+        
     }
 
     ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent, bool is4Channel) const
@@ -253,21 +295,7 @@ namespace CellSim
 
     void SimulationResultWriter::m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const
     {
-        size_t filePathLength = parentPath.size() + m_digits + 4; // ".png"
-        size_t filePathCapacity = filePathLength + 1;
-
-        // "%s%020llu.png"
-        char optionStr[14];
-        
-        ::snprintf(optionStr, 14, "%%s%%0%lullu.png", (unsigned long)m_digits);
-        
-        char* filePath = new char[filePathCapacity];
-
-        ::snprintf(filePath, filePathCapacity, optionStr, parentPath.c_str(), step);
-
-        ::cv::imwrite(filePath, image);
-
-        delete[] filePath;
+        ::cv::imwrite(s_createFilePath(step, m_digits, parentPath, ".png"), image);
     }
 
     SimulationResultWriter::SimulationResultWriter(SimulationOption option)
@@ -293,15 +321,21 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::InitializeMoleculeVideos(::std::vector<Molecular::MoleculeField> const& fields)
+    void SimulationResultWriter::InitializeMoleculeData(::std::vector<Molecular::MoleculeField> const& fields)
     {
+        if (fields.empty()) return;
+
+        if (m_option.IsOutputBinary()) IO::DirectoryCreater::Create(m_option.OutputBinaryMoleculePath());
+        if (m_option.IsOutputCsv()) IO::DirectoryCreater::Create(m_option.OutputCsvMoleculePath());
+        if (m_option.IsOutputImage()) IO::DirectoryCreater::Create(m_option.OutputImageMoleculePath());
+
         for (const Molecular::MoleculeField& field : fields) {
             auto& videoWriter = m_moleculeVideos[field.Kind()];
 
-            if (m_option.IsOutputImage()) {
-                IO::DirectoryCreater::Create(m_option.OutputImagePath() + field.Kind().Name());
-            }
-
+            if (m_option.IsOutputBinary()) IO::DirectoryCreater::Create(m_option.OutputBinaryMoleculePath() + field.Kind().Name());
+            if (m_option.IsOutputCsv()) IO::DirectoryCreater::Create(m_option.OutputCsvMoleculePath() + field.Kind().Name());
+            if (m_option.IsOutputImage()) IO::DirectoryCreater::Create(m_option.OutputImageMoleculePath() + field.Kind().Name());
+            
             if (m_option.IsOutputVideo()) {
                 int fourcc = ::cv::VideoWriter::fourcc('M', 'J', 'P', 'G');
 
@@ -352,6 +386,10 @@ namespace CellSim
 
                 // 画像を合成
                 ::cv::Mat combinedMolecular = Imaging::ImageHelper::CombineImages(moleculeImage, cellImage);
+
+                if (m_option.IsOutputImage()) {
+                    if (m_option.IsOutputImage()) m_saveImage(combinedMolecular, m_option.OutputImageMoleculePath() + field.Kind().Name() + '/', step);
+                }
 
                 if (m_option.IsOutputVideo()) {
                     m_moleculeVideos[field.Kind()].write(combinedMolecular);

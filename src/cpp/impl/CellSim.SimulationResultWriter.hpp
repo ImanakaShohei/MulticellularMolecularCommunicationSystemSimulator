@@ -6,6 +6,8 @@
 #include "CellSim.SimulationOption.hpp"
 
 #include <map>
+#include <string>
+#include <string_view>
 #include <vector>
 #include <opencv2/opencv.hpp>
 
@@ -15,6 +17,15 @@ namespace CellSim
     class SimulationResultWriter {
         private:
         static constexpr uint32_t s_log10(uint64_t step) noexcept;
+
+        /// @brief 
+        /// @param step 
+        /// @param digits 
+        /// @param parentPath 
+        /// @param extension 
+        /// @return 
+        [[nodiscard]] static ::std::string s_createFilePath(uint64_t step, uint32_t digits, ::std::string const& parentPath, ::std::string_view extension);
+
         SimulationOption m_option;
 
         /// @brief ステップ数の桁数
@@ -49,7 +60,7 @@ namespace CellSim
 
         SimulationResultWriter& operator=(SimulationResultWriter const&) = delete;
 
-        void InitializeMoleculeVideos(::std::vector<Molecular::MoleculeField> const& fields);
+        void InitializeMoleculeData(::std::vector<Molecular::MoleculeField> const& fields);
 
         void Save(Simulation const& simulation, uint64_t step);
 

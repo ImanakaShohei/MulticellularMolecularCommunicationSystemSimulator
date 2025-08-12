@@ -207,7 +207,7 @@ namespace CellSim
             );
         }
 
-        m_writer.InitializeMoleculeVideos(m_molecules);
+        m_writer.InitializeMoleculeData(m_molecules);
     }
 
     Simulation::~Simulation()
