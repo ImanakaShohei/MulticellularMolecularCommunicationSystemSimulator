@@ -1,11 +1,12 @@
 ﻿#include "CellSim.Cli.ParamSweepOption.hpp"
 #include "CellSim.Cli.ParamOption.hpp"
-#include "CellSim.Cli.CliOptionActivationArgs.hpp"
+#include "CellSim.Cli.CliOptionArgs.hpp"
 #include "CellSim.IO.DirectoryCreater.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Simulation.hpp"
 #include "CellSim.SimulationOption.hpp"
 #include "CellSim.Settings.Config.hpp"
+#include "CellSim.Text.JsonHelper.hpp"
 #include <nlohmann/json.hpp>
 
 #include <sstream>
@@ -13,28 +14,9 @@
 
 namespace CellSim::Cli
 {
-    ::nlohmann::json& ParamSweepOption::s_checkValue(::nlohmann::json& config, ::std::string_view param)
-    {
-        size_t index = param.find('.');
-        if (index != ::std::string_view::npos) {
-            ::std::string_view paramName = param.substr(0, index);
-
-            ::nlohmann::json& j = config[paramName];
-
-            if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotFound"));
-
-            return s_checkValue(config[paramName], param.substr(index + 1));
-        }
-
-        ::nlohmann::json& j = config[param];
-
-        if (!j.is_null() && !j.is_number()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotNumber"));
-
-        return j;
-    }
 
     template <Numerics::NumberType TNum>
-    void ParamSweepOption::s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionActivationArgs args)
+    void ParamSweepOption::s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionArgs args)
     {
         TNum begin;
         TNum end;
@@ -53,13 +35,17 @@ namespace CellSim::Cli
 
         sin >> begin >> end >> delta;
 
-        if (!sin) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.OnActive.Error");
+        if (!sin) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
-        ::nlohmann::json& j = s_checkValue(config, paramName);
+        ::nlohmann::json* j = Text::JsonHelper::GetParam(config, paramName);
+
+        if (j == nullptr) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotFound"));
+
+        if (!j->is_number()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotNumber"));
 
         for (TNum current = begin; current <= end; current += delta) {
 
-            j = current;
+            *j = current;
 
             Settings::Config::Load(config);
 
@@ -84,20 +70,20 @@ namespace CellSim::Cli
         }
     }
 
-    void ParamSweepOption::OnActive(const CliOptions* sender, CliOptionActivationArgs args)
+    void ParamSweepOption::Run(const CliOptions* sender, CliOptionArgs args)
     {
         ::std::string_view paramView = m_value;
 
         size_t index = paramView.find('=');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.OnActive.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
         paramView = paramView.substr(index + 1);
         ::std::string paramName = m_value.substr(0, index);
 
         index = paramView.find(':');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.OnActive.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
         ::std::string_view first = paramView.substr(0, index);
 
@@ -105,7 +91,7 @@ namespace CellSim::Cli
 
         index = paramView.find(':');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.OnActive.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
         ::std::string_view second = paramView.substr(0, index);
 

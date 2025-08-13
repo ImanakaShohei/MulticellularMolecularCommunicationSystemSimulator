@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Text.JsonHelper.hpp"
+#include "CellSim.Numerics.Numbers.hpp"
 
 #include <stdexcept>
 #include <nlohmann/json.hpp>
@@ -12,11 +13,21 @@ namespace CellSim::Text
     {
         size_t index = paramName.find('.');
 
-        try {
-            if (index == string_view::npos) return &(j.at(paramName));
-        }
-        catch (...) {
-            return nullptr;
+        if (index == string_view::npos) {
+            try {
+                if (j.is_array()) {
+                    size_t arrIndex;
+
+                    if (!Numerics::Numbers::ToNumber(paramName, arrIndex)) return nullptr;
+
+                    return &(j.at(arrIndex));
+                }
+
+                return &(j.at(paramName));
+            }
+            catch (...) {
+                return nullptr;
+            }
         }
         
         string_view param1 = paramName.substr(0, index);
@@ -24,7 +35,17 @@ namespace CellSim::Text
         json* pj;
 
         try {
-            pj = &(j.at(param1));
+            if (j.is_array()) {
+
+                size_t arrIndex;
+
+                if (!Numerics::Numbers::ToNumber(param1, arrIndex)) return nullptr;
+                
+                pj = &(j.at(arrIndex));
+            }
+            else {
+                pj = &(j.at(param1));
+            }
         }
         catch (...) {
             return nullptr;

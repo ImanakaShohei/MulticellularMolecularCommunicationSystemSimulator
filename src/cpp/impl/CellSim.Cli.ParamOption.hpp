@@ -28,8 +28,6 @@ namespace CellSim::Cli
 
         constexpr ::std::string_view Names() const noexcept override;
 
-        void OnActive(const CliOptions* sender, CliOptionActivationArgs args) override;
-
         constexpr CliOptionType OptionType() const noexcept override;
 
         void OverrideParameter(nlohmann::json& config) const;

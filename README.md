@@ -5,7 +5,7 @@
 分子通信シミュレーションのための汎用シミュレータであり、ユーザがシミュレーションのパラメータや力学作用を定義することでさまざまなモデルに対応したシミュレーションを実行することができます。
 
 # 既知の不具合
-- -p, --param-sweepでcell.cellsとmolecularのパラメータを設定できない
+- -p, --param-sweepでcell.cellsとmolecularのパラメータを設定できない<!--解決済み-->
 
 # ビルド・動作要件
 <!--## C++の場合-->
@@ -114,11 +114,11 @@ MSVCでビルドされた場合は`./build-scripts/build/bin/Release/`に作ら�
 パラメータをオーバーライドします。
 ここでは、細胞の初期数をオーバーライドしています。
 ```sh
-./cellsim -b -p cell.cellCount=1000
+./cellsim -b -p cell.cells.0.cellCount=1000
 ```
 複数のパラメータをオーバーライドすることもできます。
 ```sh
-./cellsim -b -p cell.cellCount=3000 -p cellAlgorithm.useClusterModel=true
+./cellsim -b -p cell.cells.0.cellCount=3000 -p cellAlgorithm.useClusterModel=true
 ```
 ### `-s` `--setting`
 使用する設定ファイルのパスを指定します。  
@@ -173,5 +173,5 @@ GUIツールと通信するための、書き込み用の名前付きパイプ�
 パラメータ範囲を順番に実行します。
 以下の例では細胞数を1000個から2000個まで100刻みで実行します。
 ```sh
-./cellsim -b --param-sweep cell.cellCount=1000:2000:100
+./cellsim -b --param-sweep cell.cells.0.cellCount=1000:2000:100
 ```

@@ -14,10 +14,8 @@ namespace CellSim::Cli
 
         static constexpr ::std::string_view s_fullName = "--param-sweep";
 
-        static ::nlohmann::json& s_checkValue(::nlohmann::json& config, ::std::string_view param);
-
         template <Numerics::NumberType TNum>
-        static void s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionActivationArgs args);
+        static void s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionArgs args);
 
         public:
 
@@ -27,7 +25,7 @@ namespace CellSim::Cli
 
         constexpr ::std::string_view Names() const noexcept override;
 
-        void OnActive(const CliOptions* sender, CliOptionActivationArgs args) override;
+        void Run(const CliOptions* sender, CliOptionArgs args) override;
 
         constexpr CliOptionType OptionType() const noexcept override;
 

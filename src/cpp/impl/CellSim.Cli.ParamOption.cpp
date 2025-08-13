@@ -1,9 +1,8 @@
 ﻿#include "CellSim.Cli.ParamOption.hpp"
-#include "CellSim.Cli.CliOptionActivationArgs.hpp"
 #include "CellSim.Messages.hpp"
+#include "CellSim.Numerics.Numbers.hpp"
 #include "CellSim.Text.JsonHelper.hpp"
 
-#include <sstream>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 
@@ -22,13 +21,10 @@ namespace CellSim::Cli
         }
         else {
             T tValue;
-            ::std::istringstream sin(::std::string(value.data(), value.size()) + ' ');
-
-            sin >> tValue;
+            
+            if (!Numerics::Numbers::ToNumber<T>(value, tValue)) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
 
             v = tValue;
-
-            if (!sin || sin.tellg() != value.size()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
         }
     }
 
@@ -56,10 +52,6 @@ namespace CellSim::Cli
 
             default: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidParam"));
         }
-    }
-
-    void ParamOption::OnActive(const CliOptions* sender, CliOptionActivationArgs args)
-    {
     }
 
     void ParamOption::OverrideParameter(nlohmann::json& config) const

@@ -290,6 +290,8 @@ namespace CellSim::Memory
 /// @brief 数値関連
 namespace CellSim::Numerics
 {
+    class Numbers;
+
     template <class T>
     concept NumberType = (::std::integral<T> || ::std::floating_point<T>) && (::std::same_as<T, bool> == false);
 

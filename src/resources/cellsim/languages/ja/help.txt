@@ -12,7 +12,7 @@ Usage: cellsim [OPTIONS]
   -p, --param NAME=VAL  指定パラメータをオーバーライドします（複数指定可）
   -s, --setting FILE    使用する設定ファイルを指定します（既定: ./config.json）
   -v, --video           実行結果を動画ファイルとして出力します
-      --param-sweep EXPR パラメータ範囲を順次実行します（例: cell.cellCount=1000:2000:100）
+      --param-sweep EXPR パラメータ範囲を順次実行します（例: cell.cells.0.cellCount=1000:2000:100）
 
 注意:
   - `-h, --help` は単独で使用してください。
