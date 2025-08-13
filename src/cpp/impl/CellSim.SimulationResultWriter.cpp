@@ -185,7 +185,7 @@ namespace CellSim
 
     ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent, bool is4Channel) const
     {
-        return ::cv::Mat{ m_imageSize, m_imageSize, is4Channel ? CV_8UC4 : CV_8SC3, isTransparent ? ::cv::Scalar(0, 0, 0, 0) : ::cv::Scalar(0, 0, 0, 255) };
+        return ::cv::Mat{ m_imageSize, m_imageSize, is4Channel ? CV_8UC4 : CV_8UC3, isTransparent ? ::cv::Scalar(0, 0, 0, 0) : ::cv::Scalar(0, 0, 0, 255) };
     }
 
     ::cv::Mat SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells) const
@@ -254,9 +254,10 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::m_drawMolecule(Molecular::MoleculeField const& field, ::cv::Mat& image) const
+    ::cv::Mat SimulationResultWriter::m_drawMolecule(Molecular::MoleculeField const& field) const
     {
-        ::cv::Scalar color(0, 255, 0, 255);
+        ::cv::Mat image{ (int)(field.GridCountX() - 2), (int)(field.GridCountY() - 2), CV_8UC3, ::cv::Scalar(0, 0, 0) };
+        ::cv::Scalar color(0, 0, 0);
         double threshold = field.Kind().Threshold();
 
         size_t z = field.Enable2dMode() ? 0 : field.GridCountZ() / 2;
@@ -273,24 +274,65 @@ namespace CellSim
 
                 // 透明度設定
                 if (value < threshold) {
-                    color[1] = (value / threshold) * 255;
+                    int v = (int)((value / threshold) * 1532);
+                    
+                    // 赤~白
+                    if (v >= 1276) {
+                        color[0] = 255;
+                        color[1] = v - 1276;
+                        color[2] = v - 1276;
+                    }
+                    // 黄色~赤
+                    else if (v >= 1021) {
+                        color[0] = 255;
+                        color[1] = 1276 - v;
+                        color[2] = 0;
+                    }
+                    // 緑~黄色
+                    else if (v >= 766) {
+                        color[0] = v - 766;
+                        color[1] = 255;
+                        color[2] = 0;
+                    }
+                    // 青みどり~緑
+                    else if (v >= 511) {
+                        color[0] = 0;
+                        color[1] = 255;
+                        color[2] = 766 - v;
+                    }
+                    // 青~青緑
+                    else if (v >= 256) {
+                        color[0] = 0;
+                        color[1] = v - 255;
+                        color[2] = 255;
+                    }
+                    // 黒~青
+                    else {
+                        color[0] = 0;
+                        color[1] = 0;
+                        color[2] = v;
+                    }
                 }
                 else {
+                    color[0] = 255;
                     color[1] = 255;
+                    color[2] = 255;
                 }
-
-                // 位置ずれを最小限に抑えるために毎回位置を計算する
-                int pointX = (int)((x - 1) * m_imageSize / gridCount);
-                int pointY = (int)((y - 1) * m_imageSize / gridCount);
 
                 ::cv::rectangle(
                     image,
-                    ::cv::Rect{ pointX, pointY, rectLength, rectLength },
+                    ::cv::Rect{ (int)(x - 1), (int)(y - 1), 1, 1 },
                     color, 
                     ::cv::LineTypes::FILLED // 塗りつぶし
                 );
             }
         }
+
+        ::cv::Mat resized;
+
+        ::cv::resize(image, resized, ::cv::Size{ m_imageSize, m_imageSize }, 0, 0, cv::InterpolationFlags::INTER_NEAREST);
+
+        return resized;
     }
 
     void SimulationResultWriter::m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const
@@ -376,13 +418,12 @@ namespace CellSim
             }
         }
         else {
-            ::cv::Mat image = m_createImage(false, true);
+            ::cv::Mat image = m_createImage(false, false);
             ::cv::Mat cellImage = m_createImage(true, true);
             m_drawCells(simulation.Cells(), cellImage);
 
             for (const Molecular::MoleculeField& field : simulation.Molecules()) {
-                ::cv::Mat moleculeImage = m_createImage(false, true);
-                m_drawMolecule(field, moleculeImage);
+                ::cv::Mat moleculeImage = m_drawMolecule(field);
 
                 // 画像を合成
                 ::cv::Mat combinedMolecular = Imaging::ImageHelper::CombineImages(moleculeImage, cellImage);

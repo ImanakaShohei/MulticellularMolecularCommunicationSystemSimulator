@@ -49,7 +49,7 @@ namespace CellSim
 
         [[nodiscard]] ::cv::Mat m_drawCells(::std::vector<Cells::Cell> const& cells) const;
         void m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const;
-        void m_drawMolecule(Molecular::MoleculeField const& field, ::cv::Mat& image) const;
+        ::cv::Mat m_drawMolecule(Molecular::MoleculeField const& field) const;
 
         public:
 

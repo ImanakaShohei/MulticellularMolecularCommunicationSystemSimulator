@@ -8,8 +8,8 @@ namespace CellSim::Imaging
         ::cv::Mat const& foreground
     )
     {
-        cv::Mat newData; // 背景画像をコピーして新しいMatを作成
-        cv::cvtColor(background, newData, cv::COLOR_BGRA2BGR);
+        cv::Mat newData = background.clone(); // 背景画像をコピーして新しいMatを作成
+        
         // 2. 前景画像をBGRチャンネルとアルファチャンネル(マスク)に分離
         ::std::vector<cv::Mat> channels;
         ::cv::split(foreground, channels); // 4つのチャンネルに分離
