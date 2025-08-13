@@ -330,7 +330,7 @@ namespace CellSim
 
         ::cv::Mat resized;
 
-        ::cv::resize(image, resized, ::cv::Size{ m_imageSize, m_imageSize }, 0, 0, cv::InterpolationFlags::INTER_NEAREST);
+        ::cv::resize(image, resized, ::cv::Size{ m_imageSize, m_imageSize }, 0, 0, (field.GridCountX() - 2) > m_imageSize ? cv::InterpolationFlags::INTER_AREA : cv::InterpolationFlags::INTER_NEAREST);
 
         return resized;
     }

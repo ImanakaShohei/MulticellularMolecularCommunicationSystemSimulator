@@ -21,7 +21,7 @@ namespace CellSim::Cli
         }
         else {
             T tValue;
-            
+
             if (!Numerics::Numbers::ToNumber<T>(value, tValue)) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
 
             v = tValue;
@@ -48,7 +48,14 @@ namespace CellSim::Cli
             case nlohmann::detail::value_t::number_unsigned: s_changeValue<double>(j, value); break;
             case nlohmann::detail::value_t::boolean: s_changeValue<bool>(j, value); break;
             case nlohmann::detail::value_t::string: s_changeValue<::std::string>(j, value); break;
+            case nlohmann::detail::value_t::array:
+            {
+                if (value != "[]") [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
+                j = ::nlohmann::json::array();
+                break;
+            }
             case nlohmann::detail::value_t::null: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
+            
 
             default: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidParam"));
         }
