@@ -82,6 +82,12 @@ namespace CellSim::Cells
             Numerics::Vector3 position
         ) noexcept;
 
+        /// @brief 
+        /// @param type 
+        /// @param pBehavior 
+        /// @param mass 
+        /// @param radius 
+        /// @param position 
         Cell(
             CellType type,
             CellBehaviorPtr const& pBehavior,

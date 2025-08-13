@@ -9,33 +9,33 @@ namespace CellSim::CellAlgorithms
 {
     void ClusterModel::Combine(::std::vector<Cells::Cell>& cells, ::std::vector<Molecular::MoleculeField> const& fields, const CellList* pCellList)
     {
-        auto f = [] (Cells::Cell& cell, Cells::CellInfo info, Cells::CellInfo cellInfo) {
-            if (cellInfo.Type == Cells::CellType::Invalid()) return;
-            if (cellInfo.Type != info.Type) return;
+        auto f = [] (Cells::Cell& cell, Cells::Cell& cell2) {
+            if (cell2.Type() != cell.Type()) return;
 
-            double radius = info.Radius + cellInfo.Radius;
+            double radius = cell.Radius() + cell2.Radius();
 
             //距離 < 細胞半径 + 細胞半径 でくっつく
             //高速化のため、２乗で計算
-            if ((info.Position - cellInfo.Position).SquareLength() < radius * radius) {
-                cell.Combine(*const_cast<Cells::Cell*>(cellInfo.CellPtr));
+            if ((cell.Position() - cell2.Position()).SquareLength() < radius * radius) {
+                cell.Combine(cell2);
             }
         };
 
         if (pCellList == nullptr) {
             for (auto itr1 = cells.begin(), end = cells.end(); itr1 != end; ++itr1) {
-                Cells::CellInfo info{ *itr1 };
+
+                if (itr1->Type() == Cells::CellType::Invalid()) continue;
 
                 for (auto itr2 = itr1 + 1; itr2 != end; ++itr2) {
-                    f(*itr1, info, *itr2);
+                    f(*itr1, *itr2);
                 }
             }
         }
         else {
             for (auto itr1 = cells.begin(), end = cells.end(); itr1 != end; ++itr1) {
                 Cells::Cell& cell = *itr1;
-                Cells::CellInfo info{ cell };
                 
+                if (cell.Type() == Cells::CellType::Invalid()) continue;
 
                 CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE_EX(
                     cellInfo,
@@ -45,7 +45,12 @@ namespace CellSim::CellAlgorithms
                     &cells,
                     &fields,
                     {
-                        f(cell, info, cellInfo);
+                        auto& cellRef = *const_cast<Cells::Cell*>(cellInfo.CellPtr);
+
+                        if (&cellRef == &cell) {
+                            continue;
+                        }
+                        f(cell, cellRef);
                     }
                 )
             }

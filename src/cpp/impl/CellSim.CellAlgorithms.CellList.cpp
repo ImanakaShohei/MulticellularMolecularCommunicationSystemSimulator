@@ -26,7 +26,7 @@ namespace CellSim::CellAlgorithms
         double searchRadius
     )
         : m_cellField(enable2dMode ? (gridCount * gridCount) : (gridCount * gridCount * gridCount))
-        , m_enable2DMode(enable2dMode)
+        , m_enable2dMode(enable2dMode)
         , m_gridCountX(gridCount)
         , m_gridCountY(gridCount)
         , m_gridCountZ(enable2dMode ? 1 : gridCount)
@@ -177,7 +177,7 @@ namespace CellSim::CellAlgorithms
 
             double z;
 
-            if (m_enable2DMode) {
+            if (m_enable2dMode) {
                 z = 0.0;
             }
             else {
@@ -203,7 +203,7 @@ namespace CellSim::CellAlgorithms
 
         double y = position.Y + Settings::Config::Simulation::FieldRadius();
         
-        if (m_enable2DMode) {
+        if (m_enable2dMode) {
             return Numerics::GridPosition3(
                 (int32_t)(x * m_reverseGridLengthX),
                 (int32_t)(y * m_reverseGridLengthY),

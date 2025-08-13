@@ -103,16 +103,21 @@ namespace CellSim
             CellAlgorithms::ClusterModel::Combine(m_cells, m_molecules, m_pCellList);
 
             // 無効になったオブジェクトを削除
-            auto itr = m_cells.begin();
-            auto end = m_cells.end();
-
-            while (itr != end) {
-                if (itr->Type() == Cells::CellType::Invalid()) {
-                    itr = m_cells.erase(itr);
-                    end = m_cells.end();
-                    continue;
+            for (Cells::Cell& cell : m_cells) {
+                if (cell.Type() == Cells::CellType::Invalid()) {
+                    ::std::vector<Cells::Cell> newCells;
+                    newCells.reserve(m_cells.size());
+                    
+                    for (Cells::Cell& cell1 : m_cells) {
+                        if (cell1.Type() != Cells::CellType::Invalid()) {
+                            
+                            newCells.emplace_back(::std::move(cell1));
+                            
+                        }
+                    }
+                    m_cells = ::std::move(newCells);
+                    break;
                 }
-                ++itr;
             }
         }
 
@@ -217,7 +222,7 @@ namespace CellSim
         delete m_pCellSimulationModel;
         if (Settings::Config::CellAlgorithm::UseClusterModel()) delete m_pCellList;
 
-        if (m_pCellAlgorithm != nullptr && Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) delete m_pCellAlgorithm;
+        if (m_pCellAlgorithm != nullptr && Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList) delete m_pCellAlgorithm;
     }
 
     void Simulation::Run()

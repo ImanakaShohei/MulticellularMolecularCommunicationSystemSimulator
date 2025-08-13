@@ -17,7 +17,7 @@ namespace CellSim::CellAlgorithms
 
         ::std::vector<::std::vector<Cells::CellInfo>> m_cellField;
 
-        bool m_enable2DMode;
+        bool m_enable2dMode;
 
         size_t m_gridCountX;
         size_t m_gridCountY;
