@@ -1,7 +1,10 @@
 ﻿#include "CellSim.Cli.CliOption.hpp"
+#include "CellSim.Cli.CliOptionArgs.hpp"
 #include "CellSim.Cli.CliOptionType.hpp"
+#include "CellSim.Cli.CliOptionActivationArgs.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.SimulationOption.hpp"
+
 
 #include <stdexcept>
 
@@ -19,7 +22,11 @@ namespace CellSim::Cli
         m_isEnabled = true;
     }
 
-    void CliOption::Run(const CliOptions* sender)
+    void CliOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    {
+    }
+
+    void CliOption::Run(const CliOptions* sender, CliOptionArgs)
     {
     }
 }

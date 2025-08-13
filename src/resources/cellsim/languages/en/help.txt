@@ -1,1 +1,19 @@
-aaa
+Usage: cellsim [OPTIONS]
+
+A command-line tool for running molecular communication simulations.
+Combine options to customize output format and settings.
+
+Options:
+  -b, --binary          Output the simulation result as a .bin file
+  -c, --csv             Output the simulation result as a .csv file
+  -h, --help            Show this help message (cannot be combined with other options)
+  -i, --image           Output the simulation result as image files
+  -o, --output DIR      Specify the output directory (default: ./result/)
+  -p, --param NAME=VAL  Override specified parameter(s) (multiple allowed)
+  -s, --setting FILE    Specify the configuration file to use (default: ./config.json)
+  -v, --video           Output the simulation result as a video file
+      --param-sweep EXPR Execute simulations across a parameter range (e.g., cell.cellCount=1000:2000:100)
+
+Notes:
+  - `-h, --help` must be used alone.
+  - The output directory will be created automatically if it does not exist.

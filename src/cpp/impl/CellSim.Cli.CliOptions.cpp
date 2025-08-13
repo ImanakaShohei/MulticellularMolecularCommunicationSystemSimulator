@@ -1,7 +1,9 @@
 ﻿#include "CellSim.Cli.CliOptions.hpp"
+#include "CellSim.Cli.CliOptionArgs.hpp"
 #include "CellSim.Cli.CliOptionActivationArgs.hpp"
 #include "CellSim.Cli.BinaryOption.hpp"
 #include "CellSim.Cli.CsvOption.hpp"
+#include "CellSim.Cli.HelpOption.hpp"
 #include "CellSim.Cli.ImageOption.hpp"
 #include "CellSim.Cli.OutputOption.hpp"
 #include "CellSim.Cli.ParamOption.hpp"
@@ -96,6 +98,7 @@ namespace CellSim::Cli
 
         addOption(new BinaryOption());
         addOption(new CsvOption());
+        addOption(new HelpOption());
         addOption(new ImageOption());
         addOption(new OutputOption());
         addOption(new ParamOption());
@@ -127,7 +130,7 @@ namespace CellSim::Cli
     void CliOptions::Run()
     {
         if (m_controllerOption != nullptr) {
-            m_controllerOption->Run(this);
+            m_controllerOption->Run(this, { &m_options });
         }
         else {
 

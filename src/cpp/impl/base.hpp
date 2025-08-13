@@ -203,6 +203,7 @@ namespace CellSim::Cli
     class CliMain;
     class CliOption;
     struct CliOptionActivationArgs;
+    struct CliOptionArgs;
     struct CliOptions;
     enum class CliOptionType;
     class CreateImageOption;

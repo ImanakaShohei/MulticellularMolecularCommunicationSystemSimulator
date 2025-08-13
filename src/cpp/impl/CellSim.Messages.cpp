@@ -101,7 +101,36 @@ namespace CellSim
         ::std::string line;
         ::std::string result;
 
+#if CELLSIM_ENV_WINDOWS
+        ::std::vector<wchar_t> vec;
+#endif
+
         while (::std::getline(ifs, line)) {
+            if (line.size() == 0) {
+                result.push_back('\n');
+                continue;
+            }
+
+#if CELLSIM_ENV_WINDOWS
+            // UTF-8 -> UTF-16 -> ACP
+            int wLength = ::MultiByteToWideChar(CP_UTF8, 0, line.c_str(), (int)line.size(), nullptr, 0) + 1;
+            
+            if (wLength == 1) [[unlikely]] throw ::std::runtime_error("Failed to convert codePage");
+
+            if (vec.size() < (size_t)wLength) {
+                vec.resize(wLength);
+            }
+
+            ::MultiByteToWideChar(CP_UTF8, 0, line.c_str(), (int)line.size(), vec.data(), (int)vec.size());
+
+            int cLength = ::WideCharToMultiByte(CP_ACP, 0, vec.data(), wLength - 1, nullptr, 0, nullptr, nullptr) + 1;
+
+            if (cLength == 1) [[unlikely]] throw ::std::runtime_error("Failed to convert codePage");
+
+            line.resize(cLength - 1, '\0');
+            
+            ::WideCharToMultiByte(CP_ACP, 0, vec.data(), wLength - 1, line.data(), (int)(line.size() + 1), nullptr, nullptr);
+#endif
             result.append(line);
             result.push_back('\n');
         }
@@ -131,7 +160,7 @@ namespace CellSim
         languagePath.push_back((char)::std::filesystem::path::preferred_separator);
 
         s_loadMessages(languagePath, "general.txt");
-        //s_loadSingleMessage(languagePath, "help.txt", "");
+        s_loadSingleMessage(languagePath, "help.txt", "Cli.HelpOption.Message");
     }
 
     bool Messages::Initialize()

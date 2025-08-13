@@ -43,6 +43,7 @@ set(SOURCES
     src/cpp/impl/CellSim.Cli.CliOptions.cpp
     src/cpp/impl/CellSim.Cli.CsvOption.cpp
     src/cpp/impl/CellSim.Cli.FlagOption.cpp
+    src/cpp/impl/CellSim.Cli.HelpOption.cpp
     src/cpp/impl/CellSim.Cli.ImageOption.cpp
     src/cpp/impl/CellSim.Cli.OutputOption.cpp
     src/cpp/impl/CellSim.Cli.ParamOption.cpp
