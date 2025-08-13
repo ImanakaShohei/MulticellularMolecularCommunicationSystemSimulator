@@ -91,6 +91,7 @@ Settings.Config.Molecular.Load.Error.behaviorType=The value of 'molecular.molecu
 Settings.Config.Molecular.Load.Error.boundaryCondition=The value of 'molecular.moleculeField.boundaryCondition' in the config file is invalid.
 Settings.Config.Molecular.Load.Error.colorIntensityThreshold='molecular.moleculeField.colorIntensityThreshold' in the config file must be a positive value.
 Settings.Config.Molecular.Load.Error.initialDistribution=The value of 'molecular.moleculeField.initialDistribution' in the config file is invalid.
+Settings.Config.Molecular.Load.Error.moleculeKind=configファイルの'molecular.moleculeField.moleculeKind'に同じ名前が指定されました。
 
 Settings.Config.Molecular.Behavior.Normal.FromJson.Error.JsonError=The format of the 'molecular.moleculeField.normalBehavior' parameter in the config file is invalid.
 Settings.Config.Molecular.Behavior.Normal.FromJson.Error.diffusionFactor='molecular.moleculeField.diffusionFactor' in the config file must be a positive value.

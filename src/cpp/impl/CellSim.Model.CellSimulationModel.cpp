@@ -52,7 +52,7 @@ namespace CellSim::Model
         for (Cells::CellCreateInfo const& info : Settings::Config::Cell::Cells()) {
             Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(info.BehaviorType);
 
-            if (Settings::Config::Simulation::Enable2DMode()) {
+            if (Settings::Config::Simulation::Enable2dMode()) {
                 for (int32_t i = 0; i != info.CellCount; i++) {
                     double r = ::sqrt(rand_r(mt)) * initialPlacementRadius;
                     double theta = rand_theta(mt);

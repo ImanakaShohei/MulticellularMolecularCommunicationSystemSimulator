@@ -75,7 +75,7 @@ namespace CellSim::Molecular
 
         MoleculeField(
             size_t gridCount,
-            bool enable2DMode,
+            bool enable2dMode,
             MoleculeKind kind,
             ::CellSim::Molecular::BoundaryCondition boundaryCondition,
             InitialMoleculeDistribution distributionType,

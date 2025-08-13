@@ -52,8 +52,14 @@ namespace CellSim::Settings
                 info.InitialDistribution = initialDistribution;
                 info.GridCount = obj.at("gridCount").get<size_t>();
                 info.MoleculeAmount = obj.at("moleculeAmount").get<double>();
-                info.Kind = ::CellSim::Molecular::MoleculeKind::AddName(obj.at("moleculeKind").get<::std::string>(), colorIntensityThreshold);
 
+                try {
+                    info.Kind = ::CellSim::Molecular::MoleculeKind::AddName(obj.at("moleculeKind").get<::std::string>(), colorIntensityThreshold);
+                }
+                catch (...) {
+                    throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.moleculeKind"));
+                }
+                
                 s_molecularConfigs.emplace_back(::std::move(info));
             }
         }

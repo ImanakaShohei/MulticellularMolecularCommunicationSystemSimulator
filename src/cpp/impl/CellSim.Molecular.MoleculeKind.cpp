@@ -1,5 +1,7 @@
 ﻿#include "CellSim.Molecular.MoleculeKind.hpp"
 
+#include <stdexcept>
+
 namespace CellSim::Molecular
 {
     ::std::vector<::std::pair<::std::string, double>> MoleculeKind::s_names{ { "Invalid", 0 } };
@@ -7,7 +9,7 @@ namespace CellSim::Molecular
     MoleculeKind MoleculeKind::AddName(::std::string_view name, double threshold)
     {
         for (size_t i = 0; i < s_names.size(); i++) {
-            if (s_names[i].first == name) [[unlikely]] return MoleculeKind((uint32_t)i);
+            if (s_names[i].first == name) [[unlikely]] throw ::std::invalid_argument("AddNameに既に存在する名前が指定されました");
         }
 
         s_names.emplace_back(::std::move(name), threshold);
@@ -18,7 +20,7 @@ namespace CellSim::Molecular
     MoleculeKind MoleculeKind::AddName(::std::string name, double threshold)
     {
         for (size_t i = 0; i < s_names.size(); i++) {
-            if (s_names[i].first == name) [[unlikely]] return MoleculeKind((uint32_t)i);
+            if (s_names[i].first == name) [[unlikely]] throw ::std::invalid_argument("AddNameに既に存在する名前が指定されました");
         }
 
         s_names.emplace_back(::std::move(name), threshold);

@@ -203,7 +203,7 @@ namespace CellSim
         for (Molecular::MoleculeCreateInfo const& info : Settings::Config::Molecular::MolecularConfigs()) {
             m_molecules.emplace_back(
                 info.GridCount,
-                Settings::Config::Simulation::Enable2DMode(),
+                Settings::Config::Simulation::Enable2dMode(),
                 info.Kind,
                 info.BoundaryCondition,
                 info.InitialDistribution,

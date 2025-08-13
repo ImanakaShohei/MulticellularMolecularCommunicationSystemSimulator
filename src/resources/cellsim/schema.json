@@ -291,7 +291,7 @@
                     "type": "number",
                     "exclusiveMinimum": 0
                 },
-                "enable2DMode": { "type": "boolean" },
+                "enable2dMode": { "type": "boolean" },
                 "fieldRadius": {
                     "type": "number",
                     "minimum": 0,
@@ -310,7 +310,7 @@
                     "exclusiveMinimum": 0
                 }
             },
-            "required": [ "deltaTime", "fieldRadius", "imageSize", "outputInterval", "totalSteps" ]
+            "required": [ "deltaTime", "enable2dMode", "fieldRadius", "imageSize", "outputInterval", "totalSteps" ]
         },
         "simulationModel": {
             "type": "object",

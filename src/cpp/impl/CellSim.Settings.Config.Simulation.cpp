@@ -11,7 +11,7 @@ namespace CellSim::Settings
 
         try {
             s_deltaTime = config.at("deltaTime").get<double>();
-            s_enable2DMode = config.at("enable2DMode").get<bool>();
+            s_enable2dMode = config.at("enable2dMode").get<bool>();
             s_fieldRadius = config.at("fieldRadius").get<double>();
             s_imageSize = config.at("imageSize").get<int32_t>();
             s_outputInterval = config.at("outputInterval").get<int32_t>();

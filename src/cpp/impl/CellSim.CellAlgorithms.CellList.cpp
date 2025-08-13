@@ -14,7 +14,7 @@ namespace CellSim::CellAlgorithms
     CellList::CellList()
         : CellList(
             Settings::Config::CellAlgorithm::CellList::GridCount(),
-            Settings::Config::Simulation::Enable2DMode(),
+            Settings::Config::Simulation::Enable2dMode(),
             Settings::Config::CellAlgorithm::CellList::SearchRadius()
         )
     {

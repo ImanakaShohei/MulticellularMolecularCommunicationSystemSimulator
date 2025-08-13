@@ -23,7 +23,7 @@
     },
     "simulation": {
         "deltaTime": 0.1,
-        "enable2DMode": true,
+        "enable2dMode": true,
         "fieldRadius": 512,
         "imageSize": 720,
         "outputInterval": 5,

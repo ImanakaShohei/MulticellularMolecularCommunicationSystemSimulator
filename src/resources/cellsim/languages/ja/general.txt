@@ -91,6 +91,7 @@ Settings.Config.Molecular.Load.Error.behaviorType=configファイルの'molecula
 Settings.Config.Molecular.Load.Error.boundaryCondition=configファイルの'molecular.moleculeField.boundaryCondition'値が無効です。
 Settings.Config.Molecular.Load.Error.colorIntensityThreshold=configファイルの'molecular.moleculeField.colorIntensityThreshold'にゼロ以下の値が指定されました。
 Settings.Config.Molecular.Load.Error.initialDistribution=configファイルの'molecular.moleculeField.initialDistribution'値が無効です。
+Settings.Config.Molecular.Load.Error.moleculeKind=The same name was specified for 'molecular.moleculeField.moleculeKind' in the config file.
 
 Settings.Config.Molecular.Behavior.Normal.FromJson.Error.JsonError=configファイルの'molecular.moleculeField.normalBehavior'パラメータの形式が正しくありません。
 Settings.Config.Molecular.Behavior.Normal.FromJson.Error.diffusionFactor=configファイルの'molecular.moleculeField.diffusionFactor'に負の値が指定されました。

@@ -69,7 +69,7 @@ namespace CellSim::Cells
         // staticローカル変数はスレッドセーフ(らしい)
         static ::std::mt19937 mt{ Settings::Config::Cell::InitialPlacementSeed() };
 
-        if (Settings::Config::Simulation::Enable2DMode()) {
+        if (Settings::Config::Simulation::Enable2dMode()) {
             ::std::uniform_real_distribution<double> urd(0, ::std::numbers::pi * 2.0);
             double theta = urd(mt);
             direction.X = ::cos(theta);

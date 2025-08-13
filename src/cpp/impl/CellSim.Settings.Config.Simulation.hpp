@@ -13,7 +13,7 @@ namespace CellSim::Settings
         private:
 
         static inline double s_deltaTime;
-        static inline bool s_enable2DMode;
+        static inline bool s_enable2dMode;
         static inline double s_fieldRadius;
         static inline int32_t s_imageSize;
         static inline int32_t s_outputInterval;
@@ -25,7 +25,7 @@ namespace CellSim::Settings
         [[nodiscard]] static double DeltaTime() noexcept;
 
         /// @brief 2Dとしてシミュレーションするかどうか
-        [[nodiscard]] static bool Enable2DMode() noexcept;
+        [[nodiscard]] static bool Enable2dMode() noexcept;
 
         /// @brief フィールドの半径
         [[nodiscard]] static double FieldRadius() noexcept;
@@ -59,9 +59,9 @@ namespace CellSim::Settings
         return s_deltaTime;
     }
 
-    inline bool Config::Simulation::Enable2DMode() noexcept
+    inline bool Config::Simulation::Enable2dMode() noexcept
     {
-        return s_enable2DMode;
+        return s_enable2dMode;
     }
 
     inline double Config::Simulation::FieldRadius() noexcept
@@ -81,7 +81,7 @@ namespace CellSim::Settings
 
     inline double Config::Simulation::FieldRadiusZ() noexcept
     {
-        return s_enable2DMode ? 0.0 : s_fieldRadius;
+        return s_enable2dMode ? 0.0 : s_fieldRadius;
     }
 
     inline int32_t Config::Simulation::ImageSize() noexcept

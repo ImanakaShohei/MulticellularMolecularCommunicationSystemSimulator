@@ -12,7 +12,7 @@ namespace CellSim::Molecular
 {
     MoleculeField::MoleculeField(
         size_t gridCount,
-        bool enable2DMode,
+        bool enable2dMode,
         MoleculeKind kind,
         ::CellSim::Molecular::BoundaryCondition boundaryCondition,
         InitialMoleculeDistribution distributionType,
@@ -21,11 +21,11 @@ namespace CellSim::Molecular
     )
         : m_boundaryCondition(boundaryCondition)
         , m_concentrations()
-        , m_pConcentration(new double[enable2DMode ? gridCount * gridCount : gridCount * gridCount * gridCount])
-        , m_enable2dMode(enable2DMode)
+        , m_pConcentration(new double[enable2dMode ? gridCount * gridCount : gridCount * gridCount * gridCount])
+        , m_enable2dMode(enable2dMode)
         , m_gridCountX(gridCount)
         , m_gridCountY(gridCount)
-        , m_gridCountZ(enable2DMode ? 1 : gridCount)
+        , m_gridCountZ(enable2dMode ? 1 : gridCount)
         , m_gridLengthX(Settings::Config::Simulation::FieldRadiusX() * 2.0 / (gridCount - 2))
         , m_gridLengthY(Settings::Config::Simulation::FieldRadiusY() * 2.0 / (gridCount - 2))
         , m_gridLengthZ(Settings::Config::Simulation::FieldRadiusZ() * 2.0 / (gridCount - 2))
@@ -42,11 +42,11 @@ namespace CellSim::Molecular
 
         if (pBehavior == nullptr) [[unlikely]] throw ::std::invalid_argument("MoleculeBehavior* is nullptr.");
 
-        if (enable2DMode) {
+        if (enable2dMode) {
             m_reverseGridLengthZ = 0;
         }
 
-        pBehavior->SetBuffer(gridCount, enable2DMode, m_boundaryCondition);
+        pBehavior->SetBuffer(gridCount, enable2dMode, m_boundaryCondition);
         pBehavior->InitializeMolecules(this, { m_concentrations, distributionType, moleculeAmount });
     }
 
