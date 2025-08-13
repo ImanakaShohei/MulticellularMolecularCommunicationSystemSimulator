@@ -278,45 +278,45 @@ namespace CellSim
                     
                     // 赤~白
                     if (v >= 1276) {
-                        color[0] = 255;
+                        color[2] = 255;
                         color[1] = v - 1276;
-                        color[2] = v - 1276;
+                        color[0] = v - 1276;
                     }
                     // 黄色~赤
                     else if (v >= 1021) {
-                        color[0] = 255;
+                        color[2] = 255;
                         color[1] = 1276 - v;
-                        color[2] = 0;
+                        color[0] = 0;
                     }
                     // 緑~黄色
                     else if (v >= 766) {
-                        color[0] = v - 766;
+                        color[2] = v - 766;
                         color[1] = 255;
-                        color[2] = 0;
+                        color[0] = 0;
                     }
                     // 青みどり~緑
                     else if (v >= 511) {
-                        color[0] = 0;
+                        color[2] = 0;
                         color[1] = 255;
-                        color[2] = 766 - v;
+                        color[0] = 766 - v;
                     }
                     // 青~青緑
                     else if (v >= 256) {
-                        color[0] = 0;
+                        color[2] = 0;
                         color[1] = v - 255;
-                        color[2] = 255;
+                        color[0] = 255;
                     }
                     // 黒~青
                     else {
-                        color[0] = 0;
+                        color[2] = 0;
                         color[1] = 0;
-                        color[2] = v;
+                        color[0] = v;
                     }
                 }
                 else {
-                    color[0] = 255;
-                    color[1] = 255;
                     color[2] = 255;
+                    color[1] = 255;
+                    color[0] = 255;
                 }
 
                 ::cv::rectangle(
