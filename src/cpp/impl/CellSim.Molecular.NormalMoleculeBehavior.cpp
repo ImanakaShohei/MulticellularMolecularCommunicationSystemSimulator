@@ -259,6 +259,8 @@ namespace CellSim::Molecular
         MoleculeInitializationArgs args
     )
     {
+        if (args.MoleculeAmount == 0) return;
+        
         switch (args.DistributionType) {
             case InitialMoleculeDistribution::Centered:
             {
