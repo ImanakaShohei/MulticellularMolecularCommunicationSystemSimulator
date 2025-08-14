@@ -28,11 +28,16 @@ namespace CellSim::Numerics
         constexpr Vector3T& operator*=(TNum right) noexcept;
         constexpr Vector3T& operator/=(TNum right) noexcept;
 
+        [[nodiscard]] constexpr bool Equals2d(Vector3T right) const noexcept;
+
         [[nodiscard]] TNum Length() const noexcept;
+        [[nodiscard]] TNum Length2d() const noexcept;
 
         [[nodiscard]] Vector3T Normalize() const noexcept;
+        [[nodiscard]] Vector3T Normalize2d() const noexcept;
 
         [[nodiscard]] constexpr TNum SquareLength() const noexcept;
+        [[nodiscard]] constexpr TNum SquareLength2d() const noexcept;
     };
 
     template <NumberType TNum>
@@ -141,24 +146,51 @@ namespace CellSim::Numerics
     }
 
     template <NumberType TNum>
+    constexpr bool Vector3T<TNum>::Equals2d(Vector3T<TNum> right) const noexcept
+    {
+        return X == right.X && Y == right.Y;
+    }
+
+    template <NumberType TNum>
     inline TNum Vector3T<TNum>::Length() const noexcept
     {
         return ::sqrt(SquareLength());
     }
 
     template <NumberType TNum>
+    inline TNum Vector3T<TNum>::Length2d() const noexcept
+    {
+        return ::sqrt(SquareLength2d());
+    }
+
+    template <NumberType TNum>
     inline Vector3T<TNum> Vector3T<TNum>::Normalize() const noexcept
     {
         TNum length = Length();
-        if (Length() == 0.0) return Vector3T<TNum>();
+        if (length == 0.0) return Vector3T<TNum>();
 
         return *this / length;
+    }
+
+    template <NumberType TNum>
+    inline Vector3T<TNum> Vector3T<TNum>::Normalize2d() const noexcept
+    {
+        TNum length = Length2d();
+        if (length == 0.0) return Vector3T<TNum>();
+
+        return Vector3T<TNum>(X / length, Y / length, 0);
     }
 
     template <NumberType TNum>
     constexpr TNum Vector3T<TNum>::SquareLength() const noexcept
     {
         return X * X + Y * Y + Z * Z;
+    }
+
+    template <NumberType TNum>
+    constexpr TNum Vector3T<TNum>::SquareLength2d() const noexcept
+    {
+        return X * X + Y * Y;
     }
 
     template <NumberType TNum>
