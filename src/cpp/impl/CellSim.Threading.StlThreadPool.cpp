@@ -17,6 +17,11 @@ namespace CellSim::Threading
         }
     }
 
+    void StlThreadPool::m_appendThread()
+    {
+        m_workers.emplace_back(s_workerEntryPoint, this);
+    }
+
     StlThreadPool::s_task StlThreadPool::m_getTask()
     {
         ::std::unique_lock<::std::mutex> lock(m_mutex);
@@ -48,7 +53,7 @@ namespace CellSim::Threading
     {
         try {
             for (size_t count = 0; count != threadCount; count++) {
-                m_workers.emplace_back(s_workerEntryPoint, this);
+                m_appendThread();
             }
         }
         catch (...) {
@@ -99,6 +104,21 @@ namespace CellSim::Threading
         }
 
         m_condition.notify_one();
+    }
+
+    bool StlThreadPool::SetMaxThreadCount(uint32_t threadCount)
+    {
+        auto currentThreadCount = ThreadCount();
+
+        if (currentThreadCount < threadCount) {
+            for (auto count = currentThreadCount; count < threadCount; count++) {
+                m_appendThread();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     void StlThreadPool::WaitAll() noexcept

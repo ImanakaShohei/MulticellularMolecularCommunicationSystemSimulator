@@ -34,7 +34,10 @@ namespace CellSim::Threading
         bool m_isRunning;
         ::std::atomic<uint32_t> m_currentTasks;
 
+        void m_appendThread();
+
         s_task m_getTask();
+
         public:
 
         explicit StlThreadPool();
@@ -74,6 +77,8 @@ namespace CellSim::Threading
         void AppendTask(TaskEntryPoint entryPoint, void* args);
 
         [[nodiscard]] uint32_t CurrentTasks() const noexcept;
+
+        bool SetMaxThreadCount(uint32_t threadCount);
 
         /// @brief ワーカースレッド数
         [[nodiscard]] constexpr uint32_t ThreadCount() const noexcept;

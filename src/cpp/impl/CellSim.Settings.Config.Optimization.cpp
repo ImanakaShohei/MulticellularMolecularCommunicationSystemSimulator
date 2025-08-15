@@ -2,6 +2,10 @@
 
 #include "CellSim.Messages.hpp"
 
+#if !CELLSIM_ENV_WINDOWS
+    #include "CellSim.Threading.ThreadPool.hpp"
+#endif
+
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <thread>
@@ -30,5 +34,9 @@ namespace CellSim::Settings
 
         if (maxDegreeOfParallelism <= 0 /* || maxThread < maxDegreeOfParallelism */) s_maxDegreeOfParallelism = (uint32_t)maxThread;
         else s_maxDegreeOfParallelism = (uint32_t)maxDegreeOfParallelism;
+
+#if !CELLSIM_ENV_WINDOWS
+        Threading::ThreadPool::s_pool.SetMaxThreadCount(s_maxDegreeOfParallelism);
+#endif
     }
 }

@@ -21,6 +21,7 @@ namespace CellSim::Threading
         private:
 
 #if !CELLSIM_ENV_WINDOWS
+        friend Settings::Config::Optimization;
         static StlThreadPool s_pool;
 #endif
 
