@@ -28,7 +28,7 @@ namespace CellSim::Settings
 
         auto maxThread = (int32_t)::std::thread::hardware_concurrency();
 
-        if (maxDegreeOfParallelism <= 0 || maxThread < maxDegreeOfParallelism) s_maxDegreeOfParallelism = (uint32_t)maxThread;
+        if (maxDegreeOfParallelism <= 0 /* || maxThread < maxDegreeOfParallelism */) s_maxDegreeOfParallelism = (uint32_t)maxThread;
         else s_maxDegreeOfParallelism = (uint32_t)maxDegreeOfParallelism;
     }
 }
