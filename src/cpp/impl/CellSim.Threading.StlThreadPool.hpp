@@ -78,6 +78,10 @@ namespace CellSim::Threading
 
         [[nodiscard]] uint32_t CurrentTasks() const noexcept;
 
+        /// @brief ワーカースレッド数を変更
+        /// @param threadCount スレッド数
+        /// @return スレッド数を変更できたかどうか
+        /// @note threadCountがワーカースレッド数より小さい場合は何もせずにfalseを返す
         bool SetMaxThreadCount(uint32_t threadCount);
 
         /// @brief ワーカースレッド数
