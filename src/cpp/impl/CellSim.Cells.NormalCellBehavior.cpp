@@ -19,15 +19,18 @@ namespace CellSim::Cells
 {
     NormalCellBehavior::NormalCellBehavior()
         : NormalCellBehavior(
-            Settings::Config::CellBehavior::Normal::CellDivisionRadius()
+            Settings::Config::CellBehavior::Normal::CellDivisionRadius(),
+            Settings::Config::CellBehavior::Normal::GrowthRate()
         )
     {
     }
 
-    NormalCellBehavior::NormalCellBehavior(double cellDivisionRadius)
+    NormalCellBehavior::NormalCellBehavior(
+        double cellDivisionRadius,
+        double growthRate
+    )
         : m_cellDivisionRadius(cellDivisionRadius)
-        , m_growthRate(0)
-        , m_isGrowthRateLoaded(false)
+        , m_growthRate(growthRate)
     {
         if (cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"));
     }
@@ -35,17 +38,6 @@ namespace CellSim::Cells
     CellGrowthResult NormalCellBehavior::ComputeGrowth(const Cell* sender)
     {
         double oldRadius = sender->Radius();
-
-        if (!m_isGrowthRateLoaded) {
-            auto type = sender->Type();
-            for (auto const& info : Settings::Config::Cell::Cells()) {
-                if (info.Type == type) {
-                    m_growthRate = info.GrowthRate;
-                    m_isGrowthRateLoaded = true;
-                    break;
-                }
-            }
-        }
 
         double newRadius = oldRadius + m_growthRate * Settings::Config::Simulation::DeltaTime();
 

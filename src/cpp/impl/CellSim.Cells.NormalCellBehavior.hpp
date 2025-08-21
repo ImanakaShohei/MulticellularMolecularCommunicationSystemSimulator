@@ -11,13 +11,15 @@ namespace CellSim::Cells
         /// @brief 細胞の半径がこの値を超えると分裂する
         double m_cellDivisionRadius;
         double m_growthRate;
-        bool m_isGrowthRateLoaded;
 
         public:
 
         NormalCellBehavior();
 
-        NormalCellBehavior(double cellDivisionRadius);
+        NormalCellBehavior(
+            double cellDivisionRadius,
+            double growthRate
+        );
 
         CellDivisionResult ComputeDivisionOutcome(const Cell* sender) override;
         CellGrowthResult ComputeGrowth(const Cell* sender) override;

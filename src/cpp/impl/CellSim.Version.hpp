@@ -8,7 +8,7 @@ namespace CellSim
     class Version final {
         private:
 
-        static constexpr const char s_extension[] = "";
+        static constexpr const char s_extension[] = "Beta 1";
 
         public:
 
@@ -30,7 +30,7 @@ namespace CellSim
 
     constexpr int Version::Minor() noexcept
     {
-        return 0;
+        return 1;
     }
 
     constexpr int Version::Patch() noexcept
