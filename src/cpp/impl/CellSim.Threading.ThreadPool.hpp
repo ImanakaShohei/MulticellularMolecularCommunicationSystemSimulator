@@ -74,7 +74,7 @@ namespace CellSim::Threading
         };
 #if CELLSIM_ENV_WINDOWS
         void(*func)(::PTP_CALLBACK_INSTANCE, ::PVOID, ::PTP_WORK) = [](::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK) {
-            fArgs& fargs = *static_cast<fArgs*>(context);
+            fArgs fargs = *static_cast<fArgs*>(context);
             while (fargs.b != fargs.e) {
                 if constexpr (::std::random_access_iterator<TIterator>) {
                     fargs.f(*fargs.b);
