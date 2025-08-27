@@ -17,22 +17,8 @@
 
 namespace CellSim::Model
 {
-    ClusterSproutingModel::ClusterSproutingModel()
-        : ClusterSproutingModel(
-            Settings::Config::SimulationModel::ClusterSprouting::AdhesionThreshold(),
-            Settings::Config::SimulationModel::ClusterSprouting::CoefficientCd(),
-            Settings::Config::SimulationModel::ClusterSprouting::ContactDistance(),
-            Settings::Config::SimulationModel::ClusterSprouting::FollowerAttractionFactor(),
-            Settings::Config::SimulationModel::ClusterSprouting::GlobalAttractionFactor(),
-            Settings::Config::SimulationModel::ClusterSprouting::Lambda(),
-            Settings::Config::SimulationModel::ClusterSprouting::LeaderRepulsionFactor(),
-            Settings::Config::SimulationModel::ClusterSprouting::LeaderRepulsionMaxDistance(),
-            Settings::Config::SimulationModel::ClusterSprouting::LeaderRepulsionMinDistance()
-        )
-    {
-    }
 
-    ClusterSproutingModel::ClusterSproutingModel(
+    ClusterSproutingModel::Params::Params(
         size_t adhesionThreshold,
         double coefficientCd,
         double contactDistance,
@@ -43,17 +29,17 @@ namespace CellSim::Model
         double leaderRepulsionMaxDistance,
         double leaderRepulsionMinDistance
     )
-        : m_adhesionThreshold(adhesionThreshold)
-        , m_coefficientCd(coefficientCd)
-        , m_contactDistance(contactDistance)
-        , m_followerAttractionFactor(followerAttractionFactor)
-        , m_globalAttractionFactor(globalAttractionFactor)
-        , m_lambda(lambda)
-        , m_leaderRepulsionFactor(leaderRepulsionFactor)
-        , m_leaderRepulsionMaxDistance(leaderRepulsionMaxDistance)
-        , m_leaderRepulsionMinDistance(leaderRepulsionMinDistance)
-        , m_leaderRepulsionRange(leaderRepulsionMaxDistance - leaderRepulsionMinDistance)
-        , m_squareContactDistance(contactDistance * contactDistance)
+        : AdhesionThreshold(adhesionThreshold)
+        , CoefficientCd(coefficientCd)
+        , ContactDistance(contactDistance)
+        , FollowerAttractionFactor(followerAttractionFactor)
+        , GlobalAttractionFactor(globalAttractionFactor)
+        , Lambda(lambda)
+        , LeaderRepulsionFactor(leaderRepulsionFactor)
+        , LeaderRepulsionMaxDistance(leaderRepulsionMaxDistance)
+        , LeaderRepulsionMinDistance(leaderRepulsionMinDistance)
+        , LeaderRepulsionRange(leaderRepulsionMaxDistance - leaderRepulsionMinDistance)
+        , SquareContactDistance(contactDistance * contactDistance)
     {
         if (coefficientCd < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'coefficientCd' must be greater than or equal to zero.");
         if (contactDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'contactDistance' must be greater than or equal to zero.");
@@ -64,7 +50,7 @@ namespace CellSim::Model
         if (leaderRepulsionMaxDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMaxDistance' must be greater than or equal to zero.");
         if (leaderRepulsionMinDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMinDistance' must be greater than or equal to zero.");
         
-        if (m_leaderRepulsionRange <= 0.0) [[unlikely]] throw ::std::invalid_argument("'leaderRepulsionMinDistance' must be less than 'leaderRepulsionMaxDistance'.");
+        if (LeaderRepulsionRange <= 0.0) [[unlikely]] throw ::std::invalid_argument("'leaderRepulsionMinDistance' must be less than 'leaderRepulsionMaxDistance'.");
         if (contactDistance >= leaderRepulsionMinDistance) [[unlikely]] throw ::std::invalid_argument("'contactDistance' must be less than 'leaderRepulsionMinDistance'.");
     }
 
@@ -89,7 +75,7 @@ namespace CellSim::Model
 
                 Numerics::Vector3 diff = cell1.Position() - cell2.Position();
                 
-                if (diff.SquareLength() < m_squareContactDistance) {
+                if (diff.SquareLength() < SquareContactDistance) {
                     cell1.Adhere(cell2);
                     cell2.Adhere(cell1);
                 }
@@ -107,6 +93,7 @@ namespace CellSim::Model
         Numerics::Vector3 force3;
         Numerics::Vector3 force4;
         Cells::CellInfo info{ *args.Target };
+        Params params = *static_cast<Params*>(info.Type.Params());
 
         size_t attachedCellCount = args.Target->AttachedCellCount();
 
@@ -114,22 +101,22 @@ namespace CellSim::Model
             Numerics::Vector3 diff = info.Position - pCell->Position();
             double dist = diff.Length();
 
-            if (attachedCellCount <= m_adhesionThreshold) {
+            if (attachedCellCount <= params.AdhesionThreshold) {
                 // 接着している細胞から離れようとする
-                force1 += diff * ((m_leaderRepulsionMaxDistance - dist) / (m_leaderRepulsionMaxDistance * dist));
+                force1 += diff * ((params.LeaderRepulsionMaxDistance - dist) / (params.LeaderRepulsionMaxDistance * dist));
             }
             else {
-                double v = dist - m_leaderRepulsionMinDistance;
+                double v = dist - params.LeaderRepulsionMinDistance;
 
                 // 近すぎると何も起こらない
                 if (v > 0.0) {
-                    force2 -= diff * (v / (dist * m_leaderRepulsionRange));
+                    force2 -= diff * (v / (dist * params.LeaderRepulsionRange));
                 }
             }
 
             // 近すぎると反発力が発生
-            if (dist < m_contactDistance) {
-                force3 += diff * ((m_contactDistance - dist) / (m_contactDistance * dist));
+            if (dist < params.ContactDistance) {
+                force3 += diff * ((params.ContactDistance - dist) / (params.ContactDistance * dist));
             }
         }
 
@@ -144,11 +131,11 @@ namespace CellSim::Model
                 double dist = diff.Length();
 
                 // すべての細胞に働く力
-                force4 -= diff * (::exp(-dist / m_lambda) / dist);
+                force4 -= diff * (::exp(-dist / params.Lambda) / dist);
             }
         )
 
-        return m_leaderRepulsionFactor * force1 + m_followerAttractionFactor * force2 + m_coefficientCd * force3 + m_globalAttractionFactor * force4;
+        return params.LeaderRepulsionFactor * force1 + params.FollowerAttractionFactor * force2 + params.CoefficientCd * force3 + params.GlobalAttractionFactor * force4;
     }
 
     void ClusterSproutingModel::OnAdvanceStep(
