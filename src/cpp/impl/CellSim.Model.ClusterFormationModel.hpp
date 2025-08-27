@@ -17,7 +17,8 @@ namespace CellSim::Model
             Numerics::Vector3 diff,
             double dist,
             double targetMass,
-            double cellMass
+            double cellMass,
+            double reverseLambda
         ) const noexcept;
 
         /// @brief くっついた細胞同士の反発力
@@ -31,19 +32,22 @@ namespace CellSim::Model
             double cellRadius
         ) const noexcept;
 
-        double m_adhesiveRepulsionFactor;
-        double m_lambda;
-        double m_reverseLambda;
-        double m_remoteForceFactor;
-
         public:
 
-        ClusterFormationModel();
-        ClusterFormationModel(
-            double adhesiveRepulsionFactor,
-            double lambda,
-            double remoteForceFactor
-        );
+        class Params : public CellSimulationModel::Params {
+            public:
+            double AdhesiveRepulsionFactor;
+            double Lambda;
+            double ReverseLambda; // 1/Lambda
+            double RemoteForceFactor;
+
+            Params();
+            Params(
+                double adhesiveRepulsionFactor,
+                double lambda,
+                double remoteForceFactor
+            );
+        };
 
         void BeforeAdvanceStep(
             const Simulation* sender,

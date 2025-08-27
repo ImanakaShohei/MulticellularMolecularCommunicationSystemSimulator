@@ -11,29 +11,19 @@
 
 namespace CellSim::Model
 {
-    ClusterRotationModel::ClusterRotationModel()
-        : ClusterRotationModel(
-            Settings::Config::SimulationModel::ClusterRotation::AdhesionDistanceThreshold(),
-            Settings::Config::SimulationModel::ClusterRotation::AdhesionForceFactor(),
-            Settings::Config::SimulationModel::ClusterRotation::CentralForceFactor(),
-            Settings::Config::SimulationModel::ClusterRotation::RepulsionFactor(),
-            Settings::Config::SimulationModel::ClusterRotation::RepulsionMaxDistance()
-        )
-    {
-    }
 
-    ClusterRotationModel::ClusterRotationModel(
+    ClusterRotationModel::Params::Params(
         double adhesionDistanceThreshold,
         double adhesionForceFactor,
         double centralForceFactor,
         double repulsionFactor,
         double repulsionMaxDistance
     )
-        : m_adhesionDistanceThreshold(adhesionDistanceThreshold)
-        , m_adhesionForceFactor(adhesionForceFactor)
-        , m_centralForceFactor(centralForceFactor)
-        , m_repulsionFactor(repulsionFactor)
-        , m_repulsionMaxDistance(repulsionMaxDistance)
+        : AdhesionDistanceThreshold(adhesionDistanceThreshold)
+        , AdhesionForceFactor(adhesionForceFactor)
+        , CentralForceFactor(centralForceFactor)
+        , RepulsionFactor(repulsionFactor)
+        , RepulsionMaxDistance(repulsionMaxDistance)
     {
         if (adhesionDistanceThreshold < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'adhesionDistanceThreshold' must be greater than or equal to zero.");
         if (adhesionForceFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'adhesionForceFactor' must be greater than or equal to zero.");
@@ -60,8 +50,9 @@ namespace CellSim::Model
         Numerics::Vector3 forceCenter;
         Numerics::Vector3 forceCont;
         Cells::CellInfo info{ *args.Target };
+        Params params = *static_cast<Params*>(info.Type.Params());
 
-        forceCenter = info.Position * (-m_centralForceFactor / info.Position.Length());
+        forceCenter = info.Position * (-params.CentralForceFactor / info.Position.Length());
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
@@ -73,17 +64,17 @@ namespace CellSim::Model
                 Numerics::Vector3 diff = info.Position - cellInfo.Position;
                 double dist = diff.Length();
 
-                if (dist < m_repulsionMaxDistance) {
-                    force += diff * ((m_repulsionMaxDistance - dist) / (m_repulsionMaxDistance * dist));
+                if (dist < params.RepulsionMaxDistance) {
+                    force += diff * ((params.RepulsionMaxDistance - dist) / (params.RepulsionMaxDistance * dist));
                 }
 
-                if (dist < m_adhesionDistanceThreshold) {
+                if (dist < params.AdhesionDistanceThreshold) {
                     forceCont += cellInfo.PreviusForce;
                 }
             }
         )
 
-        return m_repulsionFactor * force + m_adhesionForceFactor * forceCont + forceCenter;
+        return params.RepulsionFactor * force + params.AdhesionForceFactor * forceCont + forceCenter;
     }
 
     void ClusterRotationModel::OnAdvanceStep(

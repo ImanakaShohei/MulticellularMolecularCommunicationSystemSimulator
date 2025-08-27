@@ -2,28 +2,44 @@
 
 namespace CellSim::Cells
 {
-    ::std::vector<::std::pair<::std::string, Graphics::Color>> CellType::s_names{ {"Invalid", { 0, 0, 0, 0 }} };
+    ::std::vector<CellType::s_data> CellType::s_names{ {"Invalid", { 0, 0, 0, 0 }, nullptr } };
 
-    CellType CellType::AddName(::std::string name, Graphics::Color color)
+    CellType CellType::AddName(
+        ::std::string name,
+        Graphics::Color color,
+        Model::CellSimulationModel::Params* params
+    )
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].first == name) [[unlikely]] return CellType((uint32_t)index);
+            if (s_names[index].Name == name) [[unlikely]] return CellType((uint32_t)index);
         }
 
-        s_names.emplace_back(::std::move(name), color);
+        s_names.emplace_back(
+            ::std::move(name),
+            color,
+            params
+        );
 
         return CellType((uint32_t)(s_names.size() - 1));
     }
 
-    CellType CellType::AddName(::std::string_view name, Graphics::Color color)
+    CellType CellType::AddName(
+        ::std::string_view name,
+        Graphics::Color color,
+        Model::CellSimulationModel::Params* params
+    )
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].first == name) [[unlikely]] return CellType((uint32_t)index);
+            if (s_names[index].Name == name) [[unlikely]] return CellType((uint32_t)index);
         }
 
-        s_names.emplace_back(name, color);
+        s_names.emplace_back(
+            name,
+            color,
+            params
+        );
 
         return CellType((uint32_t)(s_names.size() - 1));
     }
@@ -32,7 +48,7 @@ namespace CellSim::Cells
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].first == name) [[unlikely]] return CellType((uint32_t)index);
+            if (s_names[index].Name == name) [[unlikely]] return CellType((uint32_t)index);
         }
 
         return Invalid();

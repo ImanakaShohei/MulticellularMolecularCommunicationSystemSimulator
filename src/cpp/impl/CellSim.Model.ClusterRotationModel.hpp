@@ -8,24 +8,24 @@ namespace CellSim::Model
 {
     /// @brief クラスタ回転モデル
     class ClusterRotationModel : public CellSimulationModel {
-        private:
-
-        double m_adhesionDistanceThreshold; // 細胞同士がこの値より近いと接着力が働く
-        double m_adhesionForceFactor; // 接着力にかける係数
-        double m_centralForceFactor; // 中心力にかける係数
-        double m_repulsionFactor; // 反発力の係数
-        double m_repulsionMaxDistance; // 細胞同士がこの値より近いと反発する
-
         public:
 
-        ClusterRotationModel();
-        ClusterRotationModel(
-            double adhesionDistanceThreshold,
-            double adhesionForceFactor,
-            double centralForceFactor,
-            double repulsionFactor,
-            double repulsionMaxDistance
-        );
+        class Params : public CellSimulationModel::Params {
+            public:
+            double AdhesionDistanceThreshold; // 細胞同士がこの値より近いと接着力が働く
+            double AdhesionForceFactor; // 接着力にかける係数
+            double CentralForceFactor; // 中心力にかける係数
+            double RepulsionFactor; // 反発力の係数
+            double RepulsionMaxDistance; // 細胞同士がこの値より近いと反発する
+
+            Params(
+                double adhesionDistanceThreshold,
+                double adhesionForceFactor,
+                double centralForceFactor,
+                double repulsionFactor,
+                double repulsionMaxDistance
+            );
+        };
 
         void BeforeAdvanceStep(
             const Simulation* sender,

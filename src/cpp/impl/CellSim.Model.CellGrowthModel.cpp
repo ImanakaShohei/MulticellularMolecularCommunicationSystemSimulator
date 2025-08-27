@@ -12,13 +12,11 @@
 
 namespace CellSim::Model
 {
-    CellGrowthModel::CellGrowthModel()
-        : CellGrowthModel(Settings::Config::SimulationModel::CellGrowth::AdhesiveRepulsionFactor())
-    {
-    }
 
-    CellGrowthModel::CellGrowthModel(double adhesiveRepulsionFactor)
-        : m_adhesiveRepulsionFactor(adhesiveRepulsionFactor)
+    CellGrowthModel::Params::Params(
+        double adhesiveRepulsionFactor
+    )
+        : AdhesiveRepulsionFactor(adhesiveRepulsionFactor)
     {
         if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor"));
     }
@@ -38,6 +36,7 @@ namespace CellSim::Model
         Cells::CellInfo info{ *args.Target };
 
         Numerics::Vector3 vec;
+        Params params = *static_cast<Params*>(info.Type.Params());
 
         CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
             cellInfo,
@@ -59,7 +58,7 @@ namespace CellSim::Model
             }
         )
 
-        return m_adhesiveRepulsionFactor * vec;
+        return params.AdhesiveRepulsionFactor * vec;
     }
 
     void CellGrowthModel::OnAdvanceStep(

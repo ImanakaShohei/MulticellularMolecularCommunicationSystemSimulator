@@ -16,14 +16,15 @@ namespace CellSim::Model
         Numerics::Vector3 diff,
         double dist,
         double targetMass,
-        double cellMass
+        double cellMass,
+        double reverseLambda
     ) const noexcept
     {
         const double mass = targetMass + cellMass;
 
         return (
             -mass *
-            ::exp(-dist * m_reverseLambda) /
+            ::exp(-dist * reverseLambda) /
             dist
         ) * diff;
     }
@@ -47,24 +48,15 @@ namespace CellSim::Model
         return Numerics::Vector3();
     }
 
-    ClusterFormationModel::ClusterFormationModel()
-        : ClusterFormationModel(
-            Settings::Config::SimulationModel::ClusterFormation::AdhesiveRepulsionFactor(),
-            Settings::Config::SimulationModel::ClusterFormation::Lambda(),
-            Settings::Config::SimulationModel::ClusterFormation::RemoteForceFactor()
-        )
-    {
-    }
-
-    ClusterFormationModel::ClusterFormationModel(
+    ClusterFormationModel::Params::Params(
         double adhesiveRepulsionFactor,
         double lambda,
         double remoteForceFactor
     )
-        : m_adhesiveRepulsionFactor(adhesiveRepulsionFactor)
-        , m_lambda(lambda)
-        , m_reverseLambda(1.0 / lambda)
-        , m_remoteForceFactor(remoteForceFactor)
+        : AdhesiveRepulsionFactor(adhesiveRepulsionFactor)
+        , Lambda(lambda)
+        , ReverseLambda(1.0 / lambda)
+        , RemoteForceFactor(remoteForceFactor)
     {
         if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor"));
         if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.ClusterFormationModel.ClusterFormationModel.Error.lambda"));
@@ -84,6 +76,8 @@ namespace CellSim::Model
     ) const
     {
         Cells::CellInfo info{ *args.Target };
+
+        Params params = *static_cast<Params*>(info.Type.Params());
         
         if (info.IsAlive) {
             Numerics::Vector3 vec1;
@@ -99,13 +93,13 @@ namespace CellSim::Model
                     Numerics::Vector3 diff = info.Position - cellInfo.Position;
                     double dist = diff.Length();
                     if (cellInfo.IsAlive) {
-                        vec1 += m_computeRemoteForce(diff, dist, info.Mass, cellInfo.Mass);
+                        vec1 += m_computeRemoteForce(diff, dist, info.Mass, cellInfo.Mass, params.ReverseLambda);
                     }
                     vec2 += m_computeVolumeExclusion(diff, dist, info.Radius, cellInfo.Radius);
                 }
             )
 
-            return m_remoteForceFactor * vec1 + m_adhesiveRepulsionFactor * vec2;
+            return params.RemoteForceFactor * vec1 + params.AdhesiveRepulsionFactor * vec2;
         }
         
         Numerics::Vector3 vec;
@@ -123,7 +117,7 @@ namespace CellSim::Model
             }
         )
 
-        return m_adhesiveRepulsionFactor * vec;
+        return params.AdhesiveRepulsionFactor * vec;
     }
 
     void ClusterFormationModel::OnAdvanceStep(

@@ -11,6 +11,19 @@ namespace CellSim::Model
     class CellSimulationModel {
         public:
 
+        /// @brief パラメータ
+        class Params {
+            protected:
+            Params() = default;
+            Params(Params const&) = default;
+            Params(Params&&) = default;
+
+            Params& operator=(Params const&) = default;
+            Params& operator=(Params&&) = default;
+            public:
+            virtual ~Params() = default;
+        };
+
         virtual ~CellSimulationModel() = default;
 
         /// @brief CellSimulationTypeからインスタンスを作成

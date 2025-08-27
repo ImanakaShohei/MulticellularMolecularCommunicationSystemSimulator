@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Graphics.Color.hpp"
+#include "CellSim.Model.CellSimulationModel.hpp"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -14,7 +15,28 @@ namespace CellSim::Cells
     class CellType final {
         private:
 
-        static ::std::vector<::std::pair<::std::string, Graphics::Color>> s_names;
+        class s_data final {
+            public:
+            ::std::string Name;
+            Graphics::Color Color;
+            Model::CellSimulationModel::Params* SimulationModelParams;
+
+            constexpr s_data(
+                ::std::string name,
+                Graphics::Color color,
+                Model::CellSimulationModel::Params* simulationModelParams
+            ) noexcept;
+
+            s_data(s_data const&) = delete;
+            s_data(s_data&&) = delete;
+
+            ~s_data();
+
+            s_data& operator=(s_data const&) = delete;
+            s_data& operator=(s_data&&) = delete;
+        };
+
+        static ::std::vector<s_data> s_names;
 
         uint32_t m_id;
 
@@ -27,17 +49,29 @@ namespace CellSim::Cells
         /// @brief 種類を追加
         /// @param name 名前
         /// @return その名前に対応するCellType値
-        [[nodiscard]] static CellType AddName(const char* name, Graphics::Color color);
+        [[nodiscard]] static CellType AddName(
+            const char* name,
+            Graphics::Color color,
+            Model::CellSimulationModel::Params* params
+        );
 
         /// @brief 種類を追加
         /// @param name 名前
         /// @return その名前に対応するCellType値
-        [[nodiscard]] static CellType AddName(::std::string name, Graphics::Color color);
+        [[nodiscard]] static CellType AddName(
+            ::std::string name,
+            Graphics::Color color,
+            Model::CellSimulationModel::Params* params
+        );
 
         /// @brief 種類を追加
         /// @param name 名前
         /// @return その名前に対応するCellType値
-        [[nodiscard]] static CellType AddName(::std::string_view name, Graphics::Color color);
+        [[nodiscard]] static CellType AddName(
+            ::std::string_view name,
+            Graphics::Color color,
+            Model::CellSimulationModel::Params* params
+        );
 
         /// @brief 指定した名前に対応するCellType値を取得
         /// @param name 名前
@@ -53,7 +87,9 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         /// @brief 名前
-        [[nodiscard]] ::std::string const& Name() const noexcept;
+        [[nodiscard]] constexpr ::std::string const& Name() const noexcept;
+
+        [[nodiscard]] constexpr Model::CellSimulationModel::Params* Params() const noexcept;
     };
 
     [[nodiscard]] constexpr bool operator==(CellType left, CellType right) noexcept;
@@ -67,6 +103,22 @@ namespace CellSim::Cells
 
 namespace CellSim::Cells
 {
+    constexpr CellType::s_data::s_data(
+        ::std::string name,
+        Graphics::Color color,
+        Model::CellSimulationModel::Params* simulationModelParams
+    ) noexcept
+        : Name(::std::move(name))
+        , Color(color)
+        , SimulationModelParams(simulationModelParams)
+    {
+    }
+
+    inline CellType::s_data::~s_data()
+    {
+        delete SimulationModelParams;
+    }
+
     constexpr CellType::CellType(uint32_t id) noexcept
         : m_id(id)
     {
@@ -77,14 +129,22 @@ namespace CellSim::Cells
         return CellType(0);
     }
 
-    inline CellType CellType::AddName(const char* name, Graphics::Color color)
+    inline CellType CellType::AddName(
+        const char* name,
+        Graphics::Color color,
+        Model::CellSimulationModel::Params* params
+    )
     {
-        return AddName(::std::string_view{ name }, color);
+        return AddName(
+            ::std::string_view{ name },
+            color,
+            params
+        );
     }
 
     constexpr Graphics::Color CellType::Color() const noexcept
     {
-        return s_names[m_id].second;
+        return s_names[m_id].Color;
     }
 
     constexpr uint32_t CellType::Id() const noexcept
@@ -92,9 +152,14 @@ namespace CellSim::Cells
         return m_id;
     }
 
-    inline ::std::string const& CellType::Name() const noexcept
+    constexpr ::std::string const& CellType::Name() const noexcept
     {
-        return s_names[m_id].first;
+        return s_names[m_id].Name;
+    }
+
+    constexpr Model::CellSimulationModel::Params* CellType::Params() const noexcept
+    {
+        return s_names[m_id].SimulationModelParams;
     }
 
     constexpr bool operator==(CellType left, CellType right) noexcept

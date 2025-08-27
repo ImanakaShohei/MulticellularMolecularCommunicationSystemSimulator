@@ -7,15 +7,16 @@
 namespace CellSim::Model
 {
     class CellGrowthModel : public CellSimulationModel {
-        private:
-
-        double m_adhesiveRepulsionFactor;
-
         public:
 
-        CellGrowthModel();
+        class Params : public CellSimulationModel::Params {
+            public:
+            double AdhesiveRepulsionFactor;
 
-        CellGrowthModel(double adhesiveRepulsionFactor);
+            Params(
+                double adhesiveRepulsionFactor
+            );
+        };
 
         void BeforeAdvanceStep(
             const Simulation* sender,
