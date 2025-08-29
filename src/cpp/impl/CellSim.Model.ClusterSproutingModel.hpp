@@ -15,6 +15,9 @@ namespace CellSim::Model
 
         class Params : public CellSimulationModel::Params {
             public:
+
+            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j);
+            
             size_t AdhesionThreshold; //接着している細胞の数がこの値以下の時に反発力が働く
             double CoefficientCd; //反発力にかける係数
             double FollowerAttractionFactor; //接着している細胞の数がadhesion_thresholdより多い時に受ける引力にかける係数

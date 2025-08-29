@@ -21,8 +21,10 @@
 
 namespace CellSim::Model
 {
-    CellSimulationModel::Params* CellSimulationModel::Params::FromJson(::nlohmann::json const& j, CellSimulationType type)
+    CellSimulationModel::Params* CellSimulationModel::Params::FromJson(::nlohmann::json& j, CellSimulationType type)
     {
+        if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.CellSimulationModel.Params.FromJson.JsonError"));
+
         switch (type) {
             case CellSimulationType::CellGrowth:       return CellGrowthModel::Params::FromJson(j);
             case CellSimulationType::ClusterFormation: return ClusterFormationModel::Params::FromJson(j);
@@ -33,7 +35,7 @@ namespace CellSim::Model
             case CellSimulationType::User:             return Users::UserSimulationModel::Params::FromJson(j);
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.FromType.Error"));
+                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.Params.FromJson.TypeError"));
             }
         }
     }

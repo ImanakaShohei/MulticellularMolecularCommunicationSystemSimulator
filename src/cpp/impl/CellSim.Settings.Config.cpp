@@ -44,13 +44,14 @@ namespace CellSim::Settings
 
     void Config::Load(::nlohmann::json& config)
     {
+        Simulation::Load(config["simulation"]);
+        SimulationModel::Load(config["simulationModel"]);
+
         Cell::Load(config["cell"]);
         CellAlgorithm::Load(config["cellAlgorithm"]);
         CellBehavior::Load(config["cellBehavior"]);
         Molecular::Load(config["molecular"]);
         Optimization::Load(config["optimization"]);
-        Simulation::Load(config["simulation"]);
-        SimulationModel::Load(config["simulationModel"]);
         UserSettings::Load(config["userSettings"]);
     }
 

@@ -24,7 +24,7 @@ namespace CellSim::Model
             public:
             virtual ~Params() = default;
 
-            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j, CellSimulationType type);
+            [[nodiscard]] static Params* FromJson(::nlohmann::json& j, CellSimulationType type);
         };
 
         virtual ~CellSimulationModel() = default;

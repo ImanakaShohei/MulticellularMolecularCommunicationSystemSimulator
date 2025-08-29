@@ -32,13 +32,23 @@ Cli.ParamSweepOption.CheckValue.Error.NotFound='--param-sweep' 指定された�
 Cli.ParamSweepOption.CheckValue.Error.NotNumber='--param-sweep' パラメータは数値型である必要があります。
 Cli.ParamSweepOption.Run.Error='--param-sweep'の形式が正しくありません。
 
+Model.CellSimulationModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters'パラメータの形式が正しくありません。
+Model.CellSimulationModel.Params.FromJson.TypeError=無効なCellSim::Model::CellSimulationType値です。
 Model.CellSimulationModel.FromType.Error=無効なCellSim::Model::CellSimulationType値です。
 
 Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
 
+Model.CellGrowthModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters.cellGrowth'パラメータの形式が正しくありません。
+
 Model.ClusterFormationModel.ClusterFormationModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
 Model.ClusterFormationModel.ClusterFormationModel.Error.lambda=引数'lambda'にゼロが指定されました。
 Model.ClusterFormationModel.ClusterFormationModel.Error.remoteForceFactor=引数'remoteForceFactor'に負の値が指定されました。
+
+Model.ClusterFormationModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters.clusterFormation'パラメータの形式が正しくありません。
+
+Model.ClusterRotationModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters.clusterRotation'パラメータの形式が正しくありません。
+
+Model.ClusterSproutingModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters.clusterSprouting'パラメータの形式が正しくありません。
 
 Model.NetworkFormationModel.NetworkFormationModel.Error.adhesiveRepulsionFactor=引数'adhesiveRepulsionFactor'に負の値が指定されました。
 Model.NetworkFormationModel.NetworkFormationModel.Error.attractionFactor=引数'attractionFactor'に負の値が指定されました。
@@ -49,6 +59,8 @@ Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance-min
 Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance=引数'minAttractionDistance'にゼロ以下の値が指定されました。
 Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance-maxAttractionDistance=引数'minAttractionDistance'は'maxAttractionDistance'よりも小さい値にする必要があります。
 Model.NetworkFormationModel.NetworkFormationModel.Error.remoteForceFactor=引数'remoteForceFactor'に負の値が指定されました。
+
+Model.CellSimulationModel.Params.FromJson.JsonError=configファイルの'cell.cells.modelParameters.networkFormation'パラメータの形式が正しくありません。
 
 Molecular.Molecule.Amount.Error=引数'amount'に負の値が指定されました。
 

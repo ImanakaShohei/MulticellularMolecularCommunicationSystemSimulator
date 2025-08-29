@@ -1,4 +1,6 @@
 ﻿#include "CellSim.Settings.Config.Cell.hpp"
+#include "CellSim.Settings.Config.SimulationModel.hpp"
+#include "CellSim.Model.CellSimulationModel.hpp"
 #include "CellSim.Messages.hpp"
 
 #include <nlohmann/json.hpp>
@@ -21,14 +23,22 @@ namespace CellSim::Settings
 
             Cells::CellCreateInfo info;
             ::std::string s;
+            Model::CellSimulationType simulationType = Settings::Config::SimulationModel::SimulationType();
 
-            for (::nlohmann::json const& obj : config.at("cells")) {
+            for (::nlohmann::json& obj : config.at("cells")) {
                 s = obj.at("behaviorType");
                 info.CellCount = obj.at("cellCount").get<int32_t>();
                 info.GrowthRate = obj.at("growthRate").get<double>();
                 info.Mass = obj.at("mass").get<double>();
                 info.Radius = obj.at("radius").get<double>();
-                info.Type = Cells::CellType::AddName(obj.at("typeName").get<::std::string>(), Graphics::Color(obj.at("color").get<::std::string>()));
+                info.Type = Cells::CellType::AddName(
+                    obj.at("typeName").get<::std::string>(),
+                    Graphics::Color(obj.at("color").get<::std::string>()),
+                    Model::CellSimulationModel::Params::FromJson(
+                        obj.at("simulationModelParams"),
+                        simulationType
+                    )
+                );
 
                 if (info.CellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
                 if (info.GrowthRate <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.growthRate"));
