@@ -17,6 +17,8 @@
 #include <random>
 #include <stdexcept>
 
+#include <nlohmann/json.hpp>
+
 namespace CellSim::Model
 {
     CellSimulationModel::Params* CellSimulationModel::Params::FromJson(::nlohmann::json const& j, CellSimulationType type)
@@ -27,11 +29,11 @@ namespace CellSim::Model
             case CellSimulationType::ClusterRotation:  return ClusterRotationModel::Params::FromJson(j);
             case CellSimulationType::ClusterSprouting: return ClusterSproutingModel::Params::FromJson(j);
             case CellSimulationType::NetworkFormation: return NetworkFormationModel::Params::FromJson(j);
-            case CellSimulationType::Null:             return NullModel::Params::FromJson(j);
+            case CellSimulationType::Null:             return NullModel::Params::FromJson();
             case CellSimulationType::User:             return Users::UserSimulationModel::Params::FromJson(j);
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.Params.FromJson.Error"));
+                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.FromType.Error"));
             }
         }
     }

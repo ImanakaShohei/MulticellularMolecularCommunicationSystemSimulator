@@ -13,6 +13,11 @@ namespace CellSim::Model
     class NullModel : public CellSimulationModel {
         public:
 
+        class Params : public CellSimulationModel::Params {
+            public:
+            [[nodiscard]] static consteval Params* FromJson();
+        };
+
         constexpr void BeforeAdvanceStep(
             const Simulation* sender,
             SimulationModelStepArgs args
@@ -39,6 +44,11 @@ namespace CellSim::Model
 
 namespace CellSim::Model
 {
+    consteval NullModel::Params* NullModel::Params::FromJson()
+    {
+        return nullptr;
+    }
+
     constexpr void NullModel::BeforeAdvanceStep(
         const Simulation*,
         SimulationModelStepArgs

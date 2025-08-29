@@ -5,14 +5,23 @@
 #include "impl/CellSim.Molecular.MoleculeField.hpp"
 #include "impl/CellSim.Numerics.Vector3T.hpp"
 
+#include <nlohmann/json.hpp>
+
 using namespace CellSim;
 using namespace CellSim::CellAlgorithms;
 using namespace CellSim::Cells;
 using namespace CellSim::Model;
 using namespace CellSim::Molecular;
 
+using namespace nlohmann;
+
 namespace CellSim::Users
 {
+    UserSimulationModel::Params* UserSimulationModel::Params::FromJson([[maybe_unused]] json const& j)
+    {
+        return new Params();
+    }
+
     UserSimulationModel::UserSimulationModel()
     {
         // TODO: ここに処理を追加します

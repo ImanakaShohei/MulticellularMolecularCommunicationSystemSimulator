@@ -14,6 +14,8 @@ namespace CellSim::Users
             public:
 
             // ここに細胞の種類ごとのパラメータを追加します
+
+            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j);
         };
 
         UserSimulationModel();
