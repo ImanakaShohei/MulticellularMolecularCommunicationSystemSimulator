@@ -15,53 +15,51 @@
 
 namespace CellSim::Model
 {
+    NetworkFormationModel::Params::Params(
+        double adhesiveRepulsionFactor,
+        double attractionFactor,
+        double lambda,
+        double maxRepulsionDistance,
+        double minAttractionDistance,
+        double remoteForceFactor
+    )
+        : AdhesiveRepulsionFactor(adhesiveRepulsionFactor)
+        , AttractionFactor(attractionFactor)
+        , Lambda(lambda)
+        , MaxRepulsionDistance(maxRepulsionDistance)
+        , MinAttractionDistance(minAttractionDistance)
+        , RemoteForceFactor(remoteForceFactor)
+        , ReverseLambda(1.0 / lambda)
+    {
+        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.adhesiveRepulsionFactor"));
+        if (attractionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.attractionFactor"));
+        if (lambda == 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.lambda"));
+        if (maxRepulsionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance"));
+        if (minAttractionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance"));
+        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.remoteForceFactor"));
+        
+        if (maxRepulsionDistance >= minAttractionDistance) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance-minAttractionDistance"));
+    }
+
     NetworkFormationModel::NetworkFormationModel()
         : NetworkFormationModel(
-            Settings::Config::SimulationModel::NetworkFormation::AdhesiveRepulsionFactor(),
-            Settings::Config::SimulationModel::NetworkFormation::AttractionFactor(),
-            Settings::Config::SimulationModel::NetworkFormation::Lambda(),
-            Settings::Config::SimulationModel::NetworkFormation::MaxAttractionDistance(),
-            Settings::Config::SimulationModel::NetworkFormation::MaxRepulsionDistance(),
-            Settings::Config::SimulationModel::NetworkFormation::MinAttractionDistance(),
-            Settings::Config::SimulationModel::NetworkFormation::RemoteForceFactor()
+            Settings::Config::SimulationModel::NetworkFormation::MaxAttractionDistance()
         )
     {
     }
 
     NetworkFormationModel::NetworkFormationModel(
-        double adhesiveRepulsionFactor,
-        double attractionFactor,
-        double lambda,
-        double maxAttractionDistance,
-        double maxRepulsionDistance,
-        double minAttractionDistance,
-        double remoteForceFactor
+        double maxAttractionDistance
     )
-    : m_adhesiveRepulsionFactor(adhesiveRepulsionFactor)
-    , m_attractionFactor(attractionFactor)
-    , m_lambda(lambda)
-    , m_maxAttractionDistance(maxAttractionDistance)
-    , m_maxRepulsionDistance(maxRepulsionDistance)
-    , m_minAttractionDistance(minAttractionDistance)
-    , m_remoteForceFactor(remoteForceFactor)
-    , m_reverseLambda(1.0 / lambda)
-    , m_squareMaxAttractionDistance(maxAttractionDistance * maxAttractionDistance)
-    , m_cellList(
-        (size_t)(Settings::Config::Simulation::FieldRadius() / maxAttractionDistance) + 1,
-        Settings::Config::Simulation::Enable2dMode(),
-        maxAttractionDistance
-    )
+        : m_maxAttractionDistance(maxAttractionDistance)
+        , m_squareMaxAttractionDistance(maxAttractionDistance * maxAttractionDistance)
+        , m_cellList(
+            (size_t)(Settings::Config::Simulation::FieldRadius() / maxAttractionDistance) + 1,
+            Settings::Config::Simulation::Enable2dMode(),
+            maxAttractionDistance
+        )
     {
-        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.adhesiveRepulsionFactor"));
-        if (attractionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.attractionFactor"));
-        if (lambda == 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.lambda"));
         if (maxAttractionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxAttractionDistance"));
-        if (maxRepulsionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance"));
-        if (minAttractionDistance <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance"));
-        if (remoteForceFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.remoteForceFactor"));
-        
-        if (minAttractionDistance >= maxAttractionDistance) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.minAttractionDistance-maxAttractionDistance"));
-        if (maxRepulsionDistance >= minAttractionDistance) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.NetworkFormationModel.NetworkFormationModel.Error.maxRepulsionDistance-minAttractionDistance"));
     }
 
     void NetworkFormationModel::BeforeAdvanceStep(
@@ -81,21 +79,22 @@ namespace CellSim::Model
         Numerics::Vector3 force3;
 
         Cells::CellInfo info{ *args.Target };
+        Params params = *static_cast<Params*>(info.Type.Params());
 
         for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
             Numerics::Vector3 diff = info.Position - pCell->Position();
             double dist = diff.Length();
 
-            double v = dist - m_minAttractionDistance;
+            double v = dist - params.MinAttractionDistance;
 
             if (v > 0.0) {
                 force1 -= (v / dist) * diff;
             }
             else {
-                v = m_maxRepulsionDistance - dist;
+                v = params.MaxRepulsionDistance - dist;
 
                 if (v > 0.0) {
-                    force2 += (v / (m_maxRepulsionDistance * dist)) * diff;
+                    force2 += (v / (params.MaxRepulsionDistance * dist)) * diff;
                 }
             }
         }
@@ -114,12 +113,12 @@ namespace CellSim::Model
 
                 force3 += (
                     -mass *
-                    ::exp(-m_reverseLambda)
+                    ::exp(-params.ReverseLambda)
                 ) * diff;
             }
         )
 
-        return m_attractionFactor * force1 + m_adhesiveRepulsionFactor * force2 + m_remoteForceFactor * force3;
+        return params.AttractionFactor * force1 + params.AdhesiveRepulsionFactor * force2 + params.RemoteForceFactor * force3;
     }
 
     void NetworkFormationModel::OnAdvanceStep(
