@@ -22,6 +22,7 @@ namespace CellSim::Cells
 
         MoleculeAwareCellBehavior(
             double cellDivisionRadius,
+            double growthRate,
             double synthesisRate,
             double degradationRate
         );

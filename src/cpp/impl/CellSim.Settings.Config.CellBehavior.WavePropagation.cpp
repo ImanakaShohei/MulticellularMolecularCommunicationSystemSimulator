@@ -14,6 +14,7 @@ namespace CellSim::Settings
         try {
             s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
             s_degradationRate = config.at("degradationRate").get<double>();
+            s_growthRate = config.at("growthRate").get<double>();
             s_synthesisRate = config.at("synthesisRate").get<double>();
             s_c = config.at("c").get<double>();
             s_k_1 = config.at("k1").get<double>();

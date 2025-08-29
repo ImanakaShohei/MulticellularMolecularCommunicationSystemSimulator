@@ -13,6 +13,7 @@ namespace CellSim::Settings
         
         try {
             s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
+            s_growthRate = config.at("growthRate").get<double>();
         }
         catch (...) {
             throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.JsonError"));

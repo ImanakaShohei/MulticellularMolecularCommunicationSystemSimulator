@@ -338,12 +338,21 @@
                             "type": "number",
                             "exclusiveMinimum": 0
                         },
+                        "growthRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
                         "synthesisRate": {
                             "type": "number",
                             "exclusiveMinimum": 0
                         }
                     },
-                    "required": [ "cellDivisionRadius", "degradationRate", "synthesisRate" ]
+                    "required": [
+                        "cellDivisionRadius",
+                        "degradationRate",
+                        "growthRate",
+                        "synthesisRate"
+                    ]
                 },
                 "normal": {
                     "type": "object",
@@ -367,6 +376,10 @@
                     "type": "object",
                     "properties": {
                         "cellDivisionRadius": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "growthRate": {
                             "type": "number",
                             "exclusiveMinimum": 0
                         },
@@ -396,6 +409,7 @@
                     },
                     "required": [ 
                         "cellDivisionRadius",
+                        "growthRate",
                         "degradationRate",
                         "synthesisRate",
                         "c",

@@ -26,13 +26,13 @@ namespace CellSim::Model
         if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.CellSimulationModel.Params.FromJson.JsonError"));
 
         switch (type) {
-            case CellSimulationType::CellGrowth:       return CellGrowthModel::Params::FromJson(j);
-            case CellSimulationType::ClusterFormation: return ClusterFormationModel::Params::FromJson(j);
-            case CellSimulationType::ClusterRotation:  return ClusterRotationModel::Params::FromJson(j);
-            case CellSimulationType::ClusterSprouting: return ClusterSproutingModel::Params::FromJson(j);
-            case CellSimulationType::NetworkFormation: return NetworkFormationModel::Params::FromJson(j);
+            case CellSimulationType::CellGrowth:       return CellGrowthModel::Params::FromJson(j["cellGrowth"]);
+            case CellSimulationType::ClusterFormation: return ClusterFormationModel::Params::FromJson(j["clusterFormation"]);
+            case CellSimulationType::ClusterRotation:  return ClusterRotationModel::Params::FromJson(j["clusterRotation"]);
+            case CellSimulationType::ClusterSprouting: return ClusterSproutingModel::Params::FromJson(j["clusterSprouting"]);
+            case CellSimulationType::NetworkFormation: return NetworkFormationModel::Params::FromJson(j["networkFormation"]);
             case CellSimulationType::Null:             return NullModel::Params::FromJson();
-            case CellSimulationType::User:             return Users::UserSimulationModel::Params::FromJson(j);
+            case CellSimulationType::User:             return Users::UserSimulationModel::Params::FromJson(j["user"]);
             default: [[unlikely]]
             {
                 throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.Params.FromJson.TypeError"));

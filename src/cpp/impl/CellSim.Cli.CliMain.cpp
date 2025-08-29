@@ -1,5 +1,6 @@
 ﻿#include "CellSim.Cli.CliMain.hpp"
 #include "CellSim.Cli.CliOptions.hpp"
+#include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Messages.hpp"
 #include "CellSim.Version.hpp"
 #include <iostream>
@@ -20,6 +21,7 @@ namespace CellSim::Cli
         
         try {
             Messages::Initialize();
+            Cells::CellType::Initialize();
 
             CliOptions options(argc, argv);
 

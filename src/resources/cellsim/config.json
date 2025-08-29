@@ -87,6 +87,7 @@
 
         "wavePropagation": {
             "cellDivisionRadius": 18,
+            "growthRate": 0.03,
             "degradationRate": 1,
             "synthesisRate": 1,
             "alpha": 0,

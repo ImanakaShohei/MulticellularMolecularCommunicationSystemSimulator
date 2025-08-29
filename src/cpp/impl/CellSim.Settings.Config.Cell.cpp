@@ -28,20 +28,18 @@ namespace CellSim::Settings
             for (::nlohmann::json& obj : config.at("cells")) {
                 s = obj.at("behaviorType");
                 info.CellCount = obj.at("cellCount").get<int32_t>();
-                info.GrowthRate = obj.at("growthRate").get<double>();
                 info.Mass = obj.at("mass").get<double>();
                 info.Radius = obj.at("radius").get<double>();
                 info.Type = Cells::CellType::AddName(
                     obj.at("typeName").get<::std::string>(),
                     Graphics::Color(obj.at("color").get<::std::string>()),
                     Model::CellSimulationModel::Params::FromJson(
-                        obj.at("simulationModelParams"),
+                        obj.at("modelParameters"),
                         simulationType
                     )
                 );
 
                 if (info.CellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
-                if (info.GrowthRate <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.growthRate"));
                 if (info.Mass == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.mass"));
                 if (info.Radius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
 

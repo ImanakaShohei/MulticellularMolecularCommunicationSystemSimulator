@@ -13,6 +13,7 @@ namespace CellSim::Settings
 
         static inline double s_cellDivisionRadius;
         static inline double s_degradationRate;
+        static inline double s_growthRate;
         static inline double s_synthesisRate;
 
         static inline double s_c;
@@ -40,6 +41,9 @@ namespace CellSim::Settings
 
         /// @brief 分解係数 k2
         [[nodiscard]] static double DegradationRate() noexcept;
+
+        /// @brief 細胞の成長速度
+        [[nodiscard]] static double GrowthRate() noexcept;
 
         /// @brief 生成係数 k1
         [[nodiscard]] static double SynthesisRate() noexcept;
@@ -74,6 +78,11 @@ namespace CellSim::Settings
     inline double Config::CellBehavior::WavePropagation::DegradationRate() noexcept
     {
         return s_degradationRate;
+    }
+
+    inline double Config::CellBehavior::WavePropagation::GrowthRate() noexcept
+    {
+        return s_growthRate;
     }
 
     inline double Config::CellBehavior::WavePropagation::SynthesisRate() noexcept

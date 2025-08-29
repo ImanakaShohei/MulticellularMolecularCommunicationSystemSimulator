@@ -11,6 +11,7 @@ namespace CellSim::Cells
     WavePropagationCellBehavior::WavePropagationCellBehavior()
         : WavePropagationCellBehavior(
             Settings::Config::CellBehavior::WavePropagation::CellDivisionRadius(),
+            Settings::Config::CellBehavior::WavePropagation::GrowthRate(),
             Settings::Config::CellBehavior::WavePropagation::SynthesisRate(),
             Settings::Config::CellBehavior::WavePropagation::DegradationRate(),
             Settings::Config::CellBehavior::WavePropagation::C(),
@@ -34,6 +35,7 @@ namespace CellSim::Cells
 
     WavePropagationCellBehavior::WavePropagationCellBehavior(
         double cellDivisionRadius,
+        double growthRate,
         double synthesisRate,
         double degradationRate,
         double c,
@@ -54,6 +56,7 @@ namespace CellSim::Cells
     )
         : MoleculeAwareCellBehavior(
             cellDivisionRadius,
+            growthRate,
             synthesisRate,
             degradationRate
         )

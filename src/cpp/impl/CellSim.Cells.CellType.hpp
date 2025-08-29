@@ -28,12 +28,12 @@ namespace CellSim::Cells
             ) noexcept;
 
             s_data(s_data const&) = delete;
-            s_data(s_data&&) = delete;
+            constexpr s_data(s_data&& right) noexcept;
 
             ~s_data();
 
             s_data& operator=(s_data const&) = delete;
-            s_data& operator=(s_data&&) = delete;
+            constexpr s_data& operator=(s_data&& right) noexcept;
         };
 
         static ::std::vector<s_data> s_names;
@@ -43,6 +43,8 @@ namespace CellSim::Cells
         explicit constexpr CellType(uint32_t id) noexcept;
 
         public:
+
+        static bool Initialize();
 
         [[nodiscard]] static constexpr CellType Invalid() noexcept;
 
@@ -114,9 +116,30 @@ namespace CellSim::Cells
     {
     }
 
+    constexpr CellType::s_data::s_data(s_data&& right) noexcept
+        : Name(::std::move(right.Name))
+        , Color(right.Color)
+        , SimulationModelParams(right.SimulationModelParams)
+    {
+        right.SimulationModelParams = nullptr;
+    }
+
     inline CellType::s_data::~s_data()
     {
+        if (SimulationModelParams == nullptr) return;
         delete SimulationModelParams;
+    }
+
+    constexpr CellType::s_data& CellType::s_data::operator=(s_data&& right) noexcept
+    {
+        if (this != &right) {
+            Name = ::std::move(right.Name);
+            Color = right.Color;
+            if (SimulationModelParams != nullptr) delete SimulationModelParams;
+            SimulationModelParams = right.SimulationModelParams;
+            right.SimulationModelParams = nullptr;
+        }
+        return *this;
     }
 
     constexpr CellType::CellType(uint32_t id) noexcept

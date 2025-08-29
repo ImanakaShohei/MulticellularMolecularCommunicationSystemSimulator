@@ -10,8 +10,6 @@
 namespace CellSim::Cells
 {
     struct CellCreateInfo {
-        /// @brief 細胞の成長速度
-        double GrowthRate;
 
         /// @brief 細胞の初期質量
         double Mass;

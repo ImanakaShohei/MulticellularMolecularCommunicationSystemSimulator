@@ -13,6 +13,7 @@ namespace CellSim::Cells
     MoleculeAwareCellBehavior::MoleculeAwareCellBehavior()
         : MoleculeAwareCellBehavior(
             Settings::Config::CellBehavior::MoleculeAware::CellDivisionRadius(),
+            Settings::Config::CellBehavior::MoleculeAware::GrowthRate(),
             Settings::Config::CellBehavior::MoleculeAware::SynthesisRate(),
             Settings::Config::CellBehavior::MoleculeAware::DegradationRate()
         )
@@ -21,10 +22,14 @@ namespace CellSim::Cells
 
     MoleculeAwareCellBehavior::MoleculeAwareCellBehavior(
         double cellDivisionRadius,
+        double growthRate,
         double synthesisRate,
         double degradationRate
     )
-        : NormalCellBehavior(cellDivisionRadius)
+        : NormalCellBehavior(
+            cellDivisionRadius,
+            growthRate
+        )
         , m_synthesisRate(synthesisRate)
         , m_degradationRate(degradationRate)
     {

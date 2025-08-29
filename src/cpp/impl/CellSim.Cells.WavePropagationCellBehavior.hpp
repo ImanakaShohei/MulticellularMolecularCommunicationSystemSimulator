@@ -105,6 +105,7 @@ namespace CellSim::Cells
 
         WavePropagationCellBehavior(
             double cellDivisionRadius,
+            double growthRate,
             double synthesisRate,
             double degradationRate,
             double c,

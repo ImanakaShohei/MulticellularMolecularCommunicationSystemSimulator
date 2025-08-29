@@ -23,7 +23,7 @@ namespace CellSim::Model
     {
         if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.ClusterSproutingModel.Params.FromJson.JsonError"));
 
-        double adhesionThreshold;
+        size_t adhesionThreshold;
         double coefficientCd;
         double followerAttractionFactor;
         double globalAttractionFactor;
