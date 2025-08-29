@@ -11,10 +11,16 @@
 #include <string>
 #include <vector>
 
+#if CELLSIM_ENV_ARM64
+    #define CELLSIM_CELLS_CELL_ALIGNAS 128
+#else
+    #define CELLSIM_CELLS_CELL_ALIGNAS 64
+#endif
+
 namespace CellSim::Cells
 {
     /// @brief 細胞クラス
-    class Cell final {
+    class alignas(CELLSIM_CELLS_CELL_ALIGNAS) Cell final {
         private:
 
         /// @brief ダミー細胞のID
