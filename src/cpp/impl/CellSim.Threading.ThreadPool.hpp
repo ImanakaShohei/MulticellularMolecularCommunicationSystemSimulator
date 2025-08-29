@@ -88,7 +88,7 @@ namespace CellSim::Threading
         };
     #else
         void(*func)(void*) = [](void* args) {
-            fArgs& fargs = *static_cast<fArgs*>(args);
+            fArgs fargs = *static_cast<fArgs*>(args);
             while (fargs.b != fargs.e) {
                 if constexpr (::std::random_access_iterator<TIterator>) {
                     fargs.f(*fargs.b);
