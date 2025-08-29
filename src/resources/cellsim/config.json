@@ -6,10 +6,49 @@
             "behaviorType": "Normal",
             "cellCount": 1000,
             "color": "#00FFFF",
-            "growthRate": 0.03,
             "mass": 1.0,
             "radius": 10.0,
-            "typeName": "Cell1"
+            "typeName": "Cell1",
+
+            "modelParameters": {
+                "cellGrowth": {
+                    "adhesiveRepulsionFactor": 1
+                },
+                
+                "clusterFormation": {
+                    "adhesiveRepulsionFactor": 10.0,
+                    "lambda": 20.0,
+                    "remoteForceFactor": 1.0
+                },
+
+                "clusterRotation": {
+                    "adhesionDistanceThreshold": 50.0,
+                    "adhesionForceFactor": 1.0,
+                    "centralForceFactor": 1.0,
+                    "repulsionFactor": 10.0,
+                    "repulsionMaxDistance": 15.0
+                },
+
+                "clusterSprouting": {
+                    "adhesionThreshold": 3,
+                    "coefficientCd": 10.0,
+                    "followerAttractionFactor": 2.0,
+                    "globalAttractionFactor": 0.05,
+                    "lambda": 20.0,
+                    "leaderRepulsionFactor": 2.0,
+                    "leaderRepulsionMaxDistance": 150.0,
+                    "leaderRepulsionMinDistance": 80.0
+                },
+
+                "networkFormation": {
+                    "adhesiveRepulsionFactor": 200,
+                    "attractionFactor": 0.3,
+                    "lambda": 0.01,
+                    "maxRepulsionDistance": 25,
+                    "minAttractionDistance": 80,
+                    "remoteForceFactor": 0.01
+                }
+            }
            }
         ],
         "enableGrowth": false,
@@ -32,49 +71,18 @@
     "simulationModel": {
         "simulationType": "ClusterFormation",
 
-        "cellGrowth": {
-            "adhesiveRepulsionFactor": 1
-        },
-        
-        "clusterFormation": {
-            "adhesiveRepulsionFactor": 10.0,
-            "lambda": 20.0,
-            "remoteForceFactor": 1.0
-        },
-
-        "clusterRotation": {
-            "adhesionDistanceThreshold": 50.0,
-            "adhesionForceFactor": 1.0,
-            "centralForceFactor": 1.0,
-            "repulsionFactor": 10.0,
-            "repulsionMaxDistance": 15.0
-        },
-
         "clusterSprouting": {
-            "adhesionThreshold": 3,
-            "coefficientCd": 10.0,
-            "contactDistance": 20.0,
-            "followerAttractionFactor": 2.0,
-            "globalAttractionFactor": 0.05,
-            "lambda": 20.0,
-            "leaderRepulsionFactor": 2.0,
-            "leaderRepulsionMaxDistance": 150.0,
-            "leaderRepulsionMinDistance": 80.0
+            "contactDistance": 20.0
         },
 
         "networkFormation": {
-            "adhesiveRepulsionFactor": 200,
-            "attractionFactor": 0.3,
-            "lambda": 0.01,
-            "maxAttractionDistance": 100,
-            "maxRepulsionDistance": 25,
-            "minAttractionDistance": 80,
-            "remoteForceFactor": 0.01
+            "maxAttractionDistance": 100
         }
     },
     "cellBehavior": {
         "normal": {
-            "cellDivisionRadius": 18
+            "cellDivisionRadius": 18,
+            "growthRate": 0.03
         },
 
         "wavePropagation": {

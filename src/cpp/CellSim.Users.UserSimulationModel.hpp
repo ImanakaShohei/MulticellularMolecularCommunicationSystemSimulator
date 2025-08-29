@@ -10,6 +10,12 @@ namespace CellSim::Users
     class UserSimulationModel : public Model::CellSimulationModel {
         public:
 
+        class Params : public Model::CellSimulationModel::Params {
+            public:
+
+            // ここに細胞の種類ごとのパラメータを追加します
+        };
+
         UserSimulationModel();
         ~UserSimulationModel();
 

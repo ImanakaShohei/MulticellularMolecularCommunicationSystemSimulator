@@ -21,7 +21,6 @@ namespace CellSim::Model
     ClusterSproutingModel::Params::Params(
         size_t adhesionThreshold,
         double coefficientCd,
-        double contactDistance,
         double followerAttractionFactor,
         double globalAttractionFactor,
         double lambda,
@@ -31,7 +30,6 @@ namespace CellSim::Model
     )
         : AdhesionThreshold(adhesionThreshold)
         , CoefficientCd(coefficientCd)
-        , ContactDistance(contactDistance)
         , FollowerAttractionFactor(followerAttractionFactor)
         , GlobalAttractionFactor(globalAttractionFactor)
         , Lambda(lambda)
@@ -39,10 +37,8 @@ namespace CellSim::Model
         , LeaderRepulsionMaxDistance(leaderRepulsionMaxDistance)
         , LeaderRepulsionMinDistance(leaderRepulsionMinDistance)
         , LeaderRepulsionRange(leaderRepulsionMaxDistance - leaderRepulsionMinDistance)
-        , SquareContactDistance(contactDistance * contactDistance)
     {
         if (coefficientCd < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'coefficientCd' must be greater than or equal to zero.");
-        if (contactDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'contactDistance' must be greater than or equal to zero.");
         if (followerAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'followerAttractionFactor' must be greater than or equal to zero.");
         if (globalAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'globalAttractionFactor' must be greater than or equal to zero.");
         if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'lambda' must be non-zero.");
@@ -51,7 +47,20 @@ namespace CellSim::Model
         if (leaderRepulsionMinDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMinDistance' must be greater than or equal to zero.");
         
         if (LeaderRepulsionRange <= 0.0) [[unlikely]] throw ::std::invalid_argument("'leaderRepulsionMinDistance' must be less than 'leaderRepulsionMaxDistance'.");
-        if (contactDistance >= leaderRepulsionMinDistance) [[unlikely]] throw ::std::invalid_argument("'contactDistance' must be less than 'leaderRepulsionMinDistance'.");
+    }
+
+    ClusterSproutingModel::ClusterSproutingModel()
+        : ClusterSproutingModel(Settings::Config::SimulationModel::ClusterSprouting::ContactDistance())
+    {
+    }
+
+    ClusterSproutingModel::ClusterSproutingModel(
+        double contactDistance
+    )
+        : m_contactDistance(contactDistance)
+        , m_squareContactDistance(contactDistance * contactDistance)
+    {
+        if (contactDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'contactDistance' must be greater than or equal to zero.");
     }
 
     void ClusterSproutingModel::BeforeAdvanceStep(
@@ -75,7 +84,7 @@ namespace CellSim::Model
 
                 Numerics::Vector3 diff = cell1.Position() - cell2.Position();
                 
-                if (diff.SquareLength() < SquareContactDistance) {
+                if (diff.SquareLength() < m_squareContactDistance) {
                     cell1.Adhere(cell2);
                     cell2.Adhere(cell1);
                 }
@@ -111,12 +120,14 @@ namespace CellSim::Model
                 // 近すぎると何も起こらない
                 if (v > 0.0) {
                     force2 -= diff * (v / (dist * params.LeaderRepulsionRange));
+
+                    continue;
                 }
             }
 
             // 近すぎると反発力が発生
-            if (dist < params.ContactDistance) {
-                force3 += diff * ((params.ContactDistance - dist) / (params.ContactDistance * dist));
+            if (dist < m_contactDistance) {
+                force3 += diff * ((m_contactDistance - dist) / (m_contactDistance * dist));
             }
         }
 

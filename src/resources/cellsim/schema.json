@@ -36,10 +36,6 @@
                 "color": {
                     "type": "string"
                 },
-                "growthRate": {
-                    "type": "number",
-                    "exclusiveMinimum": 0
-                },
                 "mass": {
                     "type": "number",
                     "exclusiveMinimum": 0
@@ -50,16 +46,167 @@
                 },
                 "typeName": {
                     "type": "string"
+                },
+                "modelParameters": {
+                    "type": "object",
+                    "properties": {
+                        "cellGrowth": {
+                            "type": "object",
+                            "properties": {
+                                "adhesiveRepulsionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "adhesiveRepulsionFactor"
+                            ]
+                        },
+                        "clusterFormation": {
+                            "type": "object",
+                            "properties": {
+                                "adhesiveRepulsionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "lambda": {
+                                    "type": "number"
+                                },
+                                "remoteForceFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "adhesiveRepulsionFactor",
+                                "lambda",
+                                "remoteForceFactor"
+                            ]
+                        },
+                        "clusterRotation": {
+                            "type": "object",
+                            "properties": {
+                                "adhesionDistanceThreshold": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "adhesionForceFactor": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "centralForceFactor": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "repulsionFactor": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "repulsionMaxDistance": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "required": [
+                                "adhesionDistanceThreshold",
+                                "adhesionForceFactor",
+                                "centralForceFactor",
+                                "repulsionFactor",
+                                "repulsionMaxDistance"
+                            ]
+                        },
+                        "clusterSprouting": {
+                            "type": "object",
+                            "properties": {
+                                "adhesionThreshold": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "coefficientCd": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "followerAttractionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "globalAttractionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "lambda": {
+                                    "type": "number"
+                                },
+                                "leaderRepulsionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "leaderRepulsionMaxDistance": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },"leaderRepulsionMinDistance": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "adhesionThreshold",
+                                "coefficientCd",
+                                "followerAttractionFactor",
+                                "globalAttractionFactor",
+                                "lambda",
+                                "leaderRepulsionFactor",
+                                "leaderRepulsionMaxDistance",
+                                "leaderRepulsionMinDistance"
+                            ]
+                        },
+                        "networkFormation": {
+                            "type": "object",
+                            "properties": {
+                                "adhesiveRepulsionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "attractionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "lambda": {
+                                    "type": "number"
+                                },
+                                "maxRepulsionDistance": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "minAttractionDistance": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "remoteForceFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "adhesiveRepulsionFactor",
+                                "attractionFactor",
+                                "lambda",
+                                "maxRepulsionDistance",
+                                "minAttractionDistance",
+                                "remoteForceFactor"
+                            ]
+                        }
+                    }
                 }
             },
             "required": [
                 "behaviorType",
                 "cellCount",
                 "color",
-                "growthRate",
                 "mass",
                 "radius",
-                "typeName"
+                "typeName",
+                "modelParameters"
             ]
         },
         "moleculeField": {
@@ -204,9 +351,16 @@
                         "cellDivisionRadius": {
                             "type": "number",
                             "exclusiveMinimum": 0
+                        },
+                        "growthRate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
                         }
                     },
-                    "required": [ "cellDivisionRadius" ]
+                    "required": [
+                        "cellDivisionRadius",
+                        "growthRate"
+                    ]
                 },
                 "user": { "type": "object" },
                 "wavePropagation": {
@@ -310,7 +464,14 @@
                     "exclusiveMinimum": 0
                 }
             },
-            "required": [ "deltaTime", "enable2dMode", "fieldRadius", "imageSize", "outputInterval", "totalSteps" ]
+            "required": [
+                "deltaTime",
+                "enable2dMode",
+                "fieldRadius",
+                "imageSize",
+                "outputInterval",
+                "totalSteps"
+            ]
         },
         "simulationModel": {
             "type": "object",
@@ -319,147 +480,29 @@
                     "type": "string",
                     "enum": [ "CellGrowth", "ClusterFormation", "ClusterRotation", "ClusterSprouting", "NetworkFormation", "Null", "User" ]
                 },
-                "cellGrowth": {
-                    "type": "object",
-                    "properties": {
-                        "adhesiveRepulsionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        }
-                    },
-                    "required": [ "adhesiveRepulsionFactor" ]
-                },
-                "clusterFormation": {
-                    "type": "object",
-                    "properties": {
-                        "adhesiveRepulsionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "lambda": {
-                            "type": "number"
-                        },
-                        "remoteForceFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        }
-                    },
-                    "required": [ "adhesiveRepulsionFactor", "lambda", "remoteForceFactor" ]
-                },
-                "clusterRotation": {
-                    "type": "object",
-                    "properties": {
-                        "adhesionDistanceThreshold": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "adhesionForceFactor": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "centralForceFactor": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "repulsionFactor": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "repulsionMaxDistance": {
-                            "type": "number",
-                            "minimum": 0
-                        }
-                    },
-                    "required": [
-                        "adhesionDistanceThreshold",
-                        "adhesionForceFactor",
-                        "centralForceFactor",
-                        "repulsionFactor",
-                        "repulsionMaxDistance"
-                    ]
-                },
                 "clusterSprouting": {
                     "type": "object",
                     "properties": {
-                        "adhesionThreshold": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "coefficientCd": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
                         "contactDistance": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "followerAttractionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "globalAttractionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "lambda": {
-                            "type": "number"
-                        },
-                        "leaderRepulsionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "leaderRepulsionMaxDistance": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },"leaderRepulsionMinDistance": {
                             "type": "number",
                             "exclusiveMinimum": 0
                         }
                     },
                     "required": [
-                        "adhesionThreshold",
-                        "coefficientCd",
-                        "contactDistance",
-                        "followerAttractionFactor",
-                        "globalAttractionFactor",
-                        "lambda",
-                        "leaderRepulsionFactor",
-                        "leaderRepulsionMaxDistance",
-                        "leaderRepulsionMinDistance"
+                        "contactDistance"
                     ]
                 },
                 "networkFormation": {
                     "type": "object",
                     "properties": {
-                        "adhesiveRepulsionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "attractionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "lambda": {
-                            "type": "number"
-                        },
                         "maxAttractionDistance": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "maxRepulsionDistance": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "minAttractionDistance": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "remoteForceFactor": {
                             "type": "number",
                             "exclusiveMinimum": 0
                         }
                     },
-                    "required": [ "adhesiveRepulsionFactor", "attractionFactor", "lambda", "maxAttractionDistance", "maxRepulsionDistance", "minAttractionDistance", "remoteForceFactor" ]
+                    "required": [
+                        "maxAttractionDistance"
+                    ]
                 }
             },
             "required": [ "simulationType" ]
