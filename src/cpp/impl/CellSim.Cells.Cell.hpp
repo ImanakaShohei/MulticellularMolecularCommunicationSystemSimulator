@@ -20,7 +20,7 @@
 namespace CellSim::Cells
 {
     /// @brief 細胞クラス
-    class alignas(CELLSIM_CELLS_CELL_ALIGNAS) Cell final {
+    class Cell final {
         private:
 
         /// @brief ダミー細胞のID

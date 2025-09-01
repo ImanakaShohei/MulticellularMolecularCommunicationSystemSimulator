@@ -1,4 +1,6 @@
 ﻿#include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmInteractionArgs.hpp"
 #include "CellSim.CellAlgorithms.BarnesHut.hpp"
 #include "CellSim.CellAlgorithms.CellList.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmType.hpp"
@@ -27,5 +29,30 @@ namespace CellSim::CellAlgorithms
                 throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellAlgorithm.FromType.Error"));
             }
         }
+    }
+
+    void CellAlgorithm::ApplyInteraction(
+        const Simulation*,
+        CellAlgorithmInteractionArgs
+    )
+    {
+    }
+
+    Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
+        const Simulation*,
+        CellAlgorithmForceComputationArgs
+    ) const
+    {
+        return Numerics::Vector3();
+    }
+
+    bool CellAlgorithm::OverrideForceComputation() const noexcept
+    {
+        return false;
+    }
+
+    bool CellAlgorithm::OverrideInteraction() const noexcept
+    {
+        return false;
     }
 }

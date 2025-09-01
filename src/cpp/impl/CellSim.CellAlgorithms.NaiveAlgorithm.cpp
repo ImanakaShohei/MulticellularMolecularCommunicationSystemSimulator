@@ -1,5 +1,6 @@
 ﻿#include "CellSim.CellAlgorithms.NaiveAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"

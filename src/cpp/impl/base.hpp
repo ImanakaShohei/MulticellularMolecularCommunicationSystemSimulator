@@ -160,6 +160,7 @@ namespace CellSim::CellAlgorithms
     class BarnesHut;
     class CellAlgorithm;
     struct CellAlgorithmAffectableCellQueryArgs;
+    struct CellAlgorithmInteractionArgs;
     struct CellAlgorithmForceComputationArgs;
     struct CellAlgorithmStepArgs;
     enum class CellAlgorithmType;

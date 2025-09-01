@@ -2,6 +2,8 @@
 #include "CellSim.Messages.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmInteractionArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.CellAlgorithms.CellList.hpp"
 #include "CellSim.CellAlgorithms.ClusterModel.hpp"
@@ -24,18 +26,30 @@ namespace CellSim
         // 力を加える
         if (m_overrideForceComputation) {
             // ここでm_pCellAlgorithmはnullptrではありません
-            if (m_enableMultithreading) {
-                Threading::ThreadPool::ParallelFor(
-                    m_cells.begin(),
-                    m_cells.end(),
-                    [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+            if (m_overrideInteraction) {
+                m_pCellAlgorithm->ApplyInteraction(
+                    this,
+                    {
+                        &m_cells,
+                        &m_molecules,
+                        m_pCellSimulationModel
                     }
                 );
             }
             else {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+                if (m_enableMultithreading) {
+                    Threading::ThreadPool::ParallelFor(
+                        m_cells.begin(),
+                        m_cells.end(),
+                        [this] (Cells::Cell& cell) {
+                            cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+                        }
+                    );
+                }
+                else {
+                    for (Cells::Cell& cell : m_cells) {
+                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+                    }
                 }
             }
         }
@@ -161,6 +175,10 @@ namespace CellSim
 
             m_overrideForceComputation = m_pCellAlgorithm->OverrideForceComputation();
 
+            if (m_overrideForceComputation) {
+                m_overrideInteraction = m_pCellAlgorithm->OverrideInteraction();
+            }
+
             if (Settings::Config::CellAlgorithm::UseClusterModel()) {
                 if (Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) {
                     m_pCellList = static_cast<CellAlgorithms::CellList*>(m_pCellAlgorithm);
@@ -186,6 +204,7 @@ namespace CellSim
     : m_cells()
     , m_enableMultithreading(true)
     , m_molecules()
+    , m_overrideInteraction(false)
     , m_overrideForceComputation(false)
     , m_pCellAlgorithm(nullptr)
     , m_pCellList(nullptr)

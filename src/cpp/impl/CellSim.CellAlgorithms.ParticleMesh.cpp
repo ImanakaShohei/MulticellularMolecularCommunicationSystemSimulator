@@ -1,5 +1,7 @@
 ﻿#include "CellSim.CellAlgorithms.ParticleMesh.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
+#include "CellSim.CellAlgorithms.CellAlgorithmInteractionArgs.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
@@ -26,16 +28,12 @@ namespace CellSim::CellAlgorithms
         // TODO: ここに処理を追加します
     }
 
-    Numerics::Vector3 ParticleMesh::ComputeForceOnCell(
+    void ParticleMesh::ApplyInteraction(
         [[maybe_unused]] const Simulation* sender,
-        [[maybe_unused]] CellAlgorithmForceComputationArgs args
-    ) const
+        [[maybe_unused]] CellAlgorithmInteractionArgs args
+    )
     {
-        // TODO: 処理の内容を変更します
-        return args.SimulationModel->ComputeForceOnCell(
-            sender,
-            { args.Target, args.Cells, args.Cells, args.Fields, nullptr }
-        );
+        // TODO: ここに処理を追加します
     }
 
     ::std::vector<Cells::CellInfo> ParticleMesh::GetAffectableCellInfos(

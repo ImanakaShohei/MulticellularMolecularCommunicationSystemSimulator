@@ -18,16 +18,16 @@ namespace CellSim::CellAlgorithms
         ParticleMesh();
         ~ParticleMesh();
 
+        void ApplyInteraction(
+            const Simulation* sender,
+            CellAlgorithmInteractionArgs args
+        ) override;
+
         void BeforeAdvanceStep(
             const Simulation* sender,
             CellAlgorithmStepArgs args
         ) override;
-
-        Numerics::Vector3 ComputeForceOnCell(
-            const Simulation* sender,
-            CellAlgorithmForceComputationArgs args
-        ) const override;
-
+        
         ::std::vector<Cells::CellInfo> GetAffectableCellInfos(
             const Model::CellSimulationModel* sender,
             CellAlgorithmAffectableCellQueryArgs args

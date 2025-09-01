@@ -2,7 +2,6 @@
 #define CELLSIM_CELLALGORITHMS_CELLALGORITHM_HPP
 
 #include "base.hpp"
-#include "CellSim.CellAlgorithms.CellAlgorithmForceComputationArgs.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.Optimization.hpp"
@@ -20,12 +19,12 @@
     else     \
     switch (::CellSim::Settings::Config::Optimization::Peformance()) {                                                                 \
         case ::CellSim::PeformanceType::Fast:                                                                                          \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm)->GetAffectableCellInfos(sender, { target, cells, molecules })) {     \
+        for (auto&& cellInfo : (cellAlgorithm)->GetAffectableCellInfos(sender, { target, cells, molecules })) {     \
             func                                                                                                                       \
         }                                                                                                                              \
         break;                                                                                                                         \
         case ::CellSim::PeformanceType::LowMemory:                                                                                     \
-        for (::CellSim::Cells::CellInfo cellInfo : (cellAlgorithm)->IterateAffectableCellInfos(sender, { target, cells, molecules })) { \
+        for (auto&& cellInfo : (cellAlgorithm)->IterateAffectableCellInfos(sender, { target, cells, molecules })) { \
             func                                                                                                                       \
         }                                                                                                                              \
         break;                                                                                                                         \
@@ -45,7 +44,15 @@ namespace CellSim::CellAlgorithms
         /// @return インスタンス
         [[nodiscard]] static CellAlgorithm* FromType(CellAlgorithmType type);
 
-        constexpr virtual ~CellAlgorithm() {}
+        virtual ~CellAlgorithm() = default;
+
+        /// @brief 相互作用
+        /// @param sender 
+        /// @param args 処理に必要な情報
+        virtual void ApplyInteraction(
+            const Simulation* sender,
+            CellAlgorithmInteractionArgs args
+        );
 
         /// @brief 前処理
         /// @param cells 細胞リスト
@@ -89,25 +96,13 @@ namespace CellSim::CellAlgorithms
         ) = 0;
 
         /// @brief アルゴリズム側で力の計算をすることを強制するフラグ
-        [[nodiscard]] virtual constexpr bool OverrideForceComputation() const noexcept;
+        [[nodiscard]] virtual bool OverrideForceComputation() const noexcept;
+
+        /// @brief 相互作用そのものをアルゴリズム側で計算するフラグ
+        /// @note OverrideForceComputation()が'true'のときに有効
+        [[nodiscard]] virtual bool OverrideInteraction() const noexcept;
         
     };
-}
-
-namespace CellSim::CellAlgorithms
-{
-    inline Numerics::Vector3 CellAlgorithm::ComputeForceOnCell(
-        const Simulation* sender,
-        CellAlgorithmForceComputationArgs args
-    ) const
-    {
-        return Numerics::Vector3();
-    }
-
-    constexpr bool CellAlgorithm::OverrideForceComputation() const noexcept
-    {
-        return false;
-    }
 }
 
 #endif //!CELLSIM_CELLALGORITHMS_CELLALGORITHM_HPP
