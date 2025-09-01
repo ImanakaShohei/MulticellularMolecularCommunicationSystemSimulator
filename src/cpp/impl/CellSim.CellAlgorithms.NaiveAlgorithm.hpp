@@ -3,14 +3,18 @@
 
 #include "base.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
-#include "CellSim.CellAlgorithms.CellAlgorithmStepArgs.hpp"
 
 namespace CellSim::CellAlgorithms
 {
     class NaiveAlgorithm : public CellAlgorithm {
         public:
 
-        constexpr void BeforeAdvanceStep(
+        void ApplyInteraction(
+            const Simulation* sender,
+            CellAlgorithmInteractionArgs args
+        ) override;
+
+        void BeforeAdvanceStep(
             const Simulation* sender,
             CellAlgorithmStepArgs args
         ) override;
@@ -25,47 +29,21 @@ namespace CellSim::CellAlgorithms
             CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
-        constexpr bool HasMultithreadingSupport() const noexcept override;
+        bool HasMultithreadingSupport() const noexcept override;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             const Model::CellSimulationModel* sender,
             CellAlgorithmAffectableCellQueryArgs args
         ) const override;
 
-        constexpr void OnAdvanceStep(
+        void OnAdvanceStep(
             const Simulation* sender,
             CellAlgorithmStepArgs args
         ) override;
 
-        constexpr bool OverrideForceComputation() const noexcept override;
+        bool OverrideForceComputation() const noexcept override;
+        bool OverrideInteraction() const noexcept override;
     };
-}
-
-namespace CellSim::CellAlgorithms
-{
-    constexpr void NaiveAlgorithm::BeforeAdvanceStep(
-            const Simulation*,
-            CellAlgorithmStepArgs
-    )
-    {
-    }
-
-    constexpr bool NaiveAlgorithm::HasMultithreadingSupport() const noexcept
-    {
-        return true;
-    }
-
-    constexpr void NaiveAlgorithm::OnAdvanceStep(
-            const Simulation*,
-            CellAlgorithmStepArgs
-    )
-    {
-    }
-
-    constexpr bool NaiveAlgorithm::OverrideForceComputation() const noexcept
-    {
-        return true;
-    }
 }
 
 #endif //!CELLSIM_CELLALGORITHMS_NAIVEALGORITHM_HPP
