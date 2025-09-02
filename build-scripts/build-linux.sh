@@ -19,7 +19,7 @@ cd build
 
 # cmake の初期構成を実行
 echo "Running cmake .."
-cmake ..\..
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release
 
 # Releaseビルドを実行
 echo "Building in Release mode..."

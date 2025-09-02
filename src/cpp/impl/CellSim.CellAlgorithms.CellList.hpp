@@ -36,7 +36,7 @@ namespace CellSim::CellAlgorithms
         size_t m_searchGridCountZ;
         double m_searchRadius;
 
-        /// @brief m_span[X][Y][Z]
+        /// @brief m_span[Z][Y][X]
         Containers::Span3<::std::vector<Cells::CellInfo>> m_span;
 
         double m_squareSeachRadius;

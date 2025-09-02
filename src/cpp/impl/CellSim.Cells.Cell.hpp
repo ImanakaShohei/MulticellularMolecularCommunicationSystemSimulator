@@ -20,7 +20,7 @@
 namespace CellSim::Cells
 {
     /// @brief 細胞クラス
-    class Cell final {
+    class alignas(64) Cell final {
         private:
 
         /// @brief ダミー細胞のID
@@ -38,15 +38,9 @@ namespace CellSim::Cells
         /// @brief 細胞が受けた力
         Numerics::Vector3 m_force;
 
-        /// @brief 識別子
-        uint32_t m_id;
-
         /// @brief 細胞内の分子の種類とその量
         ::std::map<Molecular::MoleculeKind, double> m_internalMolecules;
-
-        /// @brief この細胞が生きているかどうか
-        bool m_isAlive;
-
+        
         /// @brief 細胞の質量
         double m_mass;
 
@@ -64,6 +58,12 @@ namespace CellSim::Cells
 
         /// @brief 細胞の種類
         CellType m_type;
+
+        /// @brief 識別子
+        uint32_t m_id;
+
+        /// @brief この細胞が生きているかどうか
+        bool m_isAlive;
 
         /// @brief ダミー用
         /// @param type 

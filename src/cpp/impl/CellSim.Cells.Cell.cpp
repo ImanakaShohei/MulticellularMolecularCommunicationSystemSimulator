@@ -26,15 +26,15 @@ namespace CellSim::Cells
         : m_attachedCells()
         , m_behaviorPtr(pBehavior)
         , m_force()
-        , m_id(s_id)
         , m_internalMolecules()
-        , m_isAlive(true)
         , m_mass(mass)
         , m_polarity()
         , m_position(position)
         , m_previusForce()
         , m_radius(radius)
         , m_type(type)
+        , m_id(s_id)
+        , m_isAlive(true)
     {
         if (mass <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.mass"));
         if (radius <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.radius"));

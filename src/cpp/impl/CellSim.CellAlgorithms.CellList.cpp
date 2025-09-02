@@ -40,7 +40,7 @@ namespace CellSim::CellAlgorithms
         , m_searchGridCountY((size_t)(2.0 * searchRadius / m_gridLengthY))
         , m_searchGridCountZ((size_t)(2.0 * searchRadius / m_gridLengthZ))
         , m_searchRadius(searchRadius)
-        , m_span(gridCount, gridCount, m_gridCountZ, m_cellField.data())
+        , m_span(m_gridCountZ, gridCount, gridCount, m_cellField.data())
         , m_squareSeachRadius(searchRadius * searchRadius)
     {
         if (gridCount == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCount"));
@@ -86,12 +86,12 @@ namespace CellSim::CellAlgorithms
         if ((size_t)yMax >= m_gridCountY) yMax = (int32_t)(m_gridCountY) - 1;
         if ((size_t)zMax >= m_gridCountZ) zMax = (int32_t)(m_gridCountZ) - 1;
 
-        for (size_t x = xMin; x <= xMax; x++) {
-            auto span2 = m_span[x];
+        for (size_t z = zMin; z <= zMax; z++) {
+            auto span2 = m_span[z];
             for (size_t y = yMin; y <= yMax; y++) {
                 auto span = span2[y];
-                for (size_t z = zMin; z <= zMax; z++) {
-                    for (Cells::CellInfo const& info : span[z]) {
+                for (size_t x = xMin; x <= xMax; x++) {
+                    for (Cells::CellInfo const& info : span[x]) {
                         if (info.Position == position) continue;
 
                         if (IsWithinSearchRadius(position, info.Position)) {
@@ -128,12 +128,12 @@ namespace CellSim::CellAlgorithms
         if ((size_t)yMax >= m_gridCountY) yMax = (int32_t)(m_gridCountY) - 1;
         if ((size_t)zMax >= m_gridCountZ) zMax = (int32_t)(m_gridCountZ) - 1;
 
-        for (size_t x = xMin; x <= xMax; x++) {
-            auto span2 = m_span[x];
+        for (size_t z = zMin; z <= zMax; z++) {
+            auto span2 = m_span[z];
             for (size_t y = yMin; y <= yMax; y++) {
                 auto span = span2[y];
-                for (size_t z = zMin; z <= zMax; z++) {
-                    for (Cells::CellInfo const& info : span[z]) {
+                for (size_t x = xMin; x <= xMax; x++) {
+                    for (Cells::CellInfo const& info : span[x]) {
                         if (info.Position == position) continue;
 
                         if (IsWithinSearchRadius(position, info.Position)) {
@@ -193,7 +193,7 @@ namespace CellSim::CellAlgorithms
             if ((size_t)atY >= m_gridCountY) continue;
             if ((size_t)atZ >= m_gridCountZ) continue;
 
-            m_span.At(atX, atY, atZ).emplace_back(cell);
+            m_span.At(atZ, atY, atX).emplace_back(cell);
         }
     }
 

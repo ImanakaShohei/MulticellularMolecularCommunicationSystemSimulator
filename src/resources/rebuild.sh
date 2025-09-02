@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cmake ../..
-cmake --build . --config Release
+cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release
+cmake --build .
