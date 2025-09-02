@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cmake --build . --config Release
+cmake --build .
