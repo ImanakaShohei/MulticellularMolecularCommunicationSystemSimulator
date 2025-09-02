@@ -23,4 +23,4 @@ cmake -S ../.. -B . -DCMAKE_BUILD_TYPE=Release
 
 # Releaseビルドを実行
 echo "Building in Release mode..."
-cmake --build . --config Release
+cmake --build .
