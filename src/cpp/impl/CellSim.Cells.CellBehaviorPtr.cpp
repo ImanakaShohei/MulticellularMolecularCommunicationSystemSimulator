@@ -9,7 +9,9 @@
 
 namespace CellSim::Cells
 {
-    CellBehaviorPtr CellBehaviorPtr::FromType(CellBehaviorType type)
+    CellBehaviorPtr CellBehaviorPtr::FromType(
+        CellBehaviorType type
+    )
     {
         switch (type) {
             case CellBehaviorType::MoleculeAware: return CellBehaviorPtr(new MoleculeAwareCellBehavior());
@@ -23,7 +25,9 @@ namespace CellSim::Cells
         }
     }
 
-    CellBehaviorPtr CellBehaviorPtr::FromPointer(CellBehavior* ptr)
+    CellBehaviorPtr CellBehaviorPtr::FromPointer(
+        CellBehavior* ptr
+    )
     {
         if (ptr == nullptr) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.CellBehaviorPtr.FromPointer.Error"));
 

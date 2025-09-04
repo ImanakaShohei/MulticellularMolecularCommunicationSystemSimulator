@@ -7,7 +7,11 @@
 
 namespace CellSim::CellAlgorithms
 {
-    void ClusterModel::Combine(::std::vector<Cells::Cell>& cells, ::std::vector<Molecular::MoleculeField> const& fields, const CellList* pCellList)
+    void ClusterModel::Combine(
+        ::std::vector<Cells::Cell>& cells,
+        ::std::vector<Molecular::MoleculeField> const& fields,
+        const CellList* pCellList
+    )
     {
         auto f = [] (Cells::Cell& cell, Cells::Cell& cell2) {
             if (cell2.Type() != cell.Type()) return;

@@ -171,15 +171,21 @@ namespace CellSim::Cells
         /// @param kind 分子の種類
         /// @return 分子を追加したかどうか
         /// @note 初期状態では分子の数はゼロ
-        bool AppendMolecule(Molecular::MoleculeKind kind);
+        bool AppendMolecule(
+            Molecular::MoleculeKind kind
+        );
 
         /// @brief 細胞に力を加える
         /// @param force 加える力
-        constexpr void ApplyForce(Numerics::Vector3 force) noexcept;
+        constexpr void ApplyForce(
+            Numerics::Vector3 force
+        ) noexcept;
 
         /// @brief 接着
         /// @param cell 接着する細胞
-        void Adhere(Cell const& cell);
+        void Adhere(
+            Cell const& cell
+        );
 
         /// @brief すべての細胞の接着を解除
         constexpr void ClearAttachedCells() noexcept;
@@ -187,7 +193,9 @@ namespace CellSim::Cells
         /// @brief 結合
         /// @param c 結合する細胞
         /// @note 結合すると引数に与えたcは無効になります
-        void Combine(Cell& c) noexcept;
+        void Combine(
+            Cell& c
+        ) noexcept;
 
         /// @brief 細胞死
         constexpr void Die() noexcept;
@@ -199,28 +207,47 @@ namespace CellSim::Cells
         /// @brief 細胞が成長
         void Grow();
 
-        [[nodiscard]] bool IsAdheringTo(Cell const& cell) const noexcept;
+        [[nodiscard]] bool IsAdheringTo(
+            Cell const& cell
+        ) const noexcept;
 
         /// @brief 細胞が移動
         void Move() noexcept;
 
         /// @brief 細胞内と空間中の分子の状態を更新
         /// @param field 分子空間
-        void ProcessMolecules(Molecular::MoleculeField& field);
+        void ProcessMolecules(
+            Molecular::MoleculeField& field
+        );
 
         /// @brief 細胞内と空間中の分子の状態を更新
         /// @param fields 分子空間リスト
-        void ProcessMolecules(::std::vector<Molecular::MoleculeField>& fields);
+        void ProcessMolecules(
+            ::std::vector<Molecular::MoleculeField>& fields
+        );
 
         /// @brief 細胞にかかっている力をゼロにする
         constexpr void ResetForce() noexcept;
 
-        void SenseMolecules(Molecular::MoleculeField const& field);
-        void SenseMolecules(::std::vector<Molecular::MoleculeField> const& fields);
+        void SenseMolecules(
+            Molecular::MoleculeField const& field
+        );
+
+        void SenseMolecules(
+            ::std::vector<Molecular::MoleculeField> const& fields
+        );
+
     };
 
-    [[nodiscard]] constexpr bool operator==(Cell const& left, Cell const& right) noexcept;
-    [[nodiscard]] constexpr bool operator!=(Cell const& left, Cell const& right) noexcept;
+    [[nodiscard]] constexpr bool operator==(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator!=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
 }
 
 namespace CellSim::Cells
@@ -252,7 +279,8 @@ namespace CellSim::Cells
         bool isAlive,
         double mass,
         double radius,
-        Numerics::Vector3 position) noexcept
+        Numerics::Vector3 position
+    ) noexcept
     {
         return Cell(
             type,
@@ -283,7 +311,8 @@ namespace CellSim::Cells
         return m_id;
     }
 
-    constexpr ::std::map<Molecular::MoleculeKind, double> const& Cell::InternalMolecules() const noexcept
+    constexpr ::std::map<Molecular::MoleculeKind, double> const&
+    Cell::InternalMolecules() const noexcept
     {
         return m_internalMolecules;
     }
@@ -353,17 +382,23 @@ namespace CellSim::Cells
         return m_force / m_mass;
     }
 
-    inline bool Cell::AppendMolecule(Molecular::MoleculeKind kind)
+    inline bool Cell::AppendMolecule(
+        Molecular::MoleculeKind kind
+    )
     {
         return m_internalMolecules.try_emplace(kind, 0).second;
     }
 
-    constexpr void Cell::ApplyForce(Numerics::Vector3 force) noexcept
+    constexpr void Cell::ApplyForce(
+        Numerics::Vector3 force
+    ) noexcept
     {
         m_force += force;
     }
 
-    inline void Cell::Adhere(Cell const& cell)
+    inline void Cell::Adhere(
+        Cell const& cell
+    )
     {
         m_attachedCells.push_back(&cell);
     }
@@ -378,7 +413,9 @@ namespace CellSim::Cells
         m_isAlive = false;
     }
 
-    inline bool Cell::IsAdheringTo(Cell const& cell) const noexcept
+    inline bool Cell::IsAdheringTo(
+        Cell const& cell
+    ) const noexcept
     {
         const Cell* pCell = &cell;
 
@@ -395,12 +432,18 @@ namespace CellSim::Cells
         m_force = Numerics::Vector3::Zero();
     }
 
-    constexpr bool operator==(Cell const& left, Cell const& right) noexcept
+    constexpr bool operator==(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
     {
         return &left == &right;
     }
 
-    constexpr bool operator!=(Cell const& left, Cell const& right) noexcept
+    constexpr bool operator!=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
     {
         return &left != &right;
     }

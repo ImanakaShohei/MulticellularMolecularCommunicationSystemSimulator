@@ -71,10 +71,25 @@ namespace CellSim::CellAlgorithms
         /// @param cell1 
         /// @param cell2 
         /// @return 
-        [[nodiscard]] constexpr bool IsWithinSearchRadius(Cells::Cell const& cell1, Cells::Cell const& cell2) const noexcept;
-        [[nodiscard]] constexpr bool IsWithinSearchRadius(Cells::Cell const& cell1, Numerics::Vector3 position2) const noexcept;
-        [[nodiscard]] constexpr bool IsWithinSearchRadius(Numerics::Vector3 position1, Cells::Cell const& cell2) const noexcept;
-        [[nodiscard]] constexpr bool IsWithinSearchRadius(Numerics::Vector3 position1, Numerics::Vector3 position2) const noexcept;
+        [[nodiscard]] constexpr bool IsWithinSearchRadius(
+            Cells::Cell const& cell1,
+            Cells::Cell const& cell2
+        ) const noexcept;
+
+        [[nodiscard]] constexpr bool IsWithinSearchRadius(
+            Cells::Cell const& cell1,
+            Numerics::Vector3 position2
+        ) const noexcept;
+
+        [[nodiscard]] constexpr bool IsWithinSearchRadius(
+            Numerics::Vector3 position1,
+            Cells::Cell const& cell2
+        ) const noexcept;
+
+        [[nodiscard]] constexpr bool IsWithinSearchRadius(
+            Numerics::Vector3 position1,
+            Numerics::Vector3 position2
+        ) const noexcept;
 
         Threading::Generator<Cells::CellInfo> IterateAffectableCellInfos(
             const Model::CellSimulationModel* sender,
@@ -90,11 +105,18 @@ namespace CellSim::CellAlgorithms
 
         [[nodiscard]] constexpr double SearchRadius() const noexcept;
 
-        void SetCells(::std::vector<Cells::Cell> const& cells) noexcept;
+        void SetCells(
+            ::std::vector<Cells::Cell> const& cells
+        ) noexcept;
         
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(
+            Cells::Cell const& cell
+        ) const noexcept;
 
-        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
-        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Numerics::Vector3 position) const noexcept;
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(
+            Numerics::Vector3 position
+        ) const noexcept;
+
     };
 }
 
@@ -105,22 +127,43 @@ namespace CellSim::CellAlgorithms
         return true;
     }
 
-    constexpr bool CellList::IsWithinSearchRadius(Cells::Cell const& cell1, Cells::Cell const& cell2) const noexcept
+    constexpr bool CellList::IsWithinSearchRadius(
+        Cells::Cell const& cell1,
+        Cells::Cell const& cell2
+    ) const noexcept
     {
-        return IsWithinSearchRadius(cell1.Position(), cell2.Position());
+        return IsWithinSearchRadius(
+            cell1.Position(),
+            cell2.Position()
+        );
     }
 
-    constexpr bool CellList::IsWithinSearchRadius(Cells::Cell const& cell1, Numerics::Vector3 position2) const noexcept
+    constexpr bool CellList::IsWithinSearchRadius(
+        Cells::Cell const& cell1,
+        Numerics::Vector3 position2
+    ) const noexcept
     {
-        return IsWithinSearchRadius(cell1.Position(), position2);
+        return IsWithinSearchRadius(
+            cell1.Position(),
+            position2
+        );
     }
 
-    constexpr bool CellList::IsWithinSearchRadius(Numerics::Vector3 position1, Cells::Cell const& cell2) const noexcept
+    constexpr bool CellList::IsWithinSearchRadius(
+        Numerics::Vector3 position1,
+        Cells::Cell const& cell2
+    ) const noexcept
     {
-        return IsWithinSearchRadius(position1, cell2.Position());
+        return IsWithinSearchRadius(
+            position1,
+            cell2.Position()
+        );
     }
 
-    constexpr bool CellList::IsWithinSearchRadius(Numerics::Vector3 position1, Numerics::Vector3 position2) const noexcept
+    constexpr bool CellList::IsWithinSearchRadius(
+        Numerics::Vector3 position1,
+        Numerics::Vector3 position2
+    ) const noexcept
     {
         return (position1 - position2).SquareLength() < m_squareSeachRadius;
     }
@@ -130,7 +173,9 @@ namespace CellSim::CellAlgorithms
         return m_searchRadius;
     }
 
-    inline Numerics::GridPosition3 CellList::ToGridPosition3(Cells::Cell const& cell) const noexcept
+    inline Numerics::GridPosition3 CellList::ToGridPosition3(
+        Cells::Cell const& cell
+    ) const noexcept
     {
         return ToGridPosition3(cell.Position());
     }

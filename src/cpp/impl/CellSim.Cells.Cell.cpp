@@ -103,25 +103,40 @@ namespace CellSim::Cells
         auto& intracellularAmount = m_internalMolecules[kind];
         auto& extracellularAmount = field.Concentrations().At(position3.X, position3.Y, position3.Z);
 
-        MolecularProcessResult result = m_behaviorPtr->ComputeMolecularProcess(this, { extracellularAmount, &field, intracellularAmount, kind, position3 });
+        MolecularProcessResult result = m_behaviorPtr->ComputeMolecularProcess(
+            this,
+            {
+                extracellularAmount,
+                &field,
+                intracellularAmount,
+                kind,
+                position3
+            }
+        );
 
         intracellularAmount += result.IntracellularChange;
         extracellularAmount += result.ExtracellularChange;
     }
 
-    void Cell::ProcessMolecules(::std::vector<Molecular::MoleculeField>& fields)
+    void Cell::ProcessMolecules(
+        ::std::vector<Molecular::MoleculeField>& fields
+    )
     {
         for (Molecular::MoleculeField& field : fields) {
             ProcessMolecules(field);
         }
     }
 
-    void Cell::SenseMolecules(Molecular::MoleculeField const& field)
+    void Cell::SenseMolecules(
+        Molecular::MoleculeField const& field
+    )
     {
         m_force += m_behaviorPtr->OnSenseMolecules(this, { &field });
     }
 
-    void Cell::SenseMolecules(::std::vector<Molecular::MoleculeField> const& fields)
+    void Cell::SenseMolecules(
+        ::std::vector<Molecular::MoleculeField> const& fields
+    )
     {
         for (Molecular::MoleculeField const& field : fields) {
             SenseMolecules(field);

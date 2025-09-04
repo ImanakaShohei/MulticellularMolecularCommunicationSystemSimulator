@@ -14,7 +14,7 @@ namespace CellSim::CellAlgorithms
 
         public:
 
-        // 引数を追加してはいけない
+        /// @brief 引数なし版は必ず用意する
         ParticleMesh();
         ~ParticleMesh();
 

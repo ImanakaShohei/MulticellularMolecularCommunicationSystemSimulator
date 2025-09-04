@@ -8,38 +8,59 @@ namespace CellSim::Cells
 {
     /// @brief CellBehaviorポインタ
     /// @attention このクラスはスレッドセーフではありません
-    class CellBehaviorPtr {
+    class CellBehaviorPtr final {
         private:
 
-        constexpr CellBehaviorPtr(CellBehavior* ptr) noexcept;
+        constexpr CellBehaviorPtr(
+            CellBehavior* ptr
+        ) noexcept;
 
         CellBehavior* m_ptr;
 
-        void m_copyFrom(CellBehaviorPtr const& right);
+        void m_copyFrom(
+            CellBehaviorPtr const& right
+        );
+
         void m_delete() noexcept;
 
         public:
 
-        [[nodiscard]] static CellBehaviorPtr FromType(CellBehaviorType type);
+        [[nodiscard]] static CellBehaviorPtr FromType(
+            CellBehaviorType type
+        );
 
-        static CellBehaviorPtr FromPointer(::std::nullptr_t) = delete;
+        static CellBehaviorPtr FromPointer(
+            ::std::nullptr_t
+        ) = delete;
 
         /// @brief 生ポインタから作成
         /// @param ptr ポインタ
         /// @return オブジェクト
         /// @exception std::invalid_argument: ptrがnullptrのとき
-        [[nodiscard]] static CellBehaviorPtr FromPointer(CellBehavior* ptr);
+        [[nodiscard]] static CellBehaviorPtr FromPointer(
+            CellBehavior* ptr
+        );
 
         /// @brief nullptr
         [[nodiscard]] static CellBehaviorPtr Null() noexcept;
 
-        CellBehaviorPtr(CellBehaviorPtr const& right);
-        constexpr CellBehaviorPtr(CellBehaviorPtr&& right) noexcept;
+        CellBehaviorPtr(
+            CellBehaviorPtr const& right
+        );
+
+        constexpr CellBehaviorPtr(
+            CellBehaviorPtr&& right
+        ) noexcept;
 
         ~CellBehaviorPtr();
 
-        CellBehaviorPtr& operator=(CellBehaviorPtr const& right);
-        CellBehaviorPtr& operator=(CellBehaviorPtr&& right) noexcept;
+        CellBehaviorPtr& operator=(
+            CellBehaviorPtr const& right
+        );
+
+        CellBehaviorPtr& operator=(
+            CellBehaviorPtr&& right
+        ) noexcept;
 
         [[nodiscard]] constexpr CellBehavior* operator->() const noexcept;
         [[nodiscard]] constexpr CellBehavior& operator*() const noexcept;
@@ -49,7 +70,9 @@ namespace CellSim::Cells
 namespace CellSim::Cells
 {
 
-    inline void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
+    inline void CellBehaviorPtr::m_copyFrom(
+        CellBehaviorPtr const& right
+    )
     {
         if (right.m_ptr->IsReusable()) {
             m_ptr = right.m_ptr;
@@ -74,18 +97,24 @@ namespace CellSim::Cells
         return CellBehaviorPtr((CellBehavior*)nullptr);
     }
 
-    constexpr CellBehaviorPtr::CellBehaviorPtr(CellBehavior* ptr) noexcept
+    constexpr CellBehaviorPtr::CellBehaviorPtr(
+        CellBehavior* ptr
+    ) noexcept
         : m_ptr(ptr)
     {
     }
 
-    inline CellBehaviorPtr::CellBehaviorPtr(CellBehaviorPtr const& right)
+    inline CellBehaviorPtr::CellBehaviorPtr(
+        CellBehaviorPtr const& right
+    )
         : m_ptr()
     {
         m_copyFrom(right);
     }
 
-    constexpr CellBehaviorPtr::CellBehaviorPtr(CellBehaviorPtr&& right) noexcept
+    constexpr CellBehaviorPtr::CellBehaviorPtr(
+        CellBehaviorPtr&& right
+    ) noexcept
         : m_ptr(right.m_ptr)
     {
         right.m_ptr = nullptr;
@@ -98,7 +127,9 @@ namespace CellSim::Cells
         m_delete();
     }
 
-    inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr const& right)
+    inline CellBehaviorPtr& CellBehaviorPtr::operator=(
+        CellBehaviorPtr const& right
+    )
     {
         m_delete();
         m_copyFrom(right);
@@ -106,7 +137,9 @@ namespace CellSim::Cells
         return *this;
     }
 
-    inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr&& right) noexcept
+    inline CellBehaviorPtr& CellBehaviorPtr::operator=(
+        CellBehaviorPtr&& right
+    ) noexcept
     {
         m_delete();
         

@@ -6,6 +6,7 @@
 
 namespace CellSim::CellAlgorithms
 {
+    /// @brief ナイーブなアルゴリズム
     class NaiveAlgorithm : public CellAlgorithm {
         public:
 

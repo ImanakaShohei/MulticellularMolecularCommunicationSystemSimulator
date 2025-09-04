@@ -42,7 +42,9 @@ namespace CellSim::CellAlgorithms
         /// @brief CellAlgorithmTypeからインスタンスを作成
         /// @param type 種類
         /// @return インスタンス
-        [[nodiscard]] static CellAlgorithm* FromType(CellAlgorithmType type);
+        [[nodiscard]] static CellAlgorithm* FromType(
+            CellAlgorithmType type
+        );
 
         virtual ~CellAlgorithm() = default;
 
