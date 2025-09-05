@@ -10,12 +10,26 @@ namespace CellSim::Cells
     /// @brief 細胞の情報
     struct CellInfo {
         public:
+        /// @brief 参照元のCellインスタンス
+        /// @note 参照元がない場合はnullptr
         const Cell* CellPtr;
+
+        /// @brief 質量
         double Mass;
+
+        /// @brief 位置
         Numerics::Vector3 Position;
+
+        /// @brief 1ステップ前に加えられた力
         Numerics::Vector3 PreviusForce;
+
+        /// @brief 半径
         double Radius;
+
+        /// @brief 細胞の種類
         CellType Type;
+
+        /// @brief 生きているかどうか
         bool IsAlive;
 
         CellInfo() = default;

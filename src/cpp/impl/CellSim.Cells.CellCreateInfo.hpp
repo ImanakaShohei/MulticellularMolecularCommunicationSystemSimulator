@@ -9,6 +9,7 @@
 
 namespace CellSim::Cells
 {
+    /// @brief 細胞の種類を定義
     struct CellCreateInfo {
 
         /// @brief 細胞の初期質量
