@@ -61,6 +61,7 @@ namespace CellSim::Cli
                 args.Options->at(CliOptionType::Csv)->IsEnabled(),
                 args.Options->at(CliOptionType::Image)->IsEnabled(),
                 args.Options->at(CliOptionType::Video)->IsEnabled(),
+                args.Options->at(CliOptionType::CleanOutput)->IsEnabled(),
                 ::std::move(path)
             };
 
