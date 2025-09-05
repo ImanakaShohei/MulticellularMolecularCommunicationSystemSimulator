@@ -16,7 +16,11 @@
 
 namespace CellSim
 {
-    ::std::string SimulationResultWriter::s_createFilePath(uint64_t step, uint32_t digits, ::std::string const& parentPath, ::std::string_view extension)
+    ::std::string SimulationResultWriter::s_createFilePath(
+        uint64_t step, uint32_t digits,
+        ::std::string const& parentPath,
+        ::std::string_view extension
+    )
     {
         size_t filePathLength = parentPath.size() + digits + extension.size();
         size_t filePathCapacity = filePathLength + 1;
@@ -24,11 +28,23 @@ namespace CellSim
         // "%s%020llu%4s"
         char optionStr[13];
         
-        ::snprintf(optionStr, 13, "%%s%%0%lullu%%%zus", (unsigned long)digits, extension.size());
+        ::snprintf(
+            optionStr,
+            13,
+            "%%s%%0%lullu%%%zus",
+            (unsigned long)digits,
+            extension.size()
+        );
         
         ::std::string filePath(filePathLength, '\0');
 
-        ::snprintf(filePath.data(), filePathCapacity, optionStr, parentPath.c_str(), step, extension.data());
+        ::snprintf(
+            filePath.data(),
+            filePathCapacity,
+            optionStr,
+            parentPath.c_str(),
+            step, extension.data()
+        );
 
         return filePath;
     }
@@ -53,9 +69,20 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::m_saveBinaryCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
+    void SimulationResultWriter::m_saveBinaryCells(
+        ::std::vector<Cells::Cell> const& cells,
+        uint64_t step
+    ) const
     {
-        ::FILE* fp = ::fopen(s_createFilePath(step, m_digits, m_option.OutputBinaryCellPath(), ".bin").c_str(), "wb");
+        ::FILE* fp = ::fopen(
+            s_createFilePath(
+                step,
+                m_digits,
+                m_option.OutputBinaryCellPath(),
+                ".bin"
+            ).c_str(),
+            "wb"
+        );
 
         if (fp == nullptr) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
 
@@ -90,14 +117,29 @@ namespace CellSim
         ::fclose(fp);
     }
 
-    void SimulationResultWriter::m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& fields, uint64_t step) const
+    void SimulationResultWriter::m_saveBinaryMolecules(
+        ::std::vector<Molecular::MoleculeField> const& fields,
+        uint64_t step
+    ) const
     {
         for (Molecular::MoleculeField const& field : fields) {
-            ::FILE* fp = ::fopen(s_createFilePath(step, m_digits, m_option.OutputBinaryMoleculePath() + field.Kind().Name() + '/', ".bin").c_str(), "wb");
+            ::FILE* fp = ::fopen(
+                s_createFilePath(
+                    step,
+                    m_digits,
+                    m_option.OutputBinaryMoleculePath() + field.Kind().Name() + '/',
+                    ".bin"
+                ).c_str(),
+                "wb"
+            );
 
             if (fp == nullptr) [[unlikely]] throw ::std::runtime_error("Failed to create .bin file");
 
-            size_t gridCounts[]{ field.GridCountX(), field.GridCountY(), field.GridCountZ() };
+            size_t gridCounts[]{ 
+                field.GridCountX(),
+                field.GridCountY(),
+                field.GridCountZ()
+            };
 
             ::fwrite(gridCounts, sizeof(gridCounts), 1, fp);
 
@@ -109,10 +151,20 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& fields, uint64_t step) const
+    void SimulationResultWriter::m_saveCsvMolecules(
+        ::std::vector<Molecular::MoleculeField> const& fields,
+        uint64_t step
+    ) const
     {
         for (Molecular::MoleculeField const& field : fields) {
-            ::std::ofstream ofs(s_createFilePath(step, m_digits, m_option.OutputCsvMoleculePath() + field.Kind().Name() + '/', ".csv"));
+            ::std::ofstream ofs(
+                s_createFilePath(
+                    step,
+                    m_digits,
+                    m_option.OutputCsvMoleculePath() + field.Kind().Name() + '/',
+                    ".csv"
+                )
+            );
 
             if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create .csv file");
 
@@ -151,9 +203,19 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const
+    void SimulationResultWriter::m_saveCsvCells(
+        ::std::vector<Cells::Cell> const& cells,
+        uint64_t step
+    ) const
     {
-        ::std::ofstream ofs(s_createFilePath(step, m_digits, m_option.OutputCsvCellPath(), ".csv"));
+        ::std::ofstream ofs(
+            s_createFilePath(
+                step,
+                m_digits,
+                m_option.OutputCsvCellPath(),
+                ".csv"
+            )
+        );
         
         if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create .csv file");
 
@@ -183,12 +245,22 @@ namespace CellSim
         
     }
 
-    ::cv::Mat SimulationResultWriter::m_createImage(bool isTransparent, bool is4Channel) const
+    ::cv::Mat SimulationResultWriter::m_createImage(
+        bool isTransparent,
+        bool is4Channel
+    ) const
     {
-        return ::cv::Mat{ m_imageSize, m_imageSize, is4Channel ? CV_8UC4 : CV_8UC3, isTransparent ? ::cv::Scalar(0, 0, 0, 0) : ::cv::Scalar(0, 0, 0, 255) };
+        return ::cv::Mat{
+            m_imageSize,
+            m_imageSize,
+            is4Channel ? CV_8UC4 : CV_8UC3,
+            isTransparent ? ::cv::Scalar(0, 0, 0, 0) : ::cv::Scalar(0, 0, 0, 255)
+        };
     }
 
-    ::cv::Mat SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells) const
+    ::cv::Mat SimulationResultWriter::m_drawCells(
+        ::std::vector<Cells::Cell> const& cells
+    ) const
     {
         ::cv::Mat image = m_createImage(false, false);
         m_drawCells(cells, image);
@@ -196,7 +268,10 @@ namespace CellSim
         return image;
     }
 
-    void SimulationResultWriter::m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const
+    void SimulationResultWriter::m_drawCells(
+        ::std::vector<Cells::Cell> const& cells,
+        ::cv::Mat& image
+    ) const
     {
         int radius = m_imageSize / 2;
 
@@ -225,15 +300,15 @@ namespace CellSim
         );
 
         for (Cells::Cell const& cell : cells) {
-            int pointX = (int)((cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale);
-            int pointY = (int)((cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()) * m_scale);
+            int pointX = static_cast<int>((cell.PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale);
+            int pointY = static_cast<int>((cell.PositionY() + Settings::Config::Simulation::FieldRadiusY()) * m_scale);
 
             Graphics::Color color = cell.Type().Color();
 
             ::cv::circle(
                 image,
                 ::cv::Point{ pointX, pointY },
-                (int)(cell.Radius() * m_scale),
+                static_cast<int>(cell.Radius() * m_scale),
                 ::cv::Scalar(color.B, color.G, color.R, 255),
                 1
             );
@@ -246,7 +321,10 @@ namespace CellSim
                 ::cv::line(
                     image,
                     ::cv::Point{ pointY, pointX },
-                    ::cv::Point{ (int)((pCell->PositionY() + Settings::Config::Simulation::FieldRadius()) * m_scale), (int)((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale) },
+                    ::cv::Point{
+                        static_cast<int>((pCell->PositionY() + Settings::Config::Simulation::FieldRadius()) * m_scale),
+                        static_cast<int>((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale)
+                    },
                     ::cv::Scalar(0, 255, 255, 255),
                     1
                 );
@@ -254,16 +332,23 @@ namespace CellSim
         }
     }
 
-    ::cv::Mat SimulationResultWriter::m_drawMolecule(Molecular::MoleculeField const& field) const
+    ::cv::Mat SimulationResultWriter::m_drawMolecule(
+        Molecular::MoleculeField const& field
+    ) const
     {
-        ::cv::Mat image{ (int)(field.GridCountX() - 2), (int)(field.GridCountY() - 2), CV_8UC3, ::cv::Scalar(0, 0, 0) };
+        ::cv::Mat image{
+            static_cast<int>(field.GridCountX() - 2),
+            static_cast<int>(field.GridCountY() - 2),
+            CV_8UC3,
+            ::cv::Scalar(0, 0, 0)
+        };
         ::cv::Scalar color(0, 0, 0);
         double threshold = field.Kind().Threshold();
 
         size_t z = field.Enable2dMode() ? 0 : field.GridCountZ() / 2;
         // 境界を除く
         size_t gridCount = field.GridCountX() - 2;
-        int rectLength = (int)(m_imageSize / gridCount);
+        int rectLength = static_cast<int>(m_imageSize / gridCount);
 
         auto concentrations = field.Concentrations();
         
@@ -274,7 +359,7 @@ namespace CellSim
 
                 // 透明度設定
                 if (value < threshold) {
-                    int v = (int)((value / threshold) * 1532);
+                    int v = static_cast<int>((value / threshold) * 1532);
                     
                     // 赤~白
                     if (v >= 1276) {
@@ -321,7 +406,12 @@ namespace CellSim
 
                 ::cv::rectangle(
                     image,
-                    ::cv::Rect{ (int)(x - 1), (int)(y - 1), 1, 1 },
+                    ::cv::Rect{
+                        static_cast<int>(x - 1),
+                        static_cast<int>(y - 1),
+                        1,
+                        1
+                    },
                     color, 
                     ::cv::LineTypes::FILLED // 塗りつぶし
                 );
@@ -330,17 +420,38 @@ namespace CellSim
 
         ::cv::Mat resized;
 
-        ::cv::resize(image, resized, ::cv::Size{ m_imageSize, m_imageSize }, 0, 0, (field.GridCountX() - 2) > m_imageSize ? cv::InterpolationFlags::INTER_AREA : cv::InterpolationFlags::INTER_NEAREST);
+        ::cv::resize(
+            image,
+            resized,
+            ::cv::Size{ m_imageSize, m_imageSize },
+            0,
+            0,
+            (field.GridCountX() - 2) > m_imageSize ? cv::InterpolationFlags::INTER_AREA : cv::InterpolationFlags::INTER_NEAREST
+        );
 
         return resized;
     }
 
-    void SimulationResultWriter::m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const
+    void SimulationResultWriter::m_saveImage(
+        ::cv::Mat const& image,
+        ::std::string const& parentPath,
+        uint64_t step
+    ) const
     {
-        ::cv::imwrite(s_createFilePath(step, m_digits, parentPath, ".png"), image);
+        ::cv::imwrite(
+            s_createFilePath(
+                step,
+                m_digits,
+                parentPath,
+                ".png"
+            ),
+            image
+        );
     }
 
-    SimulationResultWriter::SimulationResultWriter(SimulationOption option)
+    SimulationResultWriter::SimulationResultWriter(
+        SimulationOption option
+    )
         : m_option(::std::move(option))
         , m_digits(s_log10(Settings::Config::Simulation::TotalSteps()))
         , m_imageSize(Settings::Config::Simulation::ImageSize())
@@ -363,7 +474,9 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::InitializeMoleculeData(::std::vector<Molecular::MoleculeField> const& fields)
+    void SimulationResultWriter::InitializeMoleculeData(
+        ::std::vector<Molecular::MoleculeField> const& fields
+    )
     {
         if (fields.empty()) return;
 
@@ -395,7 +508,10 @@ namespace CellSim
         }
     }
 
-    void SimulationResultWriter::Save(Simulation const& simulation, uint64_t step)
+    void SimulationResultWriter::Save(
+        Simulation const& simulation,
+        uint64_t step
+    )
     {
         if (m_option.IsOutputBinary()) {
             m_saveBinaryCells(simulation.Cells(), step);
@@ -429,7 +545,13 @@ namespace CellSim
                 ::cv::Mat combinedMolecular = Imaging::ImageHelper::CombineImages(moleculeImage, cellImage);
 
                 if (m_option.IsOutputImage()) {
-                    if (m_option.IsOutputImage()) m_saveImage(combinedMolecular, m_option.OutputImageMoleculePath() + field.Kind().Name() + '/', step);
+                    if (m_option.IsOutputImage()) {
+                        m_saveImage(
+                            combinedMolecular,
+                            m_option.OutputImageMoleculePath() + field.Kind().Name() + '/',
+                            step
+                        );
+                    }
                 }
 
                 if (m_option.IsOutputVideo()) {
@@ -438,7 +560,13 @@ namespace CellSim
             }
 
             ::cv::Mat combined = Imaging::ImageHelper::CombineImages(image, cellImage);
-            if (m_option.IsOutputImage()) m_saveImage(combined, m_option.OutputImagePath(), step);
+            if (m_option.IsOutputImage()) {
+                m_saveImage(
+                    combined,
+                    m_option.OutputImagePath(),
+                    step
+                );
+            }
 
             if (m_option.IsOutputVideo()) {
                 m_videoWriter.write(combined);

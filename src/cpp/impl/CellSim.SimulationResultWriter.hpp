@@ -16,7 +16,9 @@ namespace CellSim
     /// @brief シミュレーション結果の出力
     class SimulationResultWriter {
         private:
-        static constexpr uint32_t s_log10(uint64_t step) noexcept;
+        static constexpr uint32_t s_log10(
+            uint64_t step
+        ) noexcept;
 
         /// @brief 
         /// @param step 
@@ -24,7 +26,12 @@ namespace CellSim
         /// @param parentPath 
         /// @param extension 
         /// @return 
-        [[nodiscard]] static ::std::string s_createFilePath(uint64_t step, uint32_t digits, ::std::string const& parentPath, ::std::string_view extension);
+        [[nodiscard]] static ::std::string s_createFilePath(
+            uint64_t step,
+            uint32_t digits,
+            ::std::string const& parentPath,
+            ::std::string_view extension
+        );
 
         SimulationOption m_option;
 
@@ -39,30 +46,74 @@ namespace CellSim
 
         void m_initialize();
 
-        void m_saveBinaryCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
-        void m_saveBinaryMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
-        void m_saveCsvCells(::std::vector<Cells::Cell> const& cells, uint64_t step) const;
-        void m_saveCsvMolecules(::std::vector<Molecular::MoleculeField> const& cells, uint64_t step) const;
-        void m_saveImage(::cv::Mat const& image, ::std::string const& parentPath, uint64_t step) const;
+        void m_saveBinaryCells(
+            ::std::vector<Cells::Cell> const& cells,
+            uint64_t step
+        ) const;
 
-        [[nodiscard]] ::cv::Mat m_createImage(bool isTransparent, bool is4Channel) const;
+        void m_saveBinaryMolecules(
+            ::std::vector<Molecular::MoleculeField> const& cells,
+            uint64_t step
+        ) const;
 
-        [[nodiscard]] ::cv::Mat m_drawCells(::std::vector<Cells::Cell> const& cells) const;
-        void m_drawCells(::std::vector<Cells::Cell> const& cells, ::cv::Mat& image) const;
-        ::cv::Mat m_drawMolecule(Molecular::MoleculeField const& field) const;
+        void m_saveCsvCells(
+            ::std::vector<Cells::Cell> const& cells,
+            uint64_t step
+        ) const;
+
+        void m_saveCsvMolecules(
+            ::std::vector<Molecular::MoleculeField> const& cells,
+            uint64_t step
+        ) const;
+
+        void m_saveImage(
+            ::cv::Mat const& image,
+            ::std::string const& parentPath,
+            uint64_t step
+        ) const;
+
+        [[nodiscard]] ::cv::Mat m_createImage(
+            bool isTransparent,
+            bool is4Channel
+        ) const;
+
+        [[nodiscard]] ::cv::Mat m_drawCells(
+            ::std::vector<Cells::Cell> const& cells
+        ) const;
+
+        void m_drawCells(
+            ::std::vector<Cells::Cell> const& cells,
+            ::cv::Mat& image
+        ) const;
+
+        ::cv::Mat m_drawMolecule(
+            Molecular::MoleculeField const& field
+        ) const;
 
         public:
 
-        SimulationResultWriter(SimulationOption option);
-        SimulationResultWriter(SimulationResultWriter const&) = delete;
+        SimulationResultWriter(
+            SimulationOption option
+        );
+
+        SimulationResultWriter(
+            SimulationResultWriter const&
+        ) = delete;
 
         ~SimulationResultWriter();
 
-        SimulationResultWriter& operator=(SimulationResultWriter const&) = delete;
+        SimulationResultWriter& operator=(
+            SimulationResultWriter const&
+        ) = delete;
 
-        void InitializeMoleculeData(::std::vector<Molecular::MoleculeField> const& fields);
+        void InitializeMoleculeData(
+            ::std::vector<Molecular::MoleculeField> const& fields
+        );
 
-        void Save(Simulation const& simulation, uint64_t step);
+        void Save(
+            Simulation const& simulation,
+            uint64_t step
+        );
 
         void SaveConfig(
             uint64_t totalStep,
@@ -76,7 +127,9 @@ namespace CellSim
 
 namespace CellSim
 {
-    constexpr uint32_t SimulationResultWriter::s_log10(uint64_t step) noexcept
+    constexpr uint32_t SimulationResultWriter::s_log10(
+        uint64_t step
+    ) noexcept
     {
         if (step == 0) [[unlikely]] return 1;
 
