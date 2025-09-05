@@ -103,10 +103,10 @@ namespace CellSim::Cells
         );
 
         Cell(Cell const&) = delete;
-        Cell(Cell&&) = default;
+        Cell(Cell&&) noexcept = default;
 
         Cell& operator=(Cell const&) = delete;
-        Cell& operator=(Cell&&) = default;
+        Cell& operator=(Cell&&) noexcept = default;
 
         // プロパティ
 

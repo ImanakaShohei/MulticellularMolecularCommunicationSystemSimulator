@@ -112,7 +112,7 @@ namespace CellSim
         for (Molecular::MoleculeField& field : m_molecules) {
             field.Diffuse();
         }
-
+        
         if (Settings::Config::CellAlgorithm::UseClusterModel()) {
             CellAlgorithms::ClusterModel::Combine(m_cells, m_molecules, m_pCellList);
 
