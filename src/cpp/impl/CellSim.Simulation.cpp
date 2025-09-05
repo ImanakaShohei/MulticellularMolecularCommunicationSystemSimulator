@@ -42,13 +42,33 @@ namespace CellSim
                         m_cells.begin(),
                         m_cells.end(),
                         [this] (Cells::Cell& cell) {
-                            cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+                            cell.ApplyForce(
+                                m_pCellAlgorithm->ComputeForceOnCell(
+                                    this,
+                                    {
+                                        &cell,
+                                        &m_cells,
+                                        &m_molecules,
+                                        m_pCellSimulationModel
+                                    }
+                                )
+                            );
                         }
                     );
                 }
                 else {
                     for (Cells::Cell& cell : m_cells) {
-                        cell.ApplyForce(m_pCellAlgorithm->ComputeForceOnCell(this, { &cell, &m_cells, &m_molecules, m_pCellSimulationModel }));
+                        cell.ApplyForce(
+                            m_pCellAlgorithm->ComputeForceOnCell(
+                                this,
+                                {
+                                    &cell,
+                                    &m_cells,
+                                    &m_molecules,
+                                    m_pCellSimulationModel
+                                }
+                            )
+                        );
                     }
                 }
             }
@@ -59,13 +79,35 @@ namespace CellSim
                     m_cells.begin(),
                     m_cells.end(),
                     [this] (Cells::Cell& cell) {
-                        cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_cells, &m_molecules, m_pCellAlgorithm }));
+                        cell.ApplyForce(
+                            m_pCellSimulationModel->ComputeForceOnCell(
+                                this,
+                                {
+                                    &cell,
+                                    &m_cells,
+                                    &m_cells,
+                                    &m_molecules,
+                                    m_pCellAlgorithm
+                                }
+                            )
+                        );
                     }
                 );
             }
             else {
                 for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(m_pCellSimulationModel->ComputeForceOnCell(this, { &cell, &m_cells, &m_cells, &m_molecules, m_pCellAlgorithm }));
+                    cell.ApplyForce(
+                        m_pCellSimulationModel->ComputeForceOnCell(
+                            this,
+                            {
+                                &cell,
+                                &m_cells,
+                                &m_cells,
+                                &m_molecules,
+                                m_pCellAlgorithm
+                            }
+                        )
+                    );
                 }
             }
         }
@@ -79,15 +121,6 @@ namespace CellSim
 
         if (m_pCellSimulationModel->UseCellAlgorithm()) {
             m_pCellAlgorithm->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-
-            if (Settings::Config::CellAlgorithm::UseClusterModel() && Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList) {
-                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-            }
-        }
-        else {
-            if (Settings::Config::CellAlgorithm::UseClusterModel()) {
-                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-            }
         }
 
         for (Molecular::MoleculeField& field : m_molecules) {
@@ -114,7 +147,10 @@ namespace CellSim
         }
         
         if (Settings::Config::CellAlgorithm::UseClusterModel()) {
+            if (m_pCellList == m_pCellAlgorithm) m_pCellList->ResetCells();
+            m_pCellList->SetCells(m_cells);
             CellAlgorithms::ClusterModel::Combine(m_cells, m_molecules, m_pCellList);
+            if (m_pCellList != m_pCellAlgorithm) m_pCellList->ResetCells();
 
             // 無効になったオブジェクトを削除
             ::std::erase_if(
