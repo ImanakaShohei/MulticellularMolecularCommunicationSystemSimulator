@@ -15,7 +15,14 @@ namespace CellSim::Cli
         static constexpr ::std::string_view s_fullName = "--param-sweep";
 
         template <Numerics::NumberType TNum>
-        static void s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionArgs args);
+        static void s_sweep(
+            ::std::string_view first,
+            ::std::string_view second,
+            ::std::string_view third,
+            ::std::string const& paramName,
+            nlohmann::json& config,
+            CliOptionArgs args
+        );
 
         public:
 

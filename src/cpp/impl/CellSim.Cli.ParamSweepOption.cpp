@@ -16,7 +16,14 @@ namespace CellSim::Cli
 {
 
     template <Numerics::NumberType TNum>
-    void ParamSweepOption::s_sweep(::std::string_view first, ::std::string_view second, ::std::string_view third, ::std::string const& paramName, nlohmann::json& config, CliOptionArgs args)
+    void ParamSweepOption::s_sweep(
+        ::std::string_view first,
+        ::std::string_view second,
+        ::std::string_view third,
+        ::std::string const& paramName,
+        nlohmann::json& config,
+        CliOptionArgs args
+    )
     {
         TNum begin;
         TNum end;
