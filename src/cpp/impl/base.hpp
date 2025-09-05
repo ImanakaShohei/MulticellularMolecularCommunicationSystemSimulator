@@ -201,7 +201,6 @@ namespace CellSim::Cells
 namespace CellSim::Cli
 {
     class BinaryOption;
-    class CleanOutputOption;
     class CliMain;
     class CliOption;
     struct CliOptionActivationArgs;
@@ -214,6 +213,7 @@ namespace CellSim::Cli
     class FlagOption;
     class HelpOption;
     class ImageOption;
+    class NoCleanOutputOption;
     class OutputOption;
     class ParamOption;
     class ParamSweepOption;

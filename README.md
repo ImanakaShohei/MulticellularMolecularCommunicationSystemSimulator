@@ -168,9 +168,9 @@ GUIツールと通信するための、書き込み用の名前付きパイプ�
 -->
 
 ### `--clean-output`
-シミュレーション実行前に出力先のフォルダを空にします。
+シミュレーション実行前に出力先のフォルダの中身を削除しないように指定します
 ```sh
-./cellsim -c --clean-output
+./cellsim -c --no-clean-output -o outDir
 ```
 
 ### `--param-sweep`

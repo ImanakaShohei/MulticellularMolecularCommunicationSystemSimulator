@@ -1,11 +1,11 @@
 ﻿#include "CellSim.Cli.CliOptions.hpp"
 #include "CellSim.Cli.CliOptionArgs.hpp"
 #include "CellSim.Cli.CliOptionActivationArgs.hpp"
-#include "CellSim.Cli.CleanOutputOption.hpp"
 #include "CellSim.Cli.BinaryOption.hpp"
 #include "CellSim.Cli.CsvOption.hpp"
 #include "CellSim.Cli.HelpOption.hpp"
 #include "CellSim.Cli.ImageOption.hpp"
+#include "CellSim.Cli.NoCleanOutputOption.hpp"
 #include "CellSim.Cli.OutputOption.hpp"
 #include "CellSim.Cli.ParamOption.hpp"
 #include "CellSim.Cli.ParamSweepOption.hpp"
@@ -98,10 +98,10 @@ namespace CellSim::Cli
         // ここで、オプションを処理する順番を決めます
 
         addOption(new BinaryOption());
-        addOption(new CleanOutputOption());
         addOption(new CsvOption());
         addOption(new HelpOption());
         addOption(new ImageOption());
+        addOption(new NoCleanOutputOption());
         addOption(new OutputOption());
         addOption(new ParamOption());
         addOption(new ParamSweepOption());
@@ -125,7 +125,7 @@ namespace CellSim::Cli
             m_options.at(CliOptionType::Csv)->IsEnabled(),
             m_options.at(CliOptionType::Image)->IsEnabled(),
             m_options.at(CliOptionType::Video)->IsEnabled(),
-            m_options.at(CliOptionType::CleanOutput)->IsEnabled(),
+            !m_options.at(CliOptionType::NoCleanOutput)->IsEnabled(),
             m_options.at(CliOptionType::Output)->Value()
         );
     }
