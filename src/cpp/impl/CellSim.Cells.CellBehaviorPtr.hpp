@@ -62,9 +62,48 @@ namespace CellSim::Cells
             CellBehaviorPtr&& right
         ) noexcept;
 
+        /// @brief 生ポインターを取得
         [[nodiscard]] constexpr CellBehavior* operator->() const noexcept;
         [[nodiscard]] constexpr CellBehavior& operator*() const noexcept;
+
+        /// @brief 生ポインターを取得
+        [[nodiscard]] constexpr CellBehavior* Get() const noexcept;
     };
+
+    [[nodiscard]] constexpr bool operator==(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator!=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator<(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator<=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator>(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator>=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr ::std::strong_ordering operator<=>(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept;
 }
 
 namespace CellSim::Cells
@@ -94,7 +133,7 @@ namespace CellSim::Cells
 
     inline CellBehaviorPtr CellBehaviorPtr::Null() noexcept
     {
-        return CellBehaviorPtr((CellBehavior*)nullptr);
+        return CellBehaviorPtr(static_cast<CellBehavior*>(nullptr));
     }
 
     constexpr CellBehaviorPtr::CellBehaviorPtr(
@@ -107,8 +146,9 @@ namespace CellSim::Cells
     inline CellBehaviorPtr::CellBehaviorPtr(
         CellBehaviorPtr const& right
     )
-        : m_ptr()
+        : m_ptr(nullptr)
     {
+        if (right.m_ptr == nullptr) return;
         m_copyFrom(right);
     }
 
@@ -131,8 +171,12 @@ namespace CellSim::Cells
         CellBehaviorPtr const& right
     )
     {
-        m_delete();
-        m_copyFrom(right);
+        if (m_ptr != nullptr) {
+            m_delete();
+            m_ptr = nullptr;
+        }
+        
+        if (right.m_ptr != nullptr) m_copyFrom(right);
 
         return *this;
     }
@@ -141,7 +185,7 @@ namespace CellSim::Cells
         CellBehaviorPtr&& right
     ) noexcept
     {
-        m_delete();
+        if (m_ptr != nullptr) m_delete();
         
         m_ptr = right.m_ptr;
 
@@ -158,6 +202,62 @@ namespace CellSim::Cells
     constexpr CellBehavior& CellBehaviorPtr::operator*() const noexcept
     {
         return *m_ptr;
+    }
+
+    constexpr bool operator==(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() == right.Get();
+    }
+
+    constexpr bool operator!=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() != right.Get();
+    }
+
+    constexpr bool operator<(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() < right.Get();
+    }
+
+    constexpr bool operator<=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() <= right.Get();
+    }
+
+    constexpr bool operator>(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() > right.Get();
+    }
+
+    constexpr bool operator>=(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() >= right.Get();
+    }
+
+    constexpr ::std::strong_ordering operator<=>(
+        CellBehaviorPtr const& left,
+        CellBehaviorPtr const& right
+    ) noexcept
+    {
+        return left.Get() <=> right.Get();
     }
 }
 

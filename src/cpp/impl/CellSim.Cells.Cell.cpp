@@ -18,13 +18,13 @@ namespace CellSim::Cells
 
     Cell::Cell(
         CellType type,
-        CellBehaviorPtr const& pBehavior,
+        CellBehaviorPtr pBehavior,
         double mass,
         double radius,
         Numerics::Vector3 position
     )
         : m_attachedCells()
-        , m_behaviorPtr(pBehavior)
+        , m_behaviorPtr(::std::move(pBehavior))
         , m_force()
         , m_internalMolecules()
         , m_mass(mass)

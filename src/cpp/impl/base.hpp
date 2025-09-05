@@ -2,6 +2,7 @@
 #define BASE_HPP
 
 #include <stdint.h>
+#include <compare>
 #include <concepts>
 #include <type_traits>
 

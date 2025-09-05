@@ -96,7 +96,7 @@ namespace CellSim::Cells
         /// @param position 
         Cell(
             CellType type,
-            CellBehaviorPtr const& pBehavior,
+            CellBehaviorPtr pBehavior,
             double mass,
             double radius,
             Numerics::Vector3 position

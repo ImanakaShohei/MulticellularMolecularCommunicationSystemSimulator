@@ -106,65 +106,6 @@ namespace CellSim::Model
     }
 
     void NetworkFormationModel::BeforeAdvanceStep(
-        const Simulation*,
-        SimulationModelStepArgs
-    )
-    {
-    }
-
-    Numerics::Vector3 NetworkFormationModel::ComputeForceOnCell(
-        const Simulation*,
-        SimulationModelForceComputationArgs args
-    ) const
-    {
-        Numerics::Vector3 force1;
-        Numerics::Vector3 force2;
-        Numerics::Vector3 force3;
-
-        Cells::CellInfo info{ *args.Target };
-        Params params = *static_cast<Params*>(info.Type.Params());
-
-        for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
-            Numerics::Vector3 diff = info.Position - pCell->Position();
-            double dist = diff.Length();
-
-            double v = dist - params.MinAttractionDistance;
-
-            if (v > 0.0) {
-                force1 -= (v / dist) * diff;
-            }
-            else {
-                v = params.MaxRepulsionDistance - dist;
-
-                if (v > 0.0) {
-                    force2 += (v / (params.MaxRepulsionDistance * dist)) * diff;
-                }
-            }
-        }
-
-        CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
-            cellInfo,
-            args.CellAlgorithm,
-            args.Target,
-            args.AffectedCells,
-            args.Fields,
-            {
-                if (!cellInfo.IsAlive) continue;
-
-                const Numerics::Vector3 diff = info.Position - cellInfo.Position;
-                const double mass            = info.Mass * cellInfo.Mass;
-
-                force3 += (
-                    -mass *
-                    ::exp(-params.ReverseLambda)
-                ) * diff;
-            }
-        )
-
-        return params.AttractionFactor * force1 + params.AdhesiveRepulsionFactor * force2 + params.RemoteForceFactor * force3;
-    }
-
-    void NetworkFormationModel::OnAdvanceStep(
         const Simulation* sender,
         SimulationModelStepArgs args
     )
@@ -227,4 +168,64 @@ namespace CellSim::Model
         }
 #endif
     }
+
+    Numerics::Vector3 NetworkFormationModel::ComputeForceOnCell(
+        const Simulation*,
+        SimulationModelForceComputationArgs args
+    ) const
+    {
+        Numerics::Vector3 force1;
+        Numerics::Vector3 force2;
+        Numerics::Vector3 force3;
+
+        Cells::CellInfo info{ *args.Target };
+        Params params = *static_cast<Params*>(info.Type.Params());
+
+        for (const Cells::Cell* pCell : args.Target->AttachedCells()) {
+            Numerics::Vector3 diff = info.Position - pCell->Position();
+            double dist = diff.Length();
+
+            double v = dist - params.MinAttractionDistance;
+
+            if (v > 0.0) {
+                force1 -= (v / dist) * diff;
+            }
+            else {
+                v = params.MaxRepulsionDistance - dist;
+
+                if (v > 0.0) {
+                    force2 += (v / (params.MaxRepulsionDistance * dist)) * diff;
+                }
+            }
+        }
+
+        CELLSIM_CELLALGORITHMS_CELLALGORITHM_ITERATE(
+            cellInfo,
+            args.CellAlgorithm,
+            args.Target,
+            args.AffectedCells,
+            args.Fields,
+            {
+                if (!cellInfo.IsAlive) continue;
+
+                const Numerics::Vector3 diff = info.Position - cellInfo.Position;
+                const double mass            = info.Mass * cellInfo.Mass;
+
+                force3 += (
+                    -mass *
+                    ::exp(-params.ReverseLambda)
+                ) * diff;
+            }
+        )
+
+        return params.AttractionFactor * force1 + params.AdhesiveRepulsionFactor * force2 + params.RemoteForceFactor * force3;
+    }
+
+    void NetworkFormationModel::OnAdvanceStep(
+        const Simulation*,
+        SimulationModelStepArgs
+    )
+    {
+    }
+    
 }
