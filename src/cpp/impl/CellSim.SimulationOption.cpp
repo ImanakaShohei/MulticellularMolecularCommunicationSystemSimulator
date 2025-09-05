@@ -9,12 +9,14 @@ namespace CellSim
         bool isOutputCsv,
         bool isOutputImage,
         bool isOutputVideo,
+        bool cleanOutput,
         ::std::string outputPath
     )
         : m_isOutputBinary(isOutputBinary)
         , m_isOutputCsv(isOutputCsv)
         , m_isOutputImage(isOutputImage)
         , m_isOutputVideo(isOutputVideo)
+        , m_cleanOutput(cleanOutput)
         , m_outputPath(::std::move(outputPath))
         , m_outputBinaryPath()
         , m_outputBinaryCellPath()
@@ -24,7 +26,7 @@ namespace CellSim
         , m_outputCsvMoleculePath()
         , m_outputImagePath()
     {
-        constexpr char pathSeparator = (char)::std::filesystem::path::preferred_separator;
+        constexpr char pathSeparator = static_cast<char>(::std::filesystem::path::preferred_separator);
 
         if (!m_outputPath.ends_with('\\') && !m_outputPath.ends_with('/')) {
             m_outputPath.push_back(pathSeparator);
@@ -53,12 +55,10 @@ namespace CellSim
 
     void SimulationOption::InitializeDirectories() const
     {
-        auto f = [] (::std::filesystem::path const& p, bool create) {
-            #if 1
-            if (::std::filesystem::exists(p)) {
+        auto f = [this] (::std::filesystem::path const& p, bool create) {
+            if (m_cleanOutput && ::std::filesystem::exists(p)) {
                 ::std::filesystem::remove_all(p);
             }
-            #endif
             if (create) {
                 IO::DirectoryCreater::Create(p);
             }

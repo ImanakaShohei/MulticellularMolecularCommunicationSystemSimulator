@@ -29,6 +29,9 @@ namespace CellSim
         /// @brief データを動画として出力するかどうか
         bool m_isOutputVideo;
 
+        /// @brief 
+        bool m_cleanOutput;
+
         ::std::string m_outputPath;
         ::std::string m_outputBinaryPath;
         ::std::string m_outputBinaryCellPath;
@@ -52,6 +55,7 @@ namespace CellSim
             bool isOutputCsv,
             bool isOutputImage,
             bool isOutputVideo,
+            bool cleanOutput,
             ::std::string outputPath
         );
 

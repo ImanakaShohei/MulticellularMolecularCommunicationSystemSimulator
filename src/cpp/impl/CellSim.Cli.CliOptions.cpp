@@ -1,6 +1,7 @@
 ﻿#include "CellSim.Cli.CliOptions.hpp"
 #include "CellSim.Cli.CliOptionArgs.hpp"
 #include "CellSim.Cli.CliOptionActivationArgs.hpp"
+#include "CellSim.Cli.CleanOutputOption.hpp"
 #include "CellSim.Cli.BinaryOption.hpp"
 #include "CellSim.Cli.CsvOption.hpp"
 #include "CellSim.Cli.HelpOption.hpp"
@@ -97,6 +98,7 @@ namespace CellSim::Cli
         // ここで、オプションを処理する順番を決めます
 
         addOption(new BinaryOption());
+        addOption(new CleanOutputOption());
         addOption(new CsvOption());
         addOption(new HelpOption());
         addOption(new ImageOption());
@@ -123,6 +125,7 @@ namespace CellSim::Cli
             m_options.at(CliOptionType::Csv)->IsEnabled(),
             m_options.at(CliOptionType::Image)->IsEnabled(),
             m_options.at(CliOptionType::Video)->IsEnabled(),
+            m_options.at(CliOptionType::CleanOutput)->IsEnabled(),
             m_options.at(CliOptionType::Output)->Value()
         );
     }
