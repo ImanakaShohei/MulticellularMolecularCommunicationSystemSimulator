@@ -132,10 +132,10 @@ namespace CellSim::Cells
 
     constexpr CellType::s_data& CellType::s_data::operator=(s_data&& right) noexcept
     {
-        if (this != &right) {
+        if (this != &right) [[likely]] {
             Name = ::std::move(right.Name);
             Color = right.Color;
-            if (SimulationModelParams != nullptr) delete SimulationModelParams;
+            if (SimulationModelParams != nullptr) [[likely]] delete SimulationModelParams;
             SimulationModelParams = right.SimulationModelParams;
             right.SimulationModelParams = nullptr;
         }
