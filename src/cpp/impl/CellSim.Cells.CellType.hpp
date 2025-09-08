@@ -44,6 +44,9 @@ namespace CellSim::Cells
         /// @return nameに対応するCellType値
         /// @return 見つからない場合はInvalid()
         [[nodiscard]] static CellType FromName(::std::string_view name) noexcept;
+
+        /// @brief Invalid以外の種類を削除
+        static void ResetUnsafe() noexcept;
         
         CellType() = default;
 

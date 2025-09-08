@@ -20,6 +20,8 @@ namespace CellSim::Settings
         ::CellSim::Molecular::InitialMoleculeDistribution initialDistribution;
         ::CellSim::Molecular::MoleculeBehaviorKind behaviorkind;
 
+        ::CellSim::Molecular::MoleculeKind::ResetUnsafe();
+
         try {
             for (::nlohmann::json& obj : config) {
                 ::CellSim::Molecular::MoleculeCreateInfo info;

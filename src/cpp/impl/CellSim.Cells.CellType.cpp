@@ -37,4 +37,12 @@ namespace CellSim::Cells
 
         return Invalid();
     }
+
+    void CellType::ResetUnsafe() noexcept
+    {
+        s_names.erase(
+            s_names.begin() + 1,
+            s_names.end()
+        );
+    }
 }

@@ -13,6 +13,8 @@ namespace CellSim::Settings
 
         if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
 
+        Cells::CellType::ResetUnsafe();
+        
         try {
             s_enableGrowth = config.at("enableGrowth").get<bool>();
             s_initialPlacementRadius = config.at("initialPlacementRadius").get<double>();

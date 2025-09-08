@@ -50,7 +50,7 @@ namespace CellSim::Cli
             case nlohmann::detail::value_t::string: s_changeValue<::std::string>(j, value); break;
             case nlohmann::detail::value_t::array:
             {
-                if (value != "[]") [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
+                if (value != "[]" && value != "empty") [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
                 j = ::nlohmann::json::array();
                 break;
             }
