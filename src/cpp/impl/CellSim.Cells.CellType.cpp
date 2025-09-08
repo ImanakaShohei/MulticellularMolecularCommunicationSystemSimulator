@@ -3,23 +3,7 @@
 namespace CellSim::Cells
 {
     ::std::vector<CellType::s_data> CellType::s_names;
-
-    bool CellType::Initialize()
-    {
-        static bool isLoaded = false;
-
-        if (isLoaded) return false;
-
-        s_names.emplace_back(
-            ::std::string("Invalid"),
-            Graphics::Color{ 0, 0, 0, 0 },
-            nullptr
-        );
-
-        isLoaded = true;
-
-        return true;
-    }
+    constinit bool CellType::s_initialized = false;
 
     CellType CellType::AddName(
         ::std::string name,
@@ -69,5 +53,28 @@ namespace CellSim::Cells
         }
 
         return Invalid();
+    }
+
+    bool CellType::Initialize()
+    {
+        if (s_initialized) return false;
+
+        s_names.emplace_back(
+            ::std::string("Invalid"),
+            Graphics::Color{ 0, 0, 0, 0 },
+            nullptr
+        );
+
+        s_initialized = true;
+
+        return true;
+    }
+
+    void CellType::ResetUnsafe() noexcept
+    {
+        s_names.erase(
+            s_names.begin() + 1,
+            s_names.end()
+        );
     }
 }

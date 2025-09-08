@@ -36,4 +36,12 @@ namespace CellSim::Molecular
 
         return Invalid();
     }
+
+    void MoleculeKind::ResetUnsafe() noexcept
+    {
+        s_names.erase(
+            s_names.begin() + 1,
+            s_names.end()
+        );
+    }
 }

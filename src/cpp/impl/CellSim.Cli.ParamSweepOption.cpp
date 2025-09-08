@@ -21,12 +21,15 @@ namespace CellSim::Cli
         ::std::string_view second,
         ::std::string_view third,
         ::std::string const& paramName,
+        ::std::vector<::std::string>::const_iterator current,
+        ::std::vector<::std::string>::const_iterator end,
         nlohmann::json& config,
+        ::std::string const& path,
         CliOptionArgs args
     )
     {
         TNum begin;
-        TNum end;
+        TNum last;
         TNum delta;
 
         ::std::string buffer;
@@ -40,54 +43,95 @@ namespace CellSim::Cli
 
         ::std::istringstream sin(::std::move(buffer));
 
-        sin >> begin >> end >> delta;
+        sin >> begin >> last >> delta;
 
         if (!sin) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
         ::nlohmann::json* j = Text::JsonHelper::GetParam(config, paramName);
 
-        if (j == nullptr) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotFound"));
+        if (j == nullptr) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Cli.ParamSweepOption.CheckValue.Error.NotFound"
+                )
+            );
+        }
+        if (!j->is_number()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Cli.ParamSweepOption.CheckValue.Error.NotNumber"
+                )
+            );
+        }
 
-        if (!j->is_number()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamSweepOption.CheckValue.Error.NotNumber"));
+        auto next = current + 1;
 
-        for (TNum current = begin; current <= end; current += delta) {
-
+        // 設定を適用して出力ディレクトリのパスを取得
+        auto f = [&] (TNum current) {
             *j = current;
 
             Settings::Config::Load(config);
 
             ::std::ostringstream sout;
-            sout << args.Options->at(CliOptionType::Output)->Value() << paramName << '=' << current;
+            sout << path << paramName << '=' << current << '/';
 
             ::std::string path = sout.str();
 
             IO::DirectoryCreater::Create(path);
 
-            SimulationOption option{
-                args.Options->at(CliOptionType::Binary)->IsEnabled(),
-                args.Options->at(CliOptionType::Csv)->IsEnabled(),
-                args.Options->at(CliOptionType::Image)->IsEnabled(),
-                args.Options->at(CliOptionType::Video)->IsEnabled(),
-                !args.Options->at(CliOptionType::NoCleanOutput)->IsEnabled(),
-                ::std::move(path)
-            };
+            return path;
+        };
 
-            Simulation simulation{ ::std::move(option) };
+        if (next == end) {
+            for (TNum current = begin; current <= last; current += delta) {
 
-            simulation.Run();
+                ::std::string path = f(current);
+
+                SimulationOption option{
+                    args.Options->at(CliOptionType::Binary)->IsEnabled(),
+                    args.Options->at(CliOptionType::Csv)->IsEnabled(),
+                    args.Options->at(CliOptionType::Image)->IsEnabled(),
+                    args.Options->at(CliOptionType::Video)->IsEnabled(),
+                    !args.Options->at(CliOptionType::NoCleanOutput)->IsEnabled(),
+                    ::std::move(path)
+                };
+
+                Simulation simulation{ ::std::move(option) };
+
+                simulation.Run();
+            }
         }
+        else {
+            for (TNum current = begin; current <= last; current += delta) {
+                ::std::string path = f(current);
+                s_run(
+                    next,
+                    end,
+                    path,
+                    args
+                );
+            }
+        }
+        
     }
 
-    void ParamSweepOption::Run(const CliOptions* sender, CliOptionArgs args)
+    void ParamSweepOption::s_run(
+        ::std::vector<::std::string>::const_iterator current,
+        ::std::vector<::std::string>::const_iterator end,
+        ::std::string const& path,
+        CliOptionArgs args
+    )
     {
-        ::std::string_view paramView = m_value;
+        if (current == end) return;
+
+        ::std::string_view paramView = *current;
 
         size_t index = paramView.find('=');
 
         if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
 
         paramView = paramView.substr(index + 1);
-        ::std::string paramName = m_value.substr(0, index);
+        ::std::string paramName = current->substr(0, index);
 
         index = paramView.find(':');
 
@@ -119,7 +163,44 @@ namespace CellSim::Cli
             pParamOption->OverrideParameter(config);
         }
 
-        if (isFloatingPoint) s_sweep<double>(first, second, third, paramName, config, args);
-        else s_sweep<int64_t>(first, second, third, paramName, config, args);
+        if (isFloatingPoint) {
+            s_sweep<double>(
+                first,
+                second,
+                third,
+                paramName,
+                current,
+                end,
+                config,
+                path,
+                args
+            );
+        }
+        else {
+            s_sweep<int64_t>(
+                first,
+                second,
+                third,
+                paramName,
+                current,
+                end,
+                config,
+                path,
+                args
+            );
+        }
+    }
+
+    void ParamSweepOption::Run(
+        const CliOptions*,
+        CliOptionArgs args
+    )
+    {
+        s_run(
+            m_values.cbegin(),
+            m_values.cend(),
+            args.Options->at(CliOptionType::Output)->Value(),
+            args
+        );
     }
 }

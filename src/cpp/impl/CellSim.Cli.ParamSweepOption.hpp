@@ -2,14 +2,14 @@
 #define CELLSIM_CLI_PARAMSWEEPOPTION_HPP
 
 #include "base.hpp"
-#include "CellSim.Cli.ValueOption.hpp"
+#include "CellSim.Cli.RepeatedValueOption.hpp"
 
 #include <string_view>
 #include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Cli
 {
-    class ParamSweepOption final : public ValueOption {
+    class ParamSweepOption final : public RepeatedValueOption {
         private:
 
         static constexpr ::std::string_view s_fullName = "--param-sweep";
@@ -20,7 +20,17 @@ namespace CellSim::Cli
             ::std::string_view second,
             ::std::string_view third,
             ::std::string const& paramName,
+            ::std::vector<::std::string>::const_iterator current,
+            ::std::vector<::std::string>::const_iterator end,
             nlohmann::json& config,
+            ::std::string const& path,
+            CliOptionArgs args
+        );
+
+        static void s_run(
+            ::std::vector<::std::string>::const_iterator current,
+            ::std::vector<::std::string>::const_iterator end,
+            ::std::string const& path,
             CliOptionArgs args
         );
 

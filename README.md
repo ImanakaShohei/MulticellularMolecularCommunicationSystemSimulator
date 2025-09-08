@@ -179,3 +179,7 @@ GUIツールと通信するための、書き込み用の名前付きパイプ�
 ```sh
 ./cellsim -b --param-sweep cell.cells.0.cellCount=1000:2000:100
 ```
+複数のパラメータを範囲実行することもできます。
+```sh
+./cellsim -c --param-sweep cell.cells.0.cellCount=1000:2000:100 --param-sweep cell.cells.0.modelParameters.clusterFormation.lambda=10:20:1
+```

@@ -37,14 +37,13 @@ namespace CellSim::Cells
         };
 
         static ::std::vector<s_data> s_names;
+        static bool s_initialized;
 
         uint32_t m_id;
 
         explicit constexpr CellType(uint32_t id) noexcept;
 
         public:
-
-        static bool Initialize();
 
         [[nodiscard]] static constexpr CellType Invalid() noexcept;
 
@@ -80,6 +79,11 @@ namespace CellSim::Cells
         /// @return nameに対応するCellType値
         /// @return 見つからない場合はInvalid()
         [[nodiscard]] static CellType FromName(::std::string_view name) noexcept;
+
+        static bool Initialize();
+
+        /// @brief Invalid以外の種類を削除
+        static void ResetUnsafe() noexcept;
         
         CellType() = default;
 

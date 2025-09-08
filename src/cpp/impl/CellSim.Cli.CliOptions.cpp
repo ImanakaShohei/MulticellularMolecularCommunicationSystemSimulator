@@ -41,7 +41,8 @@ namespace CellSim::Cli
                 if (pair.second->IsMatch(arg)) {
                     isMatch = true;
                     if (pair.second->TakesControl()) {
-                        if (m_controllerOption != nullptr) [[unlikely]] {
+                        // 異なるコントローラーオプションを同時に指定するとエラー
+                        if (m_controllerOption != nullptr && m_controllerOption != pair.second) [[unlikely]] {
                             throw ::std::runtime_error(
                                 Text::CString::Format(
                                     Messages::Get("Cli.CliOptions.m_enableOption.Error.TakesControlError").c_str(),

@@ -31,6 +31,9 @@ namespace CellSim::Molecular
 
         [[nodiscard]] static MoleculeKind FromName(::std::string_view name) noexcept;
 
+        /// @brief Invalid以外の種類を削除
+        static void ResetUnsafe() noexcept;
+
         MoleculeKind() = default;
 
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
