@@ -227,16 +227,22 @@ namespace CellSim
         }
     }
 
-    Simulation::Simulation(SimulationOption option)
-    : m_cells()
-    , m_enableMultithreading(true)
-    , m_molecules()
-    , m_overrideInteraction(false)
-    , m_overrideForceComputation(false)
-    , m_pCellAlgorithm(nullptr)
-    , m_pCellList(nullptr)
-    , m_pCellSimulationModel(Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType()))
-    , m_writer(::std::move(option))
+    Simulation::Simulation(
+        SimulationOption option
+    )
+        : m_cells()
+        , m_enableMultithreading(true)
+        , m_molecules()
+        , m_overrideInteraction(false)
+        , m_overrideForceComputation(false)
+        , m_pCellAlgorithm(nullptr)
+        , m_pCellList(nullptr)
+        , m_pCellSimulationModel(
+            Model::CellSimulationModel::FromType(
+                Settings::Config::SimulationModel::SimulationType()
+            )
+        )
+        , m_writer(::std::move(option))
     {
         s_current = this;
 
