@@ -3,6 +3,8 @@
 ## [2.0.3] 2025-09-11
 ### 変更点
 - `cell.enableGrowth`がfalseの時に、細胞分裂も無効になるように変更
+### 不具合修正
+- CellBehaviorPtr::Null()を使うとSegmentation Faultが発生する可能性がある問題を修正
 
 ## [2.0.2] 2025-09-09
 ### 新機能

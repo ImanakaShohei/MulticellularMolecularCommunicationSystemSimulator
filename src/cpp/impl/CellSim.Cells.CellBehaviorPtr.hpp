@@ -51,6 +51,7 @@ namespace CellSim::Cells
 
     inline void CellBehaviorPtr::m_copyFrom(CellBehaviorPtr const& right)
     {
+        // ここでnullptrチェックはしない
         if (right.m_ptr->IsReusable()) {
             m_ptr = right.m_ptr;
             m_ptr->AddOwner();
@@ -82,6 +83,7 @@ namespace CellSim::Cells
     inline CellBehaviorPtr::CellBehaviorPtr(CellBehaviorPtr const& right)
         : m_ptr()
     {
+        if (right.m_ptr == nullptr) return;
         m_copyFrom(right);
     }
 
@@ -100,15 +102,19 @@ namespace CellSim::Cells
 
     inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr const& right)
     {
-        m_delete();
-        m_copyFrom(right);
+        if (m_ptr != nullptr) {
+            m_delete();
+            m_ptr = nullptr;
+        }
+        
+        if (right.m_ptr != nullptr) m_copyFrom(right);
 
         return *this;
     }
 
     inline CellBehaviorPtr& CellBehaviorPtr::operator=(CellBehaviorPtr&& right) noexcept
     {
-        m_delete();
+        if (m_ptr != nullptr) m_delete();
         
         m_ptr = right.m_ptr;
 
