@@ -131,11 +131,20 @@ namespace CellSim
 
     void Simulation::m_beforeAdvanceStep()
     {
-        // 無駄な最適化
+        // 無駄じゃなくなった最適化
         if (Settings::Config::Cell::EnableGrowth()) {
             for (Cells::Cell& cell : m_cells) {
                 cell.ResetForce();
                 cell.Grow();
+            }
+
+            // 細胞分裂
+            for (size_t i = 0; i != m_cells.size(); i++) {
+                Cells::Cell& cell = m_cells[i];
+
+                if (cell.ShouldDivideThisStep()) {
+                    m_cells.push_back(cell.Divide());
+                }
             }
         }
         else {
@@ -144,13 +153,6 @@ namespace CellSim
             }
         }
         
-        for (size_t i = 0; i != m_cells.size(); i++) {
-            Cells::Cell& cell = m_cells[i];
-
-            if (cell.ShouldDivideThisStep()) {
-                m_cells.push_back(cell.Divide());
-            }
-        }
     }
 
     void Simulation::m_initializeCellAlgorithm()
