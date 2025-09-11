@@ -17,6 +17,7 @@
 ### 不具合修正
 - macOSおよびLinuxでReleaseビルドにならない問題を修正
 - '--param-sweep'を使ったときに2回目以降が実行されない可能性がある問題を修正
+- CellBehaviorPtr::Null()を使うとSegmentation Faultが発生する可能性がある問題を修正
 -->
 
 ## [2.0.0] 2025-08-14

@@ -113,6 +113,7 @@ namespace CellSim::Cells
         CellBehaviorPtr const& right
     )
     {
+        // ここでnullptrチェックはしない
         if (right.m_ptr->IsReusable()) {
             m_ptr = right.m_ptr;
             m_ptr->AddOwner();
@@ -202,6 +203,11 @@ namespace CellSim::Cells
     constexpr CellBehavior& CellBehaviorPtr::operator*() const noexcept
     {
         return *m_ptr;
+    }
+
+    constexpr CellBehavior* CellBehaviorPtr::Get() const noexcept
+    {
+        return m_ptr;
     }
 
     constexpr bool operator==(
