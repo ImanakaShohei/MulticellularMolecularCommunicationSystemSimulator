@@ -65,15 +65,6 @@ namespace CellSim
 
         if (m_pCellSimulationModel->UseCellAlgorithm()) {
             m_pCellAlgorithm->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-
-            if (Settings::Config::CellAlgorithm::UseClusterModel() && Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList) {
-                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-            }
-        }
-        else {
-            if (Settings::Config::CellAlgorithm::UseClusterModel()) {
-                m_pCellList->BeforeAdvanceStep(this, { &m_cells, &m_molecules });
-            }
         }
 
         for (Molecular::MoleculeField& field : m_molecules) {
@@ -100,25 +91,19 @@ namespace CellSim
         }
 
         if (Settings::Config::CellAlgorithm::UseClusterModel()) {
+            if (m_pCellList == m_pCellAlgorithm) m_pCellList->ResetCells();
+            m_pCellList->SetCells(m_cells);
             CellAlgorithms::ClusterModel::Combine(m_cells, m_molecules, m_pCellList);
+            if (m_pCellList != m_pCellAlgorithm) m_pCellList->ResetCells();
 
             // 無効になったオブジェクトを削除
-            for (Cells::Cell& cell : m_cells) {
-                if (cell.Type() == Cells::CellType::Invalid()) {
-                    ::std::vector<Cells::Cell> newCells;
-                    newCells.reserve(m_cells.size());
-                    
-                    for (Cells::Cell& cell1 : m_cells) {
-                        if (cell1.Type() != Cells::CellType::Invalid()) {
-                            
-                            newCells.emplace_back(::std::move(cell1));
-                            
-                        }
-                    }
-                    m_cells = ::std::move(newCells);
-                    break;
+            ::std::erase_if(
+                m_cells,
+                [](Cells::Cell const& cell) {
+                    return cell.Type() == Cells::CellType::Invalid();
                 }
-            }
+            );
+            
         }
 
         m_pCellSimulationModel->OnAdvanceStep(this, { &m_cells, &m_molecules });
