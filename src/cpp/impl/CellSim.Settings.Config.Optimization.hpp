@@ -26,7 +26,9 @@ namespace CellSim::Settings
         /// @brief 実行速度とメモリ使用量の設定
         [[nodiscard]] static PeformanceType Peformance() noexcept;
 
-        static void Load(::nlohmann::json& config);
+        static void Load(
+            ::nlohmann::json& config
+        );
     };
 }
 

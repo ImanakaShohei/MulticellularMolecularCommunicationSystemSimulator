@@ -86,7 +86,7 @@
         "isSensitiveToMolecules": false
     },
     "optimization": {
-        "maxDegreeOfParallelism": -1,
+        "maxDegreeOfParallelism": 0,
         "peformance": "Fast"
     },
     "simulation": {

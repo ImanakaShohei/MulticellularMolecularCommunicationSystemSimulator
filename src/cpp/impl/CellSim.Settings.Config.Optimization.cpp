@@ -12,9 +12,17 @@
 
 namespace CellSim::Settings
 {
-    void Config::Optimization::Load(::nlohmann::json& config)
+    void Config::Optimization::Load(
+        ::nlohmann::json& config
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.Optimization.Load.Error.JsonError"
+                )
+            );
+        }
 
         int32_t maxDegreeOfParallelism;
         ::std::string s;
@@ -23,16 +31,32 @@ namespace CellSim::Settings
             maxDegreeOfParallelism = config.at("maxDegreeOfParallelism").get<int32_t>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.Optimization.Load.Error.JsonError"
+                )
+            );
         }
 
         if (s == "Fast") s_peformance = PeformanceType::Fast;
         else if (s == "LowMemory") s_peformance = PeformanceType::LowMemory;
-        else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Optimization.Load.Error.peformance"));
+        else [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.Optimization.Load.Error.peformance"
+                )
+            );
+        }
 
         auto maxThread = (int32_t)::std::thread::hardware_concurrency();
 
-        if (maxDegreeOfParallelism <= 0 /* || maxThread < maxDegreeOfParallelism */) s_maxDegreeOfParallelism = (uint32_t)maxThread;
+        constexpr int32_t safeMaxThread = 512;
+
+        if (maxDegreeOfParallelism <= 0) s_maxDegreeOfParallelism = (uint32_t)maxThread;
+        else if (maxDegreeOfParallelism > safeMaxThread) {
+            if (maxThread > safeMaxThread) s_maxDegreeOfParallelism = (uint32_t)maxThread;
+            else s_maxDegreeOfParallelism = safeMaxThread;
+        }
         else s_maxDegreeOfParallelism = (uint32_t)maxDegreeOfParallelism;
 
 #if !CELLSIM_ENV_WINDOWS
