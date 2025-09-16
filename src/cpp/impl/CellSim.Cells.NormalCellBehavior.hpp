@@ -14,22 +14,36 @@ namespace CellSim::Cells
 
         public:
 
-        NormalCellBehavior();
-
         NormalCellBehavior(
             double cellDivisionRadius,
             double growthRate
         );
 
-        CellDivisionResult ComputeDivisionOutcome(const Cell* sender) override;
-        CellGrowthResult ComputeGrowth(const Cell* sender) override;
-        MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) override;
+        CellDivisionResult ComputeDivisionOutcome(
+            const Cell* sender
+        ) override;
+
+        CellGrowthResult ComputeGrowth(
+            const Cell* sender
+        ) override;
+
+        MolecularProcessResult ComputeMolecularProcess(
+            const Cell* sender,
+            MolecularProcessArgs args
+        ) override;
         
         CellBehavior* CreateClone() const override;
         
         constexpr bool IsReusable() const noexcept override;
-        Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) override;
-        bool ShouldDivideThisStep(const Cell* sender) noexcept override;
+
+        Numerics::Vector3 OnSenseMolecules(
+            const Cell* sender,
+            CellMoleculeSensingArgs args
+        ) override;
+
+        bool ShouldDivideThisStep(
+            const Cell* sender
+        ) noexcept override;
     };
 }
 

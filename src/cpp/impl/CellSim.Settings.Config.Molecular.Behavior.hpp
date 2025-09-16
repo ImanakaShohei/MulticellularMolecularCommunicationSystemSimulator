@@ -17,7 +17,10 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(Behavior);
 
-        [[nodiscard]] static ::CellSim::Molecular::MoleculeBehavior* FromJson(::nlohmann::json& config, ::CellSim::Molecular::MoleculeBehaviorKind kind);
+        [[nodiscard]] static ::CellSim::Molecular::MoleculeBehavior* FromJson(
+            ::nlohmann::json& config,
+            ::CellSim::Molecular::MoleculeBehaviorKind kind
+        );
     };
 }
 

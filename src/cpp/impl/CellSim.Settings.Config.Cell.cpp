@@ -1,5 +1,6 @@
 ﻿#include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
+#include "CellSim.Settings.Config.CellBehavior.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
 #include "CellSim.Messages.hpp"
 
@@ -26,6 +27,7 @@ namespace CellSim::Settings
             Cells::CellCreateInfo info;
             ::std::string s;
             Model::CellSimulationType simulationType = Settings::Config::SimulationModel::SimulationType();
+            Cells::CellBehaviorType behaviorType;
 
             for (::nlohmann::json& obj : config.at("cells")) {
                 s = obj.at("behaviorType");
@@ -45,11 +47,16 @@ namespace CellSim::Settings
                 if (info.Mass == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.mass"));
                 if (info.Radius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
 
-                if (s == "MoleculeAware") info.BehaviorType = Cells::CellBehaviorType::MoleculeAware;
-                else if (s == "Normal") info.BehaviorType = Cells::CellBehaviorType::Normal;
-                else if (s == "User") info.BehaviorType = Cells::CellBehaviorType::User;
-                else if (s == "WavePropagation") info.BehaviorType = Cells::CellBehaviorType::WavePropagation;
+                if (s == "MoleculeAware") behaviorType = Cells::CellBehaviorType::MoleculeAware;
+                else if (s == "Normal") behaviorType = Cells::CellBehaviorType::Normal;
+                else if (s == "User") behaviorType = Cells::CellBehaviorType::User;
+                else if (s == "WavePropagation") behaviorType = Cells::CellBehaviorType::WavePropagation;
                 else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.behaviorType"));
+
+                info.Behavior = CellBehavior::FromJson(
+                    obj["behaviorParameters"],
+                    behaviorType
+                );
 
                 s_cells.emplace_back(info);
                 s_totalCellCount += info.CellCount;

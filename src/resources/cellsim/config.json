@@ -10,6 +10,35 @@
             "radius": 10.0,
             "typeName": "Cell1",
 
+            "behaviorParameters": {
+                "normal": {
+                    "cellDivisionRadius": 18,
+                    "growthRate": 0.03
+                },
+
+                "wavePropagation": {
+                    "cellDivisionRadius": 18,
+                    "growthRate": 0.03,
+                    "degradationRate": 1,
+                    "synthesisRate": 1,
+                    "alpha": 0,
+                    "c": 0,
+                    "epsilon": 0,
+                    "h": 0,
+                    "k1": 0,
+                    "k2": 0,
+                    "ke": 0,
+                    "ki": 0,
+                    "kt": 0,
+                    "l1": 0,
+                    "l2": 0,
+                    "lambda": 0,
+                    "q": 0,
+                    "sigma": 0,
+                    "theta": 0
+                }
+            },
+
             "modelParameters": {
                 "cellGrowth": {
                     "adhesiveRepulsionFactor": 1
@@ -77,34 +106,6 @@
 
         "networkFormation": {
             "maxAttractionDistance": 100
-        }
-    },
-    "cellBehavior": {
-        "normal": {
-            "cellDivisionRadius": 18,
-            "growthRate": 0.03
-        },
-
-        "wavePropagation": {
-            "cellDivisionRadius": 18,
-            "growthRate": 0.03,
-            "degradationRate": 1,
-            "synthesisRate": 1,
-            "alpha": 0,
-            "c": 0,
-            "epsilon": 0,
-            "h": 0,
-            "k1": 0,
-            "k2": 0,
-            "ke": 0,
-            "ki": 0,
-            "kt": 0,
-            "l1": 0,
-            "l2": 0,
-            "lambda": 0,
-            "q": 0,
-            "sigma": 0,
-            "theta": 0
         }
     },
     "cellAlgorithm": {

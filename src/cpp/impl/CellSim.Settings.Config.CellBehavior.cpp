@@ -2,6 +2,7 @@
 #include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
 #include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
 #include "CellSim.Settings.Config.CellBehavior.WavePropagation.hpp"
+#include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "../CellSim.Settings.Config.CellBehavior.User.hpp"
 
 #include "CellSim.Messages.hpp"
@@ -11,13 +12,19 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellBehavior::Load(::nlohmann::json& config)
+    Cells::CellBehaviorPtr Config::CellBehavior::FromJson(
+        ::nlohmann::json& config,
+        Cells::CellBehaviorType type
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Load.Error.JsonError"));
+        switch (type) {
+            case Cells::CellBehaviorType::MoleculeAware: return MoleculeAware::FromJson(config["moleculeAware"]);
+            case Cells::CellBehaviorType::Normal: return Normal::FromJson(config["normal"]);
+            case Cells::CellBehaviorType::User: return User::FromJson(config["user"]);
+            case Cells::CellBehaviorType::WavePropagation: return WavePropagation::FromJson(config["wavePropagation"]);
 
-        MoleculeAware::Load(config["moleculeAware"]);
-        Normal::Load(config["normal"]);
-        User::Load(config["user"]);
-        WavePropagation::Load(config["wavePropagation"]);
+            default: [[unlikely]] return nullptr;
+        }
     }
+    
 }

@@ -13,7 +13,10 @@
 
 namespace CellSim::Settings
 {
-    ::CellSim::Molecular::MoleculeBehavior* Config::Molecular::Behavior::FromJson(::nlohmann::json& config, ::CellSim::Molecular::MoleculeBehaviorKind kind)
+    ::CellSim::Molecular::MoleculeBehavior* Config::Molecular::Behavior::FromJson(
+        ::nlohmann::json& config,
+        ::CellSim::Molecular::MoleculeBehaviorKind kind
+    )
     {
         switch (kind) {
             case ::CellSim::Molecular::MoleculeBehaviorKind::Normal: return Config::Molecular::Behavior::Normal::FromJson(config["normalBehavior"]);

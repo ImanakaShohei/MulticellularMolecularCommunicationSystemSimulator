@@ -21,7 +21,10 @@
 
 namespace CellSim::Model
 {
-    CellSimulationModel::Params* CellSimulationModel::Params::FromJson(::nlohmann::json& j, CellSimulationType type)
+    CellSimulationModel::Params* CellSimulationModel::Params::FromJson(
+        ::nlohmann::json& j,
+        CellSimulationType type
+    )
     {
         if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.CellSimulationModel.Params.FromJson.JsonError"));
 
@@ -71,7 +74,7 @@ namespace CellSim::Model
         double initialPlacementRadius = Settings::Config::Cell::InitialPlacementRadius();
 
         for (Cells::CellCreateInfo const& info : Settings::Config::Cell::Cells()) {
-            Cells::CellBehaviorPtr pBehavior = Cells::CellBehaviorPtr::FromType(info.BehaviorType);
+            Cells::CellBehaviorPtr pBehavior = info.Behavior;
 
             if (Settings::Config::Simulation::Enable2dMode()) {
                 for (int32_t i = 0; i != info.CellCount; i++) {

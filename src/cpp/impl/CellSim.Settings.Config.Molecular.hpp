@@ -23,15 +23,22 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(Molecular);
 
         /// @brief 
-        [[nodiscard]] static ::std::vector<::CellSim::Molecular::MoleculeCreateInfo> const& MolecularConfigs() noexcept;
+        [[nodiscard]]
+        static
+        ::std::vector<::CellSim::Molecular::MoleculeCreateInfo> const&
+        MolecularConfigs() noexcept;
 
-        static void Load(::nlohmann::json& config);
+        static void Load(
+            ::nlohmann::json& config
+        );
     };
 }
 
 namespace CellSim::Settings
 {
-    inline ::std::vector<::CellSim::Molecular::MoleculeCreateInfo> const& Config::Molecular::MolecularConfigs() noexcept
+    inline
+    ::std::vector<::CellSim::Molecular::MoleculeCreateInfo> const&
+    Config::Molecular::MolecularConfigs() noexcept
     {
         return s_molecularConfigs;
     }

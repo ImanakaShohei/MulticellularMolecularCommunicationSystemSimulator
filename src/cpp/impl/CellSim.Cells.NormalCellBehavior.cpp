@@ -8,7 +8,6 @@
 #include "CellSim.Molecular.MoleculeInfo.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
-#include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
 #include "CellSim.Messages.hpp"
 
 #include <numbers>
@@ -17,14 +16,6 @@
 
 namespace CellSim::Cells
 {
-    NormalCellBehavior::NormalCellBehavior()
-        : NormalCellBehavior(
-            Settings::Config::CellBehavior::Normal::CellDivisionRadius(),
-            Settings::Config::CellBehavior::Normal::GrowthRate()
-        )
-    {
-    }
-
     NormalCellBehavior::NormalCellBehavior(
         double cellDivisionRadius,
         double growthRate
@@ -32,10 +23,18 @@ namespace CellSim::Cells
         : m_cellDivisionRadius(cellDivisionRadius)
         , m_growthRate(growthRate)
     {
-        if (cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"));
+        if (cellDivisionRadius <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Cells.MoleculeAwareCellBehavior.MoleculeAwareCellBehavior.Error.cellDivisionRadius"
+                )
+            );
+        }
     }
 
-    CellGrowthResult NormalCellBehavior::ComputeGrowth(const Cell* sender)
+    CellGrowthResult NormalCellBehavior::ComputeGrowth(
+        const Cell* sender
+    )
     {
         double oldRadius = sender->Radius();
 
@@ -48,7 +47,9 @@ namespace CellSim::Cells
         return CellGrowthResult{ newMass, newRadius };
     }
 
-    CellDivisionResult NormalCellBehavior::ComputeDivisionOutcome(const Cell* sender)
+    CellDivisionResult NormalCellBehavior::ComputeDivisionOutcome(
+        const Cell* sender
+    )
     {
         CellDivisionResult result;
 
@@ -92,17 +93,25 @@ namespace CellSim::Cells
         return result;
     }
 
-    MolecularProcessResult NormalCellBehavior::ComputeMolecularProcess(const Cell*, MolecularProcessArgs)
+    MolecularProcessResult NormalCellBehavior::ComputeMolecularProcess(
+        const Cell*,
+        MolecularProcessArgs
+    )
     {
         return {};
     }
 
-    Numerics::Vector3 NormalCellBehavior::OnSenseMolecules(const Cell*, CellMoleculeSensingArgs)
+    Numerics::Vector3 NormalCellBehavior::OnSenseMolecules(
+        const Cell*,
+        CellMoleculeSensingArgs
+    )
     {
         return Numerics::Vector3();
     }
 
-    bool NormalCellBehavior::ShouldDivideThisStep(const Cell* sender) noexcept
+    bool NormalCellBehavior::ShouldDivideThisStep(
+        const Cell* sender
+    ) noexcept
     {
         return sender->Radius() > m_cellDivisionRadius;
     }

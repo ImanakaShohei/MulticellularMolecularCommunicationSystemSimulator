@@ -2,7 +2,7 @@
 #define CELLSIM_CELLS_CELLCREATEINHO_HPP
 
 #include "base.hpp"
-#include "CellSim.Cells.CellBehaviorType.hpp"
+#include "CellSim.Cells.CellBehaviorPtr.hpp"
 #include "CellSim.Cells.CellType.hpp"
 #include "CellSim.Graphics.Color.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
@@ -22,7 +22,7 @@ namespace CellSim::Cells
         int32_t CellCount;
 
         /// @brief ふるまい定義
-        CellBehaviorType BehaviorType;
+        CellBehaviorPtr Behavior;
 
         /// @brief 細胞の種類
         CellType Type;

@@ -1,4 +1,6 @@
 ﻿#include "CellSim.Settings.Config.CellBehavior.Normal.hpp"
+#include "CellSim.Cells.CellBehaviorPtr.hpp"
+#include "CellSim.Cells.NormalCellBehavior.hpp"
 
 #include "CellSim.Messages.hpp"
 
@@ -7,18 +9,46 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellBehavior::Normal::Load(::nlohmann::json const& config)
+    Cells::CellBehaviorPtr Config::CellBehavior::Normal::FromJson(
+        ::nlohmann::json const& config
+    )
     {
-        if (config.is_null()) return;
-        
-        try {
-            s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
-            s_growthRate = config.at("growthRate").get<double>();
-        }
-        catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.Normal.FromJson.Error.JsonError"
+                )
+            );
         }
 
-        if (s_cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius"));
+        double cellDivisionRadius;
+        double growthRate;
+        
+        try {
+            cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
+            growthRate = config.at("growthRate").get<double>();
+        }
+        catch (...) {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.Normal.Load.Error.JsonError"
+                )
+            );
+        }
+
+        if (cellDivisionRadius <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.Normal.Load.Error.cellDivisionRadius"
+                )
+            );
+        }
+
+        return Cells::CellBehaviorPtr::FromPointerUnsafe(
+            new Cells::NormalCellBehavior(
+                cellDivisionRadius,
+                growthRate
+            )
+        );
     }
 }

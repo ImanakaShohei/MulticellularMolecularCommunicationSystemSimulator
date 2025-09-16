@@ -88,20 +88,41 @@ namespace CellSim::Cells
 
         ::std::map<Molecular::MoleculeKind, double> m_rho_T;
 
-        constexpr double ComputeDiffBeta(double beta, double gamma, double rho_T) const noexcept;
-        constexpr double ComputeDiffGamma(double beta, double gamma) const noexcept;
-        constexpr double ComputeDiffRhoT(double gamma, double rho_T) const noexcept;
+        constexpr double ComputeDiffBeta(
+            double beta,
+            double gamma,
+            double rho_T
+        ) const noexcept;
 
-        constexpr double F1(double gamma) const noexcept;
-        constexpr double F2(double gamma) const noexcept;
+        constexpr double ComputeDiffGamma(
+            double beta,
+            double gamma
+        ) const noexcept;
 
-        constexpr double Phi(double gamma, double rho_T) const noexcept;
+        constexpr double ComputeDiffRhoT(
+            double gamma,
+            double rho_T
+        ) const noexcept;
 
-        constexpr double Y(double gamma, double rho_T) const noexcept;
+        constexpr double F1(
+            double gamma
+        ) const noexcept;
+
+        constexpr double F2(
+            double gamma
+        ) const noexcept;
+
+        constexpr double Phi(
+            double gamma,
+            double rho_T
+        ) const noexcept;
+
+        constexpr double Y(
+            double gamma,
+            double rho_T
+        ) const noexcept;
 
         public:
-
-        WavePropagationCellBehavior();
 
         WavePropagationCellBehavior(
             double cellDivisionRadius,
@@ -125,7 +146,10 @@ namespace CellSim::Cells
             double epsilon
         );
         
-        MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) override;
+        MolecularProcessResult ComputeMolecularProcess(
+            const Cell* sender,
+            MolecularProcessArgs args
+        ) override;
         
         CellBehavior* CreateClone() const override;
         
@@ -135,38 +159,60 @@ namespace CellSim::Cells
 
 namespace CellSim::Cells
 {
-    constexpr double WavePropagationCellBehavior::ComputeDiffBeta(double beta, double gamma, double rho_T) const noexcept
+    constexpr double WavePropagationCellBehavior::ComputeDiffBeta(
+        double beta,
+        double gamma,
+        double rho_T
+    ) const noexcept
     {
         return m_q * m_sigma * Phi(gamma, rho_T) - (m_k_i + m_k_t) * beta;
     }
 
-    constexpr double WavePropagationCellBehavior::ComputeDiffGamma(double beta, double gamma) const noexcept
+    constexpr double WavePropagationCellBehavior::ComputeDiffGamma(
+        double beta,
+        double gamma
+    ) const noexcept
     {
         return (m_k_t * beta) / m_h - m_k_e * gamma;
     }
 
-    constexpr double WavePropagationCellBehavior::ComputeDiffRhoT(double gamma, double rho_T) const noexcept
+    constexpr double WavePropagationCellBehavior::ComputeDiffRhoT(
+        double gamma,
+        double rho_T
+    ) const noexcept
     {
         return -F1(gamma) * rho_T + F2(gamma) * (1 - rho_T);
     }
 
-    constexpr double WavePropagationCellBehavior::F1(double gamma) const noexcept
+    constexpr double WavePropagationCellBehavior::F1(
+        double gamma
+    ) const noexcept
     {
         return (m_k_1 + m_k_2 * gamma) / (1 + gamma);
     }
 
-    constexpr double WavePropagationCellBehavior::F2(double gamma) const noexcept
+    constexpr double WavePropagationCellBehavior::F2(
+        double gamma
+    ) const noexcept
     {
         return (m_k_1 * m_l_1 + m_k_2 * m_l_2 * m_c * gamma) / (1 + m_c * gamma);
     }
 
-    constexpr double WavePropagationCellBehavior::Phi(double gamma, double rho_T) const noexcept
+    constexpr double WavePropagationCellBehavior::Phi(
+        double gamma,
+        double rho_T
+    ) const noexcept
     {
         double y = Y(rho_T, gamma);
-        return (m_alpha * (m_lambda * m_theta + m_epsilon * y * y)) / (1 + m_alpha * m_theta + m_epsilon * y * y * (1 + m_alpha));
+        return
+            (m_alpha * (m_lambda * m_theta + m_epsilon * y * y)) /
+            (1 + m_alpha * m_theta + m_epsilon * y * y * (1 + m_alpha));
     }
 
-    constexpr double WavePropagationCellBehavior::Y(double gamma, double rho_T) const noexcept
+    constexpr double WavePropagationCellBehavior::Y(
+        double gamma,
+        double rho_T
+    ) const noexcept
     {
         return (rho_T * gamma) / (1 + gamma);
     }

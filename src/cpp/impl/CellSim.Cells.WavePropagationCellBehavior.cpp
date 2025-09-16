@@ -4,35 +4,9 @@
 #include "CellSim.Molecular.MoleculeField.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
-#include "CellSim.Settings.Config.CellBehavior.WavePropagation.hpp"
 
 namespace CellSim::Cells
 {
-    WavePropagationCellBehavior::WavePropagationCellBehavior()
-        : WavePropagationCellBehavior(
-            Settings::Config::CellBehavior::WavePropagation::CellDivisionRadius(),
-            Settings::Config::CellBehavior::WavePropagation::GrowthRate(),
-            Settings::Config::CellBehavior::WavePropagation::SynthesisRate(),
-            Settings::Config::CellBehavior::WavePropagation::DegradationRate(),
-            Settings::Config::CellBehavior::WavePropagation::C(),
-            Settings::Config::CellBehavior::WavePropagation::K1(),
-            Settings::Config::CellBehavior::WavePropagation::K2(),
-            Settings::Config::CellBehavior::WavePropagation::L1(),
-            Settings::Config::CellBehavior::WavePropagation::L2(),
-            Settings::Config::CellBehavior::WavePropagation::Q(),
-            Settings::Config::CellBehavior::WavePropagation::Sigma(),
-            Settings::Config::CellBehavior::WavePropagation::Ki(),
-            Settings::Config::CellBehavior::WavePropagation::Ke(),
-            Settings::Config::CellBehavior::WavePropagation::Kt(),
-            Settings::Config::CellBehavior::WavePropagation::Alpha(),
-            Settings::Config::CellBehavior::WavePropagation::H(),
-            Settings::Config::CellBehavior::WavePropagation::Theta(),
-            Settings::Config::CellBehavior::WavePropagation::Lambda(),
-            Settings::Config::CellBehavior::WavePropagation::Epsilon()
-        )
-    {
-    }
-
     WavePropagationCellBehavior::WavePropagationCellBehavior(
         double cellDivisionRadius,
         double growthRate,
@@ -78,7 +52,10 @@ namespace CellSim::Cells
     {
     }
 
-    MolecularProcessResult WavePropagationCellBehavior::ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
+    MolecularProcessResult WavePropagationCellBehavior::ComputeMolecularProcess(
+        const Cell*,
+        MolecularProcessArgs args
+    )
     {
         MolecularProcessResult result;
 

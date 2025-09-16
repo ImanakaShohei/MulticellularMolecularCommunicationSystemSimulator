@@ -11,7 +11,7 @@ namespace CellSim::Cells
     class CellBehaviorPtr final {
         private:
 
-        constexpr CellBehaviorPtr(
+        CellBehaviorPtr(
             CellBehavior* ptr
         ) noexcept;
 
@@ -25,10 +25,6 @@ namespace CellSim::Cells
 
         public:
 
-        [[nodiscard]] static CellBehaviorPtr FromType(
-            CellBehaviorType type
-        );
-
         static CellBehaviorPtr FromPointer(
             ::std::nullptr_t
         ) = delete;
@@ -41,18 +37,39 @@ namespace CellSim::Cells
             CellBehavior* ptr
         );
 
+        static CellBehaviorPtr FromPointerUnsafe(
+            ::std::nullptr_t
+        ) = delete;
+
+        /// @brief 生ポインタから作成
+        /// @param ptr ポインタ
+        /// @return オブジェクト
+        [[nodiscard]] static CellBehaviorPtr FromPointerUnsafe(
+            CellBehavior* ptr
+        ) noexcept;
+
         /// @brief nullptr
         [[nodiscard]] static CellBehaviorPtr Null() noexcept;
+
+        CellBehaviorPtr() noexcept;
+
+        CellBehaviorPtr(
+            ::std::nullptr_t
+        ) noexcept;
 
         CellBehaviorPtr(
             CellBehaviorPtr const& right
         );
 
-        constexpr CellBehaviorPtr(
+        CellBehaviorPtr(
             CellBehaviorPtr&& right
         ) noexcept;
 
         ~CellBehaviorPtr();
+
+        CellBehaviorPtr& operator=(
+            ::std::nullptr_t
+        ) noexcept;
 
         CellBehaviorPtr& operator=(
             CellBehaviorPtr const& right
@@ -132,12 +149,31 @@ namespace CellSim::Cells
         delete m_ptr;
     }
 
+    inline CellBehaviorPtr CellBehaviorPtr::FromPointerUnsafe(
+        CellBehavior* ptr
+    ) noexcept
+    {
+        return CellBehaviorPtr(ptr);
+    }
+
     inline CellBehaviorPtr CellBehaviorPtr::Null() noexcept
     {
         return CellBehaviorPtr(static_cast<CellBehavior*>(nullptr));
     }
 
-    constexpr CellBehaviorPtr::CellBehaviorPtr(
+    inline CellBehaviorPtr::CellBehaviorPtr() noexcept
+        : m_ptr(nullptr)
+    {
+    }
+
+    inline CellBehaviorPtr::CellBehaviorPtr(
+        ::std::nullptr_t
+    ) noexcept
+        : m_ptr(nullptr)
+    {
+    }
+
+    inline CellBehaviorPtr::CellBehaviorPtr(
         CellBehavior* ptr
     ) noexcept
         : m_ptr(ptr)
@@ -153,7 +189,7 @@ namespace CellSim::Cells
         m_copyFrom(right);
     }
 
-    constexpr CellBehaviorPtr::CellBehaviorPtr(
+    inline CellBehaviorPtr::CellBehaviorPtr(
         CellBehaviorPtr&& right
     ) noexcept
         : m_ptr(right.m_ptr)
@@ -166,6 +202,18 @@ namespace CellSim::Cells
         if (m_ptr == nullptr) return;
 
         m_delete();
+    }
+
+    inline CellBehaviorPtr& CellBehaviorPtr::operator=(
+        ::std::nullptr_t
+    ) noexcept
+    {
+        if (m_ptr != nullptr) {
+            m_delete();
+            m_ptr = nullptr;
+        }
+
+        return *this;
     }
 
     inline CellBehaviorPtr& CellBehaviorPtr::operator=(

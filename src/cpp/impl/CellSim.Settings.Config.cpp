@@ -49,7 +49,6 @@ namespace CellSim::Settings
 
         Cell::Load(config["cell"]);
         CellAlgorithm::Load(config["cellAlgorithm"]);
-        CellBehavior::Load(config["cellBehavior"]);
         Molecular::Load(config["molecular"]);
         Optimization::Load(config["optimization"]);
         UserSettings::Load(config["userSettings"]);

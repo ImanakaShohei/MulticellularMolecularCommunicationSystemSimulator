@@ -21,7 +21,10 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(CellBehavior);
 
-        static void Load(::nlohmann::json& config);
+        [[nodiscard]] static Cells::CellBehaviorPtr FromJson(
+            ::nlohmann::json& config,
+            Cells::CellBehaviorType type
+        );
     };
 }
 

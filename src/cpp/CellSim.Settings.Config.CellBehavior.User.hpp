@@ -20,7 +20,9 @@ namespace CellSim::Settings
 
         // TODO: ここにゲッターを追加します
 
-        static void Load(::nlohmann::json const& config);
+        [[nodiscard]] static Cells::CellBehaviorPtr FromJson(
+            ::nlohmann::json const& config
+        );
     };
 }
 

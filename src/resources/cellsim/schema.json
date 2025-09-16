@@ -47,6 +47,114 @@
                 "typeName": {
                     "type": "string"
                 },
+                "behaviorParameters": {
+                    "type": "object",
+                    "properties": {
+                
+                        "moleculeAware": {
+                            "type": "object",
+                            "properties": {
+                                "cellDivisionRadius": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "degradationRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "growthRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "synthesisRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "cellDivisionRadius",
+                                "degradationRate",
+                                "growthRate",
+                                "synthesisRate"
+                            ]
+                        },
+                        "normal": {
+                            "type": "object",
+                            "properties": {
+                                "cellDivisionRadius": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "growthRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [
+                                "cellDivisionRadius",
+                                "growthRate"
+                            ]
+                        },
+                        "user": { "type": "object" },
+                        "wavePropagation": {
+                            "type": "object",
+                            "properties": {
+                                "cellDivisionRadius": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "growthRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "degradationRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "synthesisRate": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "c": { "type": "number" },
+                                "k1": { "type": "number" },
+                                "k2": { "type": "number" },
+                                "l1": { "type": "number" },
+                                "l2": { "type": "number" },
+                                "q": { "type": "number" },
+                                "sigma": { "type": "number" },
+                                "ki": { "type": "number" },
+                                "ke": { "type": "number" },
+                                "kt": { "type": "number" },
+                                "alpha": { "type": "number" },
+                                "h": { "type": "number" },
+                                "theta": { "type": "number" },
+                                "lambda": { "type": "number" },
+                                "epsilon": { "type": "number" }
+                            },
+                            "required": [ 
+                                "cellDivisionRadius",
+                                "growthRate",
+                                "degradationRate",
+                                "synthesisRate",
+                                "c",
+                                "k1",
+                                "k2",
+                                "l1",
+                                "l2",
+                                "q",
+                                "sigma",
+                                "ki",
+                                "ke",
+                                "kt",
+                                "alpha",
+                                "h",
+                                "theta",
+                                "lambda",
+                                "epsilon"
+                            ]
+                        }
+                    }
+                },
                 "modelParameters": {
                     "type": "object",
                     "properties": {
@@ -206,6 +314,7 @@
                 "mass",
                 "radius",
                 "typeName",
+                "behaviorParameters",
                 "modelParameters"
             ]
         },
@@ -323,114 +432,6 @@
             },
             "required": [ "algorithmType", "useClusterModel" ]
         },
-        "cellBehavior": {
-            "type": "object",
-            "properties": {
-                
-                "moleculeAware": {
-                    "type": "object",
-                    "properties": {
-                        "cellDivisionRadius": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "degradationRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "growthRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "synthesisRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        }
-                    },
-                    "required": [
-                        "cellDivisionRadius",
-                        "degradationRate",
-                        "growthRate",
-                        "synthesisRate"
-                    ]
-                },
-                "normal": {
-                    "type": "object",
-                    "properties": {
-                        "cellDivisionRadius": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "growthRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        }
-                    },
-                    "required": [
-                        "cellDivisionRadius",
-                        "growthRate"
-                    ]
-                },
-                "user": { "type": "object" },
-                "wavePropagation": {
-                    "type": "object",
-                    "properties": {
-                        "cellDivisionRadius": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "growthRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "degradationRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "synthesisRate": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "c": { "type": "number" },
-                        "k1": { "type": "number" },
-                        "k2": { "type": "number" },
-                        "l1": { "type": "number" },
-                        "l2": { "type": "number" },
-                        "q": { "type": "number" },
-                        "sigma": { "type": "number" },
-                        "ki": { "type": "number" },
-                        "ke": { "type": "number" },
-                        "kt": { "type": "number" },
-                        "alpha": { "type": "number" },
-                        "h": { "type": "number" },
-                        "theta": { "type": "number" },
-                        "lambda": { "type": "number" },
-                        "epsilon": { "type": "number" }
-                    },
-                    "required": [ 
-                        "cellDivisionRadius",
-                        "growthRate",
-                        "degradationRate",
-                        "synthesisRate",
-                        "c",
-                        "k1",
-                        "k2",
-                        "l1",
-                        "l2",
-                        "q",
-                        "sigma",
-                        "ki",
-                        "ke",
-                        "kt",
-                        "alpha",
-                        "h",
-                        "theta",
-                        "lambda",
-                        "epsilon"
-                    ]
-                }
-            }
-        },
         "molecular": {
             "type": "array",
             "items": {
@@ -449,7 +450,10 @@
                     "enum": [ "Fast", "LowMemory" ]
                 }
             },
-            "required": [ "maxDegreeOfParallelism", "peformance" ]
+            "required": [
+                "maxDegreeOfParallelism",
+                "peformance"
+            ]
         },
         "simulation": {
             "type": "object",
@@ -492,7 +496,15 @@
             "properties": {
                 "simulationType": {
                     "type": "string",
-                    "enum": [ "CellGrowth", "ClusterFormation", "ClusterRotation", "ClusterSprouting", "NetworkFormation", "Null", "User" ]
+                    "enum": [
+                        "CellGrowth",
+                        "ClusterFormation",
+                        "ClusterRotation",
+                        "ClusterSprouting",
+                        "NetworkFormation",
+                        "Null",
+                        "User"
+                    ]
                 },
                 "clusterSprouting": {
                     "type": "object",
@@ -525,7 +537,6 @@
     "required": [
         "cell",
         "cellAlgorithm",
-        "cellBehavior",
         "molecular",
         "optimization",
         "simulation",

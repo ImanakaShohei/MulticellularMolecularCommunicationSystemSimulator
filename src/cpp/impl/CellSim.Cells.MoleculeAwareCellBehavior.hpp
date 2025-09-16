@@ -18,8 +18,6 @@ namespace CellSim::Cells
 
         public:
 
-        MoleculeAwareCellBehavior();
-
         MoleculeAwareCellBehavior(
             double cellDivisionRadius,
             double growthRate,
@@ -27,10 +25,19 @@ namespace CellSim::Cells
             double degradationRate
         );
 
-        MolecularProcessResult ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args) override;
+        MolecularProcessResult ComputeMolecularProcess(
+            const Cell* sender,
+            MolecularProcessArgs args
+        ) override;
+
         CellBehavior* CreateClone() const override;
         constexpr bool IsReusable() const noexcept override;
-        Numerics::Vector3 OnSenseMolecules(const Cell* sender, CellMoleculeSensingArgs args) override;
+
+        Numerics::Vector3 OnSenseMolecules(
+            const Cell* sender,
+            CellMoleculeSensingArgs args
+        ) override;
+        
     };
 }
 

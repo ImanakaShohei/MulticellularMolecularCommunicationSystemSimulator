@@ -1,4 +1,6 @@
 ﻿#include "CellSim.Settings.Config.CellBehavior.MoleculeAware.hpp"
+#include "CellSim.Cells.CellBehaviorPtr.hpp"
+#include "CellSim.Cells.MoleculeAwareCellBehavior.hpp"
 
 #include "CellSim.Messages.hpp"
 
@@ -7,22 +9,66 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellBehavior::MoleculeAware::Load(::nlohmann::json const& config)
+    Cells::CellBehaviorPtr Config::CellBehavior::MoleculeAware::FromJson(
+        ::nlohmann::json const& config
+    )
     {
-        if (config.is_null()) return;
-        
-        try {
-            s_cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
-            s_degradationRate = config.at("degradationRate").get<double>();
-            s_growthRate = config.at("growthRate").get<double>();
-            s_synthesisRate = config.at("synthesisRate").get<double>();
-        }
-        catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.MoleculeAware.FromJson.Error.JsonError"
+                )
+            );
         }
 
-        if (s_cellDivisionRadius <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius"));
-        if (s_degradationRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate"));
-        if (s_synthesisRate <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate"));
+        double cellDivisionRadius;
+        double degradationRate;
+        double growthRate;
+        double synthesisRate;
+        
+        try {
+            cellDivisionRadius = config.at("cellDivisionRadius").get<double>();
+            degradationRate = config.at("degradationRate").get<double>();
+            growthRate = config.at("growthRate").get<double>();
+            synthesisRate = config.at("synthesisRate").get<double>();
+        }
+        catch (...) {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.MoleculeAware.Load.Error.JsonError"
+                )
+            );
+        }
+
+        if (cellDivisionRadius <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.MoleculeAware.Load.Error.cellDivisionRadius"
+                )
+            );
+        }
+        if (degradationRate <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.MoleculeAware.Load.Error.degradationRate"
+                )
+            );
+        }
+        if (synthesisRate <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.CellBehavior.MoleculeAware.Load.Error.synthesisRate"
+                )
+            );
+        }
+    
+        return Cells::CellBehaviorPtr::FromPointerUnsafe(
+            new Cells::MoleculeAwareCellBehavior(
+                cellDivisionRadius,
+                growthRate,
+                synthesisRate,
+                degradationRate
+            )
+        );
     }
 }
