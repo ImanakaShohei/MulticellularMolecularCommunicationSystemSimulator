@@ -16,10 +16,22 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(NetworkFormation);
 
+        class Params final {
+            public:
+
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
+
         /// @brief 接着可能な最大距離
         [[nodiscard]] static double MaxAttractionDistance() noexcept;
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(
+            ::nlohmann::json const& config
+        );
     };
 }
 

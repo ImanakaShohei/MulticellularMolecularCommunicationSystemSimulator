@@ -11,8 +11,6 @@ namespace CellSim::Model
 
         class Params : public CellSimulationModel::Params {
             public:
-
-            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j);
             
             double AdhesiveRepulsionFactor;
 

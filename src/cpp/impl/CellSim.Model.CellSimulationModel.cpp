@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Model.CellGrowthModel.hpp"
 #include "CellSim.Model.ClusterFormationModel.hpp"
 #include "CellSim.Model.ClusterRotationModel.hpp"
@@ -8,44 +9,21 @@
 #include "CellSim.Messages.hpp"
 #include "CellSim.Cells.Cell.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
-#include "CellSim.Settings.Config.CellBehavior.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
-#include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "../CellSim.Users.UserSimulationModel.hpp"
 
 #include <numbers>
 #include <random>
 #include <stdexcept>
 
-#include <nlohmann/json.hpp>
-
 namespace CellSim::Model
 {
-    CellSimulationModel::Params* CellSimulationModel::Params::FromJson(
-        ::nlohmann::json& j,
+
+    CellSimulationModel* CellSimulationModel::FromType(
         CellSimulationType type
     )
     {
-        if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.CellSimulationModel.Params.FromJson.JsonError"));
-
         switch (type) {
-            case CellSimulationType::CellGrowth:       return CellGrowthModel::Params::FromJson(j["cellGrowth"]);
-            case CellSimulationType::ClusterFormation: return ClusterFormationModel::Params::FromJson(j["clusterFormation"]);
-            case CellSimulationType::ClusterRotation:  return ClusterRotationModel::Params::FromJson(j["clusterRotation"]);
-            case CellSimulationType::ClusterSprouting: return ClusterSproutingModel::Params::FromJson(j["clusterSprouting"]);
-            case CellSimulationType::NetworkFormation: return NetworkFormationModel::Params::FromJson(j["networkFormation"]);
-            case CellSimulationType::Null:             return NullModel::Params::FromJson();
-            case CellSimulationType::User:             return Users::UserSimulationModel::Params::FromJson(j["user"]);
-            default: [[unlikely]]
-            {
-                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.Params.FromJson.TypeError"));
-            }
-        }
-    }
-
-    CellSimulationModel* CellSimulationModel::FromType(CellSimulationType type)
-    {
-        switch (Settings::Config::SimulationModel::SimulationType()) {
             case CellSimulationType::CellGrowth:       return new CellGrowthModel();
             case CellSimulationType::ClusterFormation: return new ClusterFormationModel();
             case CellSimulationType::ClusterRotation:  return new ClusterRotationModel();
@@ -55,7 +33,11 @@ namespace CellSim::Model
             case CellSimulationType::User:             return new Users::UserSimulationModel();
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument(Messages::Get("Model.CellSimulationModel.FromType.Error"));
+                throw ::std::invalid_argument(
+                    Messages::Get(
+                        "Model.CellSimulationModel.FromType.Error"
+                    )
+                );
             }
         }
     }

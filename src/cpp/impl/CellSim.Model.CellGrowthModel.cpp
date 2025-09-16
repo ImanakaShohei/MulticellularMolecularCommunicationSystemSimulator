@@ -3,42 +3,26 @@
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
 #include "CellSim.Messages.hpp"
-#include "CellSim.Settings.Config.SimulationModel.CellGrowth.hpp"
 #include "CellSim.Cells.CellInfo.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithm.hpp"
 #include "CellSim.CellAlgorithms.CellAlgorithmAffectableCellQueryArgs.hpp"
 
 #include <stdexcept>
-#include <nlohmann/json.hpp>
 
 namespace CellSim::Model
 {
-    CellGrowthModel::Params* CellGrowthModel::Params::FromJson(::nlohmann::json const& j)
-    {
-        if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.CellGrowthModel.Params.FromJson.JsonError"));
-
-        double adhesiveRepulsionFactor;
-
-        try {
-            adhesiveRepulsionFactor = j.at("adhesiveRepulsionFactor").get<double>();
-        }
-        catch (...) {
-            throw ::std::runtime_error(Messages::Get("Model.CellGrowthModel.Params.FromJson.JsonError"));
-        }
-
-        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.CellGrowth.Load.Error.adhesiveRepulsionFactor"));
-
-        return new Params(
-            adhesiveRepulsionFactor
-        );
-    }
-
     CellGrowthModel::Params::Params(
         double adhesiveRepulsionFactor
     )
         : AdhesiveRepulsionFactor(adhesiveRepulsionFactor)
     {
-        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor"));
+        if (adhesiveRepulsionFactor < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                Messages::Get(
+                    "Model.CellGrowthModel.CellGrowthModel.Error.adhesiveRepulsionFactor"
+                )
+            );
+        }
     }
 
     void CellGrowthModel::BeforeAdvanceStep(

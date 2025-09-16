@@ -1,5 +1,7 @@
 ﻿#include "CellSim.Cells.CellType.hpp"
 
+#include <stdexcept>
+
 namespace CellSim::Cells
 {
     ::std::vector<CellType::s_data> CellType::s_names;
@@ -13,7 +15,11 @@ namespace CellSim::Cells
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].Name == name) [[unlikely]] return CellType(static_cast<uint32_t>(index));
+            if (s_names[index].Name == name) [[unlikely]] {
+                throw ::std::invalid_argument(
+                    "AddNameに既に存在する名前が指定されました"
+                );
+            }
         }
 
         s_names.emplace_back(
@@ -33,7 +39,11 @@ namespace CellSim::Cells
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].Name == name) [[unlikely]] return CellType(static_cast<uint32_t>(index));
+            if (s_names[index].Name == name) [[unlikely]] {
+                throw ::std::invalid_argument(
+                    "AddNameに既に存在する名前が指定されました"
+                );
+            }
         }
 
         s_names.emplace_back(
@@ -45,11 +55,13 @@ namespace CellSim::Cells
         return CellType(static_cast<uint32_t>(s_names.size() - 1));
     }
 
-    CellType CellType::FromName(::std::string_view name) noexcept
+    CellType CellType::FromName(
+        ::std::string_view name
+    ) noexcept
     {
         // すでに名前が存在すればそのIdを返す
         for (size_t index = 0;index != s_names.size(); ++index) {
-            if (s_names[index].Name == name) [[unlikely]] return CellType(static_cast<uint32_t>(index));
+            if (s_names[index].Name == name) return CellType(static_cast<uint32_t>(index));
         }
 
         return Invalid();

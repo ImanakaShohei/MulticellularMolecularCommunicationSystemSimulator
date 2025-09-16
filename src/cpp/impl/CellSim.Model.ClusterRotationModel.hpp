@@ -12,8 +12,6 @@ namespace CellSim::Model
 
         class Params : public CellSimulationModel::Params {
             public:
-
-            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j);
             
             double AdhesionDistanceThreshold; // 細胞同士がこの値より近いと接着力が働く
             double AdhesionForceFactor; // 接着力にかける係数

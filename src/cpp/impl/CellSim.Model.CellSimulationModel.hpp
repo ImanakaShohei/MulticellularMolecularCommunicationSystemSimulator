@@ -4,7 +4,6 @@
 #include "base.hpp"
 
 #include <vector>
-#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Model
 {
@@ -23,8 +22,6 @@ namespace CellSim::Model
             Params& operator=(Params&&) = default;
             public:
             virtual ~Params() = default;
-
-            [[nodiscard]] static Params* FromJson(::nlohmann::json& j, CellSimulationType type);
         };
 
         virtual ~CellSimulationModel() = default;
@@ -32,7 +29,9 @@ namespace CellSim::Model
         /// @brief CellSimulationTypeからインスタンスを作成
         /// @param type 種類
         /// @return インスタンス
-        [[nodiscard]] static CellSimulationModel* FromType(CellSimulationType type);
+        [[nodiscard]] static CellSimulationModel* FromType(
+            CellSimulationType type
+        );
 
         /// @brief 前処理
         /// @param sender このメンバー関数を呼んだインスタンス

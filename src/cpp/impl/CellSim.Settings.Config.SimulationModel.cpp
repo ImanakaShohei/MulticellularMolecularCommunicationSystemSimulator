@@ -13,9 +13,49 @@
 
 namespace CellSim::Settings
 {
-    void Config::SimulationModel::Load(::nlohmann::json& config)
+    Model::CellSimulationModel::Params* Config::SimulationModel::Params::FromJson(
+        ::nlohmann::json& j,
+        Model::CellSimulationType type
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.JsonError"));
+        if (j.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Model.CellSimulationModel.Params.FromJson.JsonError"
+                )
+            );
+        }
+
+        switch (type) {
+            case Model::CellSimulationType::CellGrowth:       return CellGrowth::Params::FromJson(j["cellGrowth"]);
+            case Model::CellSimulationType::ClusterFormation: return ClusterFormation::Params::FromJson(j["clusterFormation"]);
+            case Model::CellSimulationType::ClusterRotation:  return ClusterRotation::Params::FromJson(j["clusterRotation"]);
+            case Model::CellSimulationType::ClusterSprouting: return ClusterSprouting::Params::FromJson(j["clusterSprouting"]);
+            case Model::CellSimulationType::NetworkFormation: return NetworkFormation::Params::FromJson(j["networkFormation"]);
+            case Model::CellSimulationType::Null:             return nullptr;
+            case Model::CellSimulationType::User:             return User::Params::FromJson(j["user"]);
+            default: [[unlikely]]
+            {
+                throw ::std::invalid_argument(
+                    Messages::Get(
+                        "Model.CellSimulationModel.Params.FromJson.TypeError"
+                    )
+                );
+            }
+        }
+    }
+
+    void Config::SimulationModel::Load(
+        ::nlohmann::json& config
+    )
+    {
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.SimulationModel.Load.Error.JsonError"
+                )
+            );
+        }
 
         ::std::string s;
 
@@ -23,7 +63,11 @@ namespace CellSim::Settings
             s = config.at("simulationType").get<::std::string>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.SimulationModel.Load.Error.JsonError"
+                )
+            );
         }
 
         if (s == "CellGrowth") s_simulationType = Model::CellSimulationType::CellGrowth;
@@ -33,14 +77,13 @@ namespace CellSim::Settings
         else if (s == "NetworkFormation") s_simulationType = Model::CellSimulationType::NetworkFormation;
         else if (s == "Null") s_simulationType = Model::CellSimulationType::Null;
         else if (s == "User") s_simulationType = Model::CellSimulationType::User;
-        else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.Load.Error.simulationType"));
-
-        CellGrowth::Load(config["cellGrowth"]);
-        ClusterFormation::Load(config["clusterFormation"]);
-        ClusterRotation::Load(config["clusterRotation"]);
-        ClusterSprouting::Load(config["clusterSprouting"]);
-        NetworkFormation::Load(config["networkFormation"]);
-        User::Load(config["user"]);
+        else [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get(
+                    "Settings.Config.SimulationModel.Load.Error.simulationType"
+                )
+            );
+        }
         
     }
 }

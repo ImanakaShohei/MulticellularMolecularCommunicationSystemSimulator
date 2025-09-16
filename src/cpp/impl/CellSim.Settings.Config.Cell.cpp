@@ -1,7 +1,6 @@
 ﻿#include "CellSim.Settings.Config.Cell.hpp"
 #include "CellSim.Settings.Config.SimulationModel.hpp"
 #include "CellSim.Settings.Config.CellBehavior.hpp"
-#include "CellSim.Model.CellSimulationModel.hpp"
 #include "CellSim.Messages.hpp"
 
 #include <nlohmann/json.hpp>
@@ -37,7 +36,7 @@ namespace CellSim::Settings
                 info.Type = Cells::CellType::AddName(
                     obj.at("typeName").get<::std::string>(),
                     Graphics::Color(obj.at("color").get<::std::string>()),
-                    Model::CellSimulationModel::Params::FromJson(
+                    SimulationModel::Params::FromJson(
                         obj.at("modelParameters"),
                         simulationType
                     )

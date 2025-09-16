@@ -13,13 +13,17 @@ namespace CellSim::Settings
         public:
 
         CELLSIM_STATIC_CLASS(ClusterFormation);
+        
+        class Params final {
+            public:
 
-        static void Load(::nlohmann::json const& config);
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
     };
-}
-
-namespace CellSim::Settings
-{
 }
 
 #endif //!CELLSIM_SETTINGS_CONFIG_SIMULATIONMODEL_CLUSTERFORMATION_HPP

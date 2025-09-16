@@ -15,12 +15,16 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(ClusterRotation);
 
-        static void Load(::nlohmann::json const& config);
-    };
-}
+        class Params final {
+            public:
 
-namespace CellSim::Settings
-{
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
+    };
 }
 
 #endif //!CELLSIM_SETTINGS_CONFIG_SIMULATIONMODEL_CLUSTERROTATION_HPP

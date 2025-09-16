@@ -2,7 +2,8 @@
 #define CELLSIM_SETTINGS_CONFIG_SIMULATIONMODEL_HPP
 
 #include "base.hpp"                   
-#include "CellSim.Model.CellSimulationType.hpp"                                                                                                                              
+#include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Settings.Config.hpp"
 
 #include <nlohmann/json_fwd.hpp>
@@ -23,12 +24,24 @@ namespace CellSim::Settings
         class NetworkFormation;
         class User;
 
+        class Params final {
+            public:
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json& j,
+                Model::CellSimulationType type
+            );
+        };
+
         CELLSIM_STATIC_CLASS(SimulationModel);
 
         /// @brief モデルの種類
         [[nodiscard]] static Model::CellSimulationType SimulationType() noexcept;
 
-        static void Load(::nlohmann::json& config);
+        static void Load(
+            ::nlohmann::json& config
+        );
     };
 }
 

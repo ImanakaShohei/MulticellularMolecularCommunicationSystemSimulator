@@ -14,6 +14,8 @@
 - `cell.enableGrowth`がfalseの時に、細胞分裂も無効になるように変更
 - CellBehaviorのパラメータを細胞の種類ごとに設定できるように変更
 - 最大スレッド数を512に制限
+- 設定ファイルのmolecularのMoleculeBehaviorのパラメータの記述方法を変更
+- CellTypeに同じ名前を指定するとエラーになるように変更
 ### 破壊的変更
 - 
 ### 不具合修正

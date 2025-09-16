@@ -18,11 +18,22 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(ClusterSprouting);
 
+        class Params final {
+            public:
+
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
+
         /// @brief 細胞同士がこの値より近づくと反発力が発生
         [[nodiscard]] static double ContactDistance() noexcept;
         
-
-        static void Load(::nlohmann::json const& config);
+        static void Load(
+            ::nlohmann::json const& config
+        );
     };
 }
 

@@ -127,8 +127,10 @@
             "moleculeAmount": 300000,
             "moleculeKind": "Molecule1",
 
-            "normalBehavior": {
-                "diffusionFactor": 0.1
+            "behaviorParameters": {
+                "normalBehavior": {
+                    "diffusionFactor": 0.1
+                }
             }
         }
     ]

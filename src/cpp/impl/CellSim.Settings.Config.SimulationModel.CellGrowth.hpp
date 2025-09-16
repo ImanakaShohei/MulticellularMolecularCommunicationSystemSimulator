@@ -14,12 +14,16 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(CellGrowth);
 
-        static void Load(::nlohmann::json const& config);
-    };
-}
+        class Params final {
+            public:
 
-namespace CellSim::Settings
-{
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
+    };
 }
 
 #endif //!CELLSIM_SETTINGS_CONFIG_SIMULATIONMODEL_CELLGROWTHMODEL_HPP

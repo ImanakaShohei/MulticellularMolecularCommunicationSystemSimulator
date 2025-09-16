@@ -15,56 +15,9 @@
 #include <numbers>
 #include <random>
 #include <stdexcept>
-#include <nlohmann/json.hpp>
 
 namespace CellSim::Model
 {
-    ClusterSproutingModel::Params* ClusterSproutingModel::Params::FromJson(::nlohmann::json const& j)
-    {
-        if (j.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Model.ClusterSproutingModel.Params.FromJson.JsonError"));
-
-        size_t adhesionThreshold;
-        double coefficientCd;
-        double followerAttractionFactor;
-        double globalAttractionFactor;
-        double lambda;
-        double leaderRepulsionFactor;
-        double leaderRepulsionMaxDistance;
-        double leaderRepulsionMinDistance;
-
-        try {
-            adhesionThreshold = j.at("adhesionThreshold").get<size_t>();
-            coefficientCd = j.at("coefficientCd").get<double>();
-            followerAttractionFactor = j.at("followerAttractionFactor").get<double>();
-            globalAttractionFactor = j.at("globalAttractionFactor").get<double>();
-            lambda = j.at("lambda").get<double>();
-            leaderRepulsionFactor = j.at("leaderRepulsionFactor").get<double>();
-            leaderRepulsionMaxDistance = j.at("leaderRepulsionMaxDistance").get<double>();
-            leaderRepulsionMinDistance = j.at("leaderRepulsionMinDistance").get<double>();
-        }
-        catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.JsonError"));
-        }
-
-        if (coefficientCd < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.coefficientCd"));
-        if (followerAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.followerAttractionFactor"));
-        if (globalAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.globalAttractionFactor"));
-        if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.lambda"));
-        if (leaderRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionFactor"));
-        if (leaderRepulsionMaxDistance < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMaxDistance"));
-        if (leaderRepulsionMinDistance < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Settings.Config.SimulationModel.ClusterSprouting.Load.Error.leaderRepulsionMinDistance"));
-        
-        return new Params(
-            adhesionThreshold,
-            coefficientCd,
-            followerAttractionFactor,
-            globalAttractionFactor,
-            lambda,
-            leaderRepulsionFactor,
-            leaderRepulsionMaxDistance,
-            leaderRepulsionMinDistance
-        );
-    }
 
     ClusterSproutingModel::Params::Params(
         size_t adhesionThreshold,
@@ -86,15 +39,47 @@ namespace CellSim::Model
         , LeaderRepulsionMinDistance(leaderRepulsionMinDistance)
         , LeaderRepulsionRange(leaderRepulsionMaxDistance - leaderRepulsionMinDistance)
     {
-        if (coefficientCd < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'coefficientCd' must be greater than or equal to zero.");
-        if (followerAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'followerAttractionFactor' must be greater than or equal to zero.");
-        if (globalAttractionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'globalAttractionFactor' must be greater than or equal to zero.");
-        if (lambda == 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'lambda' must be non-zero.");
-        if (leaderRepulsionFactor < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionFactor' must be greater than or equal to zero.");
-        if (leaderRepulsionMaxDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMaxDistance' must be greater than or equal to zero.");
-        if (leaderRepulsionMinDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'leaderRepulsionMinDistance' must be greater than or equal to zero.");
+        if (coefficientCd < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'coefficientCd' must be greater than or equal to zero."
+            );
+        }
+        if (followerAttractionFactor < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'followerAttractionFactor' must be greater than or equal to zero."
+            );
+        }
+        if (globalAttractionFactor < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'globalAttractionFactor' must be greater than or equal to zero."
+            );
+        }
+        if (lambda == 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'lambda' must be non-zero."
+            );
+        }
+        if (leaderRepulsionFactor < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'leaderRepulsionFactor' must be greater than or equal to zero."
+            );
+        }
+        if (leaderRepulsionMaxDistance < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'leaderRepulsionMaxDistance' must be greater than or equal to zero."
+            );
+        }
+        if (leaderRepulsionMinDistance < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'leaderRepulsionMinDistance' must be greater than or equal to zero."
+            );
+        }
         
-        if (LeaderRepulsionRange <= 0.0) [[unlikely]] throw ::std::invalid_argument("'leaderRepulsionMinDistance' must be less than 'leaderRepulsionMaxDistance'.");
+        if (LeaderRepulsionRange <= 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "'leaderRepulsionMinDistance' must be less than 'leaderRepulsionMaxDistance'."
+            );
+        }
     }
 
     ClusterSproutingModel::ClusterSproutingModel()
@@ -108,7 +93,11 @@ namespace CellSim::Model
         : m_contactDistance(contactDistance)
         , m_squareContactDistance(contactDistance * contactDistance)
     {
-        if (contactDistance < 0.0) [[unlikely]] throw ::std::invalid_argument("The parameter 'contactDistance' must be greater than or equal to zero.");
+        if (contactDistance < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "The parameter 'contactDistance' must be greater than or equal to zero."
+            );
+        }
     }
 
     void ClusterSproutingModel::BeforeAdvanceStep(

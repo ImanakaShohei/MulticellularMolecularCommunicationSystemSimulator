@@ -17,9 +17,21 @@ namespace CellSim::Settings
 
         CELLSIM_STATIC_CLASS(User);
 
+        class Params final {
+            public:
+
+            CELLSIM_STATIC_CLASS(Params);
+
+            [[nodiscard]] static Model::CellSimulationModel::Params* FromJson(
+                ::nlohmann::json const& j
+            );
+        };
+
         // TODO: ここにゲッターを追加します
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(
+            ::nlohmann::json const& config
+        );
     };
 }
 

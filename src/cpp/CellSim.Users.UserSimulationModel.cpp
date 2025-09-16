@@ -17,11 +17,6 @@ using namespace nlohmann;
 
 namespace CellSim::Users
 {
-    UserSimulationModel::Params* UserSimulationModel::Params::FromJson([[maybe_unused]] json const& j)
-    {
-        return new Params();
-    }
-
     UserSimulationModel::UserSimulationModel()
     {
         // TODO: ここに処理を追加します

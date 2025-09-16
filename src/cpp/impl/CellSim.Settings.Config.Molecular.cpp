@@ -49,7 +49,7 @@ namespace CellSim::Settings
 
                 if (colorIntensityThreshold <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.colorIntensityThreshold"));
 
-                info.Behavior = ::std::unique_ptr<::CellSim::Molecular::MoleculeBehavior>(Behavior::FromJson(obj, behaviorkind));
+                info.Behavior = ::std::unique_ptr<::CellSim::Molecular::MoleculeBehavior>(Behavior::FromJson(obj["behaviorParameters"], behaviorkind));
                 info.BoundaryCondition = boundaryCondition;
                 info.InitialDistribution = initialDistribution;
                 info.GridCount = obj.at("gridCount").get<size_t>();

@@ -348,16 +348,20 @@
                     "type": "string",
                     "enum": [ "Normal", "Null", "User" ]
                 },
-
-                "normalBehavior": {
+                "behaviorParameters": {
                     "type": "object",
                     "properties": {
-                        "diffusionFactor": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
+                        "normalBehavior": {
+                            "type": "object",
+                            "properties": {
+                                "diffusionFactor": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                }
+                            },
+                            "required": [ "diffusionFactor" ]
                         }
-                    },
-                    "required": [ "diffusionFactor" ]
+                    }
                 }
             },
             "required": [
@@ -367,7 +371,8 @@
                 "gridCount",
                 "initialDistribution",
                 "moleculeAmount",
-                "moleculeKind"
+                "moleculeKind",
+                "behaviorParameters"
             ]
         }
     },
@@ -531,7 +536,9 @@
                     ]
                 }
             },
-            "required": [ "simulationType" ]
+            "required": [
+                "simulationType"
+            ]
         }
     },
     "required": [

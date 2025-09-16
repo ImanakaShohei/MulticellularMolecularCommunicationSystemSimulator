@@ -19,8 +19,6 @@ namespace CellSim::Model
         class Params : public CellSimulationModel::Params {
             public:
 
-            [[nodiscard]] static Params* FromJson(::nlohmann::json const& j);
-
             double AdhesiveRepulsionFactor; //接着している細胞間に働く反発力にかける係数
             double AttractionFactor; //接着している細胞間に働く引力にかける係数
             double Lambda; //力の届く範囲を決める値
