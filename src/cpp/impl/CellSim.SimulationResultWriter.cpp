@@ -8,6 +8,7 @@
 #include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
+#include "CellSim.Version.hpp"
 
 #include <fstream>
 #include <optional>
@@ -17,7 +18,8 @@
 namespace CellSim
 {
     ::std::string SimulationResultWriter::s_createFilePath(
-        uint64_t step, uint32_t digits,
+        uint64_t step,
+        uint32_t digits,
         ::std::string const& parentPath,
         ::std::string_view extension
     )
@@ -575,7 +577,7 @@ namespace CellSim
 
     }
 
-    void SimulationResultWriter::SaveConfig(
+    void SimulationResultWriter::SaveResult(
         uint64_t totalStep,
         size_t initialCellCount,
         int64_t totalMilliSeconds,
@@ -583,13 +585,34 @@ namespace CellSim
         CellAlgorithms::CellAlgorithmType algorithmType
     )
     {
-        ::std::ofstream ofs(m_option.OutputPath() + "config.txt");
+        ::std::ofstream ofs(m_option.OutputPath() + "result.txt");
 
-        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.txt file");
+        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create result.txt file");
 
-        ofs << "Initial cell count      : " << initialCellCount << ::std::endl;
-        ofs << "Total processing time   : " << totalMilliSeconds << " milliseconds" << ::std::endl;
-        ofs << "Average processing time : " << ((double)totalMilliSeconds / totalStep) << " milliseconds" << ::std::endl;
+        ofs << "Version                 : "
+            << Version::Major()
+            << '.'
+            << Version::Minor()
+            << '.'
+            << Version::Patch()
+            << ' '
+            << Version::Extension()
+            << ::std::endl;
+        
+        ofs << "Initial cell count      : "
+            << initialCellCount
+            << ::std::endl;
+        
+        ofs << "Total processing time   : "
+            << totalMilliSeconds
+            << " milliseconds"
+            << ::std::endl;
+
+        ofs << "Average processing time : "
+            << (static_cast<double>(totalMilliSeconds) / totalStep)
+            << " milliseconds"
+            << ::std::endl;
+
         ofs << "Simulation model        : ";
 
         switch (simulationType) {
@@ -607,16 +630,27 @@ namespace CellSim
         ofs << "Algorithm               : ";
 
         switch (algorithmType) {
-            case CellAlgorithms::CellAlgorithmType::BarnesHut: ofs << "BarnesHut"; break;
-            case CellAlgorithms::CellAlgorithmType::CellList: ofs << "CellList"; break;
-            case CellAlgorithms::CellAlgorithmType::Naive: ofs << "Naive"; break;
-            case CellAlgorithms::CellAlgorithmType::Null: ofs << "Null"; break;
+            case CellAlgorithms::CellAlgorithmType::BarnesHut:    ofs << "BarnesHut";    break;
+            case CellAlgorithms::CellAlgorithmType::CellList:     ofs << "CellList";     break;
+            case CellAlgorithms::CellAlgorithmType::Naive:        ofs << "Naive";        break;
+            case CellAlgorithms::CellAlgorithmType::Null:         ofs << "Null";         break;
             case CellAlgorithms::CellAlgorithmType::ParticleMesh: ofs << "ParticleMesh"; break;
-            case CellAlgorithms::CellAlgorithmType::User: ofs << "User"; break;
+            case CellAlgorithms::CellAlgorithmType::User:         ofs << "User";         break;
         }
 
         if (Settings::Config::CellAlgorithm::UseClusterModel()) ofs << "+Cluster";
         
         ofs << ::std::endl;
+    }
+
+    void SimulationResultWriter::SaveConfig(
+        ::nlohmann::json const& j
+    ) const
+    {
+        ::std::ofstream ofs(m_option.OutputPath() + "config.json");
+
+        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.json file");
+
+        ofs << j.dump(4);
     }
 }

@@ -146,9 +146,10 @@ namespace CellSim::Cli
                 pParamOption->OverrideParameter(config);
             }
 
-            Settings::Config::Load(config);
-
-            Simulation sim(CreateSimulationOption());
+            Simulation sim(
+                CreateSimulationOption(),
+                ::std::move(config)
+            );
 
             sim.Run();
         }

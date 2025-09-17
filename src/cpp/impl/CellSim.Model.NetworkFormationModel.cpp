@@ -96,7 +96,7 @@ namespace CellSim::Model
         : m_maxAttractionDistance(maxAttractionDistance)
         , m_squareMaxAttractionDistance(maxAttractionDistance * maxAttractionDistance)
         , m_cellList(
-            (size_t)(Settings::Config::Simulation::FieldRadius() / maxAttractionDistance) + 1,
+            static_cast<size_t>(Settings::Config::Simulation::FieldRadius() / maxAttractionDistance) + 1,
             Settings::Config::Simulation::Enable2dMode(),
             maxAttractionDistance
         )

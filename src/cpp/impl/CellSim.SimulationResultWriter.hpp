@@ -10,6 +10,7 @@
 #include <string_view>
 #include <vector>
 #include <opencv2/opencv.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim
 {
@@ -115,13 +116,17 @@ namespace CellSim
             uint64_t step
         );
 
-        void SaveConfig(
+        void SaveResult(
             uint64_t totalStep,
             size_t initialCellCount,
             int64_t totalMilliSeconds,
             Model::CellSimulationType simulationType,
             CellAlgorithms::CellAlgorithmType algorithmType
         );
+
+        void SaveConfig(
+            ::nlohmann::json const& j
+        ) const;
     };
 }
 

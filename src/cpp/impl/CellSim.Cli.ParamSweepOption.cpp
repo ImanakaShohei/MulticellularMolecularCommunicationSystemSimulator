@@ -70,8 +70,6 @@ namespace CellSim::Cli
         auto f = [&] (TNum current) {
             *j = current;
 
-            Settings::Config::Load(config);
-
             ::std::ostringstream sout;
             sout << path << paramName << '=' << current << '/';
 
@@ -96,7 +94,7 @@ namespace CellSim::Cli
                     ::std::move(path)
                 };
 
-                Simulation simulation{ ::std::move(option) };
+                Simulation simulation{ ::std::move(option), config };
 
                 simulation.Run();
             }
@@ -128,14 +126,18 @@ namespace CellSim::Cli
 
         size_t index = paramView.find('=');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] {
+            throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        }
 
         paramView = paramView.substr(index + 1);
         ::std::string paramName = current->substr(0, index);
 
         index = paramView.find(':');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] {
+            throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        }
 
         ::std::string_view first = paramView.substr(0, index);
 
@@ -143,7 +145,9 @@ namespace CellSim::Cli
 
         index = paramView.find(':');
 
-        if (index == ::std::string_view::npos) [[unlikely]] throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        if (index == ::std::string_view::npos) [[unlikely]] {
+            throw ::std::runtime_error("Cli.ParamSweepOption.Run.Error");
+        }
 
         ::std::string_view second = paramView.substr(0, index);
 
@@ -155,7 +159,9 @@ namespace CellSim::Cli
         if (second.find('.') != ::std::string_view::npos) isFloatingPoint = true;
         if (third.find('.') != ::std::string_view::npos) isFloatingPoint = true;
 
-        ::nlohmann::json config = Settings::Config::OpenJsonFile(args.Options->at(CliOptionType::Setting)->Value());
+        ::nlohmann::json config = Settings::Config::OpenJsonFile(
+            args.Options->at(CliOptionType::Setting)->Value()
+        );
 
         auto pParamOption = static_cast<ParamOption*>(args.Options->at(CliOptionType::Param));
 

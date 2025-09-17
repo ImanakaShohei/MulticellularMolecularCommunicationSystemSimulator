@@ -163,7 +163,12 @@ namespace CellSim
         }
 
         m_pCellSimulationModel->OnAdvanceStep(this, { &m_cells, &m_molecules });
-        if (m_pCellSimulationModel->UseCellAlgorithm()) m_pCellAlgorithm->OnAdvanceStep(this, { &m_cells, &m_molecules });
+        if (m_pCellSimulationModel->UseCellAlgorithm()) {
+            m_pCellAlgorithm->OnAdvanceStep(
+                this,
+                { &m_cells, &m_molecules }
+            );
+        }
         
         for (Molecular::MoleculeField& field : m_molecules) {
             field.OnAdvanceStep(m_cells);
@@ -200,7 +205,9 @@ namespace CellSim
     {
         // 最適化アルゴリズムを使用するときだけCellAlgorithmインスタンスを作成
         if (m_pCellSimulationModel->UseCellAlgorithm()) {
-            m_pCellAlgorithm = CellAlgorithms::CellAlgorithm::FromType(Settings::Config::CellAlgorithm::AlgorithmType());
+            m_pCellAlgorithm = CellAlgorithms::CellAlgorithm::FromType(
+                Settings::Config::CellAlgorithm::AlgorithmType()
+            );
 
             m_overrideForceComputation = m_pCellAlgorithm->OverrideForceComputation();
 
@@ -209,7 +216,10 @@ namespace CellSim
             }
 
             if (Settings::Config::CellAlgorithm::UseClusterModel()) {
-                if (Settings::Config::CellAlgorithm::AlgorithmType() == CellAlgorithms::CellAlgorithmType::CellList) {
+                if (
+                    Settings::Config::CellAlgorithm::AlgorithmType() ==
+                    CellAlgorithms::CellAlgorithmType::CellList
+                ) {
                     m_pCellList = static_cast<CellAlgorithms::CellList*>(m_pCellAlgorithm);
                 }
                 else {
@@ -230,25 +240,29 @@ namespace CellSim
     }
 
     Simulation::Simulation(
-        SimulationOption option
+        SimulationOption option,
+        ::nlohmann::json config
     )
         : m_cells()
+        , m_config(::std::move(config))
         , m_enableMultithreading(true)
         , m_molecules()
         , m_overrideInteraction(false)
         , m_overrideForceComputation(false)
         , m_pCellAlgorithm(nullptr)
         , m_pCellList(nullptr)
-        , m_pCellSimulationModel(
-            Model::CellSimulationModel::FromType(
-                Settings::Config::SimulationModel::SimulationType()
-            )
-        )
+        , m_pCellSimulationModel(nullptr)
         , m_writer(::std::move(option))
     {
         s_current = this;
 
         ::puts(Messages::Get("Simulation.Simulation.Initializing").c_str());
+
+        Settings::Config::Load(m_config);
+
+        m_pCellSimulationModel = Model::CellSimulationModel::FromType(
+            Settings::Config::SimulationModel::SimulationType()
+        );
 
         m_initializeCellAlgorithm();
         
@@ -276,7 +290,10 @@ namespace CellSim
         delete m_pCellSimulationModel;
         if (Settings::Config::CellAlgorithm::UseClusterModel()) delete m_pCellList;
 
-        if (m_pCellAlgorithm != nullptr && Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList) delete m_pCellAlgorithm;
+        if (
+            m_pCellAlgorithm != nullptr &&
+            Settings::Config::CellAlgorithm::AlgorithmType() != CellAlgorithms::CellAlgorithmType::CellList
+        ) delete m_pCellAlgorithm;
     }
 
     void Simulation::Run()
@@ -301,7 +318,11 @@ namespace CellSim
                 m_writer.Save(*this, step);
             }
 
-            if (::std::chrono::duration_cast<::std::chrono::milliseconds>(::std::chrono::system_clock::now() - currentClock).count() >= 250) {
+            if (
+                ::std::chrono::duration_cast<::std::chrono::milliseconds>(
+                    ::std::chrono::system_clock::now() - currentClock
+                ).count() >= 250
+            ) {
                 ::printf("%llu/%llu\n", step, totalStep);
                 currentClock = ::std::chrono::system_clock::now();
             }
@@ -312,13 +333,15 @@ namespace CellSim
 
         uint64_t totalCellCount = 0;
 
-        m_writer.SaveConfig(
+        m_writer.SaveResult(
             totalStep,
             Settings::Config::Cell::TotalCellCount(),
             ::std::chrono::duration_cast<::std::chrono::milliseconds>(currentClock - beginClock).count(),
             Settings::Config::SimulationModel::SimulationType(),
             Settings::Config::CellAlgorithm::AlgorithmType()
         );
+
+        m_writer.SaveConfig(m_config);
 
         ::puts(Messages::Get("Simulation.Run.Completed").c_str());
     }
