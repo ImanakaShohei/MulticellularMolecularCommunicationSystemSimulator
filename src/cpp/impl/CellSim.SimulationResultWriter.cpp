@@ -343,12 +343,11 @@ namespace CellSim
 
     SimulationResultWriter::SimulationResultWriter(SimulationOption option)
         : m_option(::std::move(option))
-        , m_digits(s_log10(Settings::Config::Simulation::TotalSteps()))
-        , m_imageSize(Settings::Config::Simulation::ImageSize())
-        , m_scale(Settings::Config::Simulation::ImageSize() / 2 / Settings::Config::Simulation::FieldRadius())
+        , m_digits(0)
+        , m_imageSize(0)
+        , m_scale(0)
         , m_videoWriter()
     {
-        m_initialize();
     }
 
     SimulationResultWriter::~SimulationResultWriter()
@@ -362,6 +361,15 @@ namespace CellSim
         for (auto& pair : m_moleculeVideos) {
             f(pair.second);
         }
+    }
+
+    void SimulationResultWriter::Initialize()
+    {
+        m_digits = s_log10(Settings::Config::Simulation::TotalSteps());
+        m_imageSize = Settings::Config::Simulation::ImageSize();
+        m_scale = Settings::Config::Simulation::ImageSize() / 2 / Settings::Config::Simulation::FieldRadius();
+
+        m_initialize();
     }
 
     void SimulationResultWriter::InitializeMoleculeData(::std::vector<Molecular::MoleculeField> const& fields)

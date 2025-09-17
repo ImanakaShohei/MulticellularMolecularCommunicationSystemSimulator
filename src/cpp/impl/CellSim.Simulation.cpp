@@ -188,6 +188,7 @@ namespace CellSim
         ::puts(Messages::Get("Simulation.Simulation.Initializing").c_str());
 
         Settings::Config::Load(m_config);
+        m_writer.Initialize();
 
         m_pCellSimulationModel = Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType());
 
