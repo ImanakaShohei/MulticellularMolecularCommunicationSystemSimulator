@@ -107,6 +107,9 @@ namespace CellSim
             SimulationResultWriter const&
         ) = delete;
 
+        /// @brief Settings::Config::Load()を読んだ後にこれを呼ぶ
+        void Initialize();
+
         void InitializeMoleculeData(
             ::std::vector<Molecular::MoleculeField> const& fields
         );
