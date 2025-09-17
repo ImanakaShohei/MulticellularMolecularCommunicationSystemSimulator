@@ -8,6 +8,7 @@
 #include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Settings.Config.CellAlgorithm.hpp"
 #include "CellSim.Settings.Config.Simulation.hpp"
+#include "CellSim.Version.hpp"
 
 #include <fstream>
 #include <optional>
@@ -447,7 +448,7 @@ namespace CellSim
 
     }
 
-    void SimulationResultWriter::SaveConfig(
+    void SimulationResultWriter::SaveResult(
         uint64_t totalStep,
         size_t initialCellCount,
         int64_t totalMilliSeconds,
@@ -459,6 +460,7 @@ namespace CellSim
 
         if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.txt file");
 
+        ofs << "Version                 : " << Version::Major() << '.' << Version::Minor() << '.' << Version::Patch() << ' ' << Version::Extension() << ::std::endl;
         ofs << "Initial cell count      : " << initialCellCount << ::std::endl;
         ofs << "Total processing time   : " << totalMilliSeconds << " milliseconds" << ::std::endl;
         ofs << "Average processing time : " << ((double)totalMilliSeconds / totalStep) << " milliseconds" << ::std::endl;
@@ -490,5 +492,14 @@ namespace CellSim
         if (Settings::Config::CellAlgorithm::UseClusterModel()) ofs << "+Cluster";
         
         ofs << ::std::endl;
+    }
+
+    void SimulationResultWriter::SaveConfig(::nlohmann::json const& j) const
+    {
+        ::std::ofstream ofs(m_option.OutputPath() + "config.json");
+
+        if (!ofs) [[unlikely]] throw ::std::runtime_error("Failed to create config.json file");
+
+        ofs << j.dump(4);
     }
 }

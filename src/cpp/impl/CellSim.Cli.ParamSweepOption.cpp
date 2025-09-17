@@ -47,8 +47,6 @@ namespace CellSim::Cli
 
             *j = current;
 
-            Settings::Config::Load(config);
-
             ::std::ostringstream sout;
             sout << args.Options->at(CliOptionType::Output)->Value() << paramName << '=' << current;
 
@@ -64,7 +62,7 @@ namespace CellSim::Cli
                 ::std::move(path)
             };
 
-            Simulation simulation{ ::std::move(option) };
+            Simulation simulation{ ::std::move(option), config };
 
             simulation.Run();
         }

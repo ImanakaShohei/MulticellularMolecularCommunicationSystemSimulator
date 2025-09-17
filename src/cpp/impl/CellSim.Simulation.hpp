@@ -7,6 +7,8 @@
 #include "CellSim.Molecular.MoleculeField.hpp"
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 namespace CellSim
 {
     /// @brief シミュレーション実行クラス
@@ -20,6 +22,9 @@ namespace CellSim
 
         /// @brief 細胞リスト
         ::std::vector<Cells::Cell> m_cells;
+
+        /// @brief 設定
+        ::nlohmann::json m_config;
 
         /// @brief 複数スレッドによる処理をするかどうか
         bool m_enableMultithreading;
@@ -62,7 +67,7 @@ namespace CellSim
         [[nodiscard]] static const Simulation* Current() noexcept;
 
         /// @brief 初期化
-        Simulation(SimulationOption option);
+        Simulation(SimulationOption option, ::nlohmann::json config);
         Simulation(Simulation const&) = delete;
 
         ~Simulation();

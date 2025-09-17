@@ -169,19 +169,27 @@ namespace CellSim
         }
     }
 
-    Simulation::Simulation(SimulationOption option)
-    : m_cells()
-    , m_enableMultithreading(true)
-    , m_molecules()
-    , m_overrideForceComputation(false)
-    , m_pCellAlgorithm(nullptr)
-    , m_pCellList(nullptr)
-    , m_pCellSimulationModel(Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType()))
-    , m_writer(::std::move(option))
+    Simulation::Simulation(
+        SimulationOption option,
+        ::nlohmann::json config
+    )
+        : m_cells()
+        , m_config(::std::move(config))
+        , m_enableMultithreading(true)
+        , m_molecules()
+        , m_overrideForceComputation(false)
+        , m_pCellAlgorithm(nullptr)
+        , m_pCellList(nullptr)
+        , m_pCellSimulationModel(nullptr)
+        , m_writer(::std::move(option))
     {
         s_current = this;
 
         ::puts(Messages::Get("Simulation.Simulation.Initializing").c_str());
+
+        Settings::Config::Load(m_config);
+
+        m_pCellSimulationModel = Model::CellSimulationModel::FromType(Settings::Config::SimulationModel::SimulationType());
 
         m_initializeCellAlgorithm();
         
@@ -245,7 +253,7 @@ namespace CellSim
 
         uint64_t totalCellCount = 0;
 
-        m_writer.SaveConfig(
+        m_writer.SaveResult(
             totalStep,
             Settings::Config::Cell::TotalCellCount(),
             ::std::chrono::duration_cast<::std::chrono::milliseconds>(currentClock - beginClock).count(),
