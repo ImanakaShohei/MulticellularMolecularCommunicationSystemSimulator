@@ -16,19 +16,33 @@ namespace CellSim
         static bool s_loaded;
         static ::std::map<::std::string, ::std::string> s_map;
         
-        static void s_getLanguage(char(&arr)[3]);
+        static void s_getLanguage(
+            char(&arr)[3]
+        );
 
-        static void s_loadMessages(::std::string const& folderPath, ::std::string_view fileName);
-        static void s_loadSingleMessage(::std::string const& folderPath, ::std::string_view fileName, ::std::string messageName);
+        static void s_loadMessages(
+            ::std::string const& folderPath,
+            ::std::string_view fileName
+        );
 
-        static void s_setMessage(::std::string_view languageName);
+        static void s_loadSingleMessage(
+            ::std::string const& folderPath,
+            ::std::string_view fileName,
+            ::std::string messageName
+        );
+
+        static void s_setMessage(
+            ::std::string_view languageName
+        );
 
         public:
 
         /// @brief メッセージを取得
         /// @param name メッセージ名
         /// @return メッセージ
-        static ::std::string const& Get(::std::string const& name);
+        static ::std::string const& Get(
+            ::std::string const& name
+        );
 
         static bool Initialize();
         [[nodiscard]] static bool IsInitialized() noexcept;
@@ -37,7 +51,9 @@ namespace CellSim
 
 namespace CellSim
 {
-    inline ::std::string const& Messages::Get(::std::string const& name)
+    inline ::std::string const& Messages::Get(
+        ::std::string const& name
+    )
     {
         return s_map[name];
     }

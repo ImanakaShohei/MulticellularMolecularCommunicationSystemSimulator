@@ -4,11 +4,17 @@
 
 namespace CellSim::Graphics
 {
-    Color::Color(::std::string_view value)
+    Color::Color(
+        ::std::string_view value
+    )
         : A(255)
     {
-        if (value.size() != 7) [[unlikely]] throw ::std::invalid_argument("Color::Color(::std::string_view): value.size() != 7");
-        if (value[0] != '#') [[unlikely]] throw ::std::invalid_argument("Color::Color(::std::string_view): value[0] != '#'");
+        if (value.size() != 7) [[unlikely]] {
+            throw ::std::invalid_argument("Color::Color(::std::string_view): value.size() != 7");
+        }
+        if (value[0] != '#') [[unlikely]] {
+            throw ::std::invalid_argument("Color::Color(::std::string_view): value[0] != '#'");
+        }
 
         auto f = [] (const char* p) {
             uint8_t values[2];
@@ -21,18 +27,18 @@ namespace CellSim::Graphics
                     continue;
                 }
                 if ('A' <= c &&  c <= 'F') {
-                    values[i] = (uint8_t)(c - 'A' + 10);
+                    values[i] = static_cast<uint8_t>(c - 'A' + 10);
                     continue;
                 }
                 if ('a' <= c &&  c <= 'f') {
-                    values[i] = (uint8_t)(c - 'a' + 10);
+                    values[i] = static_cast<uint8_t>(c - 'a' + 10);
                     continue;
                 }
 
                 throw ::std::invalid_argument("Color::Color(::std::string_view): invalid color value.");
             }
 
-            return (uint8_t)(values[0] * 16 + values[1]);
+            return static_cast<uint8_t>(values[0] * 16 + values[1]);
         };
 
         R = f(&value[1]);
