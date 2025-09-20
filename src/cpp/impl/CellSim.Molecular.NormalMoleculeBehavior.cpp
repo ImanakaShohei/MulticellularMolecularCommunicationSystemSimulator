@@ -49,7 +49,9 @@ namespace CellSim::Molecular
         ;
     }
 
-    void NormalMoleculeBehavior::m_applyBoundaryConditions(Containers::Span3<double> concentrations)
+    void NormalMoleculeBehavior::m_applyBoundaryConditions(
+        Containers::Span3<double> concentrations
+    )
     {
         switch (BoundaryCondition()) {
             case ::CellSim::Molecular::BoundaryCondition::Absorbing:
@@ -197,7 +199,9 @@ namespace CellSim::Molecular
         }
     }
 
-    NormalMoleculeBehavior::NormalMoleculeBehavior(double diffusionFactor)
+    NormalMoleculeBehavior::NormalMoleculeBehavior(
+        double diffusionFactor
+    )
         : m_diffusionFactor(diffusionFactor)
     {
         if (diffusionFactor < 0) [[unlikely]] throw ::std::invalid_argument("diffusionFactor must be non-negative.");

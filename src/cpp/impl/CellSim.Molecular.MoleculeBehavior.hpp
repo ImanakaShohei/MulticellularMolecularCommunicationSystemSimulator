@@ -6,7 +6,6 @@
 #include "CellSim.Containers.Span3.hpp"
 
 #include <vector>
-#include <nlohmann/json_fwd.hpp>
 
 namespace CellSim::Molecular
 {
@@ -34,19 +33,13 @@ namespace CellSim::Molecular
         MoleculeBehavior& operator=(MoleculeBehavior const&) = delete;
         MoleculeBehavior& operator=(MoleculeBehavior&& right) noexcept;
 
-        /// @brief 種類から作成
-        /// @param kind 種類
-        /// @return インスタンス
-        [[nodiscard]] static MoleculeBehavior* FromKind(MoleculeBehaviorKind kind);
-
-        [[nodiscard]] static MoleculeBehavior* FromJson(::nlohmann::json const& j);
-
         virtual void BeforeAdvanceStep(
             const MoleculeField* sender,
             MoleculeBehaviorStepArgs args
         ) = 0;
 
-        [[nodiscard]] constexpr ::CellSim::Molecular::BoundaryCondition BoundaryCondition() const noexcept;
+        [[nodiscard]] constexpr ::CellSim::Molecular::BoundaryCondition
+        BoundaryCondition() const noexcept;
 
         [[nodiscard]] constexpr Containers::Span3<double> Concentrations() noexcept;
 
@@ -78,7 +71,11 @@ namespace CellSim::Molecular
             MoleculeBehaviorStepArgs args
         ) = 0;
 
-        void SetBuffer(size_t gridCount, bool enable2dMode, ::CellSim::Molecular::BoundaryCondition boundaryCondition);
+        void SetBuffer(
+            size_t gridCount,
+            bool enable2dMode,
+            ::CellSim::Molecular::BoundaryCondition boundaryCondition
+        );
     };
 }
 
@@ -91,7 +88,8 @@ namespace CellSim::Molecular
         right.m_diffusionDeltaBuffer = nullptr;
     }
 
-    constexpr ::CellSim::Molecular::BoundaryCondition MoleculeBehavior::BoundaryCondition() const noexcept
+    constexpr ::CellSim::Molecular::BoundaryCondition
+    MoleculeBehavior::BoundaryCondition() const noexcept
     {
         return m_boundaryCondition;
     }

@@ -8,28 +8,6 @@
 
 namespace CellSim::Molecular
 {
-    MoleculeBehavior* MoleculeBehavior::FromKind(MoleculeBehaviorKind kind)
-    {
-#if 1
-        throw 1;
-#else
-        switch (kind) {
-            case MoleculeBehaviorKind::Normal: return new NormalMoleculeBehavior();
-            case MoleculeBehaviorKind::Null:   return new NullMoleculeBehavior();
-            case MoleculeBehaviorKind::User:   return new Users::UserMoleculeBehavior();
-            default: [[unlikely]]
-            {
-                throw ::std::invalid_argument("Invalid MoleculeBehaviorKind argument.");
-            }
-        }
-#endif
-    }
-
-    MoleculeBehavior* MoleculeBehavior::FromJson(::nlohmann::json const& j)
-    {
-        return nullptr;
-    }
-
     MoleculeBehavior::MoleculeBehavior() noexcept
     {
     }
@@ -52,20 +30,38 @@ namespace CellSim::Molecular
         return *this;
     }
 
-    void MoleculeBehavior::SetBuffer(size_t gridCount, bool enable2dMode, ::CellSim::Molecular::BoundaryCondition boundaryCondition)
+    void MoleculeBehavior::SetBuffer(
+        size_t gridCount,
+        bool enable2dMode,
+        ::CellSim::Molecular::BoundaryCondition boundaryCondition
+    )
     {
         m_boundaryCondition = boundaryCondition;
 
         if (enable2dMode) {
             m_diffusionDeltaBuffer = new double[gridCount * gridCount];
-            m_concentrations = Containers::Span3<double>(gridCount, gridCount, 1, m_diffusionDeltaBuffer);
+
+            m_concentrations = Containers::Span3<double>(
+                gridCount,
+                gridCount,
+                1,
+                m_diffusionDeltaBuffer
+            );
+
             m_enable2dMode = true;
             m_gridCountX = m_gridCountY = gridCount;
             m_gridCountZ = 1;
         }
         else {
             m_diffusionDeltaBuffer = new double[gridCount * gridCount * gridCount];
-            m_concentrations = Containers::Span3<double>(gridCount, gridCount, gridCount, m_diffusionDeltaBuffer);
+
+            m_concentrations = Containers::Span3<double>(
+                gridCount,
+                gridCount,
+                gridCount,
+                m_diffusionDeltaBuffer
+            );
+
             m_gridCountX = m_gridCountY = m_gridCountZ = gridCount;
             m_enable2dMode = false;
         }

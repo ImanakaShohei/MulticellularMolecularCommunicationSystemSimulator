@@ -9,7 +9,10 @@ using namespace std;
 
 namespace CellSim::Text
 {
-    nlohmann::json* JsonHelper::GetParam(json& j, string_view paramName) noexcept
+    nlohmann::json* JsonHelper::GetParam(
+        json& j,
+        string_view paramName
+    ) noexcept
     {
         size_t index = paramName.find('.');
 

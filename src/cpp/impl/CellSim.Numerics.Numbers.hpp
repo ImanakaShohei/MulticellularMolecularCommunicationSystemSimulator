@@ -12,20 +12,32 @@ namespace CellSim::Numerics
         public:
 
         template <NumberType TNum>
-        static bool ToNumber(const char* str, TNum& result) noexcept;
+        static bool ToNumber(
+            const char* str,
+            TNum& result
+        ) noexcept;
 
         template <NumberType TNum>
-        static bool ToNumber(::std::string str, TNum& result) noexcept;
+        static bool ToNumber(
+            ::std::string str,
+            TNum& result
+        ) noexcept;
 
         template <NumberType TNum>
-        static bool ToNumber(::std::string_view str, TNum& result) noexcept;
+        static bool ToNumber(
+            ::std::string_view str,
+            TNum& result
+        ) noexcept;
     };
 }
 
 namespace CellSim::Numerics
 {
     template <NumberType TNum>
-    bool Numbers::ToNumber(const char* str, TNum& result) noexcept
+    bool Numbers::ToNumber(
+        const char* str,
+        TNum& result
+    ) noexcept
     {
         if (str == nullptr) [[unlikely]] return false;
 
@@ -33,7 +45,10 @@ namespace CellSim::Numerics
     }
 
     template <NumberType TNum>
-    bool Numbers::ToNumber(::std::string_view str, TNum& result) noexcept
+    bool Numbers::ToNumber(
+        ::std::string_view str,
+        TNum& result
+    ) noexcept
     {
         return ToNumber<TNum>(::std::string(str.data(), str.size()), result);
     }

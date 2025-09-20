@@ -5,6 +5,7 @@
 
 namespace CellSim
 {
+    /// @brief CellSimのバージョン
     class Version final {
         private:
 

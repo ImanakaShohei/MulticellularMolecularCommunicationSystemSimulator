@@ -4,7 +4,10 @@
 namespace CellSim::Numerics
 {
     template <NumberType TNum>
-    bool Numbers::ToNumber(::std::string str, TNum& result) noexcept
+    bool Numbers::ToNumber(
+        ::std::string str,
+        TNum& result
+    ) noexcept
     {
         try {
             size_t size = str.size();

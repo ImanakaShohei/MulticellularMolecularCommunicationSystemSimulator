@@ -30,11 +30,15 @@ namespace CellSim::Molecular
         protected:
 
         /// @brief 境界条件に応じて境界部分を更新
-        void m_applyBoundaryConditions(Containers::Span3<double> concentrations);
+        void m_applyBoundaryConditions(
+            Containers::Span3<double> concentrations
+        );
 
         public:
 
-        NormalMoleculeBehavior(double diffusionFactor);
+        NormalMoleculeBehavior(
+            double diffusionFactor
+        );
 
         void BeforeAdvanceStep(
             const MoleculeField* sender,

@@ -102,7 +102,7 @@ namespace CellSim::Threading
 
     constexpr uint32_t StlThreadPool::ThreadCount() const noexcept
     {
-        return (uint32_t)m_workers.size();
+        return static_cast<uint32_t>(m_workers.size());
     }
 }
 

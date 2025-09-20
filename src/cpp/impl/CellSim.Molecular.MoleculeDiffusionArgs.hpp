@@ -9,13 +9,17 @@ namespace CellSim::Molecular
     struct MoleculeDiffusionArgs {
         Containers::Span3<double> Concentrations;
 
-        constexpr MoleculeDiffusionArgs(Containers::Span3<double> span) noexcept;
+        constexpr MoleculeDiffusionArgs(
+            Containers::Span3<double> span
+        ) noexcept;
     };
 }
 
 namespace CellSim::Molecular
 {
-    constexpr MoleculeDiffusionArgs::MoleculeDiffusionArgs(Containers::Span3<double> span) noexcept
+    constexpr MoleculeDiffusionArgs::MoleculeDiffusionArgs(
+        Containers::Span3<double> span
+    ) noexcept
         : Concentrations(span)
     {
     }

@@ -12,7 +12,10 @@ namespace CellSim::Text
 
         public:
 
-        static nlohmann::json* GetParam(nlohmann::json& j, ::std::string_view paramName) noexcept;
+        [[nodiscard]] static nlohmann::json* GetParam(
+            nlohmann::json& j,
+            ::std::string_view paramName
+        ) noexcept;
     };
 }
 

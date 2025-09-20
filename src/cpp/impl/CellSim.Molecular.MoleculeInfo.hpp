@@ -10,13 +10,19 @@ namespace CellSim::Molecular
         double Amount;
         MoleculeKind Kind;
 
-        constexpr MoleculeInfo(double amount, MoleculeKind kind) noexcept;
+        constexpr MoleculeInfo(
+            double amount,
+            MoleculeKind kind
+        ) noexcept;
     };
 }
 
 namespace CellSim::Molecular
 {
-    constexpr MoleculeInfo::MoleculeInfo(double amount, MoleculeKind kind) noexcept
+    constexpr MoleculeInfo::MoleculeInfo(
+        double amount,
+        MoleculeKind kind
+    ) noexcept
         : Amount(amount)
         , Kind(kind)
     {

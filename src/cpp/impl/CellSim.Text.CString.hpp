@@ -7,27 +7,62 @@
 
 namespace CellSim::Text
 {
+    /// @brief C言語文字列ライブラリのラッパー
     class CString final {
         public:
 
         template <class... Args>
-        [[nodiscard]] static ::std::string Format(const char* format, Args&&... args)
-        {
-            int result = ::snprintf(nullptr, 0, format, ::std::forward<Args>(args)...);
-
-            ::std::string s(result, '\0');
-
-            ::snprintf(s.data(), result + 1, format, ::std::forward<Args>(args)...);
-
-            return s;
-        }
+        [[nodiscard]] static ::std::string Format(
+            const char* format,
+            Args&&... args
+        );
 
         template <class... Args>
-        [[nodiscard]] static ::std::string Format(::std::string const& format, Args&&... args)
-        {
-            return Format(format.c_str(), ::std::forward<Args>(args)...);
-        }
+        [[nodiscard]] static ::std::string Format(
+            ::std::string const& format,
+            Args&&... args
+        );
     };
+}
+
+namespace CellSim::Text
+{
+    template <class... Args>
+    ::std::string CString::Format(
+        const char* format,
+        Args&&... args
+    )
+    {
+        int result = ::snprintf(
+            nullptr,
+            0,
+            format,
+            ::std::forward<Args>(args)...
+        );
+
+        ::std::string s(result, '\0');
+
+        ::snprintf(
+            s.data(),
+            result + 1,
+            format,
+            ::std::forward<Args>(args)...
+        );
+
+        return s;
+    }
+
+    template <class... Args>
+    ::std::string CString::Format(
+        ::std::string const& format,
+        Args&&... args
+    )
+    {
+        return Format(
+            format.c_str(),
+            ::std::forward<Args>(args)...
+        );
+    }
 }
 
 #endif //!CELLSIM_TEXT_CSTRING_HPP

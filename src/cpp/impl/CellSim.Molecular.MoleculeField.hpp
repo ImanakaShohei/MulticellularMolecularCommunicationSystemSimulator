@@ -71,7 +71,9 @@ namespace CellSim::Molecular
 
         public:
 
-        [[nodiscard]] static MoleculeField FromJson(::nlohmann::json const& j);
+        [[nodiscard]] static MoleculeField FromJson(
+            ::nlohmann::json const& j
+        );
 
         MoleculeField(
             size_t gridCount,
@@ -89,12 +91,18 @@ namespace CellSim::Molecular
         MoleculeField& operator=(MoleculeField const&) = delete;
         MoleculeField& operator=(MoleculeField&&) = default;
 
-        void BeforeAdvanceStep(::std::vector<Cells::Cell> const& cells);
+        void BeforeAdvanceStep(
+            ::std::vector<Cells::Cell> const& cells
+        );
 
-        [[nodiscard]] constexpr ::CellSim::Molecular::BoundaryCondition BoundaryCondition() const noexcept;
+        [[nodiscard]] constexpr ::CellSim::Molecular::BoundaryCondition
+        BoundaryCondition() const noexcept;
 
-        [[nodiscard]] constexpr Containers::Span3<double> Concentrations() noexcept;
-        [[nodiscard]] constexpr Containers::ReadOnlySpan3<double> Concentrations() const noexcept;
+        [[nodiscard]] constexpr Containers::Span3<double>
+        Concentrations() noexcept;
+
+        [[nodiscard]] constexpr Containers::ReadOnlySpan3<double>
+        Concentrations() const noexcept;
 
         /// @brief 分子を拡散させる
         void Diffuse();
@@ -121,14 +129,20 @@ namespace CellSim::Molecular
 
         void OnAdvanceStep(::std::vector<Cells::Cell> const& cells);
 
-        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Cells::Cell const& cell) const noexcept;
-        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(Numerics::Vector3 position) const noexcept;
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(
+            Cells::Cell const& cell
+        ) const noexcept;
+
+        [[nodiscard]] Numerics::GridPosition3 ToGridPosition3(
+            Numerics::Vector3 position
+        ) const noexcept;
     };
 }
 
 namespace CellSim::Molecular
 {
-    constexpr ::CellSim::Molecular::BoundaryCondition MoleculeField::BoundaryCondition() const noexcept
+    constexpr ::CellSim::Molecular::BoundaryCondition
+    MoleculeField::BoundaryCondition() const noexcept
     {
         return m_boundaryCondition;
     }
@@ -138,9 +152,15 @@ namespace CellSim::Molecular
         return m_concentrations;
     }
 
-    constexpr Containers::ReadOnlySpan3<double> MoleculeField::Concentrations() const noexcept
+    constexpr Containers::ReadOnlySpan3<double>
+    MoleculeField::Concentrations() const noexcept
     {
-        return Containers::ReadOnlySpan3<double>(m_gridCountX, m_gridCountY, m_gridCountZ, m_pConcentration);
+        return Containers::ReadOnlySpan3<double>(
+            m_gridCountX,
+            m_gridCountY,
+            m_gridCountZ,
+            m_pConcentration
+        );
     }
 
     constexpr bool MoleculeField::Enable2dMode() const noexcept
@@ -188,7 +208,10 @@ namespace CellSim::Molecular
         return m_kind;
     }
 
-    inline Numerics::GridPosition3 MoleculeField::ToGridPosition3(Cells::Cell const& cell) const noexcept
+    inline Numerics::GridPosition3
+    MoleculeField::ToGridPosition3(
+        Cells::Cell const& cell
+    ) const noexcept
     {
         return ToGridPosition3(cell.Position());
     }
