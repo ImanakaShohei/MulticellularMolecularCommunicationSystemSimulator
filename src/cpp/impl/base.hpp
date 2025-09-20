@@ -1,11 +1,6 @@
 ﻿#ifndef BASE_HPP
 #define BASE_HPP
 
-#include <stdint.h>
-#include <compare>
-#include <concepts>
-#include <type_traits>
-
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1
 
@@ -15,6 +10,8 @@
 
         // 安全でない関数の使用時に出てくるうざい警告C4996の抑制
         #define _CRT_SECURE_NO_WARNINGS 1
+
+        #include <vcruntime.h>
 
         #if defined(_M_ARM64)
             #define CELLSIM_ENV_ARM64 1
@@ -137,6 +134,11 @@
 #ifndef CELLSIM_CELLS_CELL_IS_POINTER_CLASS
     #define CELLSIM_CELLS_CELL_IS_POINTER_CLASS (CELLSIM_ENV_ARM64)
 #endif
+
+#include <stdint.h>
+#include <compare>
+#include <concepts>
+#include <type_traits>
 
 // クラスをインスタンス化できないようにする
 #define CELLSIM_STATIC_CLASS(className)                 \
