@@ -1,16 +1,14 @@
 ﻿#ifndef BASE_HPP
 #define BASE_HPP
 
-#include <stdint.h>
-#include <concepts>
-#include <type_traits>
-
 #if __has_include(<Windows.h>)
     #define CELLSIM_ENV_WINDOWS 1
 
     #if __cplusplus == 199711L
         #define CELLSIM_COMPILER_MSVC 1
         #define CELLSIM_CPP_LANG_VERSION _MSVC_LANG
+
+        #include <vcruntime.h>
 
         #if defined(_M_ARM64)
             #define CELLSIM_ENV_ARM64 1
@@ -133,6 +131,10 @@
 #ifndef CELLSIM_CELLS_CELL_IS_POINTER_CLASS
     #define CELLSIM_CELLS_CELL_IS_POINTER_CLASS (CELLSIM_ENV_ARM64)
 #endif
+
+#include <stdint.h>
+#include <concepts>
+#include <type_traits>
 
 // クラスをインスタンス化できないようにする
 #define CELLSIM_STATIC_CLASS(className)                 \
