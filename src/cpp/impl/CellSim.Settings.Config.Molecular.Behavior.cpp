@@ -19,9 +19,14 @@ namespace CellSim::Settings
     )
     {
         switch (kind) {
-            case ::CellSim::Molecular::MoleculeBehaviorKind::Normal: return Config::Molecular::Behavior::Normal::FromJson(config["normalBehavior"]);
-            case ::CellSim::Molecular::MoleculeBehaviorKind::Null: return new ::CellSim::Molecular::NullMoleculeBehavior();
-            case ::CellSim::Molecular::MoleculeBehaviorKind::User: return new ::CellSim::Users::UserMoleculeBehavior();
+            case ::CellSim::Molecular::MoleculeBehaviorKind::Normal:
+                return Config::Molecular::Behavior::Normal::FromJson(config["normalBehavior"]);
+
+            case ::CellSim::Molecular::MoleculeBehaviorKind::Null:
+                return new ::CellSim::Molecular::NullMoleculeBehavior();
+                
+            case ::CellSim::Molecular::MoleculeBehaviorKind::User:
+                return new ::CellSim::Users::UserMoleculeBehavior();
 
             default: [[unlikely]] return nullptr;
         }

@@ -12,18 +12,31 @@ namespace CellSim::Users
 
         UserCellBehavior() = default;
 
-        Cells::CellDivisionResult ComputeDivisionOutcome(const Cells::Cell* sender) override;
-        Cells::CellGrowthResult ComputeGrowth(const Cells::Cell* sender) override;
+        Cells::CellDivisionResult ComputeDivisionOutcome(
+            const Cells::Cell* sender
+        ) override;
+
+        Cells::CellGrowthResult ComputeGrowth(
+            const Cells::Cell* sender
+        ) override;
         
-        Cells::MolecularProcessResult ComputeMolecularProcess(const Cells::Cell* sender, Cells::MolecularProcessArgs args) override;
+        Cells::MolecularProcessResult ComputeMolecularProcess(
+            const Cells::Cell* sender,
+            Cells::MolecularProcessArgs args
+        ) override;
         
         CellBehavior* CreateClone() const override;
         
         bool IsReusable() const noexcept override;
 
-        Numerics::Vector3 OnSenseMolecules(const Cells::Cell* sender, Cells::CellMoleculeSensingArgs args) override;
+        Numerics::Vector3 OnSenseMolecules(
+            const Cells::Cell* sender,
+            Cells::CellMoleculeSensingArgs args
+        ) override;
 
-        bool ShouldDivideThisStep(const Cells::Cell* sender) noexcept override;
+        bool ShouldDivideThisStep(
+            const Cells::Cell* sender
+        ) noexcept override;
     };
 }
 

@@ -6,7 +6,9 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellAlgorithm::ParticleMesh::Load([[maybe_unused]] ::nlohmann::json const& config)
+    void Config::CellAlgorithm::ParticleMesh::Load(
+        [[maybe_unused]] ::nlohmann::json const& config
+    )
     {
         if (config.is_null()) return;
         

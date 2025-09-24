@@ -37,10 +37,14 @@ namespace CellSim::CellAlgorithms
 {
     inline void ClusterModel::Combine(
         ::std::vector<Cells::Cell>& cells,
-        ::std::vector<Molecular::MoleculeField> const& fields)
-
+        ::std::vector<Molecular::MoleculeField> const& fields
+    )
     {
-        Combine(cells, fields, static_cast<const CellList*>(nullptr));
+        Combine(
+            cells,
+            fields,
+            static_cast<const CellList*>(nullptr)
+        );
     }
 
     inline void ClusterModel::Combine(
@@ -49,7 +53,11 @@ namespace CellSim::CellAlgorithms
         ::std::nullptr_t
     )
     {
-        Combine(cells, fields, static_cast<const CellList*>(nullptr));
+        Combine(
+            cells,
+            fields,
+            static_cast<const CellList*>(nullptr)
+        );
     }
 }
 

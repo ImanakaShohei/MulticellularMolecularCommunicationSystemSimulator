@@ -9,9 +9,15 @@
 
 namespace CellSim::Settings
 {
-    void Config::Molecular::Load(::nlohmann::json& config)
+    void Config::Molecular::Load(
+        ::nlohmann::json& config
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Molecular.Load.Error.JsonError")
+            );
+        }
 
         ::std::string s1;
         ::std::string s2;
@@ -56,10 +62,15 @@ namespace CellSim::Settings
                 info.MoleculeAmount = obj.at("moleculeAmount").get<double>();
 
                 try {
-                    info.Kind = ::CellSim::Molecular::MoleculeKind::AddName(obj.at("moleculeKind").get<::std::string>(), colorIntensityThreshold);
+                    info.Kind = ::CellSim::Molecular::MoleculeKind::AddName(
+                        obj.at("moleculeKind").get<::std::string>(),
+                        colorIntensityThreshold
+                    );
                 }
                 catch (...) {
-                    throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.moleculeKind"));
+                    throw ::std::runtime_error(
+                        Messages::Get("Settings.Config.Molecular.Load.Error.moleculeKind")
+                    );
                 }
                 
                 s_molecularConfigs.emplace_back(::std::move(info));

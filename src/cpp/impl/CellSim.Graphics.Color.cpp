@@ -10,10 +10,14 @@ namespace CellSim::Graphics
         : A(255)
     {
         if (value.size() != 7) [[unlikely]] {
-            throw ::std::invalid_argument("Color::Color(::std::string_view): value.size() != 7");
+            throw ::std::invalid_argument(
+                "Color::Color(::std::string_view): value.size() != 7"
+            );
         }
         if (value[0] != '#') [[unlikely]] {
-            throw ::std::invalid_argument("Color::Color(::std::string_view): value[0] != '#'");
+            throw ::std::invalid_argument(
+                "Color::Color(::std::string_view): value[0] != '#'"
+            );
         }
 
         auto f = [] (const char* p) {
@@ -35,7 +39,9 @@ namespace CellSim::Graphics
                     continue;
                 }
 
-                throw ::std::invalid_argument("Color::Color(::std::string_view): invalid color value.");
+                throw ::std::invalid_argument(
+                    "Color::Color(::std::string_view): invalid color value."
+                );
             }
 
             return static_cast<uint8_t>(values[0] * 16 + values[1]);

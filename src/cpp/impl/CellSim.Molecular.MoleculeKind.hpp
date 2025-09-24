@@ -19,17 +19,32 @@ namespace CellSim::Molecular
 
         uint32_t m_id;
 
-        explicit constexpr MoleculeKind(uint32_t id) noexcept;
+        explicit constexpr MoleculeKind(
+            uint32_t id
+        ) noexcept;
 
         public:
 
         [[nodiscard]] static constexpr MoleculeKind Invalid() noexcept;
 
-        [[nodiscard]] static MoleculeKind AddName(const char* name, double threshold);
-        [[nodiscard]] static MoleculeKind AddName(::std::string_view name, double threshold);
-        [[nodiscard]] static MoleculeKind AddName(::std::string name, double threshold);
+        [[nodiscard]] static MoleculeKind AddName(
+            const char* name,
+            double threshold
+        );
 
-        [[nodiscard]] static MoleculeKind FromName(::std::string_view name) noexcept;
+        [[nodiscard]] static MoleculeKind AddName(
+            ::std::string_view name,
+            double threshold
+        );
+
+        [[nodiscard]] static MoleculeKind AddName(
+            ::std::string name,
+            double threshold
+        );
+
+        [[nodiscard]] static MoleculeKind FromName(
+            ::std::string_view name
+        ) noexcept;
 
         /// @brief Invalid以外の種類を削除
         static void ResetUnsafe() noexcept;

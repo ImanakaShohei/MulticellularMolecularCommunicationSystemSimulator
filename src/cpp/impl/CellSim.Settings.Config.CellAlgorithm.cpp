@@ -10,9 +10,15 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellAlgorithm::Load(::nlohmann::json& config)
+    void Config::CellAlgorithm::Load(
+        ::nlohmann::json& config
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.Load.Error.JsonError")
+            );
+        }
 
         ::std::string s;
         try {
@@ -20,7 +26,9 @@ namespace CellSim::Settings
             s = config.at("algorithmType").get<::std::string>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.Load.Error.JsonError")
+            );
         }
 
         if (s == "BarnesHut") s_algorithmType = CellAlgorithms::CellAlgorithmType::BarnesHut;
@@ -29,7 +37,11 @@ namespace CellSim::Settings
         else if (s == "Null") s_algorithmType = CellAlgorithms::CellAlgorithmType::Null;
         else if (s == "ParticleMesh") s_algorithmType = CellAlgorithms::CellAlgorithmType::ParticleMesh;
         else if (s == "User") s_algorithmType = CellAlgorithms::CellAlgorithmType::User;
-        else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.Load.Error.algorithmType"));
+        else [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.Load.Error.algorithmType")
+            );
+        }
         
         BarnesHut::Load(config["barnesHut"]);
         CellList::Load(config["cellList"]);

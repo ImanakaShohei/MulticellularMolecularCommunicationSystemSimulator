@@ -3,11 +3,15 @@
 
 namespace CellSim::Cli
 {
-    SettingOption::SettingOption() : ValueOption("./config.json")
+    SettingOption::SettingOption()
+        : ValueOption("./config.json")
     {
     }
 
-    void SettingOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void SettingOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 }

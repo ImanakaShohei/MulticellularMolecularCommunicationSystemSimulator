@@ -27,7 +27,9 @@ namespace CellSim::Molecular
         /// @brief 分子の量を設定
         /// @param amount 量
         /// @exception ::std::invalid_argument amountが負の値の時
-        void Amount(double amount);
+        void Amount(
+            double amount
+        );
 
         /// @brief 分子の種類
         [[nodiscard]] constexpr MoleculeKind Kind() const noexcept;

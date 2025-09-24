@@ -8,12 +8,18 @@
 
 namespace CellSim::Settings
 {
-    void Config::Cell::Load(::nlohmann::json& config)
+    void Config::Cell::Load(
+        ::nlohmann::json& config
+    )
     {
         s_cells.clear();
         s_totalCellCount = 0;
 
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Cell.Load.Error.JsonError")
+            );
+        }
 
         Cells::CellType::ResetUnsafe();
 
@@ -42,15 +48,31 @@ namespace CellSim::Settings
                     )
                 );
 
-                if (info.CellCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.cellCount"));
-                if (info.Mass == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.mass"));
-                if (info.Radius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.radius"));
+                if (info.CellCount == 0) [[unlikely]] {
+                    throw ::std::runtime_error(
+                        Messages::Get("Settings.Config.Cell.Load.Error.cellCount")
+                    );
+                }
+                if (info.Mass == 0) [[unlikely]] {
+                    throw ::std::runtime_error(
+                        Messages::Get("Settings.Config.Cell.Load.Error.mass")
+                    );
+                }
+                if (info.Radius == 0) [[unlikely]] {
+                    throw ::std::runtime_error(
+                        Messages::Get("Settings.Config.Cell.Load.Error.radius")
+                    );
+                }
 
                 if (s == "MoleculeAware") behaviorType = Cells::CellBehaviorType::MoleculeAware;
                 else if (s == "Normal") behaviorType = Cells::CellBehaviorType::Normal;
                 else if (s == "User") behaviorType = Cells::CellBehaviorType::User;
                 else if (s == "WavePropagation") behaviorType = Cells::CellBehaviorType::WavePropagation;
-                else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.behaviorType"));
+                else [[unlikely]] {
+                    throw ::std::runtime_error(
+                        Messages::Get("Settings.Config.Cell.Load.Error.behaviorType")
+                    );
+                }
 
                 info.Behavior = CellBehavior::FromJson(
                     obj["behaviorParameters"],
@@ -65,13 +87,21 @@ namespace CellSim::Settings
             ::std::rethrow_exception(::std::current_exception());
         }
         catch (::std::invalid_argument) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.color"));
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Cell.Load.Error.color")
+            );
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Cell.Load.Error.JsonError")
+            );
         }
         
-        if (s_initialPlacementRadius <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Cell.Load.Error.initialPlacementRadius"));
+        if (s_initialPlacementRadius <= 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Cell.Load.Error.initialPlacementRadius")
+            );
+        }
     
     }
 }

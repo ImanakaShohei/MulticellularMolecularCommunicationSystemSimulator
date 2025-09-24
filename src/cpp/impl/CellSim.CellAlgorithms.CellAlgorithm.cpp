@@ -14,7 +14,9 @@
 
 namespace CellSim::CellAlgorithms
 {
-    CellAlgorithm* CellAlgorithm::FromType(CellAlgorithmType type)
+    CellAlgorithm* CellAlgorithm::FromType(
+        CellAlgorithmType type
+    )
     {
         switch (type) {
             case CellAlgorithmType::BarnesHut:    return new BarnesHut();
@@ -26,7 +28,9 @@ namespace CellSim::CellAlgorithms
 
             default: [[unlikely]]
             {
-                throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellAlgorithm.FromType.Error"));
+                throw ::std::invalid_argument(
+                    Messages::Get("CellAlgorithms.CellAlgorithm.FromType.Error")
+                );
             }
         }
     }

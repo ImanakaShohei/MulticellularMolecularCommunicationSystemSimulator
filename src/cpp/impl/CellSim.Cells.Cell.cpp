@@ -36,8 +36,16 @@ namespace CellSim::Cells
         , m_id(s_id)
         , m_isAlive(true)
     {
-        if (mass <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.mass"));
-        if (radius <= 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("Cells.Cell.Cell.Error.radius"));
+        if (mass <= 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                Messages::Get("Cells.Cell.Cell.Error.mass")
+            );
+        }
+        if (radius <= 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                Messages::Get("Cells.Cell.Cell.Error.radius")
+            );
+        }
 
         ++s_id;
     }

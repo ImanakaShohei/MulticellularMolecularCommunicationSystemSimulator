@@ -19,7 +19,9 @@ namespace CellSim::Settings
 
         // TODO: ここにゲッターを追加します
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(
+            ::nlohmann::json const& config
+        );
     };
 }
 

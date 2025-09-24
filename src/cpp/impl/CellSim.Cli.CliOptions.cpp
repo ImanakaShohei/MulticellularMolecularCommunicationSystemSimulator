@@ -138,7 +138,9 @@ namespace CellSim::Cli
         }
         else {
 
-            ::nlohmann::json config = Settings::Config::OpenJsonFile(m_options[CliOptionType::Setting]->Value());
+            ::nlohmann::json config = Settings::Config::OpenJsonFile(
+                m_options[CliOptionType::Setting]->Value()
+            );
 
             auto pParamOption = static_cast<ParamOption*>(m_options[CliOptionType::Param]);
 

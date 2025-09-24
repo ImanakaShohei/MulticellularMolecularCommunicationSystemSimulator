@@ -3,7 +3,10 @@
 
 namespace CellSim::Cli
 {
-    void CsvOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void CsvOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 }

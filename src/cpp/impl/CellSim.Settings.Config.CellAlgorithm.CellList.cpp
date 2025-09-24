@@ -6,7 +6,9 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellAlgorithm::CellList::Load(::nlohmann::json const& config)
+    void Config::CellAlgorithm::CellList::Load(
+        ::nlohmann::json const& config
+    )
     {
         if (config.is_null()) return;
         
@@ -15,11 +17,21 @@ namespace CellSim::Settings
             s_searchRadius = config.at("searchRadius").get<double>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.JsonError")
+            );
         }
         
-        if (s_gridCount == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount"));
-        if (s_searchRadius == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius"));
+        if (s_gridCount == 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.gridCount")
+            );
+        }
+        if (s_searchRadius == 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.CellAlgorithm.CellList.Load.Error.searchRadius")
+            );
+        }
 
     }
 }

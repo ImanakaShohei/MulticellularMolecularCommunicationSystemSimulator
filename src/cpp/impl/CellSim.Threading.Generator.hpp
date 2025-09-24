@@ -25,7 +25,12 @@ namespace CellSim::Threading
 
             public:
 
-            constexpr promise_type() noexcept : _value(), _pIterator(nullptr), _pGenerator(nullptr) {}
+            constexpr promise_type() noexcept
+                : _value()
+                , _pIterator(nullptr)
+                , _pGenerator(nullptr)
+            {
+            }
 
             Generator get_return_object() noexcept { return *this; }
 
@@ -37,13 +42,17 @@ namespace CellSim::Threading
             [[noreturn]]
             void unhandled_exception();
 
-            ::std::suspend_always yield_value(T const& value) noexcept(::std::is_nothrow_constructible_v<T>)
+            ::std::suspend_always yield_value(
+                T const& value
+            ) noexcept(::std::is_nothrow_constructible_v<T>)
             {
                 _value = value;
                 return {};
             }
 
-            ::std::suspend_always yield_value(T&& value) noexcept
+            ::std::suspend_always yield_value(
+                T&& value
+            ) noexcept
             {
                 _value = ::std::move(value);
                 return {};
@@ -66,7 +75,9 @@ namespace CellSim::Threading
             handleType _h_coro;
             bool _done;
 
-            Iterator(handleType h) noexcept : _h_coro(h), _done(h.done())
+            Iterator(handleType h) noexcept
+                : _h_coro(h)
+                , _done(h.done())
             {
                 h.promise()._pIterator = this;
             }
@@ -76,9 +87,19 @@ namespace CellSim::Threading
 
             public:
 
-            constexpr Iterator() noexcept : _h_coro(nullptr), _done(true) {}
+            constexpr Iterator() noexcept
+                : _h_coro(nullptr)
+                , _done(true)
+            {
+            }
+
             Iterator(Iterator const&) = delete;
-            constexpr Iterator(Iterator&& right) noexcept : _h_coro(right._h_coro), _done(right._done) { right._h_coro = nullptr; }
+            constexpr Iterator(Iterator&& right) noexcept
+                : _h_coro(right._h_coro)
+                , _done(right._done)
+            {
+                right._h_coro = nullptr;
+            }
 
             ~Iterator()
             {
@@ -115,7 +136,11 @@ namespace CellSim::Threading
         };
 
         Generator(Generator const&) = delete;
-        constexpr Generator(Generator&& right) noexcept : _h(right._h) { right._h = nullptr; }
+        constexpr Generator(Generator&& right) noexcept
+            : _h(right._h)
+        {
+            right._h = nullptr;
+        }
 
         ~Generator()
         {
@@ -150,7 +175,8 @@ namespace CellSim::Threading
         handleType _h;
         bool _begun;
 
-        Generator(promise_type& promise) noexcept : _h(handleType::from_promise(promise))
+        Generator(promise_type& promise) noexcept
+            : _h(handleType::from_promise(promise))
         {
             promise._pGenerator = this;
         }

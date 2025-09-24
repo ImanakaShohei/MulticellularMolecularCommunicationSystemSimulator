@@ -7,7 +7,10 @@
 
 namespace CellSim::Cli
 {
-    void HelpOption::Run(const CliOptions*, CliOptionArgs args)
+    void HelpOption::Run(
+        const CliOptions*,
+        CliOptionArgs args
+    )
     {
         for (auto& pair : *args.Options) {
             if (pair.first != CliOptionType::Help && pair.second->IsEnabled()) [[unlikely]] {

@@ -10,7 +10,9 @@ namespace CellSim::Cli
     {
     }
 
-    void OutputOption::AddValue(::std::string_view value)
+    void OutputOption::AddValue(
+        ::std::string_view value
+    )
     {
         m_value = value;
 
@@ -21,13 +23,18 @@ namespace CellSim::Cli
 
             default:
             {
-                m_value.push_back((char)::std::filesystem::path::preferred_separator);
+                m_value.push_back(
+                    static_cast<char>(::std::filesystem::path::preferred_separator)
+                );
                 break;
             }
         }
     }
 
-    void OutputOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void OutputOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 }

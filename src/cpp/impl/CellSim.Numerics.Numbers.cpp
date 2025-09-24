@@ -17,7 +17,7 @@ namespace CellSim::Numerics
 
             sin >> result;
 
-            return (bool)sin && sin.tellg() == size;
+            return static_cast<bool>(sin) && sin.tellg() == size;
         }
         catch (...) {
             return false;

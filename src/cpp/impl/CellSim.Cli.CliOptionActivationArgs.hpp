@@ -10,13 +10,17 @@ namespace CellSim::Cli
     struct CliOptionActivationArgs {
         const ::std::map<CliOptionType, CliOption*>* Options;
 
-        constexpr CliOptionActivationArgs(const ::std::map<CliOptionType, CliOption*>* options) noexcept;
+        constexpr CliOptionActivationArgs(
+            const ::std::map<CliOptionType, CliOption*>* options
+        ) noexcept;
     };
 }
 
 namespace CellSim::Cli
 {
-    constexpr CliOptionActivationArgs::CliOptionActivationArgs(const ::std::map<CliOptionType, CliOption*>* options) noexcept
+    constexpr CliOptionActivationArgs::CliOptionActivationArgs(
+        const ::std::map<CliOptionType, CliOption*>* options
+    ) noexcept
         : Options(options)
     {
     }

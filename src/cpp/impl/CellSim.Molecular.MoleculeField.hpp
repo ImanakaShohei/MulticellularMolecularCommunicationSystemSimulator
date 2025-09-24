@@ -71,10 +71,6 @@ namespace CellSim::Molecular
 
         public:
 
-        [[nodiscard]] static MoleculeField FromJson(
-            ::nlohmann::json const& j
-        );
-
         MoleculeField(
             size_t gridCount,
             bool enable2dMode,

@@ -43,9 +43,17 @@ namespace CellSim::CellAlgorithms
         , m_span(m_gridCountZ, gridCount, gridCount, m_cellField.data())
         , m_squareSeachRadius(searchRadius * searchRadius)
     {
-        if (gridCount == 0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCount"));
+        if (gridCount == 0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                Messages::Get("CellAlgorithms.CellList.CellList.Error.gridCount")
+            );
+        }
 
-        if (searchRadius < 0.0) [[unlikely]] throw ::std::invalid_argument(Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius"));
+        if (searchRadius < 0.0) [[unlikely]] {
+            throw ::std::invalid_argument(
+                Messages::Get("CellAlgorithms.CellList.CellList.Error.searchRadius")
+            );
+        }
         
         if (enable2dMode) {
             m_searchGridCountZ = 0;

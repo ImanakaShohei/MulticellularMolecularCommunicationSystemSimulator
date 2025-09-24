@@ -3,7 +3,10 @@
 
 namespace CellSim::Cli
 {
-    void VideoOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void VideoOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 }

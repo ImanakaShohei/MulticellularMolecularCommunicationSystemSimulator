@@ -7,7 +7,9 @@ using namespace CellSim::Settings;
 
 namespace CellSim::Settings
 {
-    void Config::CellAlgorithm::User::Load(::nlohmann::json const& config)
+    void Config::CellAlgorithm::User::Load(
+        ::nlohmann::json const& config
+    )
     {
         if (config.is_null()) return;
 

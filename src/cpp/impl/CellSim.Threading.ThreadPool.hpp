@@ -39,7 +39,11 @@ namespace CellSim::Threading
         /// @param f 実行する関数
 
         template <class TIterator, class TFunction>
-        static void ParallelFor(TIterator begin, TIterator end, TFunction f);
+        static void ParallelFor(
+            TIterator begin,
+            TIterator end,
+            TFunction f
+        );
 
         /// @brief 範囲を並列処理
         /// @param threadCount スレッド数を指定
@@ -47,7 +51,12 @@ namespace CellSim::Threading
         /// @param end 範囲の最後の次の要素
         /// @param f 実行する関数
         template <class TIterator, class TFunction>
-        static void ParallelFor(uint32_t threadCount, TIterator begin, TIterator end, TFunction f);
+        static void ParallelFor(
+            uint32_t threadCount,
+            TIterator begin,
+            TIterator end,
+            TFunction f
+        );
 
 
     };
@@ -56,13 +65,27 @@ namespace CellSim::Threading
 namespace CellSim::Threading
 {
     template <class TIterator, class TFunction>
-    void ThreadPool::ParallelFor(TIterator begin, TIterator end, TFunction f)
+    void ThreadPool::ParallelFor(
+        TIterator begin,
+        TIterator end,
+        TFunction f
+    )
     {
-        ParallelFor(Settings::Config::Optimization::MaxDegreeOfParallelism(), begin, end, f);
+        ParallelFor(
+            Settings::Config::Optimization::MaxDegreeOfParallelism(),
+            begin,
+            end,
+            f
+        );
     }
 
     template <class TIterator, class TFunction>
-    void ThreadPool::ParallelFor(uint32_t threadCount, TIterator begin, TIterator end, TFunction f)
+    void ThreadPool::ParallelFor(
+        uint32_t threadCount,
+        TIterator begin,
+        TIterator end,
+        TFunction f
+    )
     {
         struct fArgs {
             TIterator b;
@@ -73,7 +96,11 @@ namespace CellSim::Threading
 #endif
         };
 #if CELLSIM_ENV_WINDOWS
-        void(*func)(::PTP_CALLBACK_INSTANCE, ::PVOID, ::PTP_WORK) = [](::PTP_CALLBACK_INSTANCE, ::PVOID context, ::PTP_WORK) {
+        void(*func)(::PTP_CALLBACK_INSTANCE, ::PVOID, ::PTP_WORK) = [](
+            ::PTP_CALLBACK_INSTANCE,
+            ::PVOID context,
+            ::PTP_WORK
+        ) {
             fArgs fargs = *static_cast<fArgs*>(context);
             while (fargs.b != fargs.e) {
                 if constexpr (::std::random_access_iterator<TIterator>) {
@@ -107,12 +134,12 @@ namespace CellSim::Threading
 
         decltype(count) listCapacity;
 
-        if ((decltype(count))threadCount > count) listCapacity = count;
+        if (static_cast<decltype(count)>(threadCount) > count) listCapacity = count;
         else listCapacity = threadCount;
 
         ::std::vector<fArgs> list;
 
-        if ((decltype(count))list.capacity() < listCapacity) {
+        if (static_cast<decltype(count)>(list.capacity()) < listCapacity) {
             list.reserve(listCapacity);
         }
 

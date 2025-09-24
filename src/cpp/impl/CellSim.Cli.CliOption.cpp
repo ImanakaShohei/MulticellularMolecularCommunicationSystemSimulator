@@ -16,17 +16,25 @@ namespace CellSim::Cli
             ::std::string s = "'";
             s.append(Names());
             s.push_back('\'');
-            throw ::std::runtime_error(::std::move(s) + Messages::Get("Cli.CliOption.Enable.Error"));
+            throw ::std::runtime_error(
+                ::std::move(s) + Messages::Get("Cli.CliOption.Enable.Error")
+            );
         }
 
         m_isEnabled = true;
     }
 
-    void CliOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void CliOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 
-    void CliOption::Run(const CliOptions* sender, CliOptionArgs)
+    void CliOption::Run(
+        const CliOptions*,
+        CliOptionArgs
+    )
     {
     }
 }

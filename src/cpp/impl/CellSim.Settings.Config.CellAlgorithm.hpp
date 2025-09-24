@@ -33,7 +33,9 @@ namespace CellSim::Settings
         /// @brief シミュレーションでクラスタモデルを使用するかどうか
         [[nodiscard]] static bool UseClusterModel() noexcept;
 
-        static void Load(::nlohmann::json& config);
+        static void Load(
+            ::nlohmann::json& config
+        );
     };
 }
 

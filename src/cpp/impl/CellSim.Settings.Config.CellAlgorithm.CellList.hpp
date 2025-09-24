@@ -23,7 +23,9 @@ namespace CellSim::Settings
         /// @brief 探索範囲
         [[nodiscard]] static double SearchRadius() noexcept;
 
-        static void Load(::nlohmann::json const& config);
+        static void Load(
+            ::nlohmann::json const& config
+        );
     };
 }
 

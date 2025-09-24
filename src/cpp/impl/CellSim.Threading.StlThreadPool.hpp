@@ -25,7 +25,9 @@ namespace CellSim::Threading
             void* args;
         };
 
-        static void s_workerEntryPoint(StlThreadPool* pStlThreadPool);
+        static void s_workerEntryPoint(
+            StlThreadPool* pStlThreadPool
+        );
 
         ::std::vector<::std::thread> m_workers;
         ::std::queue<s_task> m_tasks;
@@ -41,7 +43,9 @@ namespace CellSim::Threading
         public:
 
         explicit StlThreadPool();
-        explicit StlThreadPool(uint32_t threadCount);
+        explicit StlThreadPool(
+            uint32_t threadCount
+        );
 
         StlThreadPool(StlThreadPool const&) = delete;
         StlThreadPool(StlThreadPool&&) = delete;
@@ -52,29 +56,45 @@ namespace CellSim::Threading
         StlThreadPool& operator=(StlThreadPool&&) = delete;
 
         /// @brief ふぁ！？っく
-        void AppendTask(::std::nullptr_t) = delete;
+        void AppendTask(
+            ::std::nullptr_t
+        ) = delete;
 
         /// @brief ふぁ！？っく
-        void AppendTask(::std::nullptr_t, ::std::nullptr_t) = delete;
+        void AppendTask(
+            ::std::nullptr_t,
+            ::std::nullptr_t
+        ) = delete;
 
         /// @brief ふぁ！？っく
-        void AppendTask(::std::nullptr_t, void*) = delete;
+        void AppendTask(
+            ::std::nullptr_t,
+            void*
+        ) = delete;
 
         /// @brief タスクを追加
         /// @attention この関数はentryPointがnullptrであるかどうかを判定しないよ！
         /// @param entryPoint エントリーポイント
-        void AppendTask(TaskEntryPoint entryPoint);
+        void AppendTask(
+            TaskEntryPoint entryPoint
+        );
 
         /// @brief タスクを追加
         /// @attention この関数はentryPointがnullptrであるかどうかを判定しないよ！
         /// @param entryPoint エントリーポイント
-        void AppendTask(TaskEntryPoint entryPoint, ::std::nullptr_t);
+        void AppendTask(
+            TaskEntryPoint entryPoint,
+            ::std::nullptr_t
+        );
 
         /// @brief タスクを追加
         /// @attention この関数はentryPointがnullptrであるかどうかを判定しないよ！
         /// @param entryPoint エントリーポイント
         /// @param args パラメータ
-        void AppendTask(TaskEntryPoint entryPoint, void* args);
+        void AppendTask(
+            TaskEntryPoint entryPoint,
+            void* args
+        );
 
         [[nodiscard]] uint32_t CurrentTasks() const noexcept;
 
@@ -82,7 +102,9 @@ namespace CellSim::Threading
         /// @param threadCount スレッド数
         /// @return スレッド数を変更できたかどうか
         /// @note threadCountがワーカースレッド数より小さい場合は何もせずにfalseを返す
-        bool SetMaxThreadCount(uint32_t threadCount);
+        bool SetMaxThreadCount(
+            uint32_t threadCount
+        );
 
         /// @brief ワーカースレッド数
         [[nodiscard]] constexpr uint32_t ThreadCount() const noexcept;

@@ -2,7 +2,9 @@
 
 namespace CellSim::IO
 {
-    void DirectoryCreater::Create(::std::filesystem::path const& p)
+    void DirectoryCreater::Create(
+        ::std::filesystem::path const& p
+    )
     {
         if (::std::filesystem::exists(p)) return;
 

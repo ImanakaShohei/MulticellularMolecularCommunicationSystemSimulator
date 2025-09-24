@@ -11,7 +11,9 @@ namespace CellSim::Settings
     class Config final {
         private:
 
-        static void s_loadUnsafe(const char* filePath);
+        static void s_loadUnsafe(
+            const char* filePath
+        );
 
         public:
 
@@ -27,11 +29,22 @@ namespace CellSim::Settings
         CELLSIM_STATIC_CLASS(Config);
 
         static void Load();
-        static void Load(const char* filePath);
-        static void Load(::std::string const& filePath);
-        static void Load(::nlohmann::json& config);
 
-        static ::nlohmann::json OpenJsonFile(::std::string const& filePath);
+        static void Load(
+            const char* filePath
+        );
+
+        static void Load(
+            ::std::string const& filePath
+        );
+
+        static void Load(
+            ::nlohmann::json& config
+        );
+
+        static ::nlohmann::json OpenJsonFile(
+            ::std::string const& filePath
+        );
     };
 }
 

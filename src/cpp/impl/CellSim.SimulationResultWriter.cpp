@@ -34,7 +34,7 @@ namespace CellSim
             optionStr,
             13,
             "%%s%%0%lullu%%%zus",
-            (unsigned long)digits,
+            static_cast<unsigned long>(digits),
             extension.size()
         );
         

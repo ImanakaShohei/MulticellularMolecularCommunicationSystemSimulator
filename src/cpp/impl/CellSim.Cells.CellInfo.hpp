@@ -42,7 +42,10 @@ namespace CellSim::Cells
             double radius,
             CellType type
         ) noexcept;
-        constexpr CellInfo(Cell const& cell) noexcept;
+
+        constexpr CellInfo(
+            Cell const& cell
+        ) noexcept;
     };
 }
 
@@ -66,7 +69,9 @@ namespace CellSim::Cells
     {
     }
 
-    constexpr CellInfo::CellInfo(Cell const& cell) noexcept
+    constexpr CellInfo::CellInfo(
+        Cell const& cell
+    ) noexcept
         : CellPtr(&cell)
         , Mass(cell.Mass())
         , Position(cell.Position())

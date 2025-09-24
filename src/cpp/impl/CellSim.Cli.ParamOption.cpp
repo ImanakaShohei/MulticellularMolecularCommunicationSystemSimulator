@@ -9,7 +9,10 @@
 namespace CellSim::Cli
 {
     template <class T>
-    void ParamOption::s_changeValue(nlohmann::json& v, ::std::string_view value)
+    void ParamOption::s_changeValue(
+        nlohmann::json& v,
+        ::std::string_view value
+    )
     {
         if constexpr (::std::same_as<T, ::std::string>) {
             v = value;
@@ -17,29 +20,48 @@ namespace CellSim::Cli
         else if constexpr (::std::same_as<T, bool>) {
             if (value == "true") v = true;
             else if (value == "false") v = false;
-            else [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
+            else [[unlikely]] {
+                throw ::std::runtime_error(
+                    Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue")
+                );
+            }
         }
         else {
             T tValue;
 
-            if (!Numerics::Numbers::ToNumber<T>(value, tValue)) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
+            if (!Numerics::Numbers::ToNumber<T>(value, tValue)) [[unlikely]] {
+                throw ::std::runtime_error(
+                    Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue")
+                );
+            }
 
             v = tValue;
         }
     }
 
-    void ParamOption::OverrideParameter(nlohmann::json& config, ::std::string_view param)
+    void ParamOption::OverrideParameter(
+        nlohmann::json& config,
+        ::std::string_view param
+    )
     {
         size_t index = param.find('=');
 
-        if (index == ::std::string_view::npos || index == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.FormatError"));
+        if (index == ::std::string_view::npos || index == 0) {
+            [[unlikely]] throw ::std::runtime_error(
+                Messages::Get("Cli.ParamOption.OverrideParameter.Error.FormatError")
+            );
+        }
 
         ::std::string_view paramName = param.substr(0, index);
         ::std::string_view value = param.substr(index + 1);
 
         nlohmann::json* pj = Text::JsonHelper::GetParam(config, paramName);
 
-        if (pj == nullptr) [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
+        if (pj == nullptr) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound")
+            );
+        }
         nlohmann::json& j = *pj;
 
         switch (j.type()) {
@@ -50,18 +72,32 @@ namespace CellSim::Cli
             case nlohmann::detail::value_t::string: s_changeValue<::std::string>(j, value); break;
             case nlohmann::detail::value_t::array:
             {
-                if (value != "[]" && value != "empty") [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue"));
+                if (value != "[]" && value != "empty") [[unlikely]] {
+                    throw ::std::runtime_error(
+                        Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidValue")
+                    );
+                }
                 j = ::nlohmann::json::array();
                 break;
             }
-            case nlohmann::detail::value_t::null: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound"));
+            case nlohmann::detail::value_t::null: [[unlikely]] {
+                throw ::std::runtime_error(
+                    Messages::Get("Cli.ParamOption.OverrideParameter.Error.NotFound")
+                );
+            }
             
 
-            default: [[unlikely]] throw ::std::runtime_error(Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidParam"));
+            default: [[unlikely]] {
+                throw ::std::runtime_error(
+                    Messages::Get("Cli.ParamOption.OverrideParameter.Error.InvalidParam")
+                );
+            }
         }
     }
 
-    void ParamOption::OverrideParameter(nlohmann::json& config) const
+    void ParamOption::OverrideParameter(
+        nlohmann::json& config
+    ) const
     {
         for (::std::string const& param : m_values) {
             OverrideParameter(config, param);

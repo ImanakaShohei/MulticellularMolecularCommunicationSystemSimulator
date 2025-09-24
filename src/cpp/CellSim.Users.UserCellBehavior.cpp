@@ -12,7 +12,9 @@ using namespace CellSim::Molecular;
 
 namespace CellSim::Users
 {
-    CellDivisionResult UserCellBehavior::ComputeDivisionOutcome([[maybe_unused]] const Cell* sender)
+    CellDivisionResult UserCellBehavior::ComputeDivisionOutcome(
+        [[maybe_unused]] const Cell* sender
+    )
     {
         CellDivisionResult result;
 
@@ -21,7 +23,9 @@ namespace CellSim::Users
         return result;
     }
 
-    CellGrowthResult UserCellBehavior::ComputeGrowth([[maybe_unused]] const Cell* sender)
+    CellGrowthResult UserCellBehavior::ComputeGrowth(
+        [[maybe_unused]] const Cell* sender
+    )
     {
         CellGrowthResult result;
 
@@ -30,7 +34,10 @@ namespace CellSim::Users
         return result;
     }
 
-    MolecularProcessResult UserCellBehavior::ComputeMolecularProcess(const Cell* sender, MolecularProcessArgs args)
+    MolecularProcessResult UserCellBehavior::ComputeMolecularProcess(
+        const Cell* sender,
+        MolecularProcessArgs args
+    )
     {
         MolecularProcessResult result;
 
@@ -60,7 +67,9 @@ namespace CellSim::Users
         return Numerics::Vector3();
     }
 
-    bool UserCellBehavior::ShouldDivideThisStep([[maybe_unused]] const Cell* sender) noexcept
+    bool UserCellBehavior::ShouldDivideThisStep(
+        [[maybe_unused]] const Cell* sender
+    ) noexcept
     {
         // TODO: ここに処理を追加します
         return false;

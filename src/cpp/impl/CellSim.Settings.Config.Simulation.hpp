@@ -48,7 +48,9 @@ namespace CellSim::Settings
         /// @brief 総ステップ数
         [[nodiscard]] static uint64_t TotalSteps() noexcept;
 
-        static void Load(::nlohmann::json& config);
+        static void Load(
+            ::nlohmann::json& config
+        );
     };
 }
 

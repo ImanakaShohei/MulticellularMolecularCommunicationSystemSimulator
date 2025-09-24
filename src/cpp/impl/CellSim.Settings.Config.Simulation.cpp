@@ -5,9 +5,15 @@
 
 namespace CellSim::Settings
 {
-    void Config::Simulation::Load(::nlohmann::json& config)
+    void Config::Simulation::Load(
+        ::nlohmann::json& config
+    )
     {
-        if (config.is_null()) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));
+        if (config.is_null()) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.JsonError")
+            );
+        }
 
         try {
             s_deltaTime = config.at("deltaTime").get<double>();
@@ -18,14 +24,36 @@ namespace CellSim::Settings
             s_totalSteps = config.at("totalSteps").get<uint64_t>();
         }
         catch (...) {
-            throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.JsonError"));
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.JsonError")
+            );
         }
         
 
-        if (s_deltaTime <= 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.deltaTime"));
-        if (s_fieldRadius < 0.0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadius"));
-        if (s_imageSize <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.imageSize"));
-        if (s_outputInterval <= 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.outputInterval"));
-        if (s_totalSteps == 0) [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps"));
+        if (s_deltaTime <= 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.deltaTime")
+            );
+        }
+        if (s_fieldRadius < 0.0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.fieldRadius")
+            );
+        }
+        if (s_imageSize <= 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.imageSize")
+            );
+        }
+        if (s_outputInterval <= 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.outputInterval")
+            );
+        }
+        if (s_totalSteps == 0) [[unlikely]] {
+            throw ::std::runtime_error(
+                Messages::Get("Settings.Config.Simulation.Load.Error.totalSteps")
+            );
+        }
     }
 }

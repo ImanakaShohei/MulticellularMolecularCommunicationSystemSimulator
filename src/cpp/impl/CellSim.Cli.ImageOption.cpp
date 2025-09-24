@@ -3,7 +3,10 @@
 
 namespace CellSim::Cli
 {
-    void ImageOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void ImageOption::OnActive(
+        const CliOptions*, 
+        CliOptionActivationArgs
+    )
     {
     }
 }

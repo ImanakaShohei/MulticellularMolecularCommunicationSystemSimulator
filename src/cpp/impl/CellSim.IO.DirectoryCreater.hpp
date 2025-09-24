@@ -10,7 +10,9 @@ namespace CellSim::IO
         private:
         public:
 
-        static void Create(::std::filesystem::path const& p);
+        static void Create(
+            ::std::filesystem::path const& p
+        );
     };
 }
 

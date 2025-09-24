@@ -4,7 +4,10 @@
 
 namespace CellSim::Cli
 {
-    void BinaryOption::OnActive(const CliOptions*, CliOptionActivationArgs)
+    void BinaryOption::OnActive(
+        const CliOptions*,
+        CliOptionActivationArgs
+    )
     {
     }
 }

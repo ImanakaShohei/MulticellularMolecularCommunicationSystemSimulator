@@ -111,7 +111,8 @@ namespace CellSim::Cells
         // プロパティ
 
         /// @brief 接着している細胞のリスト
-        [[nodiscard]] constexpr ::std::vector<const Cell*> const& AttachedCells() const noexcept;
+        [[nodiscard]] constexpr ::std::vector<const Cell*> const&
+        AttachedCells() const noexcept;
 
         /// @brief 接着している細胞の数
         [[nodiscard]] constexpr size_t AttachedCellCount() const noexcept;
@@ -123,7 +124,8 @@ namespace CellSim::Cells
         [[nodiscard]] constexpr uint32_t Id() const noexcept;
 
         /// @brief 細胞内の分子の種類とその量
-        [[nodiscard]] constexpr ::std::map<Molecular::MoleculeKind, double> const& InternalMolecules() const noexcept;
+        [[nodiscard]] constexpr ::std::map<Molecular::MoleculeKind, double> const&
+        InternalMolecules() const noexcept;
 
         [[nodiscard]] constexpr bool IsAlive() const noexcept;
 

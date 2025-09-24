@@ -6,6 +6,8 @@ namespace CellSim::Cli
 {
     ::std::string const& RepeatedValueOption::Value() const
     {
-        throw ::std::runtime_error("::std::string const& RepeatedValueOption::Value() const");
+        throw ::std::runtime_error(
+            "::std::string const& RepeatedValueOption::Value() const"
+        );
     }
 }

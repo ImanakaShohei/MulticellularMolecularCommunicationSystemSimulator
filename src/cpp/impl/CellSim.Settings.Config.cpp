@@ -14,12 +14,18 @@
 
 namespace CellSim::Settings
 {
-    void Config::s_loadUnsafe(const char* filePath)
+    void Config::s_loadUnsafe(
+        const char* filePath
+    )
     {
         ::nlohmann::json config;
         ::std::ifstream ifs(filePath);
         
-        if (!ifs) [[unlikely]] throw ::std::invalid_argument("Failed to open the specified file.");
+        if (!ifs) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "Failed to open the specified file."
+            );
+        }
 
         ifs >> config;
 
@@ -31,18 +37,28 @@ namespace CellSim::Settings
         s_loadUnsafe("config.json");
     }
 
-    void Config::Load(const char* filePath)
+    void Config::Load(
+        const char* filePath
+    )
     {
-        if (filePath == nullptr) [[unlikely]] throw ::std::runtime_error("The parameter filePath is nullptr.");
+        if (filePath == nullptr) [[unlikely]] {
+            throw ::std::runtime_error(
+                "The parameter filePath is nullptr."
+            );
+        }
         s_loadUnsafe(filePath);
     }
 
-    void Config::Load(::std::string const& filePath)
+    void Config::Load(
+        ::std::string const& filePath
+    )
     {
         s_loadUnsafe(filePath.c_str());
     }
 
-    void Config::Load(::nlohmann::json& config)
+    void Config::Load(
+        ::nlohmann::json& config
+    )
     {
         Simulation::Load(config["simulation"]);
         SimulationModel::Load(config["simulationModel"]);
@@ -54,12 +70,18 @@ namespace CellSim::Settings
         UserSettings::Load(config["userSettings"]);
     }
 
-    ::nlohmann::json Config::OpenJsonFile(::std::string const& filePath)
+    ::nlohmann::json Config::OpenJsonFile(
+        ::std::string const& filePath
+    )
     {
         ::nlohmann::json config;
         ::std::ifstream ifs(filePath);
         
-        if (!ifs) [[unlikely]] throw ::std::invalid_argument("Failed to open the specified file.");
+        if (!ifs) [[unlikely]] {
+            throw ::std::invalid_argument(
+                "Failed to open the specified file."
+            );
+        }
 
         ifs >> config;
 

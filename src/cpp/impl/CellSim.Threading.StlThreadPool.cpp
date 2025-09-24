@@ -3,7 +3,9 @@
 
 namespace CellSim::Threading
 {
-    void StlThreadPool::s_workerEntryPoint(StlThreadPool* pStlThreadPool)
+    void StlThreadPool::s_workerEntryPoint(
+        StlThreadPool* pStlThreadPool
+    )
     {
         StlThreadPool& StlThreadPool = *pStlThreadPool;
 
@@ -39,11 +41,14 @@ namespace CellSim::Threading
         return result;
     }
     
-    StlThreadPool::StlThreadPool() : StlThreadPool(::std::thread::hardware_concurrency())
+    StlThreadPool::StlThreadPool()
+        : StlThreadPool(::std::thread::hardware_concurrency())
     {
     }
 
-    StlThreadPool::StlThreadPool(uint32_t threadCount)
+    StlThreadPool::StlThreadPool(
+        uint32_t threadCount
+    )
         : m_workers()
         , m_tasks()
         , m_mutex()
@@ -73,7 +78,9 @@ namespace CellSim::Threading
         }
     }
 
-    void StlThreadPool::AppendTask(TaskEntryPoint entryPoint)
+    void StlThreadPool::AppendTask(
+        TaskEntryPoint entryPoint
+    )
     {
         {
             ::std::unique_lock<::std::mutex> lock(m_mutex);
@@ -84,7 +91,10 @@ namespace CellSim::Threading
         m_condition.notify_one();
     }
 
-    void StlThreadPool::AppendTask(TaskEntryPoint entryPoint, ::std::nullptr_t)
+    void StlThreadPool::AppendTask(
+        TaskEntryPoint entryPoint,
+        ::std::nullptr_t
+    )
     {
         {
             ::std::unique_lock<::std::mutex> lock(m_mutex);
@@ -95,7 +105,10 @@ namespace CellSim::Threading
         m_condition.notify_one();
     }
 
-    void StlThreadPool::AppendTask(TaskEntryPoint entryPoint, void* args)
+    void StlThreadPool::AppendTask(
+        TaskEntryPoint entryPoint,
+        void* args
+    )
     {
         {
             ::std::unique_lock<::std::mutex> lock(m_mutex);
@@ -106,7 +119,9 @@ namespace CellSim::Threading
         m_condition.notify_one();
     }
 
-    bool StlThreadPool::SetMaxThreadCount(uint32_t threadCount)
+    bool StlThreadPool::SetMaxThreadCount(
+        uint32_t threadCount
+    )
     {
         auto currentThreadCount = ThreadCount();
 
