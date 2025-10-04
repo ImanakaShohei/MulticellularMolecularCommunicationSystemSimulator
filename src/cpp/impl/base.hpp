@@ -254,6 +254,10 @@ namespace CellSim::IO
 {
     class DirectoryCreater;
     class NamedPipe;
+    class DataFlowController;
+    class DataHandler;
+    class DataReceiver;
+    class DataSender;
 }
 
 /// @brief シミュレーションモデル
