@@ -296,18 +296,6 @@ namespace CellSim::Molecular
                 }
                 break;
             }
-            case InitialMoleculeDistribution::Gaussian:
-            {
-                constexpr double mean = 0.0;
-                
-                auto p = [] (double x) {
-
-                };
-
-                throw ::std::runtime_error("InitialMoleculeDistribution::Gaussian is not supported.");
-
-                break;
-            }
             case InitialMoleculeDistribution::Uniform:
             {
                 // 境界部分は無視する

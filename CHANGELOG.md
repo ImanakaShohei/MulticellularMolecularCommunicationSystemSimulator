@@ -1,5 +1,12 @@
 ﻿# 更新履歴
 
+## [2.0.5] 2025-10-11
+### 変更点
+- Barnes-HutとDualTreeBHの更新
+### 破壊的変更
+- ParticleMeshを削除
+- InitialMoleculeDistribution.Gaussianを削除
+
 ## [2.0.4(2)] 2025-09-20
 ### 不具合修正
 - MSVCでビルドすると警告が表示される不具合を修正

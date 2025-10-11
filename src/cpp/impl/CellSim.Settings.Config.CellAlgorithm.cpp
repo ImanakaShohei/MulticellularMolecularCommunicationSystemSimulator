@@ -27,13 +27,15 @@ namespace CellSim::Settings
         else if (s == "CellList") s_algorithmType = CellAlgorithms::CellAlgorithmType::CellList;
         else if (s == "Naive") s_algorithmType = CellAlgorithms::CellAlgorithmType::Naive;
         else if (s == "Null") s_algorithmType = CellAlgorithms::CellAlgorithmType::Null;
-        else if (s == "ParticleMesh") s_algorithmType = CellAlgorithms::CellAlgorithmType::ParticleMesh;
+        // 実装されないので削除
+        //else if (s == "ParticleMesh") s_algorithmType = CellAlgorithms::CellAlgorithmType::ParticleMesh;
         else if (s == "User") s_algorithmType = CellAlgorithms::CellAlgorithmType::User;
         else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.CellAlgorithm.Load.Error.algorithmType"));
         
         BarnesHut::Load(config["barnesHut"]);
         CellList::Load(config["cellList"]);
-        ParticleMesh::Load(config["particleMesh"]);
+        // 実装されないので削除
+        //ParticleMesh::Load(config["particleMesh"]);
         User::Load(config["User"]);
     }
 }

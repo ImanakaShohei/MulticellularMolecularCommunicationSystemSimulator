@@ -8,6 +8,9 @@
         #define CELLSIM_COMPILER_MSVC 1
         #define CELLSIM_CPP_LANG_VERSION _MSVC_LANG
 
+        // 安全でない関数の使用時に出てくるうざい警告C4996の抑制
+        #define _CRT_SECURE_NO_WARNINGS 1
+
         #include <vcruntime.h>
 
         #if defined(_M_ARM64)

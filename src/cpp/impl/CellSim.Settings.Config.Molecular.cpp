@@ -36,7 +36,6 @@ namespace CellSim::Settings
                 else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.boundaryCondition"));
 
                 if (s2 == "Centered") initialDistribution = ::CellSim::Molecular::InitialMoleculeDistribution::Centered;
-                else if (s2 == "Gaussian") initialDistribution = ::CellSim::Molecular::InitialMoleculeDistribution::Gaussian;
                 else if (s2 == "Uniform") initialDistribution = ::CellSim::Molecular::InitialMoleculeDistribution::Uniform;
                 else [[unlikely]] throw ::std::runtime_error(Messages::Get("Settings.Config.Molecular.Load.Error.initialDistribution"));
 

@@ -154,7 +154,7 @@
             "properties": {
                 "algorithmType": {
                     "type": "string",
-                    "enum": [ "BarnesHut", "CellList", "Naive", "Null", "ParticleMesh", "User" ]
+                    "enum": [ "BarnesHut", "CellList", "Naive", "Null", "User" ]
                 },
                 "useClusterModel": { "type": "boolean" },
                 "barnesHut": { "type": "object" },
