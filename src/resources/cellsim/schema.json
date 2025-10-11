@@ -342,7 +342,7 @@
                 },
                 "initialDistribution": {
                     "type": "string",
-                    "enum": [ "Centered", "Gaussian", "Uniform" ]
+                    "enum": [ "Centered", "Uniform" ]
                 },
                 "behaviorType": {
                     "type": "string",

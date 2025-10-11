@@ -36,7 +36,7 @@ namespace CellSim
 
     constexpr int Version::Patch() noexcept
     {
-        return 0;
+        return 1;
     }
 
     constexpr const char* Version::Extension() noexcept
