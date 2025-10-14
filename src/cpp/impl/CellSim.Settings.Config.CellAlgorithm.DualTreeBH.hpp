@@ -17,9 +17,7 @@ namespace CellSim::Settings
 
         [[nodiscard]] static double Theta() noexcept;
 
-        static void Load(
-            ::nlohmann::json const& config
-        );
+        static void Load(::nlohmann::json const& config);
     };
 }
 

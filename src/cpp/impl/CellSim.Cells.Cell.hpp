@@ -129,26 +129,54 @@ namespace CellSim::Cells
 
         [[nodiscard]] constexpr bool IsAlive() const noexcept;
 
+        constexpr void IsAlive(
+            bool value
+        ) noexcept;
+
         /// @brief ダミー細胞かどうか
         [[nodiscard]] constexpr bool IsDummy() const noexcept;
 
         /// @brief 細胞の質量
         [[nodiscard]] constexpr double Mass() const noexcept;
 
+        constexpr void Mass(
+            double value
+        ) noexcept;
+
         /// @brief 極性ベクトル
         [[nodiscard]] constexpr Numerics::Vector3 Polarity() const noexcept;
+
+        constexpr void Polarity(
+            Numerics::Vector3 value
+        ) noexcept;
 
         /// @brief 細胞の位置
         [[nodiscard]] constexpr Numerics::Vector3 Position() const noexcept;
 
+        constexpr void Position(
+            Numerics::Vector3 value
+        ) noexcept;
+
         /// @brief 細胞のX座標
         [[nodiscard]] constexpr double PositionX() const noexcept;
+
+        constexpr void PositionX(
+            double value
+        ) noexcept;
 
         /// @brief 細胞のY座標
         [[nodiscard]] constexpr double PositionY() const noexcept;
 
+        constexpr void PositionY(
+            double value
+        ) noexcept;
+
         /// @brief 細胞のZ座標
         [[nodiscard]] constexpr double PositionZ() const noexcept;
+
+        constexpr void PositionZ(
+            double value
+        ) noexcept;
 
         /// @brief 1step前に細胞が受けた力
         [[nodiscard]] constexpr Numerics::Vector3 PreviusForce() const noexcept;
@@ -158,6 +186,10 @@ namespace CellSim::Cells
 
         /// @brief 細胞の半径
         [[nodiscard]] constexpr double Radius() const noexcept;
+
+        constexpr void Radius(
+            double value
+        ) noexcept;
 
         [[nodiscard]] bool ShouldDivideThisStep() const noexcept;
 
@@ -250,6 +282,31 @@ namespace CellSim::Cells
         Cell const& left,
         Cell const& right
     ) noexcept;
+
+    [[nodiscard]] constexpr bool operator<(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator<=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator>(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr bool operator>=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
+
+    [[nodiscard]] constexpr ::std::strong_ordering operator<=>(
+        Cell const& left,
+        Cell const& right
+    ) noexcept;
 }
 
 namespace CellSim::Cells
@@ -324,6 +381,13 @@ namespace CellSim::Cells
         return m_isAlive;
     }
 
+    constexpr void Cell::IsAlive(
+        bool value
+    ) noexcept
+    {
+        m_isAlive = value;
+    }
+
     constexpr bool Cell::IsDummy() const noexcept
     {
         return m_id == s_dummyId;
@@ -334,9 +398,23 @@ namespace CellSim::Cells
         return m_mass;
     }
 
+    constexpr void Cell::Mass(
+        double value
+    ) noexcept
+    {
+        m_mass = value;
+    }
+
     constexpr Numerics::Vector3 Cell::Polarity() const noexcept
     {
         return m_polarity;
+    }
+
+    constexpr void Cell::Polarity(
+        Numerics::Vector3 value
+    ) noexcept
+    {
+        m_polarity = value;
     }
 
     constexpr Numerics::Vector3 Cell::Position() const noexcept
@@ -344,9 +422,23 @@ namespace CellSim::Cells
         return m_position;
     }
 
+    constexpr void Cell::Position(
+        Numerics::Vector3 value
+    ) noexcept
+    {
+        m_position = value;
+    }
+
     constexpr double Cell::PositionX() const noexcept
     {
         return m_position.X;
+    }
+
+    constexpr void Cell::PositionX(
+        double value
+    ) noexcept
+    {
+        m_position.X = value;
     }
 
     constexpr double Cell::PositionY() const noexcept
@@ -354,9 +446,23 @@ namespace CellSim::Cells
         return m_position.Y;
     }
 
+    constexpr void Cell::PositionY(
+        double value
+    ) noexcept
+    {
+        m_position.Y = value;
+    }
+
     constexpr double Cell::PositionZ() const noexcept
     {
         return m_position.Z;
+    }
+
+    constexpr void Cell::PositionZ(
+        double value
+    ) noexcept
+    {
+        m_position.Z = value;
     }
 
     constexpr Numerics::Vector3 Cell::PreviusForce() const noexcept
@@ -372,6 +478,13 @@ namespace CellSim::Cells
     constexpr double Cell::Radius() const noexcept
     {
         return m_radius;
+    }
+
+    constexpr void Cell::Radius(
+        double value
+    ) noexcept
+    {
+        m_radius = value;
     }
 
     constexpr CellType Cell::Type() const noexcept
@@ -448,6 +561,46 @@ namespace CellSim::Cells
     ) noexcept
     {
         return &left != &right;
+    }
+
+    constexpr bool operator<(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
+    {
+        return &left < &right;
+    }
+
+    constexpr bool operator<=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
+    {
+        return &left <= &right;
+    }
+
+    constexpr bool operator>(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
+    {
+        return &left > &right;
+    }
+
+    constexpr bool operator>=(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
+    {
+        return &left >= &right;
+    }
+
+    constexpr ::std::strong_ordering operator<=>(
+        Cell const& left,
+        Cell const& right
+    ) noexcept
+    {
+        return &left <=> &right;
     }
 }
 

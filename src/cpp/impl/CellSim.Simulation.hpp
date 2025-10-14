@@ -32,7 +32,7 @@ namespace CellSim
         /// @brief 分子空間リスト
         ::std::vector<Molecular::MoleculeField> m_molecules;
 
-        /// @brief アルゴリズム側で相互作用を行うかどうか
+        /// @brief アルゴリズム側またはモデル側で相互作用を行うかどうか
         bool m_overrideInteraction;
 
         /// @brief アルゴリズム側で力を計算するかどうか

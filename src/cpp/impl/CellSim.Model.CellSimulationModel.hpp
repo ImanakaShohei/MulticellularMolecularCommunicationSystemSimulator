@@ -33,6 +33,14 @@ namespace CellSim::Model
             CellSimulationType type
         );
 
+        /// @brief 相互作用
+        /// @param sender 
+        /// @param args 処理に必要な情報
+        virtual void ApplyInteraction(
+            const Simulation* sender,
+            CellSimulationModelInteractionArgs args
+        );
+
         /// @brief 前処理
         /// @param sender このメンバー関数を呼んだインスタンス
         /// @param args 処理に必要な情報
@@ -65,6 +73,9 @@ namespace CellSim::Model
             const Simulation* sender,
             SimulationModelStepArgs args
         ) = 0;
+
+        /// @brief 相互作用そのものをモデル側で計算するフラグ
+        [[nodiscard]] virtual bool OverrideInteraction() const noexcept;
 
         /// @brief モデルでCellAlgorithmを使うかどうか
         [[nodiscard]] virtual bool UseCellAlgorithm() const noexcept = 0;

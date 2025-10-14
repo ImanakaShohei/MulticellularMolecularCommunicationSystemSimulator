@@ -8,6 +8,7 @@
 #include "CellSim.CellAlgorithms.CellList.hpp"
 #include "CellSim.CellAlgorithms.ClusterModel.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.CellSimulationModelInteractionArgs.hpp"
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Settings.Config.Cell.hpp"
@@ -74,11 +75,38 @@ namespace CellSim
             }
         }
         else {
-            if (m_enableMultithreading) {
-                Threading::ThreadPool::ParallelFor(
-                    m_cells.begin(),
-                    m_cells.end(),
-                    [this] (Cells::Cell& cell) {
+            if (m_overrideInteraction) {
+                m_pCellSimulationModel->ApplyInteraction(
+                    this,
+                    {
+                        &m_cells,
+                        &m_molecules
+                    }
+                );
+            }
+            else {
+                if (m_enableMultithreading) {
+                    Threading::ThreadPool::ParallelFor(
+                        m_cells.begin(),
+                        m_cells.end(),
+                        [this] (Cells::Cell& cell) {
+                            cell.ApplyForce(
+                                m_pCellSimulationModel->ComputeForceOnCell(
+                                    this,
+                                    {
+                                        &cell,
+                                        &m_cells,
+                                        &m_cells,
+                                        &m_molecules,
+                                        m_pCellAlgorithm
+                                    }
+                                )
+                            );
+                        }
+                    );
+                }
+                else {
+                    for (Cells::Cell& cell : m_cells) {
                         cell.ApplyForce(
                             m_pCellSimulationModel->ComputeForceOnCell(
                                 this,
@@ -92,24 +120,9 @@ namespace CellSim
                             )
                         );
                     }
-                );
-            }
-            else {
-                for (Cells::Cell& cell : m_cells) {
-                    cell.ApplyForce(
-                        m_pCellSimulationModel->ComputeForceOnCell(
-                            this,
-                            {
-                                &cell,
-                                &m_cells,
-                                &m_cells,
-                                &m_molecules,
-                                m_pCellAlgorithm
-                            }
-                        )
-                    );
                 }
             }
+            
         }
     }
 
@@ -214,6 +227,9 @@ namespace CellSim
             if (m_overrideForceComputation) {
                 m_overrideInteraction = m_pCellAlgorithm->OverrideInteraction();
             }
+            else {
+                m_overrideInteraction = m_pCellSimulationModel->OverrideInteraction();
+            }
 
             if (Settings::Config::CellAlgorithm::UseClusterModel()) {
                 if (
@@ -305,7 +321,7 @@ namespace CellSim
 
         uint64_t totalStep = Settings::Config::Simulation::TotalSteps();
 
-        ::std::chrono::system_clock::time_point beginClock  = std::chrono::system_clock::now();
+        ::std::chrono::system_clock::time_point beginClock = std::chrono::system_clock::now();
         ::std::chrono::system_clock::time_point currentClock = beginClock;
 
         m_writer.Save(*this, 0);
@@ -337,7 +353,9 @@ namespace CellSim
         m_writer.SaveResult(
             totalStep,
             Settings::Config::Cell::TotalCellCount(),
-            ::std::chrono::duration_cast<::std::chrono::milliseconds>(currentClock - beginClock).count(),
+            ::std::chrono::duration_cast<::std::chrono::milliseconds>(
+                currentClock - beginClock
+            ).count(),
             Settings::Config::SimulationModel::SimulationType(),
             Settings::Config::CellAlgorithm::AlgorithmType()
         );

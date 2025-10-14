@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.CellSimulationModelInteractionArgs.hpp"
 #include "CellSim.Model.SimulationModelForceComputationArgs.hpp"
 #include "CellSim.Model.SimulationModelStepArgs.hpp"
 #include "CellSim.Numerics.Vector3T.hpp"
@@ -16,6 +17,11 @@ namespace CellSim::Model
         class Params : public CellSimulationModel::Params {
             public:
         };
+
+        constexpr void ApplyInteraction(
+            const Simulation* sender,
+            CellSimulationModelInteractionArgs args
+        ) noexcept;
 
         constexpr void BeforeAdvanceStep(
             const Simulation* sender,
@@ -37,12 +43,21 @@ namespace CellSim::Model
             SimulationModelStepArgs args
         ) override;
 
+        constexpr bool OverrideInteraction() const noexcept override;
+
         constexpr bool UseCellAlgorithm() const noexcept override;
     };
 }
 
 namespace CellSim::Model
 {
+    constexpr void NullModel::ApplyInteraction(
+        const Simulation*,
+        CellSimulationModelInteractionArgs
+    ) noexcept
+    {
+    }
+
     constexpr void NullModel::BeforeAdvanceStep(
         const Simulation*,
         SimulationModelStepArgs
@@ -70,6 +85,11 @@ namespace CellSim::Model
         SimulationModelStepArgs
     )
     {
+    }
+
+    constexpr bool NullModel::OverrideInteraction() const noexcept
+    {
+        return true;
     }
 
     constexpr bool NullModel::UseCellAlgorithm() const noexcept

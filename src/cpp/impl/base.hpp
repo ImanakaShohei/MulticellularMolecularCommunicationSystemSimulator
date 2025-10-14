@@ -254,10 +254,6 @@ namespace CellSim::IO
 {
     class DirectoryCreater;
     class NamedPipe;
-    class DataFlowController;
-    class DataHandler;
-    class DataReceiver;
-    class DataSender;
 }
 
 /// @brief シミュレーションモデル
@@ -265,6 +261,7 @@ namespace CellSim::Model
 {
     class CellGrowthModel;
     class CellSimulationModel;
+    struct CellSimulationModelInteractionArgs;
     enum class CellSimulationType;
     class ClusterFormationModel;
     class ClusterRotationModel;

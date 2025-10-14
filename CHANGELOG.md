@@ -1,5 +1,22 @@
 ﻿# 更新履歴
 
+## [2.2.0 Beta 1] 2025-10-15
+### 新機能
+- シミュレーションモデル側で自由な形式で相互作用を行う機能を追加
+- Cellにプロパティを直接変更する機能を追加
+- Cellの大小比較演算子を追加
+### 変更点
+- NullModelの高速化
+### 不具合修正
+- 削除したInitialMoleculeDistribution.Gaussianがconfig.jsonで選択できてしまう問題を修正
+
+## [2.1.1] 2025-10-11
+### 変更点
+- Barnes-HutとDualTreeBHの更新
+### 破壊的変更
+- ParticleMeshを削除
+- InitialMoleculeDistribution.Gaussianを削除
+
 ## [2.1.0(2)] 2025-09-20
 ### 不具合修正
 - MSVCでビルドすると警告が表示される不具合を修正

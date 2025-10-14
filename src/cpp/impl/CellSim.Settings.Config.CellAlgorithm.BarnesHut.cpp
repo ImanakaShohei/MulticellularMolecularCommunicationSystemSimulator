@@ -6,9 +6,7 @@
 
 namespace CellSim::Settings
 {
-    void Config::CellAlgorithm::BarnesHut::Load(
-        ::nlohmann::json const& config
-    )
+    void Config::CellAlgorithm::BarnesHut::Load(::nlohmann::json const& config)
     {
         if (config.is_null()) return;
 

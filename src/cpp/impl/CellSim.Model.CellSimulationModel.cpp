@@ -1,4 +1,5 @@
 ﻿#include "CellSim.Model.CellSimulationModel.hpp"
+#include "CellSim.Model.CellSimulationModelInteractionArgs.hpp"
 #include "CellSim.Model.CellSimulationType.hpp"
 #include "CellSim.Model.CellGrowthModel.hpp"
 #include "CellSim.Model.ClusterFormationModel.hpp"
@@ -40,6 +41,13 @@ namespace CellSim::Model
                 );
             }
         }
+    }
+
+    void CellSimulationModel::ApplyInteraction(
+        const Simulation*,
+        CellSimulationModelInteractionArgs
+    )
+    {
     }
 
     void CellSimulationModel::InitializeCells(
@@ -96,5 +104,10 @@ namespace CellSim::Model
             }
         }
 
+    }
+
+    bool CellSimulationModel::OverrideInteraction() const noexcept
+    {
+        return false;
     }
 }
