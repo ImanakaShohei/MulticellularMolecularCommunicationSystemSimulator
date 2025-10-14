@@ -27,12 +27,7 @@
             "properties": {
                 "behaviorType": {
                     "type": "string",
-                    "enum": [
-                        "MoleculeAware",
-                        "Normal",
-                        "User",
-                        "WavePropagation"
-                    ]
+                    "enum": [ "MoleculeAware", "Normal", "User", "WavePropagation" ]
                 },
                 "cellCount": {
                     "type": "integer",
@@ -328,11 +323,7 @@
             "properties": {
                 "boundaryCondition": {
                     "type": "string",
-                    "enum": [
-                        "Absorbing",
-                        "Periodic",
-                        "Reflective"
-                    ]
+                    "enum": [ "Absorbing", "Periodic", "Reflective" ]
                 },
                 "colorIntensityThreshold": {
                     "type": "number",
@@ -351,10 +342,7 @@
                 },
                 "initialDistribution": {
                     "type": "string",
-                    "enum": [
-                        "Centered",
-                        "Uniform"
-                    ]
+                    "enum": [ "Centered", "Uniform" ]
                 },
                 "behaviorType": {
                     "type": "string",
@@ -427,13 +415,7 @@
             "properties": {
                 "algorithmType": {
                     "type": "string",
-                    "enum": [
-                        "BarnesHut",
-                        "CellList",
-                        "Naive",
-                        "Null",
-                        "User"
-                    ]
+                    "enum": [ "BarnesHut", "CellList", "Naive", "Null", "ParticleMesh", "User" ]
                 },
                 "useClusterModel": { "type": "boolean" },
                 "barnesHut": { "type": "object" },
@@ -448,18 +430,12 @@
                             "exclusiveMinimum": 0
                         }
                     },
-                    "required": [
-                        "gridCount",
-                        "searchRadius"
-                    ]
+                    "required": [ "gridCount", "searchRadius" ]
                 },
                 "particleMesh": { "type": "object" },
                 "user": { "type": "object" }
             },
-            "required": [
-                "algorithmType",
-                "useClusterModel"
-            ]
+            "required": [ "algorithmType", "useClusterModel" ]
         },
         "molecular": {
             "type": "array",

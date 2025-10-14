@@ -8,8 +8,6 @@
 ### 変更点
 - NullModelの高速化
 - `result.txt`に出力されるバージョン情報の表示を変更
-### 不具合修正
-- 削除したInitialMoleculeDistribution.Gaussianがconfig.jsonで選択できてしまう問題を修正
 
 ## [2.1.1] 2025-10-11
 ### 変更点
