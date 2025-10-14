@@ -7,6 +7,7 @@
 - Cellの大小比較演算子を追加
 ### 変更点
 - NullModelの高速化
+- `result.txt`に出力されるバージョン情報の表示を変更
 ### 不具合修正
 - 削除したInitialMoleculeDistribution.Gaussianがconfig.jsonで選択できてしまう問題を修正
 
