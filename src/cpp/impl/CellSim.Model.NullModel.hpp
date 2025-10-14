@@ -21,7 +21,7 @@ namespace CellSim::Model
         constexpr void ApplyInteraction(
             const Simulation* sender,
             CellSimulationModelInteractionArgs args
-        ) noexcept;
+        ) noexcept override;
 
         constexpr void BeforeAdvanceStep(
             const Simulation* sender,
