@@ -315,10 +315,8 @@ namespace CellSim
                 1
             );
 
-            uint32_t id = cell.Id();
-
             for (const Cells::Cell* pCell : cell.AttachedCells()) {
-                if (pCell->Id() < id) continue;
+                if (*pCell < cell) continue;
 
                 ::cv::line(
                     image,
