@@ -37,6 +37,8 @@ namespace CellSim
 
         public:
 
+        CELLSIM_STATIC_CLASS(Messages);
+
         /// @brief メッセージを取得
         /// @param name メッセージ名
         /// @return メッセージ
