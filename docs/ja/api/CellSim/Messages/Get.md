@@ -11,7 +11,7 @@ static ::std::string const& Get(
 ## 引数
 | 変数名 | 型 | 説明 |
 | :--- | :--- | :--- |
-| name | ::std::string const& | メッセージに関連付けられた名前 |
+| `name` | `::std::string const&` | メッセージに関連付けられた名前 |
 
 ## 戻り値
 `::std::string const&`<br>

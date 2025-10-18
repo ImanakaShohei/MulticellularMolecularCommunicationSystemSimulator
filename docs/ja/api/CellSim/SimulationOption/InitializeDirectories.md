@@ -6,4 +6,4 @@ void InitializeDirectories() const;
 ```
 
 ## 解説
-[コンストラクタ](./SimulationOption1.md)で`cleanOutput`を`true`に指定した場合、出力ディレクトリ内にあるデータはすべて削除されます。
+[コンストラクター](./SimulationOption1.md)で`cleanOutput`を`true`に指定した場合、出力ディレクトリ内にあるデータはすべて削除されます。

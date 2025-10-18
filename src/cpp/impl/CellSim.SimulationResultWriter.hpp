@@ -125,7 +125,7 @@ namespace CellSim
             int64_t totalMilliSeconds,
             Model::CellSimulationType simulationType,
             CellAlgorithms::CellAlgorithmType algorithmType
-        );
+        ) const;
 
         void SaveConfig(
             ::nlohmann::json const& j

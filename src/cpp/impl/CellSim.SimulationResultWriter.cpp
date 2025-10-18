@@ -591,7 +591,7 @@ namespace CellSim
         int64_t totalMilliSeconds,
         Model::CellSimulationType simulationType,
         CellAlgorithms::CellAlgorithmType algorithmType
-    )
+    ) const
     {
         ::std::ofstream ofs(m_option.OutputPath() + "result.txt");
 
