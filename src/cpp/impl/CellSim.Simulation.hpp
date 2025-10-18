@@ -98,9 +98,6 @@ namespace CellSim
         /// @brief シミュレーションを実行
         void Run();
 
-        bool SaveConfig(
-            ::nlohmann::json const& j
-        ) const noexcept;
     };
 }
 
