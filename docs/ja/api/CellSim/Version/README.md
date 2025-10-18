@@ -1,6 +1,5 @@
 ﻿# Version クラス
-実行時に画面に表示するメッセージを管理します。
-メッセージは`./languages`にある言語ファイルから取得します。
+CellSimのバージョン情報を提供します
 
 ```c++
 class Version final;
