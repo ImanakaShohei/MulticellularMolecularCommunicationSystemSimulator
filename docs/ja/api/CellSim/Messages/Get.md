@@ -14,7 +14,7 @@ static ::std::string const& Get(
 | name | ::std::string const& | メッセージに関連付けられた名前 |
 
 ## 戻り値
-::std::string const&<br>
+`::std::string const&`<br>
 メッセージ本文
 
 ## 解説

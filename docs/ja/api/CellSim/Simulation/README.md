@@ -23,6 +23,8 @@ class Simulation final;
 
 ## 演算子
 | 演算子名 | 説明 |
+| :--- | :--- |
+| operator=(Simulation const&) | この演算子は明示的に削除されています。 |
 
 ## メンバー関数
 | 関数名 | 説明 |

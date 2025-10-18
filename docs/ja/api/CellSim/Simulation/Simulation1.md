@@ -11,8 +11,8 @@ Simulation(
 ## 引数
 | 変数名 | 型 | 説明 |
 | :--- | :--- | :--- |
-| option | [SimulationOption](../SimulationOption/README.md) | 適用するオプション |
-| config | ::nlohmann::json | パラメータデータ |
+| `option` | [`SimulationOption`](../SimulationOption/README.md) | 適用するオプション |
+| `config` | `::nlohmann::json` | パラメータデータ |
 
 ## 解説
 インスタンスは、必ず1つだけ作成するようにしてください。

@@ -7,7 +7,7 @@ constexpr const CellAlgorithms::CellAlgorithm* CellAlgorithmPtr() const noexcept
 ```
 
 ## 戻り値
-[const CellAlgorithms::CellAlgorithm*](../../CellSim.CellAlgorithms/CellAlgorithm/README.md)<br>
+[`const CellAlgorithms::CellAlgorithm*`](../../CellSim.CellAlgorithms/CellAlgorithm/README.md)<br>
 シミュレーションで使用する最適化アルゴリズムへのポインター
 
 ## 解説

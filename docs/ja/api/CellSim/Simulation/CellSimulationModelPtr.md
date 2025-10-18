@@ -7,5 +7,5 @@ constexpr const Model::CellSimulationModel* CellSimulationModelPtr() const noexc
 ```
 
 ## 戻り値
-[const Model::CellSimulationModel*](../../CellSim.Model/CellSimulationModel/README.md)<br>
+[`const Model::CellSimulationModel*`](../../CellSim.Model/CellSimulationModel/README.md)<br>
 シミュレーションで使用する最適化アルゴリズムへのポインター

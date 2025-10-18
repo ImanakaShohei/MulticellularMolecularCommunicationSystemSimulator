@@ -7,7 +7,7 @@ static const Simulation* Current() noexcept;
 ```
 
 ## 戻り値
-[const Simulation*](../README.md)<br>
+[`const Simulation*`](../README.md)<br>
 直近にアクセスしたSimulationインスタンスへのポインター
 
 ## 解説
