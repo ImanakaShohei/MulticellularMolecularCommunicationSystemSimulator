@@ -253,7 +253,6 @@ namespace CellSim::Imaging
 namespace CellSim::IO
 {
     class DirectoryCreater;
-    class NamedPipe;
 }
 
 /// @brief シミュレーションモデル

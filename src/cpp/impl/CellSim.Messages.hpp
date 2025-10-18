@@ -40,7 +40,7 @@ namespace CellSim
         /// @brief メッセージを取得
         /// @param name メッセージ名
         /// @return メッセージ
-        static ::std::string const& Get(
+        [[nodiscard]] static ::std::string const& Get(
             ::std::string const& name
         );
 
