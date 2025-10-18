@@ -1,0 +1,16 @@
+﻿# CellSim::CellAlgorithms 名前空間
+シミュレーションを高速化するアルゴリズムクラスが含まれます。
+
+## クラス
+| クラス名 | 説明 |
+| :--- | :--- |
+
+## 構造体
+| 型名 | 説明 |
+| :--- | :--- |
+| [CellAlgorithmAffectableCellQueryArgs](./CellAlgorithmAffectableCellQueryArgs/README.md) | CellAlgorithm::GetAffectableCellInfos()に渡す情報を格納します。 |
+
+## 列挙型
+| 型名 | 説明 |
+| :--- | :--- |
+| [CellAlgorithmType](./CellAlgorithmType/README.md) | 高速化アルゴリズムの種類を表します。 |
