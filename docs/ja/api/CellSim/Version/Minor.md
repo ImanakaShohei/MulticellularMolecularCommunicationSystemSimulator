@@ -13,7 +13,7 @@ static constexpr int Minor() noexcept;
 ## 例
 ```c++
 ::printf(
-    "%d.%d.%d %s\n",
+    "CellSim %d.%d.%d %s\n",
     Version::Major(),
     Version::Minor(),
     Version::Patch(),
