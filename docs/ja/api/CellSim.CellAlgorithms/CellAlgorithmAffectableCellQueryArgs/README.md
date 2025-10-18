@@ -1,5 +1,5 @@
 ﻿# CellAlgorithmAffectableCellQueryArgs 構造体
-[CellAlgorithm::GetAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)](../CellAlgorithm/GetAffectableCellInfos.md)に渡す情報を格納します。
+[CellAlgorithm::GetAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)](../CellAlgorithm/GetAffectableCellInfos.md)と[CellAlgorithm::IterateAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)](../CellAlgorithm/IterateAffectableCellInfos.md)に渡す情報を格納します。
 
 ```c++
 struct CellAlgorithmAffectableCellQueryArgs;

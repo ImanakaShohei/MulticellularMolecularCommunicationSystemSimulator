@@ -1,5 +1,5 @@
 ﻿# CellAlgorithmAffectableCellQueryArgs::Target
-ターゲットの細胞インスタンスへのポインターです。この細胞に与える力を計算します。
+ターゲットの細胞インスタンスへのポインターです。
 
 ```c++
 const Cells::Cell* Target;
@@ -7,3 +7,4 @@ const Cells::Cell* Target;
 
 ## 型
 [`const Cells::Cell*`](../../CellSim.Cells/Cell/README.md)
+[CellAlgorithm::GetAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)](../CellAlgorithm/GetAffectableCellInfos.md)では、このインスタンスに力を加える細胞を選出します。
