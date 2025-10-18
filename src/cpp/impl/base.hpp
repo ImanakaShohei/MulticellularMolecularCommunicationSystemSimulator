@@ -323,8 +323,6 @@ namespace CellSim::Text
 /// @brief 並列処理とコルーチン
 namespace CellSim::Threading
 {
-    class AsyncAction;
-
     template <class T>
     class Generator;
 

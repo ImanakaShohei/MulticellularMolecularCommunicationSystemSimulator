@@ -8,7 +8,7 @@
 ## 構造体
 | 型名 | 説明 |
 | :--- | :--- |
-| [CellAlgorithmAffectableCellQueryArgs](./CellAlgorithmAffectableCellQueryArgs/README.md) | CellAlgorithm::GetAffectableCellInfos()に渡す情報を格納します。 |
+| [CellAlgorithmAffectableCellQueryArgs](./CellAlgorithmAffectableCellQueryArgs/README.md) | CellAlgorithm::GetAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)に渡す情報を格納します。 |
 
 ## 列挙型
 | 型名 | 説明 |
