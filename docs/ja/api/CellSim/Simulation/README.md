@@ -28,5 +28,9 @@ class Simulation final;
 | 関数名 | 説明 |
 | :--- | :--- |
 | [CellAlgorithmPtr()](./CellAlgorithmPtr.md) | 使用する最適化アルゴリズムインスタンスへのポインターを取得します。 |
+| [CellListPtr()](./CellListPtr.md) | クラスタモデルで使用するCellListインスタンスへのポインターを取得します。 |
+| [CellSimulationModelPtr()](./CellSimulationModelPtr.md) | 使用するシミュレーションモデルインスタンスへのポインターを取得します。 |
+| [Cells()](./Cells.md) | Cellインスタンスが格納されたリストへの参照を取得します。 |
 | [Current()](./Current.md) | 直近にアクセスしたSimulationインスタンスを取得します。 |
+| [Molecules()](./Molecules.md) | MoleculeFieldインスタンスが格納されたリストへの参照を取得します。 |
 | [Run()](./Run.md) | シミュレーションを実行します。 |

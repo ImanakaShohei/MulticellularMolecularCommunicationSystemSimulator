@@ -6,6 +6,7 @@ static bool Initialize();
 ```
 
 ## 戻り値
+bool<br>
 初期化に成功したかどうか
 
 ## 解説

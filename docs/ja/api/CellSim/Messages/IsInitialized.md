@@ -7,6 +7,7 @@ static bool IsInitialized() noexcept;
 ```
 
 ## 戻り値
+bool<br>
 すでにクラスが初期化されている場合は`true`、初期化されていない場合は`false`
 
 ## 解説

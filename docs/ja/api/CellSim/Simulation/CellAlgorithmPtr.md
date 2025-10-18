@@ -1,4 +1,4 @@
-﻿Simulation::CellAlgorithmPtr() 関数
+﻿# Simulation::CellAlgorithmPtr() 関数
 シミュレーションで使用する最適化アルゴリズムへのポインターを取得します。
 
 ```c++
@@ -7,6 +7,7 @@ constexpr const CellAlgorithms::CellAlgorithm* CellAlgorithmPtr() const noexcept
 ```
 
 ## 戻り値
+[const CellAlgorithms::CellAlgorithm*](../../CellSim.CellAlgorithms/CellAlgorithm/README.md)<br>
 シミュレーションで使用する最適化アルゴリズムへのポインター
 
 ## 解説
