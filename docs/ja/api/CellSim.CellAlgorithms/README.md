@@ -11,6 +11,7 @@
 | :--- | :--- |
 | [CellAlgorithmAffectableCellQueryArgs](./CellAlgorithmAffectableCellQueryArgs/README.md) | CellAlgorithm::GetAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)とCellAlgorithm::IterateAffectableCellInfos(const Simulation*, CellAlgorithmAffectableCellQueryArgs)に渡す情報を格納します。 |
 | [CellAlgorithmInteractionArgs](./CellAlgorithmInteractionArgs/README.md) | CellAlgorithm::ApplyInteraction(const Simulation*, CellAlgorithmInteractionArgs)に渡す情報を格納します。 |
+| [CellAlgorithmStepArgs](./CellAlgorithmStepArgs/README.md) | CellAlgorithm::BeforeAdvanceStep(const Simulation*, CellAlgorithmStepArgs)とCellAlgorithm::OnAdvanceStep(const Simulation*, CellAlgorithmStepArgs)に渡す情報を格納します。 |
 
 ## 列挙型
 | 型名 | 説明 |

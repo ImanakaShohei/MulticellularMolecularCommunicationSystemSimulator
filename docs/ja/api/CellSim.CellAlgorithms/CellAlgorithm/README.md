@@ -20,7 +20,7 @@ class CellAlgorithm;
 | 関数名 | 説明 |
 | :--- | :--- |
 | [ApplyInteraction(const Simulation*, CellAlgorithmInteractionArgs)](./ApplyInteraction.md) | アルゴリズム側で完全な相互作用の計算を行う場合の処理を記述します。 |
-| [CellListPtr()](./CellListPtr.md) | クラスタモデルで使用するCellListインスタンスへのポインターを取得します。 |
+| [BeforeAdvanceStep(const Simulation*, CellAlgorithmStepArgs)](./BeforeAdvanceStep.md) | 各ステップの前処理を記述します。 |
 | [CellSimulationModelPtr()](./CellSimulationModelPtr.md) | 使用するシミュレーションモデルインスタンスへのポインターを取得します。 |
 | [Cells()](./Cells.md) | Cellインスタンスが格納されたリストへの参照を取得します。 |
 | [Current()](./Current.md) | 直近にアクセスしたSimulationインスタンスを取得します。 |

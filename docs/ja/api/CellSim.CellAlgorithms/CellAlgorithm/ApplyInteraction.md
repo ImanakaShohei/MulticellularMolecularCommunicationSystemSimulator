@@ -15,4 +15,4 @@ virtual void ApplyInteraction(
 | `args` | [`CellAlgorithmInteractionArgs`](../CellAlgorithmInteractionArgs/README.md) | 処理に必要な情報 |
 
 ## 解説
-この関数をオーバーライドしない場合、何も処理をしない関数になります。
+この関数は、デフォルトでは何も処理しません。
