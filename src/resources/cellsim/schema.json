@@ -452,7 +452,10 @@
                 },
                 "peformance": {
                     "type": "string",
-                    "enum": [ "Fast", "LowMemory" ]
+                    "enum": [
+                        "Fast",
+                        "LowMemory"
+                    ]
                 }
             },
             "required": [
@@ -468,11 +471,17 @@
                     "type": "number",
                     "exclusiveMinimum": 0
                 },
-                "enable2dMode": { "type": "boolean" },
+                "enable2dMode": {
+                    "type": "boolean"
+                },
                 "fieldRadius": {
                     "type": "number",
                     "minimum": 0,
-                    "examples": [ 512, 1024, 2048 ]
+                    "examples": [
+                        512,
+                        1024,
+                        2048
+                    ]
                 },
                 "imageSize": {
                     "type": "integer",
