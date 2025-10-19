@@ -1,4 +1,4 @@
-﻿# maxDegreeOfParallelism パラメータ
+﻿# maxDegreeOfParallelism パラメーター
 並列化処理のスレッド数を指定します。
 
 ```json

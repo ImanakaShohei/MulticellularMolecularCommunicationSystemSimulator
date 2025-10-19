@@ -1,4 +1,4 @@
-﻿# fieldRadius プロパティ
+﻿# fieldRadius パラメーター
 シミュレーション空間の範囲を指定します。
 
 ```json

@@ -1,4 +1,4 @@
-﻿# enable2dMode パラメータ
+﻿# enable2dMode パラメーター
 シミュレーションを2Dで行うか3D行うかを選択します。
 
 ```json

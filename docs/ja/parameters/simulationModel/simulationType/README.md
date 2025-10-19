@@ -1,4 +1,4 @@
-﻿# simulationType パラメータ
+﻿# simulationType パラメーター
 シミュレーションモデルの種類を指定します。
 
 ```json

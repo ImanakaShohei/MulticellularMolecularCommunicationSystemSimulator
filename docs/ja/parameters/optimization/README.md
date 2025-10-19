@@ -1,4 +1,4 @@
-﻿# optimization パラメータ
+﻿# optimization パラメーター
 スレッド数やメモリ使用量などの設定を行います。
 
 ```json

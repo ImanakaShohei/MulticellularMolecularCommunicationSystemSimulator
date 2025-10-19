@@ -1,1 +1,1 @@
-﻿# contactDistance
+﻿# contactDistance パラメーター

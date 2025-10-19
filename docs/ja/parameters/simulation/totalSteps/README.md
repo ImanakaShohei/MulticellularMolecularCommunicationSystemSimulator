@@ -1,4 +1,4 @@
-﻿# totelSteps パラメータ
+﻿# totelSteps パラメーター
 シミュレーションの総ステップ数を指定します。
 
 ```json

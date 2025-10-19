@@ -1,4 +1,4 @@
-﻿# clusterSprouting パラメータ
+﻿# clusterSprouting パラメーター
 クラスタスプラウトモデルのパラメータのうち、細胞の種類に依存しないパラメータを指定します。
 
 ```json
@@ -7,7 +7,7 @@
 }
 ```
 
-## 必須パラメータ
+## 必須パラメーター
 | 名前 | 説明 |
 | :--- | :--- |
 | [contactDistance](./contactDistance/README.md) | 細胞同士の距離がこの値より小さいと反発力が発生します。 |

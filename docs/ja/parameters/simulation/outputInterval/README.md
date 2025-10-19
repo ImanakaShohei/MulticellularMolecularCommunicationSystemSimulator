@@ -1,4 +1,4 @@
-﻿# outputInterval パラメータ
+﻿# outputInterval パラメーター
 何ステップ毎にデータを出力するかを指定します。
 
 ```json

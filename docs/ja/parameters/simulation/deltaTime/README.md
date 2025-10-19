@@ -1,4 +1,4 @@
-﻿# deltaTime パラメータ
+﻿# deltaTime パラメーター
 1ステップで進む時間を設定します。
 
 ```json
