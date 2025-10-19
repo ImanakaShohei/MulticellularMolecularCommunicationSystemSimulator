@@ -7,9 +7,10 @@
 }
 ```
 
+## 必須パラメータ
 | 名前 | 説明 |
 | :--- | :--- |
-| [deltaTime](./deltaTime/README.md) | 1ステップで進む時間を指定します。。 |
+| [deltaTime](./deltaTime/README.md) | 1ステップで進む時間を指定します。 |
 | [enable2dMode](./enable2dMode/README.md) | シミュレーションを2Dで行うか3D行うかを選択します。 |
 | [fieldRadius](./fieldRadius/README.md) | シミュレーション空間の範囲を指定します。 |
 | [imageSize](./imageSize/README.md) | 出力画像の1辺のピクセル数を指定します。 |

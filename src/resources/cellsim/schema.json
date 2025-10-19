@@ -379,7 +379,6 @@
     "properties": {
         "cell": {
             "type": "object",
-            "title": "cell congfig",
             "properties": {
                 "cells": {
                     "type": "array",
@@ -411,11 +410,17 @@
         },
         "cellAlgorithm": {
             "type": "object",
-            "title": "cellAlgorithm config",
             "properties": {
                 "algorithmType": {
                     "type": "string",
-                    "enum": [ "BarnesHut", "CellList", "Naive", "Null", "ParticleMesh", "User" ]
+                    "enum": [
+                        "BarnesHut",
+                        "CellList",
+                        "Naive",
+                        "Null",
+                        "ParticleMesh",
+                        "User"
+                    ]
                 },
                 "useClusterModel": { "type": "boolean" },
                 "barnesHut": { "type": "object" },
