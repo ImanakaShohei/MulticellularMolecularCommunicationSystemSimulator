@@ -1,4 +1,4 @@
-﻿# CellAlgorithmAffectableCellQueryArgs::CellAlgorithmAffectableCellQueryArgs(const ::std::vector&lt;Cells::Cell&gt;\*, const ::std::vector&lt;Molecular::MoleculeField&gt;\*, const Cells::Cell\*) コンストラクター
+﻿# CellAlgorithmAffectableCellQueryArgs::CellAlgorithmAffectableCellQueryArgs(const Cells::Cell\*, const ::std::vector&lt;Cells::Cell&gt;\*, const ::std::vector&lt;Molecular::MoleculeField&gt;\*) コンストラクター
 メンバーの値を指定してインスタンスを作成します。
 
 ```c++

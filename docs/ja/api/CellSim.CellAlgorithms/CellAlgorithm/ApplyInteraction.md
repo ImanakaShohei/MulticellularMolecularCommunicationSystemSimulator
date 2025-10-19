@@ -16,3 +16,4 @@ virtual void ApplyInteraction(
 
 ## 解説
 この関数は、デフォルトでは何も処理しません。
+この関数が呼び出されるには[`OverrideForceComputation()`](./OverrideForceComputation.md)と[`OverrideInteraction()`](./OverrideInteraction.md)の両方が`true`である必要があります。

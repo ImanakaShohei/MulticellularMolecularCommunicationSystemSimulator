@@ -8,7 +8,7 @@ struct CellAlgorithmAffectableCellQueryArgs;
 ## コンストラクター
 | 形式 | 説明 |
 | :--- | :--- |
-| [CellAlgorithmAffectableCellQueryArgs(const ::std::vector&lt;Cells::Cell&gt;\*, const ::std::vector&lt;Molecular::MoleculeField&gt;\*, const Cells::Cell\*)](./CellAlgorithmAffectableCellQueryArgs1.md) | メンバーの値を指定してインスタンスを作成します。 |
+| [CellAlgorithmAffectableCellQueryArgs(const Cells::Cell\*, const ::std::vector&lt;Cells::Cell&gt;\*, const ::std::vector&lt;Molecular::MoleculeField&gt;\*)](./CellAlgorithmAffectableCellQueryArgs1.md) | メンバーの値を指定してインスタンスを作成します。 |
 
 ## メンバー
 | 名前 | 説明 |
