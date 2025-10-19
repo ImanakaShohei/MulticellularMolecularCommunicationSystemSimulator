@@ -1,4 +1,4 @@
-﻿# CellAlgorithmAffectableCellQueryArgs::Target
+﻿# CellAlgorithmAffectableCellQueryArgs::Target メンバー
 ターゲットの細胞インスタンスへのポインターです。
 
 ```c++

@@ -1,4 +1,4 @@
-﻿# CellAlgorithmAffectableCellQueryArgs::Fields
+﻿# CellAlgorithmAffectableCellQueryArgs::Fields メンバー
 全ての分子空間インスタンスが格納されたリストへのポインター。
 
 ```c++

@@ -1,4 +1,4 @@
-﻿# CellAlgorithmAffectableCellQueryArgs::Cells
+﻿# CellAlgorithmAffectableCellQueryArgs::Cells メンバー
 全ての細胞インスタンスが格納されたリストへのポインター。
 
 ```c++
