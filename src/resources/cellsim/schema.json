@@ -418,13 +418,17 @@
                         "CellList",
                         "Naive",
                         "Null",
-                        "ParticleMesh",
                         "User"
                     ]
                 },
-                "useClusterModel": { "type": "boolean" },
-                "barnesHut": { "type": "object" },
+                "useClusterModel": {
+                    "type": "boolean"
+                },
+                "barnesHut": {
+                    "type": "object"
+                },
                 "cellList": {
+                    "type": "object",
                     "properties": {
                         "gridCount": {
                             "type": "integer",
@@ -435,12 +439,22 @@
                             "exclusiveMinimum": 0
                         }
                     },
-                    "required": [ "gridCount", "searchRadius" ]
+                    "required": [
+                        "gridCount",
+                        "searchRadius"
+                    ]
                 },
-                "particleMesh": { "type": "object" },
-                "user": { "type": "object" }
+                "particleMesh": {
+                    "type": "object"
+                },
+                "user": {
+                    "type": "object"
+                }
             },
-            "required": [ "algorithmType", "useClusterModel" ]
+            "required": [
+                "algorithmType",
+                "useClusterModel"
+            ]
         },
         "molecular": {
             "type": "array",

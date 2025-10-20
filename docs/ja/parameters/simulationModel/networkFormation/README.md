@@ -1,8 +1,8 @@
-﻿# clusterSprouting パラメーター
-ネットワーク形成モデルのパラメータのうち、細胞の種類に依存しないパラメータを指定します。
+﻿# networkFormation パラメーター
+ネットワーク形成モデルのパラメーターのうち、細胞の種類に依存しないパラメーターを指定します。
 
 ```json
-"cnetworkFormation": {
+"networkFormation": {
     "type": "object"
 }
 ```
