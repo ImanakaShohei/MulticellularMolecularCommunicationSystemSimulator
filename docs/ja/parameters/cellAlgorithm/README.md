@@ -17,4 +17,3 @@
 | 名前 | 説明 |
 | :--- | :--- |
 | [cellList](./cellList/README.md) | CellList独自のパラメーターを設定します。 |
-| [useClusterModel](./useClusterModel/README.md) | クラスタモデルを使用するかを選択します。 |

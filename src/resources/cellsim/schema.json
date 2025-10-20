@@ -323,7 +323,11 @@
             "properties": {
                 "boundaryCondition": {
                     "type": "string",
-                    "enum": [ "Absorbing", "Periodic", "Reflective" ]
+                    "enum": [
+                        "Absorbing",
+                        "Periodic",
+                        "Reflective"
+                    ]
                 },
                 "colorIntensityThreshold": {
                     "type": "number",
@@ -342,11 +346,18 @@
                 },
                 "initialDistribution": {
                     "type": "string",
-                    "enum": [ "Centered", "Uniform" ]
+                    "enum": [
+                        "Centered",
+                        "Uniform"
+                    ]
                 },
                 "behaviorType": {
                     "type": "string",
-                    "enum": [ "Normal", "Null", "User" ]
+                    "enum": [
+                        "Normal",
+                        "Null",
+                        "User"
+                    ]
                 },
                 "behaviorParameters": {
                     "type": "object",
@@ -359,7 +370,9 @@
                                     "exclusiveMinimum": 0
                                 }
                             },
-                            "required": [ "diffusionFactor" ]
+                            "required": [
+                                "diffusionFactor"
+                            ]
                         }
                     }
                 }
