@@ -1,5 +1,5 @@
 ﻿# normalBehavior パラメーター
-[NormalMoleculeNehavior](../../../../../api/CellSim.Molecular/NormalMoleculeBehavior/README.md)のパラメーターを設定します。
+[NormalMoleculeBehavior](../../../../../api/CellSim.Molecular/NormalMoleculeBehavior/README.md)のパラメーターを設定します。
 
 ```json
 "normalBehavior": {
