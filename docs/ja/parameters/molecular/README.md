@@ -7,7 +7,7 @@
     "items": {
         "$ref": "#/$defs/moleculeField"
     }
-},
+}
 ```
 
 ## 要素型
