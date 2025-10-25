@@ -27,7 +27,12 @@
             "properties": {
                 "behaviorType": {
                     "type": "string",
-                    "enum": [ "MoleculeAware", "Normal", "User", "WavePropagation" ]
+                    "enum": [
+                        "MoleculeAware",
+                        "Normal",
+                        "User",
+                        "WavePropagation"
+                    ]
                 },
                 "cellCount": {
                     "type": "integer",
@@ -401,7 +406,9 @@
                     "minItems": 1,
                     "uniqueItems": true
                 },
-                "enableGrowth": { "type": "boolean" },
+                "enableGrowth": {
+                    "type": "boolean"
+                },
                 "initialPlacementRadius": {
                     "type": "number",
                     "exclusiveMinimum": 0
@@ -410,7 +417,9 @@
                     "type": "integer",
                     "minimum": 0
                 },
-                "isSensitiveToMolecules": { "type": "boolean" }
+                "isSensitiveToMolecules": {
+                    "type": "boolean"
+                }
                 
             },
             "required": [
