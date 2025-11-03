@@ -12,3 +12,4 @@
 | :--- | :--- |
 | [moleculeAware](./moleculeAware/README.md) | MoleculeAwareCellBehaviorのパラメーターを指定します。 |
 | [normal](./normal/README.md) | NormalCellBehaviorのパラメーターを指定します。 |
+| [wavePropagation](./wavePropagation/README.md) | WavePropagationCellBehaviorのパラメーターを指定します。 |
