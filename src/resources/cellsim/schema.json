@@ -447,7 +447,15 @@
                     "type": "boolean"
                 },
                 "barnesHut": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                        "theta": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "theta"
+                    ]
                 },
                 "cellList": {
                     "type": "object",
@@ -475,7 +483,8 @@
             },
             "required": [
                 "algorithmType",
-                "useClusterModel"
+                "useClusterModel",
+                "cellList"
             ]
         },
         "molecular": {

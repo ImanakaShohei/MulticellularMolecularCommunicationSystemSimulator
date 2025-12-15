@@ -70,13 +70,30 @@ namespace CellSim::Settings
             );
         }
 
-        if (s == "CellGrowth") s_simulationType = Model::CellSimulationType::CellGrowth;
-        else if (s == "ClusterFormation") s_simulationType = Model::CellSimulationType::ClusterFormation;
-        else if (s == "ClusterRotation") s_simulationType = Model::CellSimulationType::ClusterRotation;
-        else if (s == "ClusterSprouting") s_simulationType = Model::CellSimulationType::ClusterSprouting;
-        else if (s == "NetworkFormation") s_simulationType = Model::CellSimulationType::NetworkFormation;
-        else if (s == "Null") s_simulationType = Model::CellSimulationType::Null;
-        else if (s == "User") s_simulationType = Model::CellSimulationType::User;
+        if (s == "CellGrowth") {
+            s_simulationType = Model::CellSimulationType::CellGrowth;
+        }
+        else if (s == "ClusterFormation") {
+            s_simulationType = Model::CellSimulationType::ClusterFormation;
+        }
+        else if (s == "ClusterRotation") {
+            s_simulationType = Model::CellSimulationType::ClusterRotation;
+        }
+        else if (s == "ClusterSprouting") {
+            s_simulationType = Model::CellSimulationType::ClusterSprouting;
+            ClusterSprouting::Load(config["clusterSprouting"]);
+        }
+        else if (s == "NetworkFormation") {
+            s_simulationType = Model::CellSimulationType::NetworkFormation;
+            NetworkFormation::Load(config["networkFormation"]);
+        }
+        else if (s == "Null") {
+            s_simulationType = Model::CellSimulationType::Null;
+        }
+        else if (s == "User") {
+            s_simulationType = Model::CellSimulationType::User;
+            User::Load(config["user"]);
+        }
         else [[unlikely]] {
             throw ::std::runtime_error(
                 Messages::Get(
