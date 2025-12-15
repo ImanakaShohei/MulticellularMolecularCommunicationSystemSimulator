@@ -322,10 +322,10 @@ namespace CellSim
 
                 ::cv::line(
                     image,
-                    ::cv::Point{ pointY, pointX },
+                    ::cv::Point{ pointX, pointY },
                     ::cv::Point{
-                        static_cast<int>((pCell->PositionY() + Settings::Config::Simulation::FieldRadius()) * m_scale),
-                        static_cast<int>((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale)
+                        static_cast<int>((pCell->PositionX() + Settings::Config::Simulation::FieldRadiusX()) * m_scale),
+                        static_cast<int>((pCell->PositionY() + Settings::Config::Simulation::FieldRadiusY()) * m_scale)
                     },
                     ::cv::Scalar(0, 255, 255, 255),
                     1
